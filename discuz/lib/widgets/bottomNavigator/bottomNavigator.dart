@@ -1,5 +1,4 @@
 import 'package:discuzq/utils/authHelper.dart';
-import 'package:discuzq/widgets/common/frost.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -40,13 +39,14 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
         builder: (context, child, model) {
           return RepaintBoundary(
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 270),
+              duration: const Duration(milliseconds: 270,),
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(
                   left: 20,
                   right: 20,
                   bottom: MediaQuery.of(context).padding.bottom),
               decoration: BoxDecoration(
+                color: DiscuzApp.themeOf(context).backgroundColor,
                 border: model.appConf['darkTheme'] == true
                     ? null
                     : const Border(top: Global.border),

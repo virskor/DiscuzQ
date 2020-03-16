@@ -19,7 +19,7 @@ class Global {
   static const Color primaryColor = Color(0xFF316598);
 
   /// 日间模式底色
-  static const Color scaffoldBackgroundColorLight = Color(0xFFF2F2F2);
+  static const Color scaffoldBackgroundColorLight = Color(0xFFDEDEDE);
 
   /// 夜间模式底色
   static const Color scaffoldBackgroundColorDark = Color(0xFF111111);

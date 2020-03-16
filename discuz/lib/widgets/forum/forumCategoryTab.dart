@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/forum/forumCategory.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -13,13 +14,13 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
 /// 这样做的目的是为了不要一次性请求过多，来尽量避免阻塞，所以在使用这个组件到其他地方渲染的时候，你也需要这样做
-class ForumCategory extends StatefulWidget {
-  const ForumCategory({Key key}) : super(key: key);
+class ForumCategoryTab extends StatefulWidget {
+  const ForumCategoryTab({Key key}) : super(key: key);
   @override
-  _ForumCategoryState createState() => _ForumCategoryState();
+  _ForumCategoryTabState createState() => _ForumCategoryTabState();
 }
 
-class _ForumCategoryState extends State<ForumCategory>
+class _ForumCategoryTabState extends State<ForumCategoryTab>
     with SingleTickerProviderStateMixin {
   /// states
   /// tab controller
@@ -58,10 +59,10 @@ class _ForumCategoryState extends State<ForumCategory>
   @override
   Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
       rebuildOnChange: true,
-      builder: (context, child, model) => _buildForumCategoryTab(model));
+      builder: (context, child, model) => _buildForumCategoryTabTab(model));
 
   /// 构造tabbar
-  Widget _buildForumCategoryTab(AppModel model) {
+  Widget _buildForumCategoryTabTab(AppModel model) {
     /// 返回加载中的视图
     if (_loading) {
       return const Center(
@@ -84,12 +85,9 @@ class _ForumCategoryState extends State<ForumCategory>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: model.categories.map<Widget>((e) {
+            children: model.categories.map<Widget>((cat) {
               //创建3个Tab页
-              return Container(
-                alignment: Alignment.center,
-                child: DiscuzText(e['attributes']['name'], textScaleFactor: 5),
-              );
+              return ForumCategory(cat);
             }).toList(),
           ),
         )

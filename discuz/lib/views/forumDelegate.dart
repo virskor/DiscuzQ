@@ -63,7 +63,7 @@ class _ForumDelegateState extends State<ForumDelegate>
         rebuildOnChange: true,
         builder: (context, child, model) => Scaffold(
               appBar: DiscuzAppBar(
-                elevation: 10,
+                elevation: 0,
                 centerTitle: true,
                 leading: const NightModeSwitcher(),
                 title: const Center(
@@ -80,7 +80,7 @@ class _ForumDelegateState extends State<ForumDelegate>
                   /// 显示论坛分类和分类下内容列表
                   model.forum == null
                       ? const SizedBox()
-                      : const ForumCategory(),
+                      : const ForumCategoryTab(),
 
                   /// 是否显示网络错误组件
                   _buildNetwordError(model),
