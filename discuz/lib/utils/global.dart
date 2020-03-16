@@ -37,7 +37,7 @@ class Global {
   static const Color textColorDark = Color(0xFFF2F2F2);
 
   /// 日间模式subtitle字体颜色
-  static const Color greyTextColorLight = Color(0xFFDEDEDE);
+  static const Color greyTextColorLight = Color(0xFF777777);
 
   /// 夜间模式字体颜色
   static const Color greyTextColorDark = Color(0xFF444444);

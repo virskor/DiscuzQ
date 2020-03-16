@@ -20,7 +20,6 @@ class _ForumCategoryState extends State<ForumCategory> {
   @override
   void initState() {
     super.initState();
-    print(widget.filter);
   }
 
   

@@ -4,7 +4,6 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
-import 'package:discuzq/utils/global.dart';
 
 class LoginDelegate extends StatefulWidget {
   final Function onRequested;
