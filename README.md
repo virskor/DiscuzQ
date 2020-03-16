@@ -71,7 +71,7 @@ flutter run
 App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.dart修改对应的参数，在lib/utils/global.dart中修改对应的参数完整定制。  
 使用命令行一键生成APP的图标和启动图(todo)。
 
-### 如何自动生成Andorid 和 IOS 的应用图标
+### 如何自动生成Android 和 IOS 的应用图标
 我们使用了flutter_launcher_icons， 这使得你可以快速生成一个自己的App图标，但是这样一来你就不可以改变默认的工程配置。   
 详细的办法参考：https://pub.dev/packages/flutter_launcher_icons   
 我们已经在pubspec.yaml添加了相关配置，你需要做的就是替换 assets/images/app.png
@@ -82,3 +82,12 @@ flutter pub run flutter_launcher_icons:main
 # cd ./discuz
 # bash icon
 ```
+
+### 如何自动生成Android 和 IOS的启动图
+和生成图标一样，超级简单。我们已经在pubspec.yaml添加了相关配置，你需要做的就是替换 assets/images/splash.png。然后在运行下面的命令行就可以啦！ 
+
+```sh
+flutter pub pub run flutter_native_splash:create
+# or
+# cd ./discuz
+# bash splash
