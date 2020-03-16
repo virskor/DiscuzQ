@@ -15,7 +15,7 @@ class BootstrapForum {
   /// 获取论坛信息
   /// 单独拆分这个函数的原因是因为防止后续调整页
   /// 因为forum会产生APP bootstrapper 类似的决定性数据
-  Future<bool> getForum() async {
+  Future<bool> getForum({bool force = false}) async {
     Response resp;
 
     final Function closeLoading = DiscuzToast.loading(context: context);
@@ -23,6 +23,13 @@ class BootstrapForum {
     try {
       final AppModel model =
           ScopedModel.of<AppModel>(context, rebuildOnChange: true);
+
+      /// 减少重复的请求，如果状态已经有数据，直接返回好了
+      if(!force && model.forum != null){
+        closeLoading();
+        return Future.value(true);
+      }
+
       resp = await Request(context: context).getUrl(url: Urls.forum);
 
       closeLoading();

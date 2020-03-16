@@ -32,4 +32,9 @@ class Urls {
 
   /// 用户登录
   static const String usersLogin = "$_apiPath/users/login";
+
+  /// -----------------------------------
+  /// 分类
+  /// 查询所有分类
+  static const String categories = "$_apiPath/categories";
 }

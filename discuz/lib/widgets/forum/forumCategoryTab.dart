@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
+
+import 'package:discuzq/models/appModel.dart';
 
 class ForumCategory extends StatefulWidget {
   const ForumCategory({Key key}) : super(key: key);
@@ -8,7 +11,6 @@ class ForumCategory extends StatefulWidget {
 
 class _ForumCategoryState extends State<ForumCategory> {
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+      rebuildOnChange: true, builder: (context, child, model) => Container());
 }
