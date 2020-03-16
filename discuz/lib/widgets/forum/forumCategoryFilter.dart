@@ -3,6 +3,16 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 
+/// 默认的筛选条件
+const List<ForumCategoryFilterItem> conditions = [
+  const ForumCategoryFilterItem(
+    label: '全部主题',
+    filter: [],
+  ),
+  const ForumCategoryFilterItem(label: '精华主题', filter: []),
+  const ForumCategoryFilterItem(label: '已关注的', filter: []),
+];
+
 /// 筛选组件
 class ForumCategoryFilter extends StatefulWidget {
   /// 筛选条件发生变化
@@ -15,27 +25,12 @@ class ForumCategoryFilter extends StatefulWidget {
 }
 
 class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
-  /// 默认的筛选条件
-  static const List<ForumCategoryFilterItem> _conditions = [
-    const ForumCategoryFilterItem(
-      label: '全部主题',
-      filter: [],
-    ),
-    const ForumCategoryFilterItem(label: '精华主题', filter: []),
-    const ForumCategoryFilterItem(label: '已关注的', filter: []),
-  ];
-
   /// states
-  ForumCategoryFilterItem _selected = _conditions[0];
+  ForumCategoryFilterItem _selected = conditions[0];
 
   @override
   void initState() {
     super.initState();
-
-    if (widget.onChanged != null) {
-      /// 初始化时，传递默认的筛选条件
-      widget.onChanged(_selected);
-    }
   }
 
   @override
