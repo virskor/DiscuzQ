@@ -22,7 +22,8 @@ class ForumDelegate extends StatefulWidget {
   _ForumDelegateState createState() => _ForumDelegateState();
 }
 
-class _ForumDelegateState extends State<ForumDelegate> with AutomaticKeepAliveClientMixin {
+class _ForumDelegateState extends State<ForumDelegate>
+    with AutomaticKeepAliveClientMixin {
   /// states
   /// _loaded means user forum api already requested! not means success or fail to load data
   bool _loaded = false;
@@ -55,40 +56,44 @@ class _ForumDelegateState extends State<ForumDelegate> with AutomaticKeepAliveCl
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
-      rebuildOnChange: true,
-      builder: (context, child, model) => Scaffold(
-            appBar: DiscuzAppBar(
-              elevation: 10,
-              centerTitle: true,
-              leading: const NightModeSwitcher(),
-              title: const Center(
-                  child: const DiscuzAppLogo(
-                color: Colors.transparent,
-              )),
-              actions: _actions(context),
-            ),
-            drawerEdgeDragWidth: Global.drawerEdgeDragWidth,
-            body: Stack(
-              fit: StackFit.expand,
-              children: <Widget>[
-                /// 是否显示网络错误组件
-                _buildNetwordError(model),
+  Widget build(BuildContext context) {
+    super.build(context);
 
-                /// 显示论坛分类和分类下内容列表
-                model.forum == null
-                    ? const SizedBox()
-                    : const ForumCategory(),
+    return ScopedModelDescendant<AppModel>(
+        rebuildOnChange: true,
+        builder: (context, child, model) => Scaffold(
+              appBar: DiscuzAppBar(
+                elevation: 10,
+                centerTitle: true,
+                leading: const NightModeSwitcher(),
+                title: const Center(
+                    child: const DiscuzAppLogo(
+                  color: Colors.transparent,
+                )),
+                actions: _actions(context),
+              ),
+              drawerEdgeDragWidth: Global.drawerEdgeDragWidth,
+              body: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  /// 是否显示网络错误组件
+                  _buildNetwordError(model),
 
-                /// 显示底部悬浮登录提示组件
-                Positioned(
-                  bottom: 20,
-                  width: MediaQuery.of(context).size.width,
-                  child: const FloatLoginButton(),
-                )
-              ],
-            ),
-          ));
+                  /// 显示论坛分类和分类下内容列表
+                  model.forum == null
+                      ? const SizedBox()
+                      : const ForumCategory(),
+
+                  /// 显示底部悬浮登录提示组件
+                  Positioned(
+                    bottom: 20,
+                    width: MediaQuery.of(context).size.width,
+                    child: const FloatLoginButton(),
+                  )
+                ],
+              ),
+            ));
+  }
 
   /// 创建网络错误提示组件，尽在加载失败的时候提示
   Widget _buildNetwordError(AppModel model) => _loaded && model.forum == null

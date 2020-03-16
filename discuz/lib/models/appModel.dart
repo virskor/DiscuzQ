@@ -9,6 +9,14 @@ class AppModel extends Model {
     notifyListeners();
   }
 
+  // categories 分类
+  List<dynamic> _categories;
+  get categories => _categories;
+  void updateCategories(List<dynamic> categories) {
+    _categories = categories;
+    notifyListeners();
+  }
+
   // 已经登录的用户
   dynamic _user;
   get user => _user;
