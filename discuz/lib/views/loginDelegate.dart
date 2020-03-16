@@ -21,7 +21,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
             appBar: DiscuzAppBar(
               elevation: 10,
               centerTitle: true,
-              title: '登录${Global.appname}',
+              title: '登录',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: _buildLoginForm(),

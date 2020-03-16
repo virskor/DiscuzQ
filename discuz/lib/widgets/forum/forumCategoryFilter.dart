@@ -1,5 +1,3 @@
-import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -8,6 +6,7 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 /// 筛选组件
 class ForumCategoryFilter extends StatefulWidget {
@@ -70,8 +69,9 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
       rebuildOnChange: false,
       builder: (context, child, model) => Container(
             width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(bottom: 20),
             padding:
-                const EdgeInsets.only(left: 15, right:0, top: 0, bottom: 0),
+                const EdgeInsets.only(left: 15, right: 0, top: 0, bottom: 0),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor,
                 border: Border(top: Global.border)),
@@ -99,20 +99,21 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
                 (ForumCategoryFilterItem c) =>
                     c.shouldLogin == true && model.user == null
                         ? null
-                        : CheckedPopupMenuItem<ForumCategoryFilterItem>(
-                            checked: _selected == c,
+                        : PopupMenuItem<ForumCategoryFilterItem>(
+                            //checked: _selected == c,
                             value: c,
-                            child: PopupMenuItem(
-                              height: 10,
-                              child: DiscuzText(c.label),
-                              enabled: true,
+                            child: DiscuzText(
+                              c.label,
+                              color: _selected != c
+                                  ? null
+                                  : DiscuzApp.themeOf(context).primaryColor,
                             ),
                           ))
             .toList();
 
     ///
     /// 构造菜单
-    return PopupMenuButton<ForumCategoryFilterItem>(
+    return PopupMenuButton(
         itemBuilder: (BuildContext context) => items,
         //child: DiscuzText(_selected.label),
         color: DiscuzApp.themeOf(context).backgroundColor,

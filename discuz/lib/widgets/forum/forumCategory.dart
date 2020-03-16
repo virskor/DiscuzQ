@@ -16,6 +16,14 @@ class ForumCategory extends StatefulWidget {
 }
 
 class _ForumCategoryState extends State<ForumCategory> {
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.filter);
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Center(
