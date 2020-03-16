@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -12,6 +13,7 @@ import 'package:discuzq/widgets/appbar/nightModeSwitcher.dart';
 import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/forum/bootstrapForum.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 /// 论坛首页
 class ForumDelegate extends StatefulWidget {
@@ -23,6 +25,7 @@ class ForumDelegate extends StatefulWidget {
 
 class _ForumDelegateState extends State<ForumDelegate> {
   /// states
+  /// _loaded means user forum api already requested! not means success or fail to load data
   bool _loaded = false;
 
   @override
@@ -51,7 +54,7 @@ class _ForumDelegateState extends State<ForumDelegate> {
 
   @override
   Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
-      rebuildOnChange: false,
+      rebuildOnChange: true,
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
               elevation: 10,
@@ -70,7 +73,10 @@ class _ForumDelegateState extends State<ForumDelegate> {
                 /// 是否显示网络错误组件
                 _buildNetwordError(model),
 
-                /// 显示论坛帖子
+                /// 显示论坛分类和分类下内容列表
+                model.forum == null
+                    ? const SizedBox()
+                    : const ForumCategory(),
 
                 /// 显示底部悬浮登录提示组件
                 Positioned(
@@ -84,12 +90,12 @@ class _ForumDelegateState extends State<ForumDelegate> {
 
   /// 创建网络错误提示组件，尽在加载失败的时候提示
   Widget _buildNetwordError(AppModel model) => _loaded && model.forum == null
-      ? const SizedBox()
-      : Center(
+      ? Center(
           child: DiscuzNetworkError(
             onRequestRefresh: () => _getForumData(force: true),
           ),
-        );
+        )
+      : const SizedBox();
 
   /// forum actions
   List<Widget> _actions(BuildContext context) => [
@@ -117,11 +123,11 @@ class _ForumDelegateState extends State<ForumDelegate> {
       return;
     }
 
-    final bool result = await BootstrapForum(context).getForum();
-    if (result) {
-      setState(() {
-        _loaded = result;
-      });
-    }
+    await BootstrapForum(context).getForum();
+
+    /// 加载完了就可以将_loaded 设置为true了其实，因为_loaded只做是否请求过得判断依据
+    setState(() {
+      _loaded = true;
+    });
   }
 }

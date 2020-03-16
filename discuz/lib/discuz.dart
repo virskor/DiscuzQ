@@ -113,7 +113,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 底部按钮菜单
   final List<NavigatorItem> _items = [
     const NavigatorItem(icon: SFSymbols.layers_alt_fill),
-    const NavigatorItem(icon: SFSymbols.search),
+    const NavigatorItem(icon: SFSymbols.search, shouldLogin: true),
     const NavigatorItem(icon: SFSymbols.slider_horizontal_3)
   ];
 

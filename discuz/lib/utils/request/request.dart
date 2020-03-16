@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:discuzq/utils/request/requestFormer.dart';
 import 'package:flutter/material.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+
 /// import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -34,11 +37,12 @@ class Request {
     ///
     /// automatically decode json to dynamic
     _dio.transformer = RequestFormer(); // replace dio default transformer
-    
+
     ///
     /// dio interceptors ext
     ///
     _dio.interceptors
+
       /// logger
       ..add(PrettyDioLogger(
           requestHeader: true,
@@ -75,6 +79,9 @@ class Request {
         /// on dio response
         return response;
       }, onError: (DioError e) async {
+        // todo: this method should be removed after DIO fixed bugs some how
+        e.response.data = _temporaryTransformer(e.response.data);
+
         if (e.type == DioErrorType.DEFAULT) {
           DiscuzToast.failed(context: context, message: "连接失败，请检查互联网");
           return Future.value(e);
@@ -229,6 +236,9 @@ class Request {
       return Future.value(null);
     }
 
+    // todo: this method should be removed after DIO fixed bugs some how
+    resp.data = _temporaryTransformer(resp.data);
+
     return Future.value(resp);
   }
 
@@ -253,6 +263,9 @@ class Request {
     } catch (e) {
       return Future.value(null);
     }
+
+    // todo: this method should be removed after DIO fixed bugs some how
+    resp.data = _temporaryTransformer(resp.data);
 
     return Future.value(resp);
   }
@@ -287,5 +300,25 @@ class Request {
     }
 
     return Future.value(resp);
+  }
+
+  /// 这是一个临时用的transformer
+  /// 原因是因为DIO仅对 application/json生效，并且是写死的！但是DZ的是 application/vnd.api+json
+  /// 所以这个方法用来重新decodejson， 后续将被移除
+  /// todo: remove
+  dynamic _temporaryTransformer(dynamic data) {
+    if (data.runtimeType == dynamic) {
+      return data;
+    }
+
+    if (data == null) {
+      return null;
+    }
+
+    if (data.runtimeType == String) {
+      return jsonDecode(data);
+    }
+
+    return null;
   }
 }

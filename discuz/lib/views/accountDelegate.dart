@@ -26,7 +26,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
     const _AccountMenuItem(label: '我的关注', icon: SFSymbols.lasso),
     const _AccountMenuItem(
         label: '黑名单', icon: SFSymbols.captions_bubble_fill, separate: true),
-    const _AccountMenuItem(label: '站点信息', icon: SFSymbols.info, separate: true),
+    const _AccountMenuItem(label: '站点信息', icon: SFSymbols.info_circle, separate: true),
     const _AccountMenuItem(label: '退出登录', icon: SFSymbols.arrow_right_square),
     const _AccountMenuItem(
         label: '邀请朋友', icon: SFSymbols.square_arrow_up, separate: true),

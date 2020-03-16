@@ -37,7 +37,6 @@ class BootstrapForum {
       /// 返回成功
       return Future.value(true);
     } catch (e) {
-      print(e);
       closeLoading();
       return Future.value(false);
     }
