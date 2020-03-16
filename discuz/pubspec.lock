@@ -50,6 +50,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.14.11"
+  color:
+    dependency: transitive
+    description:
+      name: color
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.1"
   convert:
     dependency: transitive
     description:
@@ -126,7 +133,7 @@ packages:
     source: hosted
     version: "1.1.0"
   flutter_launcher_icons:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: flutter_launcher_icons
       url: "https://pub.flutter-io.cn"
@@ -139,6 +146,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  flutter_native_splash:
+    dependency: "direct dev"
+    description:
+      name: flutter_native_splash
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.9"
   flutter_sfsymbols:
     dependency: "direct main"
     description:

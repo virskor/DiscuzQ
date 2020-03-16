@@ -31,7 +31,6 @@ dependencies:
   flutter_des: ^1.1.0
   sqflite: ^1.2.0
   cached_network_image: ^2.0.0
-  flutter_launcher_icons: ^0.7.4
   flutter_sfsymbols: ^1.0.0
   flutter:
     sdk: flutter
@@ -47,14 +46,20 @@ dependencies:
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.7.4
+  flutter_native_splash: ^0.1.9
   flutter_test:
     sdk: flutter
 
-# Automatically generate your app's icon
+# Automatically generate your app's icon and splash screen
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/app.png"
+flutter_native_splash:
+  image: assets/images/splash.png
+  color: "ffffff"
+  fill: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
