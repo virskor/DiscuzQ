@@ -75,14 +75,15 @@ class _ForumDelegateState extends State<ForumDelegate>
               drawerEdgeDragWidth: Global.drawerEdgeDragWidth,
               body: Stack(
                 fit: StackFit.expand,
+                overflow: Overflow.clip,
                 children: <Widget>[
-                  /// 是否显示网络错误组件
-                  _buildNetwordError(model),
-
                   /// 显示论坛分类和分类下内容列表
                   model.forum == null
                       ? const SizedBox()
                       : const ForumCategory(),
+
+                  /// 是否显示网络错误组件
+                  _buildNetwordError(model),
 
                   /// 显示底部悬浮登录提示组件
                   Positioned(

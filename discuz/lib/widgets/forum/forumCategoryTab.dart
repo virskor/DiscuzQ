@@ -58,9 +58,7 @@ class _ForumCategoryState extends State<ForumCategory>
   @override
   Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
       rebuildOnChange: true,
-      builder: (context, child, model) => Expanded(
-            child: _buildForumCategoryTab(model),
-          ));
+      builder: (context, child, model) => _buildForumCategoryTab(model));
 
   /// 构造tabbar
   Widget _buildForumCategoryTab(AppModel model) {
@@ -79,12 +77,36 @@ class _ForumCategoryState extends State<ForumCategory>
     /// 生成论坛分类和内容区域
     return Column(
       children: <Widget>[
-        TabBar(
+        /// 生成滑动选项
+        _buildtabs(model),
+
+        /// 生成帖子渲染content区域(tabviews)
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: model.categories.map<Widget>((e) {
+              //创建3个Tab页
+              return Container(
+                alignment: Alignment.center,
+                child: DiscuzText(e['attributes']['name'], textScaleFactor: 5),
+              );
+            }).toList(),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildtabs(AppModel model) => Container(
+        width: MediaQuery.of(context).size.width,
+        decoration:
+            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+        child: TabBar(
             //生成Tab菜单
             controller: _tabController,
             labelStyle: TextStyle(
                 //up to your taste
-                fontWeight: FontWeight.w700),
+                fontSize: DiscuzApp.themeOf(context).normalTextSize,),
             indicatorSize: TabBarIndicatorSize.label, //makes it better
             labelColor:
                 DiscuzApp.themeOf(context).primaryColor, //Google's sweet blue
@@ -101,21 +123,7 @@ class _ForumCategoryState extends State<ForumCategory>
             tabs: model.categories
                 .map<Widget>((e) => Tab(text: e['attributes']['name']))
                 .toList()),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: model.categories.map<Widget>((e) {
-              //创建3个Tab页
-              return Container(
-                alignment: Alignment.center,
-                child: DiscuzText(e['attributes']['name'], textScaleFactor: 5),
-              );
-            }).toList(),
-          ),
-        )
-      ],
-    );
-  }
+      );
 
   /// 初始化 tab controller
   ///
@@ -151,10 +159,11 @@ class _ForumCategoryState extends State<ForumCategory>
   /// force should never be true on didChangeDependencies life cycle
   /// that would make your ui rendering loop and looping to die
   Future<bool> _getCategories(AppModel model, {bool force = false}) async {
-
     setState(() {
       _loading = true;
-      _isEmptyCategories = false; /// 仅需要复原 _initTabController会再次处理
+      _isEmptyCategories = false;
+
+      /// 仅需要复原 _initTabController会再次处理
     });
     Response resp =
         await Request(context: context).getUrl(url: Urls.categories);
