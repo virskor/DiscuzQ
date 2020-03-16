@@ -1,7 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/ui/ui.dart';
-import 'package:discuzq/widgets/forum/forumCategory.dart';
-import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -11,6 +8,9 @@ import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/urls.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/forum/forumCategory.dart';
+import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
@@ -62,7 +62,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
   @override
   Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
-      rebuildOnChange: true,
+      rebuildOnChange: false,
       builder: (context, child, model) => _buildForumCategoryTabTab(model));
 
   /// 构造tabbar
@@ -84,6 +84,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
       children: <Widget>[
         /// 生成滑动选项
         _buildtabs(model),
+
         /// 条件筛选组件
         ForumCategoryFilter(
           onChanged: (ForumCategoryFilterItem item) => setState(() {
@@ -99,7 +100,8 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               //创建3个Tab页
               return ForumCategory(
                 cat,
-                filter: _filterItem,
+                /// 初始化的时候，用户没有选择，则默认使用第一个筛选条件
+                filter: _filterItem ?? ForumCategoryFilter.conditions[0],
               );
             }).toList(),
           ),
