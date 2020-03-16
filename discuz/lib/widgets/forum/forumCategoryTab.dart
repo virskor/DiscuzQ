@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumCategory.dart';
+import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -32,6 +33,9 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
   /// categories is empty
   bool _isEmptyCategories = false;
+
+  /// 筛选条件状态
+  ForumCategoryFilterItem _filterItem;
 
   @override
   void setState(fn) {
@@ -80,6 +84,12 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
       children: <Widget>[
         /// 生成滑动选项
         _buildtabs(model),
+        /// 条件筛选组件
+        ForumCategoryFilter(
+          onChanged: (ForumCategoryFilterItem item) => setState(() {
+            _filterItem = item;
+          }),
+        ),
 
         /// 生成帖子渲染content区域(tabviews)
         Expanded(
@@ -87,7 +97,10 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
             controller: _tabController,
             children: model.categories.map<Widget>((cat) {
               //创建3个Tab页
-              return ForumCategory(cat);
+              return ForumCategory(
+                cat,
+                filter: _filterItem,
+              );
             }).toList(),
           ),
         )
@@ -103,8 +116,9 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
             //生成Tab菜单
             controller: _tabController,
             labelStyle: TextStyle(
-                //up to your taste
-                fontSize: DiscuzApp.themeOf(context).normalTextSize,),
+              //up to your taste
+              fontSize: DiscuzApp.themeOf(context).normalTextSize,
+            ),
             indicatorSize: TabBarIndicatorSize.label, //makes it better
             labelColor:
                 DiscuzApp.themeOf(context).primaryColor, //Google's sweet blue
