@@ -1,0 +1,20 @@
+name: flutter_native_loading
+description: A new Flutter plugin.
+version: 0.0.1
+author: Keo Dara <lykoeosovandara@gmail.com>
+homepage: https://github.com/Lykeosovandara/Flutter-Native-Loading
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  plugin:
+    androidPackage: com.keo.flutter_native_loading
+    pluginClass: FlutterNativeLoadingPlugin
