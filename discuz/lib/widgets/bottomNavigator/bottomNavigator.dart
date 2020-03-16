@@ -31,7 +31,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
   int selectedIndex = 0;
 
   _DiscuzBottomNavigatorState(
-      {@required this.onItemSelected, this.height = 45});
+      {@required this.onItemSelected, this.height = 40});
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<AppModel>(

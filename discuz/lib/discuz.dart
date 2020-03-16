@@ -66,7 +66,13 @@ class _DiscuzState extends State<Discuz> {
                                 .scaffoldBackgroundColor,
                             canvasColor: DiscuzApp.themeOf(context)
                                 .scaffoldBackgroundColor),
-                        child: const _DiscuzAppDelegate(),
+                        child: MediaQuery(
+                          data: MediaQuery.of(context).copyWith(
+                              boldText: false,
+                              textScaleFactor:
+                                  model.appConf['fontWidthFactor']),
+                          child: const _DiscuzAppDelegate(),
+                        ),
                       )),
             ),
           );

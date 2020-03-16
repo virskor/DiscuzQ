@@ -129,7 +129,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
             isScrollable: true, //up to your taste
             indicator: MD2Indicator(
                 //it begins here
-                indicatorHeight: 3,
+                indicatorHeight: 2,
                 indicatorColor: DiscuzApp.themeOf(context).primaryColor,
                 indicatorSize:
                     MD2IndicatorSize.normal //3 different modes tiny-normal-full
