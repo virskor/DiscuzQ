@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -114,13 +115,7 @@ class _ForumDelegateState extends State<ForumDelegate>
         Row(
           children: <Widget>[
             // 搜索
-            IconButton(
-              icon: DiscuzIcon(
-                SFSymbols.plus,
-                color: Colors.white,
-              ),
-              onPressed: () => null,
-            ),
+            const ForumAddButton()
             // 弹出菜单
           ],
         )

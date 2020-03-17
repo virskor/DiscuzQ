@@ -5,7 +5,9 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 
 class YetNotLogon extends StatelessWidget {
+  
   const YetNotLogon();
+
   @override
   Widget build(BuildContext context) {
     return Container(
