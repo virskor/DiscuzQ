@@ -111,6 +111,11 @@ class Request {
           }
 
           if (e.response.data['code'] == 401) {
+            ///
+            /// todo:
+            /// 401的时候先校验错误信息是不是token过期，因为有时候站点关闭也是401。。。。
+            /// 
+            /// 
             /// 尝试自动刷新token，如果刷新token成功，继续上次请求
             debugPrint("------------Token 自动刷新开始-----------");
             try {

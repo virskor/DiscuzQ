@@ -80,10 +80,12 @@ class DiscuzTextfiled extends StatelessWidget {
             showCursor: true,
             enableSuggestions: false,
             decoration: InputDecoration(
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: prefixIcon,
-                ),
+                prefixIcon: prefixIcon == null
+                    ? null
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: prefixIcon,
+                      ),
 
                 /// 显示清除按钮
                 suffixIcon:
@@ -140,7 +142,7 @@ class DiscuzTextfiled extends StatelessWidget {
             onPressed: () {
               FocusScope.of(context).requestFocus(FocusNode());
               controller.clear();
-              if(onClear != null){
+              if (onClear != null) {
                 onClear();
               }
             }),
