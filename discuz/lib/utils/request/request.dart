@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/utils/request/requestErrors.dart';
 import 'package:discuzq/utils/request/requestFormer.dart';
 import 'package:flutter/material.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -155,9 +157,9 @@ class Request {
           ///
           /// 提示用户接口返回的错误信息
           ///
-          String errMessage = e.response.data['data'] == null
+          String errMessage = e.response.data['errors'] == null
               ? '未知错误'
-              : e.response.data['data']['error'];
+              : RequestErrors.mapError(e.response.data['errors'][0]['code']);
 
           ///
           /// 没有传入context,使用原生的toast组件进行提示
@@ -217,7 +219,7 @@ class Request {
   void _popLogin() {
     try {
       if (context != null) {
-        // AuthHelper.staticLogin(context: context);
+        AuthHelper.login(context: context);
       }
     } catch (e) {
       debugPrint(e);

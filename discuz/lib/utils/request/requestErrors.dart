@@ -31,11 +31,13 @@ class RequestErrors {
     "content_banned": "内容被封禁",
     "login_failed": "帐号或密码错误",
     "login_failures_times_toplimit": "密码错误次数达到5次，请15分钟后再次尝试",
-    "Cannot delete the default group": "无法删除默认分组",
 
     /// todo: _ ??
+    "Cannot delete the default group": "无法删除默认分组",
     "No Qcloud Service was specified.": "未设置相关云服务",
     "File must be readable.": "未受信任的文件类型",
+
+    ///
     "trade_error": "交易错误",
     "order_post_not_found": "订单错误",
     "order_type_error": "订单错误",
@@ -54,4 +56,6 @@ class RequestErrors {
     "setting_fill_register_reason": "注册时的注册原因必须必填",
     "Notification is missing template_config": "微信推送信息不全",
   };
+
+  static String mapError(String key) => errors[key] ?? '未知错误';
 }
