@@ -87,9 +87,12 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
         /// 条件筛选组件
         ForumCategoryFilter(
-          onChanged: (ForumCategoryFilterItem item) => setState(() {
-            _filterItem = item;
-          }),
+          onChanged: (ForumCategoryFilterItem item) {
+            print(item.filter.toString());
+            setState(() {
+              _filterItem = item;
+            });
+          },
         ),
 
         /// 生成帖子渲染content区域(tabviews)
@@ -100,6 +103,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               //创建3个Tab页
               return ForumCategory(
                 cat,
+
                 /// 初始化的时候，用户没有选择，则默认使用第一个筛选条件
                 filter: _filterItem ?? ForumCategoryFilter.conditions[0],
               );

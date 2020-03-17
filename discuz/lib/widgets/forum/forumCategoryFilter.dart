@@ -104,9 +104,6 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
                             value: c,
                             child: DiscuzText(
                               c.label,
-                              color: _selected != c
-                                  ? null
-                                  : DiscuzApp.themeOf(context).primaryColor,
                             ),
                           ))
             .toList();
@@ -123,10 +120,36 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
         ),
         padding: const EdgeInsets.all(0),
         onSelected: (ForumCategoryFilterItem val) {
-          // todo: replace ForumCategoryFilterItem.filter where item == fromUserId after logon
+          /// 先拷贝过滤参数
+          List<Map<String, dynamic>> rebuildFilterList = [...val.filter];
+
+          /// 构造一个全新的filter进行强制替换
+          if (val.shouldLogin == true) {
+            Map<String, dynamic> replacement = {
+              "fromUserId": model.user['id'],
+            };
+
+            /// 过滤可能发生重复的数据
+            rebuildFilterList = rebuildFilterList
+                .where((it) => it.keys.first != "fromUserId")
+                .toList();
+            rebuildFilterList.add(replacement);
+          }
+
+          /// 新建一个新的item对象用于反馈用户选择的条件
+          ForumCategoryFilterItem givingItem = ForumCategoryFilterItem(
+              includes: val.includes,
+              shouldLogin: val.shouldLogin,
+              label: val.label,
+              filter: rebuildFilterList);
+
           setState(() {
-            _selected = val;
+            _selected = givingItem;
           });
+
+          if (widget.onChanged != null) {
+            widget.onChanged(givingItem);
+          }
         });
   }
 }
