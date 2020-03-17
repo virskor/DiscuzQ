@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +46,17 @@ class AuthHelper {
   }
 
   /// 处理用户请求退出登录
-  Future<void> logout({AppModel model}) async {
+  static Future<void> logout({@required AppModel model}) async {
     await AuthorizationHelper().clearAll();
     model.updateUser(null);
+  }
+
+  ///
+  /// 从本地读取已存的用户信息
+  /// 从本地获取，如果用户没有登录的情况下会为null， 但是无关紧要
+  ///
+  static Future<void> getUserFromLocal({@required AppModel model}) async {
+    final dynamic user = await AuthorizationHelper().getUser();
+    model.updateUser(jsonDecode(user));
   }
 }

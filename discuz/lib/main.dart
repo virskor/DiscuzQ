@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/authHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
             if (model.appConf == null) {
               _initAppState(model);
             }
+
+            /// 加载本地的用户信息
+            AuthHelper.getUserFromLocal(model: model);
           },
 
           /// 创建入口APP
