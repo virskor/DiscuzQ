@@ -42,7 +42,6 @@ class _LoginDelegateState extends State<LoginDelegate> {
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
-              elevation: 10,
               centerTitle: true,
               title: '登录',
             ),
@@ -114,10 +113,9 @@ class _LoginDelegateState extends State<LoginDelegate> {
         ],
       ));
 
-
-  /// 
+  ///
   /// _requestLogin用户请求登录
-  /// 
+  ///
   Future<void> _requestLogin(AppModel model) async {
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");
@@ -128,6 +126,9 @@ class _LoginDelegateState extends State<LoginDelegate> {
       DiscuzToast.failed(context: context, message: "请填写密码");
       return;
     }
+
+    final Function closeLoading =
+        DiscuzToast.loading(context: context, message: '登陆中');
 
     final data = {
       "data": {
@@ -140,6 +141,9 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
     Response resp = await Request(context: context, autoAuthorization: false)
         .postJson(url: Urls.usersLogin, data: data);
+
+    /// 一旦请求结束，就要关闭loading
+    closeLoading();
 
     if (resp == null) {
       /// 提示登录失败信息
@@ -165,10 +169,10 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
     ///
     /// 读取用户信息
-    /// 
+    ///
     final List<dynamic> included = resp.data['included'];
-    final dynamic user = included.where((it) => it['type'] == "users").toList()[0];
-
+    final dynamic user =
+        included.where((it) => it['type'] == "users").toList()[0];
 
     ///
     /// 存储accessToken
@@ -194,7 +198,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
     model.updateUser(user);
 
     /// 提示登录成功。关闭对话框，重新初始化信息
-    /// 
+    ///
     Navigator.pop(context);
   }
 }

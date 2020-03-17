@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -29,7 +31,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DiscuzAppBar(
       {Key key,
       this.height,
-      this.elevation = 10,
+      this.elevation,
       this.automaticallyImplyLeading = false,
       @required this.title,
       this.dark,

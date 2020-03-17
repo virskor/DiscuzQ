@@ -64,10 +64,14 @@ class _ForumDelegateState extends State<ForumDelegate>
         builder: (context, child, model) => Scaffold(
               appBar: DiscuzAppBar(
                 elevation: 0,
+                dark: true,
+                brightness: Brightness.dark,
+                backgroundColor: DiscuzApp.themeOf(context).primaryColor,
                 centerTitle: true,
-                leading: const NightModeSwitcher(),
+                leading: const NightModeSwitcher(color: Colors.white,),
                 title: const Center(
                     child: const DiscuzAppLogo(
+                      dark: true,
                   color: Colors.transparent,
                 )),
                 actions: _actions(context),
@@ -113,7 +117,7 @@ class _ForumDelegateState extends State<ForumDelegate>
             IconButton(
               icon: DiscuzIcon(
                 SFSymbols.plus,
-                color: DiscuzApp.themeOf(context).textColor,
+                color: Colors.white,
               ),
               onPressed: () => null,
             ),

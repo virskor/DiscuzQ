@@ -32,7 +32,6 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
-              elevation: 10,
               centerTitle: true,
               title: '注册',
             ),

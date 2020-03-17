@@ -8,7 +8,9 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/ui/ui.dart';
 
 class NightModeSwitcher extends StatelessWidget {
-  const NightModeSwitcher({Key key}) : super(key: key);
+  final Color color;
+
+  const NightModeSwitcher({Key key, this.color}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<AppModel>(
@@ -19,7 +21,7 @@ class NightModeSwitcher extends StatelessWidget {
               model.appConf['darkTheme'] == false
                   ? SFSymbols.sun_min_fill
                   : SFSymbols.moon_fill,
-              color: DiscuzApp.themeOf(context).textColor,
+              color: color ?? DiscuzApp.themeOf(context).textColor,
             ),
             onPressed: () => AppConfigurations().update(
                 context: context,

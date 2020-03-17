@@ -56,7 +56,11 @@ class AuthHelper {
   /// 从本地获取，如果用户没有登录的情况下会为null， 但是无关紧要
   ///
   static Future<void> getUserFromLocal({@required AppModel model}) async {
-    final dynamic user = await AuthorizationHelper().getUser();
-    model.updateUser(jsonDecode(user));
+    try {
+      final dynamic user = await AuthorizationHelper().getUser();
+      model.updateUser(jsonDecode(user));
+    } catch (e) {
+      print(e);
+    }
   }
 }
