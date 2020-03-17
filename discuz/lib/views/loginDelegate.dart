@@ -47,7 +47,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
               title: '登录',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: _buildLoginForm(),
+            body: _buildLoginForm(model),
           ));
 
   /// app logo
@@ -58,7 +58,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
   );
 
   /// 生成用于登录的表单
-  Widget _buildLoginForm() => DiscuzFormContainer(
+  Widget _buildLoginForm(AppModel model) => DiscuzFormContainer(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -99,7 +99,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
           /// login button
           DiscuzButton(
             label: '登录',
-            onPressed: _requestLogin,
+            onPressed: () => _requestLogin(model),
           ),
 
           /// or register an account????
@@ -114,7 +114,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
         ],
       ));
 
-  Future<void> _requestLogin() async {
+  Future<void> _requestLogin(AppModel model) async {
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");
       return;
@@ -142,8 +142,6 @@ class _LoginDelegateState extends State<LoginDelegate> {
       return;
     }
 
-    debugPrint(jsonEncode(resp.data));
-
     ///
     /// 读取accessToken
     ///
@@ -162,6 +160,10 @@ class _LoginDelegateState extends State<LoginDelegate> {
     }
 
     ///
+    /// 读取用户信息
+    final dynamic user = resp.data['included'][0]['attributes'];
+
+    ///
     /// 存储accessToken
     /// 先清除，在保存，否则保存会失败
     /// 调用clear只会清除一个项目，这样会导致用户切换信息错误
@@ -175,9 +177,14 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
     /// 保存token
     await AuthorizationHelper()
+        .save(data: jsonEncode(user), key: AuthorizationHelper.userKey);
+    await AuthorizationHelper()
         .save(data: accessToken, key: AuthorizationHelper.authorizationKey);
     await AuthorizationHelper()
         .save(data: refreshToken, key: AuthorizationHelper.refreshTokenKey);
+
+    /// 更新用户状态
+    model.updateUser(user);
 
     /// 提示登录成功。关闭对话框，重新初始化信息
   }
