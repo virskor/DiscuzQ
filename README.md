@@ -13,6 +13,10 @@ If you have any question about this project, follow and post an issue. I will co
 第三方APP，与Discuz无关，不代表Dz团队，仅做个人学习使用。该Flutter APP将不考虑支持Web。  
 该APP现在处于开发阶段，暂时不推荐clone并编译，后续编排改动都很大，直到release前暂不要使用这些代码。  
 
+### 一起开发
+了解开发进度，或者有疑问，可以加我微信奥
+<p><img width="200px" src="wechat.jpeg"/> </p>
+
 ## 一些隐藏的功能
 有的时候因为不同需要，有的功能可能开发了，但是并没有直接启用，因为这些功能取决于你的后端情况或者偏好。
 ### HTTP2的支持
