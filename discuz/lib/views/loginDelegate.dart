@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -91,7 +94,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
           /// login button
           DiscuzButton(
             label: '登录',
-            onPressed: () => null,
+            onPressed: _requestLogin,
           ),
 
           /// or register an account????
@@ -105,27 +108,31 @@ class _LoginDelegateState extends State<LoginDelegate> {
           ),
         ],
       ));
-}
 
-class _LoginFormContainer extends StatelessWidget {
-  final Widget child;
+  Future<void> _requestLogin() async {
+    if (_usernameTextfiledController.text == "") {
+      return;
+    }
 
-  _LoginFormContainer({@required this.child});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(
-        left: 15,
-        right: 15,
-      ),
-      alignment: Alignment.center,
-      decoration:
-          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+    if (_passwordTextfiledController.text == "") {
+      return;
+    }
 
-      /// SingleChildScrollView 防止设备不同的情况下，overflow渲染错误
-      child: SingleChildScrollView(
-        child: child,
-      ),
-    );
+    final data = {
+      "data": {
+        "attributes": {
+          "username": _usernameTextfiledController.text,
+          "password": _passwordTextfiledController.text,
+        }
+      }
+    };
+
+    Response resp = await Request(context: context)
+        .postJson(url: Urls.usersLogin, data: data);
+
+    if (resp == null) {
+      /// 提示登录失败信息
+      return;
+    }
   }
 }

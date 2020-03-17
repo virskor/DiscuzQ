@@ -31,7 +31,7 @@ class Urls {
   static const String usersRegister = "$_apiPath/users/register";
 
   /// 用户登录
-  static const String usersLogin = "$_apiPath/users/login";
+  static const String usersLogin = "$_apiPath/login";
 
   /// -----------------------------------
   /// 分类

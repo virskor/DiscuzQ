@@ -10,7 +10,6 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzFormContainer.dart';
-import 'package:discuzq/router/route.dart';
 
 class RegisterDelegate extends StatefulWidget {
   final Function onRequested;
