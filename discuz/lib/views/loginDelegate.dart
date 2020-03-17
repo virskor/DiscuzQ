@@ -1,6 +1,6 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/urls.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -15,6 +15,11 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzFormContainer.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/registerDelegate.dart';
+import 'package:discuzq/utils/StringHelper.dart';
+import 'package:discuzq/utils/authorizationHelper.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 class LoginDelegate extends StatefulWidget {
   final Function onRequested;
@@ -111,10 +116,12 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
   Future<void> _requestLogin() async {
     if (_usernameTextfiledController.text == "") {
+      DiscuzToast.failed(context: context, message: "请填写用户名");
       return;
     }
 
     if (_passwordTextfiledController.text == "") {
+      DiscuzToast.failed(context: context, message: "请填写密码");
       return;
     }
 
@@ -127,12 +134,51 @@ class _LoginDelegateState extends State<LoginDelegate> {
       }
     };
 
-    Response resp = await Request(context: context)
+    Response resp = await Request(context: context, autoAuthorization: false)
         .postJson(url: Urls.usersLogin, data: data);
 
     if (resp == null) {
       /// 提示登录失败信息
       return;
     }
+
+    debugPrint(jsonEncode(resp.data));
+
+    ///
+    /// 读取accessToken
+    ///
+    final String accessToken = resp.data['data']['attributes']['access_token'];
+    if (StringHelper.isEmpty(string: accessToken) == true) {
+      return Future.value(false);
+    }
+
+    ///
+    /// 读取refreshToken
+    ///
+    final String refreshToken =
+        resp.data['data']['attributes']['refresh_token'];
+    if (StringHelper.isEmpty(string: accessToken) == true) {
+      return Future.value(false);
+    }
+
+    ///
+    /// 存储accessToken
+    /// 先清除，在保存，否则保存会失败
+    /// 调用clear只会清除一个项目，这样会导致用户切换信息错误
+    /// 所以要清除token 和用户信息存储，在回调处理中在进行更新用户信息的Process提示
+    /// 我不想写update逻辑，就这样简单粗暴无bug多完美？
+    ///
+    await AuthorizationHelper()
+        .clear(key: AuthorizationHelper.authorizationKey);
+    await AuthorizationHelper().clear(key: AuthorizationHelper.userKey);
+    await AuthorizationHelper().clear(key: AuthorizationHelper.refreshTokenKey);
+
+    /// 保存token
+    await AuthorizationHelper()
+        .save(data: accessToken, key: AuthorizationHelper.authorizationKey);
+    await AuthorizationHelper()
+        .save(data: refreshToken, key: AuthorizationHelper.refreshTokenKey);
+
+    /// 提示登录成功。关闭对话框，重新初始化信息
   }
 }

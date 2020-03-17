@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -40,5 +41,11 @@ class AuthHelper {
         });
 
     return Future.value(success);
+  }
+
+  /// 处理用户请求退出登录
+  Future<void> logout({AppModel model}) async {
+    await AuthorizationHelper().clearAll();
+    model.updateUser(null);
   }
 }

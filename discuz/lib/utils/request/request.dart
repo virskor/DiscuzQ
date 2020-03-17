@@ -24,7 +24,10 @@ class Request {
   final Dio _dio = Dio();
   final BuildContext context;
 
-  Request({this.context}) {
+  /// 是否自动添加 票据
+  final bool autoAuthorization;
+
+  Request({this.context, this.autoAuthorization = true}) {
     /// http2支持，如果你开启了HTTP2，那么移除注释，默认情况下是不启用的
     // _dio.httpClientAdapter = Http2Adapter(
     //   ConnectionManager(
@@ -73,8 +76,8 @@ class Request {
         options.headers['User-Agent'] = userAgent;
         options.headers['Client-Type'] = 'app';
         options.headers['User-Device'] = deviceAgent.split(';')[0];
-        if (authorization != null) {
-          options.headers['Authorization'] = "Barear $authorization";
+        if (authorization != null && autoAuthorization) {
+          options.headers['Authorization'] = "Bearer $authorization";
         }
         return options;
       }, onResponse: (Response response) {
