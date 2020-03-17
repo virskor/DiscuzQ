@@ -1,8 +1,10 @@
 import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 class SearchAppbar extends StatefulWidget implements PreferredSizeWidget {
   final double contentHeight; //从外部指定高度
@@ -57,16 +59,19 @@ class _SearchAppbarState extends State<SearchAppbar> {
         child: Stack(
           children: <Widget>[
             Container(
+              padding: const EdgeInsets.only(right: 50),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
               child: DiscuzTextfiled(
                 controller: _controller,
+                prefixIcon: const DiscuzIcon(SFSymbols.search),
                 placeHolder: '输入关键字搜索',
                 borderColor: Colors.transparent,
-                bottomMargin: 6,
+                bottomMargin: 10,
                 borderWidth: 0.1,
                 textInputAction: TextInputAction.search,
+                clearable: true,
                 onSubmit: (String val) {
                   if (widget.onSubmit != null) {
                     widget.onSubmit(val);
@@ -88,19 +93,22 @@ class _SearchAppbarState extends State<SearchAppbar> {
   /// 实际上用户输入的过程中会请求搜索接口，但是呢点击按钮也执行一次
   /// 避免有的用户觉得突兀
   /// 点击按钮的时候要移除输入框焦点
-  /// 
+  ///
   Widget _searchButton() => Positioned(
         right: 5,
         top: 8,
-        child: DiscuzLink(
-          label: '搜索',
-          onTap: () {
-
-        FocusScope.of(context).requestFocus(new FocusNode());
-            if (widget.onSubmit != null) {
-              widget.onSubmit(_controller.text);
-            }
-          },
+        child: Row(
+          children: <Widget>[
+            DiscuzLink(
+              label: '搜索',
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+                if (widget.onSubmit != null) {
+                  widget.onSubmit(_controller.text);
+                }
+              },
+            )
+          ],
         ),
       );
 }

@@ -40,6 +40,9 @@ class _SearchThreadDelegateState extends State<SearchThreadDelegate> {
             appBar: SearchAppbar(
               onSubmit: (String keyword) => _onSubmit(keyword: keyword),
             ),
+            body: Column(
+              children: <Widget>[],
+            ),
           ));
 
   ///
