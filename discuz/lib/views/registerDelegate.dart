@@ -11,17 +11,16 @@ import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzFormContainer.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/registerDelegate.dart';
 
-class LoginDelegate extends StatefulWidget {
+class RegisterDelegate extends StatefulWidget {
   final Function onRequested;
 
-  const LoginDelegate({Key key, this.onRequested}) : super(key: key);
+  const RegisterDelegate({Key key, this.onRequested}) : super(key: key);
   @override
-  _LoginDelegateState createState() => _LoginDelegateState();
+  _RegisterDelegateState createState() => _RegisterDelegateState();
 }
 
-class _LoginDelegateState extends State<LoginDelegate> {
+class _RegisterDelegateState extends State<RegisterDelegate> {
   /// usernameTextfiledController
   final TextEditingController _usernameTextfiledController =
       TextEditingController();
@@ -36,7 +35,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
             appBar: DiscuzAppBar(
               elevation: 10,
               centerTitle: true,
-              title: '登录',
+              title: '注册',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: _buildLoginForm(),
@@ -60,12 +59,12 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
           ///
           const DiscuzText(
-            '用户名登录',
+            '要注册的用户名',
             textScaleFactor: 1.5,
             fontWeight: FontWeight.bold,
           ),
           const DiscuzText(
-            '现在登录${Global.appname}分享瞬间吧',
+            '注册一个${Global.appname}账号来分享',
           ),
           const SizedBox(height: 20),
 
@@ -90,42 +89,18 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
           /// login button
           DiscuzButton(
-            label: '登录',
+            label: '注册',
             onPressed: () => null,
           ),
 
           /// or register an account????
           const SizedBox(height: 20),
           DiscuzButton(
-            label: '注册',
+            label: '已经有账号，立即登录',
             labelColor: DiscuzApp.themeOf(context).primaryColor,
             color: Colors.transparent,
-            onPressed: () => DiscuzRoute.open(
-                context: context, widget: const RegisterDelegate()),
+            onPressed: () => Navigator.pop(context),
           ),
         ],
       ));
-}
-
-class _LoginFormContainer extends StatelessWidget {
-  final Widget child;
-
-  _LoginFormContainer({@required this.child});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(
-        left: 15,
-        right: 15,
-      ),
-      alignment: Alignment.center,
-      decoration:
-          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
-
-      /// SingleChildScrollView 防止设备不同的情况下，overflow渲染错误
-      child: SingleChildScrollView(
-        child: child,
-      ),
-    );
-  }
 }
