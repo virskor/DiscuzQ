@@ -161,7 +161,10 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
     ///
     /// 读取用户信息
-    final dynamic user = resp.data['included'][0]['attributes'];
+    /// 
+    final List<dynamic> included = resp.data['included'];
+    final dynamic user = included.where((it) => it['type'] == "users").toList()[0];
+
 
     ///
     /// 存储accessToken
@@ -187,5 +190,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
     model.updateUser(user);
 
     /// 提示登录成功。关闭对话框，重新初始化信息
+    /// 
+    Navigator.pop(context);
   }
 }
