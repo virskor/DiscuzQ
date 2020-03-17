@@ -25,9 +25,6 @@ class _ForumCategoryState extends State<ForumCategory> {
   
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child:
-          DiscuzText(widget.category['attributes']['name'], textScaleFactor: 5),
-    );
+    return SizedBox();
   }
 }

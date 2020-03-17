@@ -54,6 +54,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
               title: '个人中心',
+              elevation: 0,
             ),
             body: model.user == null
                 ? const YetNotLogon()
@@ -134,7 +135,7 @@ class _MyAccountCard extends StatelessWidget {
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: DiscuzListTile(
               leading: DiscuzAvatar(
-                size: 50,
+                size: 55,
               ),
               title: DiscuzText(
                 model.user['attributes']['username'] ?? '',

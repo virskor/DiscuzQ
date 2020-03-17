@@ -21,6 +21,7 @@ class DiscuzTextfiled extends StatelessWidget {
   final bool removeBottomMargin;
   final Color color;
   final Color borderColor;
+  final double bottomMargin;
 
   DiscuzTextfiled(
       {Key key,
@@ -32,6 +33,7 @@ class DiscuzTextfiled extends StatelessWidget {
       this.autofocus = false,
       this.onChanged,
       this.focusNode,
+      this.bottomMargin = 10,
       this.color,
       this.onSubmit,
       this.removeBottomMargin = false,
@@ -47,7 +49,7 @@ class DiscuzTextfiled extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: removeBottomMargin == true
             ? null
-            : const EdgeInsets.only(bottom: 10),
+            : EdgeInsets.only(bottom: bottomMargin),
         decoration: BoxDecoration(color: color),
         child: Theme(
           data: ThemeData(

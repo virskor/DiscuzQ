@@ -1,10 +1,7 @@
-import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/ui/ui.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/forum/floatLoginButton.dart';
 import 'package:discuzq/utils/global.dart';
@@ -14,6 +11,7 @@ import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/forum/bootstrapForum.dart';
 import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
+import 'package:discuzq/widgets/forum/forumAddButton.dart';
 
 /// 论坛首页
 class ForumDelegate extends StatefulWidget {

@@ -70,4 +70,10 @@ class Global {
   /// 这个数据随便的，其实这种加密本身也是没有安全可言的，在本地，只是保存明文的话又太那啥了。
   static const String encryptKey = '58sw517e13e05accb62f28145d1b13ccd8';
   static const String encryptIV = '06549488ew505b715';
+
+
+  ///
+  /// 分页，单页加载数量
+  /// 分页下拉加载组件将以此为准
+  static const int perPage = 20;
 }
