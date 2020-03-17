@@ -1,3 +1,8 @@
+import 'package:dio/dio.dart';
+import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -28,6 +33,8 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
   final TextEditingController _passwordTextfiledController =
       TextEditingController();
 
+  static const String _register_reason = 'mobile register';
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -56,7 +63,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
               title: '注册',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: _buildLoginForm(),
+            body: _buildLoginForm(model),
           ));
 
   /// app logo
@@ -67,24 +74,29 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
   );
 
   /// 生成用于登录的表单
-  Widget _buildLoginForm() => DiscuzFormContainer(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+  Widget _buildLoginForm(AppModel model) => DiscuzFormContainer(
+          child: ListView(
+        padding: const EdgeInsets.only(top: 60),
         children: <Widget>[
           /// ... if you want a logo to be rendered
-          // _logo,
+          _logo,
 
           ///
-          const DiscuzText(
-            '要注册的用户名',
-            textScaleFactor: 1.5,
-            fontWeight: FontWeight.bold,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const DiscuzText(
+                '注册账号',
+                textScaleFactor: 1.8,
+                fontWeight: FontWeight.bold,
+              ),
+              const DiscuzText(
+                '注册一个${Global.appname}账号',
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
-          const DiscuzText(
-            '注册一个${Global.appname}账号来分享',
-          ),
-          const SizedBox(height: 20),
 
           /// username textfiled
           DiscuzTextfiled(
@@ -108,7 +120,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
           /// login button
           DiscuzButton(
             label: '注册',
-            onPressed: () => _requestRegister,
+            onPressed: () => _requestRegister(model),
           ),
 
           /// or register an account????
@@ -124,6 +136,47 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
 
   ///
   /// 请求注册
-  /// 
-  Future<void> _requestRegister() async {}
+  ///
+  Future<void> _requestRegister(AppModel model) async {
+    if (_usernameTextfiledController.text == "") {
+      DiscuzToast.failed(context: context, message: "请填写用户名");
+      return;
+    }
+
+    if (_passwordTextfiledController.text == "") {
+      DiscuzToast.failed(context: context, message: "请填写密码");
+      return;
+    }
+
+    final Function closeLoading =
+        DiscuzToast.loading(context: context, message: '登陆中');
+
+    final data = {
+      "data": {
+        "attributes": {
+          "username": _usernameTextfiledController.text,
+          "password": _passwordTextfiledController.text,
+          "register_reason": _register_reason,
+        }
+      }
+    };
+
+    Response resp = await Request(context: context, autoAuthorization: false)
+        .postJson(url: Urls.usersRegister, data: data);
+
+    closeLoading();
+
+    if (resp == null) {
+      /// 提示注册失败信息
+      return;
+    }
+
+    /// 注册成功
+    ///
+    /// await AuthHelper.processLoginByResponseData(resp.data, model: model);
+    
+    DiscuzToast.success(context: context, message: '注册成功，请登陆');
+
+    Navigator.pop(context);
+  }
 }

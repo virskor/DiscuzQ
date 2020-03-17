@@ -25,10 +25,10 @@ class Urls {
   static const String usersData = "$_apiPath/users/{id}";
 
   /// 刷新Token
-  static const String usersRefreshToken = "$_apiPath/users/refresh-token";
+  static const String usersRefreshToken = "$_apiPath/refresh-token";
 
   /// 用户注册
-  static const String usersRegister = "$_apiPath/users/register";
+  static const String usersRegister = "$_apiPath/register";
 
   /// 用户登录
   static const String usersLogin = "$_apiPath/login";

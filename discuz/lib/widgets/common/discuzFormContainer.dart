@@ -17,9 +17,7 @@ class DiscuzFormContainer extends StatelessWidget {
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
 
       /// SingleChildScrollView 防止设备不同的情况下，overflow渲染错误
-      child: SingleChildScrollView(
-        child: child,
-      ),
+      child: child,
     );
   }
 }
