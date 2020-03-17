@@ -3,7 +3,7 @@
 
 ### 实现目标
 基本上和官方版本是保持一致的，只是会增加黑暗模式，主题颜色，字体大小等设置罢了。
-<p><img width="200px" src="snapshot.png"/>  </p> 
+<p><img width="200px" src="snapshot.png"/> <img width="200px" src="snapshot_me.png"/>  </p> 
 A new Flutter application for DiscuzQ. This Application is still under developing, this is an open source software.  
 
 If you have any question about this project, follow and post an issue. I will consit to write this application.
