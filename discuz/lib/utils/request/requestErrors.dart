@@ -57,5 +57,6 @@ class RequestErrors {
     "Notification is missing template_config": "微信推送信息不全",
   };
 
+  /// 获取对应的错误提示信息
   static String mapError(String key) => errors[key] ?? '未知错误';
 }

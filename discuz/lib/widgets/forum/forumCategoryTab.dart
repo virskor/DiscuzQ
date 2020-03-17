@@ -88,6 +88,12 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
         /// 条件筛选组件
         ForumCategoryFilter(
           onChanged: (ForumCategoryFilterItem item) {
+            /// todo: 条件切换啦，重新加载当前版块下的数据
+            /// 注意，如果选择的条件相同，那么还是要做忽略return
+            if(_filterItem == item){
+              return;
+            }
+            
             print(item.filter.toString());
             setState(() {
               _filterItem = item;
