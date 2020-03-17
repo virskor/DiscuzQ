@@ -90,4 +90,21 @@ flutter pub run flutter_launcher_icons:main
 flutter pub pub run flutter_native_splash:create
 # or
 # cd ./discuz
-# bash splash
+# bash splas
+```
+### 自定义隐私政策和条款
+默认情况下，会考虑自动加载DZ中设置的隐私政策和条款。现在DZ API还没有这个功能，后续会加入。但是除了使用默认的DZ后台设置的协议，你还可以指定。  
+如果你指定了隐私政策协议，那么你可以再 ./utils/global.dart中设置下面的代码。
+```dart
+  /// 
+  /// 隐私政策和用户协议常规不需要设置
+  /// 若设置后将指定打开链接内的用户协议
+  /// 默认情况下，程序设计自动加载dz中设置的协议
+  /// 该配置项根据需要来开启
+  /// 
+  /// 隐私协议
+  static const String privacyUri = '';
+
+  ///用户协议
+  static const String policiesUri = '';
+```
