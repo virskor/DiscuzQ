@@ -114,6 +114,10 @@ class _LoginDelegateState extends State<LoginDelegate> {
         ],
       ));
 
+
+  /// 
+  /// _requestLogin用户请求登录
+  /// 
   Future<void> _requestLogin(AppModel model) async {
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");

@@ -120,7 +120,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   final List<NavigatorItem> _items = [
     const NavigatorItem(icon: SFSymbols.layers_alt_fill),
     const NavigatorItem(icon: SFSymbols.search, shouldLogin: true),
-    const NavigatorItem(icon: SFSymbols.person_alt)
+    const NavigatorItem(icon: SFSymbols.person_alt, shouldLogin: true)
   ];
 
   /// 使用global key
