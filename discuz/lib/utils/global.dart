@@ -30,6 +30,14 @@ class Global {
   /// theme
   static const Color primaryColor = Color(0xFF316598);
 
+  /// 
+  /// splash color
+  static const Color splashColor = Colors.transparent;
+
+  ///
+  /// highlightColor
+  static const Color highlightColor = Colors.transparent;
+
   /// 日间模式底色
   static const Color scaffoldBackgroundColorLight = Color(0xFFDEDEDE);
 

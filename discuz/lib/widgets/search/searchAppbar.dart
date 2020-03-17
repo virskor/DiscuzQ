@@ -72,9 +72,20 @@ class _SearchAppbarState extends State<SearchAppbar> {
                 borderWidth: 0.1,
                 textInputAction: TextInputAction.search,
                 clearable: true,
+                onClear: () {
+                  if (widget.onSubmit != null) {
+                    widget.onSubmit(_controller.text, false);
+
+                    /// 用户清空时，仅触发UI返回到显示历史搜索，但是不提示错误信息
+
+                    /// show notice
+                  }
+                },
                 onSubmit: (String val) {
                   if (widget.onSubmit != null) {
-                    widget.onSubmit(val);
+                    widget.onSubmit(_controller.text, true);
+
+                    /// show notice
                   }
                 },
               ),
@@ -104,7 +115,9 @@ class _SearchAppbarState extends State<SearchAppbar> {
               onTap: () {
                 FocusScope.of(context).requestFocus(FocusNode());
                 if (widget.onSubmit != null) {
-                  widget.onSubmit(_controller.text);
+                  widget.onSubmit(_controller.text, true);
+
+                  /// show notice
                 }
               },
             )

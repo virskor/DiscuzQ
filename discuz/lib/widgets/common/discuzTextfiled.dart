@@ -1,8 +1,9 @@
-import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:discuzq/ui/ui.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 class DiscuzTextfiled extends StatelessWidget {
   final Function validator;
@@ -26,6 +27,7 @@ class DiscuzTextfiled extends StatelessWidget {
   final double bottomMargin;
   final bool clearable;
   final DiscuzIcon prefixIcon;
+  final Function onClear;
 
   DiscuzTextfiled(
       {Key key,
@@ -49,6 +51,7 @@ class DiscuzTextfiled extends StatelessWidget {
       this.inputType = TextInputType.text,
       this.textInputAction = TextInputAction.done,
       this.obscureText = false,
+      this.onClear,
       this.validator});
 
   @override
@@ -126,9 +129,9 @@ class DiscuzTextfiled extends StatelessWidget {
       child: Center(
         widthFactor: 1,
         child: IconButton(
-            color: Colors.grey,
             padding: const EdgeInsets.all(0),
-            splashColor: Colors.transparent,
+            splashColor: Global.splashColor,
+            highlightColor: Global.highlightColor,
             icon: DiscuzIcon(
               Icons.clear,
               size: 20,
@@ -137,6 +140,9 @@ class DiscuzTextfiled extends StatelessWidget {
             onPressed: () {
               FocusScope.of(context).requestFocus(FocusNode());
               controller.clear();
+              if(onClear != null){
+                onClear();
+              }
             }),
       ));
 }
