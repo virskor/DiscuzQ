@@ -1,0 +1,37 @@
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/users/loginDelegate.dart';
+import 'package:discuzq/widgets/common/discuzButton.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:flutter/material.dart';
+
+class YetNotLogon extends StatelessWidget {
+  const YetNotLogon();
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(
+        left: 15,
+        right: 15,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Center(
+              child: const DiscuzText(
+            '登录来使用更多',
+            textScaleFactor: 1.8,
+            fontWeight: FontWeight.bold,
+          )),
+          const Center(child: const DiscuzText('您的账号已经退出，快登录吧')),
+          const SizedBox(height: 30),
+          DiscuzButton(
+            label: '登录来继续',
+            onPressed: () => DiscuzRoute.open(
+                context: context, widget: const LoginDelegate()),
+          )
+        ],
+      ),
+    );
+  }
+}

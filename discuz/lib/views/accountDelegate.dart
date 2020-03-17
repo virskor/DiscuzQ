@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -13,6 +12,8 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/widgets/common/discuzAvatar.dart';
+import 'package:discuzq/widgets/users/yetNotLogon.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -53,17 +54,19 @@ class _AccountDelegateState extends State<AccountDelegate> {
             appBar: DiscuzAppBar(
               title: '个人中心',
             ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  /// 构造登录信息页
-                  const _MyAccountCard(),
+            body: model.user == null
+                ? const YetNotLogon()
+                : SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        /// 构造登录信息页
+                        const _MyAccountCard(),
 
-                  /// 菜单构造
-                  ..._buildMenus(model)
-                ],
-              ),
-            ),
+                        /// 菜单构造
+                        ..._buildMenus(model)
+                      ],
+                    ),
+                  ),
           ));
 
   List<Widget> _buildMenus(AppModel model) => _menus
@@ -136,8 +139,12 @@ class _MyAccountCard extends StatelessWidget {
                 model.user['attributes']['username'] ?? '',
                 fontSize: DiscuzApp.themeOf(context).largeTextSize,
               ),
+
               /// todo: 增加bio显示，待接口反馈
-              subtitle: DiscuzText('现在还没有BIO支持', color: DiscuzApp.themeOf(context).greyTextColor,),
+              subtitle: DiscuzText(
+                '现在还没有BIO支持',
+                color: DiscuzApp.themeOf(context).greyTextColor,
+              ),
             ),
           ));
 }
