@@ -39,7 +39,7 @@ class DiscuzButton extends StatelessWidget {
       width: width,
       height: height,
       child: ClipRRect(
-        borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(30)),
+        borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5)),
         child: FlatButton(
           padding: padding ??
               EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
