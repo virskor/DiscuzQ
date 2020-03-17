@@ -31,11 +31,11 @@ class DiscuzAvatar extends StatelessWidget {
             return _empty();
           }
 
-          if (StringHelper.isEmpty(string: model.user['avatarUrl']) == true) {
+          if (StringHelper.isEmpty(string: model.user['attributes']['avatarUrl']) == true) {
             return _empty();
           }
 
-          return _cachedNetworkAvatar(model.user['avatarUrl']);
+          return _cachedNetworkAvatar(model.user['attributes']['avatarUrl']);
         });
   }
 

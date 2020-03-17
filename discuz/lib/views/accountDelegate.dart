@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -119,8 +120,24 @@ class _AccountMenuItem {
 /// 我的账号头部信息
 class _MyAccountCard extends StatelessWidget {
   const _MyAccountCard({Key key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+      rebuildOnChange: true,
+      builder: (context, child, model) => Container(
+            padding: const EdgeInsets.only(top: 15, bottom: 15),
+            decoration: BoxDecoration(
+                color: DiscuzApp.themeOf(context).backgroundColor),
+            child: DiscuzListTile(
+              leading: DiscuzAvatar(
+                size: 50,
+              ),
+              title: DiscuzText(
+                model.user['attributes']['username'] ?? '',
+                fontSize: DiscuzApp.themeOf(context).largeTextSize,
+              ),
+              /// todo: 增加bio显示，待接口反馈
+              subtitle: DiscuzText('现在还没有BIO支持', color: DiscuzApp.themeOf(context).greyTextColor,),
+            ),
+          ));
 }

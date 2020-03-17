@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:discuzq/models/appModel.dart';
@@ -12,7 +13,7 @@ class AppConfigurations {
 
 	final Map<String, dynamic> defaultAppSetting = {
 		"darkTheme": false,
-		"themeColor": 0xFF316598,
+		"themeColor": Global.primaryColor,
 		"fontWidthFactor": 0.95,
 		"showPerformanceOverlay": false,
 	};
