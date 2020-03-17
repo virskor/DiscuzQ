@@ -191,21 +191,34 @@ class Request {
     /// 开始交换Token，如果token交换失败，也要提醒用户重新登录
     /// 请求时自动补全 RefreshToken
     try {
-      final Dio dio = Dio()
-        ..options.headers['RefreshToken'] = "Barear $refreshToken";
-      Response resp = await dio.post(Urls.usersRefreshToken);
+      final Dio dio = Dio();
+      Response resp = await dio.post(Urls.usersRefreshToken, data: {
+        "data": {
+          "attributes": {
+            "grant_type": "refresh_token",
+            "refresh_token": refreshToken,
+            "client_id": 2
+          }
+        }
+      });
 
       if (resp.data['code'] == 200) {
         /// Toke 刷新成功，进行本地存储更新
         final String accessToken =
             resp.data['data']['attributes']['access_token'];
+        final String refreshToken =
+            resp.data['data']['attributes']['refresh_token'];
         if (StringHelper.isEmpty(string: accessToken) == true) {
           return Future.value(false);
         }
         await AuthorizationHelper()
             .clear(key: AuthorizationHelper.authorizationKey);
         await AuthorizationHelper()
+            .clear(key: AuthorizationHelper.refreshTokenKey);
+        await AuthorizationHelper()
             .save(data: accessToken, key: AuthorizationHelper.authorizationKey);
+        await AuthorizationHelper()
+            .save(data: refreshToken, key: AuthorizationHelper.refreshTokenKey);
         return Future.value(true);
       }
     } catch (e) {
