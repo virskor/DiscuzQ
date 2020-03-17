@@ -14,6 +14,18 @@ class Global {
   ///
   static const String domain = 'https://discuz.chat';
 
+  /// 
+  /// 隐私政策和用户协议常规不需要设置
+  /// 若设置后将指定打开链接内的用户协议
+  /// 默认情况下，程序设计自动加载dz中设置的协议
+  /// 该配置项根据需要来开启
+  /// 
+  /// 隐私协议
+  static const String privacyUri = '';
+
+  ///用户协议
+  static const String policiesUri = '';
+
   ///
   /// theme
   static const Color primaryColor = Color(0xFF316598);

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/router/routeBuilder.dart';
-import 'package:discuzq/views/loginDelegate.dart';
+import 'package:discuzq/views/users/loginDelegate.dart';
 
 class AuthHelper {
   /// pop login delegate

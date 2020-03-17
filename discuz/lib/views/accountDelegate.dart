@@ -1,5 +1,3 @@
-import 'package:discuzq/models/appModel.dart';
-import 'package:discuzq/utils/authHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -9,9 +7,11 @@ import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/views/secondaries/siteinfoDelegate.dart';
+import 'package:discuzq/views/site/siteinfoDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/utils/authHelper.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);

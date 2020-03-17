@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
-import 'package:discuzq/utils/authHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -14,23 +10,21 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzFormContainer.dart';
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/registerDelegate.dart';
-import 'package:discuzq/utils/StringHelper.dart';
-import 'package:discuzq/utils/authorizationHelper.dart';
+import 'package:dio/dio.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/users/privacyBar.dart';
 
-class LoginDelegate extends StatefulWidget {
+class RegisterDelegate extends StatefulWidget {
   final Function onRequested;
 
-  const LoginDelegate({Key key, this.onRequested}) : super(key: key);
+  const RegisterDelegate({Key key, this.onRequested}) : super(key: key);
   @override
-  _LoginDelegateState createState() => _LoginDelegateState();
+  _RegisterDelegateState createState() => _RegisterDelegateState();
 }
 
-class _LoginDelegateState extends State<LoginDelegate> {
+class _RegisterDelegateState extends State<RegisterDelegate> {
   /// usernameTextfiledController
   final TextEditingController _usernameTextfiledController =
       TextEditingController();
@@ -38,6 +32,8 @@ class _LoginDelegateState extends State<LoginDelegate> {
   /// passwordTextfiledController
   final TextEditingController _passwordTextfiledController =
       TextEditingController();
+
+  static const String _register_reason = 'mobile register';
 
   @override
   void setState(fn) {
@@ -64,21 +60,23 @@ class _LoginDelegateState extends State<LoginDelegate> {
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
               centerTitle: true,
-              title: '登录',
+              title: '注册',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: _buildLoginForm(model),
+            body: _buildRegisterForm(model),
           ));
 
   /// app logo
-  Widget _logo = const Center(
-    child: const DiscuzAppLogo(
-      width: 150,
-    ),
-  );
+  Widget _logo = const Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: const Center(
+        child: const DiscuzAppLogo(
+          width: 150,
+        ),
+      ));
 
   /// 生成用于登录的表单
-  Widget _buildLoginForm(AppModel model) => DiscuzFormContainer(
+  Widget _buildRegisterForm(AppModel model) => DiscuzFormContainer(
           child: ListView(
         padding: const EdgeInsets.only(top: 60),
         children: <Widget>[
@@ -91,12 +89,12 @@ class _LoginDelegateState extends State<LoginDelegate> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const DiscuzText(
-                '用户名登录',
+                '注册账号',
                 textScaleFactor: 1.8,
                 fontWeight: FontWeight.bold,
               ),
               const DiscuzText(
-                '现在登录${Global.appname}分享瞬间吧',
+                '注册一个${Global.appname}账号',
               ),
               const SizedBox(height: 20),
             ],
@@ -123,26 +121,29 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
           /// login button
           DiscuzButton(
-            label: '登录',
-            onPressed: () => _requestLogin(model),
+            label: '注册',
+            onPressed: () => _requestRegister(model),
           ),
 
           /// or register an account????
           const SizedBox(height: 20),
           DiscuzButton(
-            label: '注册',
+            label: '已经有账号，返回登录',
             labelColor: DiscuzApp.themeOf(context).primaryColor,
             color: Colors.transparent,
-            onPressed: () => DiscuzRoute.open(
-                context: context, widget: const RegisterDelegate()),
+            onPressed: () => Navigator.pop(context),
           ),
+
+          /// 用户协议
+          const SizedBox(height: 20),
+          const PrivacyBar()
         ],
       ));
 
   ///
-  /// _requestLogin用户请求登录
+  /// 请求注册
   ///
-  Future<void> _requestLogin(AppModel model) async {
+  Future<void> _requestRegister(AppModel model) async {
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");
       return;
@@ -161,24 +162,27 @@ class _LoginDelegateState extends State<LoginDelegate> {
         "attributes": {
           "username": _usernameTextfiledController.text,
           "password": _passwordTextfiledController.text,
+          "register_reason": _register_reason,
         }
       }
     };
 
     Response resp = await Request(context: context, autoAuthorization: false)
-        .postJson(url: Urls.usersLogin, data: data);
+        .postJson(url: Urls.usersRegister, data: data);
 
-    /// 一旦请求结束，就要关闭loading
     closeLoading();
 
     if (resp == null) {
-      /// 提示登录失败信息
+      /// 提示注册失败信息
       return;
     }
 
-    await AuthHelper.processLoginByResponseData(resp.data, model: model);
-    /// 提示登录成功。关闭对话框，重新初始化信息
+    /// 注册成功
     ///
+    /// await AuthHelper.processLoginByResponseData(resp.data, model: model);
+
+    DiscuzToast.success(context: context, message: '注册成功，请登陆');
+
     Navigator.pop(context);
   }
 }
