@@ -59,12 +59,12 @@ class _ForumAddButtonState extends State<ForumAddButton> {
                 SFSymbols.pencil_outline,
                 color: Colors.white,
               )),
-          MenuItem(
-              title: '扫一扫',
-              image: Icon(
-                SFSymbols.qrcode_viewfinder,
-                color: Colors.white,
-              )),
+          // MenuItem(
+          //     title: '扫一扫',
+          //     image: Icon(
+          //       SFSymbols.qrcode_viewfinder,
+          //       color: Colors.white,
+          //     )),
         ],
         onClickMenu: (MenuItemProvider item) {},
         stateChanged: (bool isShow) => null,

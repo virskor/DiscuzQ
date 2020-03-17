@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -84,7 +85,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
                   onTap: () => el.method != null
                       ? el.method(model)
                       : el.child == null
-                          ? null
+                          ? DiscuzToast.failed(context: context, message: '暂时不支持的功能')
                           : DiscuzRoute.open(
                               context: context, widget: el.child),
                 ),
