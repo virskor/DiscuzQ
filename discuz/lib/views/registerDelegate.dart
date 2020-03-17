@@ -28,6 +28,26 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
   final TextEditingController _passwordTextfiledController =
       TextEditingController();
 
+  @override
+  void setState(fn) {
+    if (!mounted) {
+      return;
+    }
+    super.setState(fn);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _usernameTextfiledController.dispose();
+    _passwordTextfiledController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
@@ -88,7 +108,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
           /// login button
           DiscuzButton(
             label: '注册',
-            onPressed: () => null,
+            onPressed: () => _requestRegister,
           ),
 
           /// or register an account????
@@ -101,4 +121,9 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
           ),
         ],
       ));
+
+  ///
+  /// 请求注册
+  /// 
+  Future<void> _requestRegister() async {}
 }

@@ -38,6 +38,26 @@ class _LoginDelegateState extends State<LoginDelegate> {
   final TextEditingController _passwordTextfiledController =
       TextEditingController();
 
+  @override
+  void setState(fn) {
+    if (!mounted) {
+      return;
+    }
+    super.setState(fn);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _usernameTextfiledController.dispose();
+    _passwordTextfiledController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
