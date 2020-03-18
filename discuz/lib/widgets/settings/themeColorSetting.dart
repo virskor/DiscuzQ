@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:scoped_model/scoped_model.dart';
+
+import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/utils/appConfigurations.dart';
+import 'package:discuzq/widgets/common/discuzDivider.dart';
+
+class ThemeColorSetting extends StatelessWidget {
+  const ThemeColorSetting({Key key}) : super(key: key);
+
+  static const List<Color> _themes = [
+    Color(0xFF316598),
+    Color(0xFF1DA1F2),
+    Color(0xFF007AFF),
+    Color(0xFF05A9F1),
+    Color(0xFF04BBD3),
+    Color(0xFFCE0A0C),
+    Color(0xFFEA2165),
+    Color(0xFF9F28B5),
+    Color(0xFFCE8CBA),
+    Color(0xFF693DB5),
+    Color(0xFF4FB258),
+    Color(0xFFFF9802),
+    Color(0xFF7A4D2F),
+    Color(0xFF3736DD),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ScopedModelDescendant<AppModel>(
+        rebuildOnChange: false,
+        builder: (context, child, model) {
+          return Column(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.only(
+                    bottom: 10, left: 5, right: 5, top: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Wrap(
+                        children: _themes.map((Color color) {
+                      return _colorPick(context, model, color: color);
+                    }).toList())
+                  ],
+                ),
+              ),
+              const DiscuzDivider(),
+            ],
+          );
+        });
+  }
+
+  ///
+  /// 选择器
+  ///
+  Widget _colorPick(BuildContext context, AppModel model,
+          {double width = 1.0, Color color}) =>
+      GestureDetector(
+        onTap: () => AppConfigurations()
+            .update(context: context, key: 'themeColor', value: color.value),
+        child: AnimatedContainer(
+          margin: const EdgeInsets.only(left: 10, top: 5),
+          duration: const Duration(
+            milliseconds: 300,
+          ),
+          width: 40,
+          height: 30,
+          decoration: BoxDecoration(
+              color: color,
+              borderRadius: const BorderRadius.all(Radius.circular(50))),
+          child: Center(
+            child: Color(model.appConf['themeColor']) != color
+                ? Container(
+                    child: Icon(
+                      SFSymbols.capsule_fill,
+                      size: 20,
+                      color: Color(0xFF333333).withOpacity(.54),
+                    ),
+                  )
+                : Container(
+                    child: Icon(
+                      SFSymbols.checkmark,
+                      size: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+          ),
+        ),
+      );
+}

@@ -1,3 +1,4 @@
+import 'package:discuzq/views/settings/preferencesDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -24,7 +25,11 @@ class AccountDelegate extends StatefulWidget {
 
 class _AccountDelegateState extends State<AccountDelegate> {
   final List<_AccountMenuItem> _menus = [
-    const _AccountMenuItem(label: '偏好设置', icon: SFSymbols.gear, separate: true),
+    const _AccountMenuItem(
+        label: '偏好设置',
+        icon: SFSymbols.gear,
+        separate: true,
+        child: const PreferencesDelegate()),
     const _AccountMenuItem(
         label: '我的资料', icon: SFSymbols.wand_stars, separate: true),
     const _AccountMenuItem(label: '我的钱包', icon: SFSymbols.money_yen_circle),
@@ -86,7 +91,8 @@ class _AccountDelegateState extends State<AccountDelegate> {
                   onTap: () => el.method != null
                       ? el.method(model)
                       : el.child == null
-                          ? DiscuzToast.failed(context: context, message: '暂时不支持的功能')
+                          ? DiscuzToast.failed(
+                              context: context, message: '暂时不支持的功能')
                           : DiscuzRoute.open(
                               context: context, widget: el.child),
                 ),

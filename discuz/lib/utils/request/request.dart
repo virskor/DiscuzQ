@@ -106,11 +106,11 @@ class Request {
         /// 处理http status code非正常错误
         ///
         if (e.response != null && e.response.data != null) {
-          if (e.response.data['code'] == 200) {
+          if (e.response.data['errors'][0]['code'] == 200) {
             return Future.value(e);
           }
 
-          if (e.response.data['code'] == 401) {
+          if (e.response.data['errors'][0]['code'] == 401) {
             ///
             /// todo:
             /// 401的时候先校验错误信息是不是token过期，因为有时候站点关闭也是401。。。。
