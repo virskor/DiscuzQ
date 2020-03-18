@@ -1,3 +1,4 @@
+import 'package:discuzq/views/users/usersHomeDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -92,7 +93,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
                       ? el.method(model)
                       : el.child == null
                           ? DiscuzToast.failed(
-                              context: context, message: '暂时不支持的功能')
+                              context: context, message: '暂时不支持')
                           : DiscuzRoute.open(
                               context: context, widget: el.child),
                 ),
@@ -140,8 +141,11 @@ class _MyAccountCard extends StatelessWidget {
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: DiscuzListTile(
-              leading: DiscuzAvatar(
-                size: 55,
+              leading: Hero(
+                tag: 'heroAvatar',
+                child: DiscuzAvatar(
+                  size: 55,
+                ),
               ),
               title: DiscuzText(
                 model.user['attributes']['username'] ?? '',
@@ -153,6 +157,11 @@ class _MyAccountCard extends StatelessWidget {
                 '现在还没有BIO支持',
                 color: DiscuzApp.themeOf(context).greyTextColor,
               ),
+              onTap: () => DiscuzRoute.open(
+                  context: context,
+                  widget: UserHomeDelegate(
+                    user: model.user,
+                  )),
             ),
           ));
 }

@@ -5,7 +5,14 @@ import 'package:flutter_native_loading/flutter_native_loading.dart';
 
 class DiscuzToast {
   static show({@required BuildContext context, String message = 'Toast'}) {
-    
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 2,
+        backgroundColor: Colors.black.withOpacity(.88),
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 
   static success(
@@ -29,7 +36,7 @@ class DiscuzToast {
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.CENTER,
         timeInSecForIos: 2,
-        backgroundColor: Colors.black.withOpacity(.78),
+        backgroundColor: Colors.black.withOpacity(.88),
         textColor: Colors.white,
         fontSize: 16.0);
   }
