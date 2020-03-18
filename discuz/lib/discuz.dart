@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/utils/global.dart';
@@ -75,6 +77,21 @@ class _DiscuzState extends State<Discuz> {
                           child: const _DiscuzAppDelegate(),
                         ),
                       )),
+              localizationsDelegates: [
+                // this line is important
+                RefreshLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate
+              ],
+              supportedLocales: [
+                const Locale('en'),
+                const Locale('zh'),
+              ],
+              localeResolutionCallback:
+                  (Locale locale, Iterable<Locale> supportedLocales) {
+                //print("change language");
+                return locale;
+              },
             ),
           );
         });

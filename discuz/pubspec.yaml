@@ -38,7 +38,9 @@ dependencies:
   pull_to_refresh: ^1.5.8
   flutter:
     sdk: flutter
-  
+  flutter_localizations:
+    sdk: flutter
+
   # locally stashed dependencies
   fluttertoast:
     path: ../dependencies/flutter_toast
