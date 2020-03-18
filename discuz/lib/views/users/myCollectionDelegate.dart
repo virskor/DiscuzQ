@@ -35,7 +35,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       builder: (context, child, model) => Scaffold(
               appBar: DiscuzAppBar(
             elevation: 10,
-            centerTitle: true,
             title: '我的收藏',
           )));
 }

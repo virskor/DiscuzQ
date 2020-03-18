@@ -35,7 +35,6 @@ class _FollowingDelegateState extends State<FollowingDelegate> {
       builder: (context, child, model) => Scaffold(
               appBar: DiscuzAppBar(
             elevation: 10,
-            centerTitle: true,
             title: '我的关注',
           )));
 }

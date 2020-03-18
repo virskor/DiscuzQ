@@ -59,7 +59,6 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
-              centerTitle: true,
               title: '注册',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,

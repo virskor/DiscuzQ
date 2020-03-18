@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -52,9 +53,10 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Size preferredSize = const Size.fromHeight(kToolbarHeight - 10);
 
   Widget _title() => title.runtimeType == String
-      ? Text(
+      ? DiscuzText(
           title,
           overflow: TextOverflow.ellipsis,
+          textScaleFactor: 1.1,
         )
       : title;
 

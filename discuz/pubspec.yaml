@@ -34,6 +34,7 @@ dependencies:
   flutter_wechat_toast: ^1.0.2
   flutter_sfsymbols: ^1.0.0
   popup_menu: ^1.0.5
+  badges: ^1.1.1
   flutter:
     sdk: flutter
   

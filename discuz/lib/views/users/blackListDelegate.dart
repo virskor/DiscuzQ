@@ -35,7 +35,6 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
       builder: (context, child, model) => Scaffold(
               appBar: DiscuzAppBar(
             elevation: 10,
-            centerTitle: true,
             title: '黑名单',
           )));
 }

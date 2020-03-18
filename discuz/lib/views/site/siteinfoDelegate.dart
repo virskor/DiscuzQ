@@ -44,7 +44,7 @@ class _SiteinfoDelegateState extends State<SiteinfoDelegate> {
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
               elevation: 10,
-              centerTitle: true,
+              
               title: '站点信息',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,

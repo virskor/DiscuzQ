@@ -40,7 +40,7 @@ class _PrivaciesDelegateState extends State<PrivaciesDelegate> {
       builder: (context, child, model) => Scaffold(
               appBar: DiscuzAppBar(
             elevation: 10,
-            centerTitle: true,
+            
             title: widget.isPrivacy ? '隐私政策' : '用户协议',
           )));
 

@@ -35,7 +35,6 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
       builder: (context, child, model) => Scaffold(
               appBar: DiscuzAppBar(
             elevation: 10,
-            centerTitle: true,
             title: '我的资料',
           )));
 }

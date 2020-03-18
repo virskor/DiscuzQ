@@ -60,7 +60,6 @@ class _LoginDelegateState extends State<LoginDelegate> {
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
-              centerTitle: true,
               title: '登录',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,

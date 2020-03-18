@@ -40,7 +40,6 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
-              centerTitle: true,
               title: "${widget.user['attributes']['username']}的个人主页",
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,

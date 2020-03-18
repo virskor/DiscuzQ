@@ -7,12 +7,14 @@ class DiscuzText extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final double textScaleFactor;
+  final TextOverflow overflow;
 
   const DiscuzText(this.text,
       {Key key,
       this.color,
       this.fontSize,
       this.fontWeight,
+      this.overflow,
       this.textScaleFactor})
       : super(key: key);
 
@@ -21,6 +23,7 @@ class DiscuzText extends StatelessWidget {
     return Text(
       text,
       textScaleFactor: textScaleFactor,
+      overflow: overflow,
       style: TextStyle(
           color: color ?? DiscuzApp.themeOf(context).textColor,
           fontWeight: fontWeight,

@@ -67,10 +67,12 @@ class _ForumDelegateState extends State<ForumDelegate>
                 brightness: Brightness.dark,
                 backgroundColor: DiscuzApp.themeOf(context).primaryColor,
                 centerTitle: true,
-                leading: const NightModeSwitcher(color: Colors.white,),
+                leading: const NightModeSwitcher(
+                  color: Colors.white,
+                ),
                 title: const Center(
                     child: const DiscuzAppLogo(
-                      dark: true,
+                  dark: true,
                   color: Colors.transparent,
                 )),
                 actions: _actions(context),

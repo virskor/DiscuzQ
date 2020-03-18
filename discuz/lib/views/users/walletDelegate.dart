@@ -36,7 +36,6 @@ class _WalletDelegateState extends State<WalletDelegate> {
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
               elevation: 10,
-              centerTitle: true,
               dark: true,
               brightness: Brightness.dark,
               backgroundColor: DiscuzApp.themeOf(context).primaryColor,
