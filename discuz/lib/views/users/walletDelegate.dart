@@ -1,3 +1,4 @@
+import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -33,9 +34,14 @@ class _WalletDelegateState extends State<WalletDelegate> {
   Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
-              appBar: DiscuzAppBar(
-            elevation: 10,
-            centerTitle: true,
-            title: '我的钱包',
-          )));
+            appBar: DiscuzAppBar(
+              elevation: 10,
+              centerTitle: true,
+              dark: true,
+              brightness: Brightness.dark,
+              backgroundColor: DiscuzApp.themeOf(context).primaryColor,
+              title: '我的钱包',
+            ),
+            backgroundColor: DiscuzApp.themeOf(context).primaryColor,
+          ));
 }

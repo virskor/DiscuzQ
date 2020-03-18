@@ -1322,7 +1322,7 @@ class _RenderDiscuzListTile extends RenderBox {
       // to accessibility requirements for smallest tappable widget.
       // Two- and three-line trailing widget heights are constrained
       // properly according to the Material spec.
-      maxHeight: isDense ? 48.0 : 56.0,
+      maxHeight: isDense ? 45.0 : 50.0,
     );
     final BoxConstraints looseConstraints = constraints.loosen();
     final BoxConstraints iconConstraints =

@@ -35,6 +35,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
         label: '偏好设置',
         icon: SFSymbols.gear,
         separate: true,
+        showDivider: false,
         child: const PreferencesDelegate()),
     const _AccountMenuItem(
         label: '我的资料',
@@ -50,10 +51,14 @@ class _AccountDelegateState extends State<AccountDelegate> {
         icon: SFSymbols.star,
         child: const MyCollectionDelegate()),
     const _AccountMenuItem(
-        label: '我的关注', icon: SFSymbols.lasso, child: const FollowingDelegate()),
+        label: '我的关注',
+        icon: SFSymbols.lasso,
+        showDivider: false,
+        child: const FollowingDelegate()),
     const _AccountMenuItem(
         label: '黑名单',
         icon: SFSymbols.captions_bubble_fill,
+        showDivider: false,
         separate: true,
         child: const BlackListDelegate()),
     const _AccountMenuItem(
@@ -65,10 +70,14 @@ class _AccountDelegateState extends State<AccountDelegate> {
     /// 请求退出账户
     _AccountMenuItem(
         label: '退出登录',
+        showDivider: false,
         method: (AppModel model) => AuthHelper.logout(model: model),
         icon: SFSymbols.arrow_right_square),
     const _AccountMenuItem(
-        label: '邀请朋友', icon: SFSymbols.square_arrow_up, separate: true),
+        label: '邀请朋友',
+        icon: SFSymbols.square_arrow_up,
+        showDivider: false,
+        separate: true),
   ];
 
   @override
@@ -94,10 +103,9 @@ class _AccountDelegateState extends State<AccountDelegate> {
                   ),
           ));
 
-
   ///
   /// 生成个人中心滑动菜单
-  /// 
+  ///
   List<Widget> _buildMenus(AppModel model) => _menus
       .map((el) => Container(
             margin: EdgeInsets.only(top: el.separate == true ? 10 : 0),
@@ -118,7 +126,9 @@ class _AccountDelegateState extends State<AccountDelegate> {
                           : DiscuzRoute.open(
                               context: context, widget: el.child),
                 ),
-                const DiscuzDivider()
+                el.showDivider == true
+                    ? const DiscuzDivider()
+                    : const SizedBox()
               ],
             ),
           ))
@@ -142,11 +152,15 @@ class _AccountMenuItem {
   /// 函数
   final Function method;
 
+  /// 显示分割线
+  final bool showDivider;
+
   const _AccountMenuItem(
       {@required this.label,
       @required this.icon,
       this.separate = false,
       this.method,
+      this.showDivider = true,
       this.child});
 }
 

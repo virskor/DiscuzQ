@@ -32,7 +32,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.elevation,
       this.automaticallyImplyLeading = false,
       @required this.title,
-      this.dark,
+      this.dark = false,
       this.actions,
       this.toolbarOpacity = 1,
       this.leadingWidth = 0,
@@ -72,6 +72,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: leading ??
             _Leading(
               previousPageTitle: previousPageTitle,
+              dark: dark,
             ),
         brightness: brightness ?? DiscuzApp.themeOf(context).brightness,
         toolbarOpacity: toolbarOpacity,
@@ -94,11 +95,13 @@ class _Leading extends StatelessWidget {
   final IconData codePoint;
   final double size;
   final String previousPageTitle;
+  final bool dark;
 
   _Leading(
       {Key key,
       this.codePoint = SFSymbols.arrow_left,
       this.size = 25,
+      this.dark = false,
       this.previousPageTitle})
       : super(key: key);
 
@@ -113,7 +116,9 @@ class _Leading extends StatelessWidget {
                   icon: Icon(
                     codePoint,
                     size: size,
-                    color: DiscuzApp.themeOf(context).primaryColor,
+                    color: dark
+                        ? Colors.white
+                        : DiscuzApp.themeOf(context).primaryColor,
                   ),
                   onPressed: () {
                     Navigator.pop(context);
