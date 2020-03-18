@@ -1,5 +1,3 @@
-import 'package:discuzq/views/settings/preferencesDelegate.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -16,6 +14,8 @@ import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/widgets/users/yetNotLogon.dart';
+import 'package:discuzq/views/settings/preferencesDelegate.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);

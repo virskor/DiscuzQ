@@ -60,7 +60,7 @@ class Global {
   static const Color greyTextColorLight = Color(0xFF777777);
 
   /// 夜间模式字体颜色
-  static const Color greyTextColorDark = Color(0xFF444444);
+  static const Color greyTextColorDark = Color(0xFF888888);
 
   /// 手势配置
   ///

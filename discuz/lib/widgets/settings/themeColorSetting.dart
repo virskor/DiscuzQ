@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -32,10 +33,12 @@ class ThemeColorSetting extends StatelessWidget {
         rebuildOnChange: false,
         builder: (context, child, model) {
           return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
                 padding: const EdgeInsets.only(
-                    bottom: 10, left: 5, right: 5, top: 10),
+                    bottom: 10, top: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +69,7 @@ class ThemeColorSetting extends StatelessWidget {
           duration: const Duration(
             milliseconds: 300,
           ),
-          width: 40,
+          width: 30,
           height: 30,
           decoration: BoxDecoration(
               color: color,
@@ -75,7 +78,7 @@ class ThemeColorSetting extends StatelessWidget {
             child: Color(model.appConf['themeColor']) != color
                 ? Container(
                     child: Icon(
-                      SFSymbols.capsule_fill,
+                      SFSymbols.circle_fill,
                       size: 20,
                       color: Color(0xFF333333).withOpacity(.54),
                     ),
