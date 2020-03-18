@@ -78,7 +78,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
   List<Widget> _buildMenus(AppModel model) => _menus
       .map((el) => Container(
-            margin: EdgeInsets.only(top: el.separate == true ? 20 : 0),
+            margin: EdgeInsets.only(top: el.separate == true ? 10 : 0),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Column(

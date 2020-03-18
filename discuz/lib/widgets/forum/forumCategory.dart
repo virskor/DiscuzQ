@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
+
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
-import 'package:flutter/material.dart';
 
 class ForumCategory extends StatefulWidget {
   /// 要显示的分类
@@ -25,6 +27,6 @@ class _ForumCategoryState extends State<ForumCategory> {
   
   @override
   Widget build(BuildContext context) {
-    return SizedBox();
+    return DiscuzText(widget.filter.filter.toString());
   }
 }

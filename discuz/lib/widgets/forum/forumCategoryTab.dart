@@ -189,6 +189,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
       /// 仅需要复原 _initTabController会再次处理
     });
+
     Response resp =
         await Request(context: context).getUrl(url: Urls.categories);
 
@@ -199,6 +200,9 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     if (resp == null) {
       return Future.value(false);
     }
+
+    /// 增加一个全部
+
 
     /// 更新状态
     model.updateCategories(resp.data['data']);
