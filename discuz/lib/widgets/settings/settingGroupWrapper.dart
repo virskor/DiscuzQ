@@ -25,7 +25,7 @@ class SettingGroupWrapper extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(left: 15, right: 15),
-      margin: const EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
       child: Column(

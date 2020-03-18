@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/settings/settingSwitcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -7,10 +6,9 @@ import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/settings/themeColorSetting.dart';
 import 'package:discuzq/ui/ui.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzListTile.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/settings/settingToolkit.dart';
 import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
+import 'package:discuzq/widgets/settings/clearCache.dart';
 
 class PreferencesDelegate extends StatefulWidget {
   const PreferencesDelegate({Key key}) : super(key: key);
@@ -53,7 +51,23 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                   label: '主题与色彩',
                   children: <Widget>[
                     const ThemeColorSetting(),
-                    const SettingSwitcher(settinKey: 'darkTheme', icon: SFSymbols.moon, label: '黑暗模式',)
+                    const SettingSwitcher(
+                      settinKey: 'darkTheme',
+                      icon: SFSymbols.moon,
+                      label: '黑暗模式',
+                    )
+                  ],
+                ),
+                SettingGroupWrapper(
+                  label: '应用数据',
+                  children: <Widget>[
+                    SettingTile(
+                      icon: SFSymbols.square_stack_3d_down_dottedline,
+                      label: '清除缓存',
+                      onPressed: () {
+                        ClearCacheDialog.build(context: context);
+                      },
+                    )
                   ],
                 ),
               ],

@@ -1,11 +1,11 @@
-import 'package:discuzq/utils/appConfigurations.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzListTile.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/utils/appConfigurations.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/common/discuzListTile.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 ///
 /// notice: 使用SettingSwitcher 进行设置的选项，值必须是bool，否则将出错
@@ -31,5 +31,27 @@ class SettingSwitcher extends StatelessWidget {
                       key: 'darkTheme',
                       value: !model.appConf['darkTheme']),
                 )),
+          ));
+}
+
+///
+/// 设置Tile 通常传入function可以调用function
+///
+class SettingTile extends StatelessWidget {
+  final Function onPressed;
+  final IconData icon;
+  final String label;
+
+  const SettingTile(
+      {@required this.onPressed, @required this.icon, @required this.label});
+  @override
+  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+      rebuildOnChange: false,
+      builder: (context, child, model) => Container(
+            child: DiscuzListTile(
+              leading: DiscuzIcon(icon),
+              title: DiscuzText(label),
+              onTap: () => onPressed(),
+            ),
           ));
 }
