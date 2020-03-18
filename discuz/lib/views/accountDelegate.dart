@@ -1,6 +1,6 @@
-import 'package:discuzq/views/users/usersHomeDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/ui/ui.dart';
@@ -10,13 +10,18 @@ import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/views/site/siteinfoDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/widgets/users/yetNotLogon.dart';
 import 'package:discuzq/views/settings/preferencesDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/views/users/usersHomeDelegate.dart';
+import 'package:discuzq/views/users/profileDelegate.dart';
+import 'package:discuzq/views/users/walletDelegate.dart';
+import 'package:discuzq/views/users/myCollectionDelegate.dart';
+import 'package:discuzq/views/users/followingDelegate.dart';
+import 'package:discuzq/views/users/blackListDelegate.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -32,13 +37,25 @@ class _AccountDelegateState extends State<AccountDelegate> {
         separate: true,
         child: const PreferencesDelegate()),
     const _AccountMenuItem(
-        label: '我的资料', icon: SFSymbols.wand_stars, separate: true),
-    const _AccountMenuItem(label: '我的钱包', icon: SFSymbols.money_yen_circle),
-    const _AccountMenuItem(label: '我的收藏', icon: SFSymbols.star),
-    const _AccountMenuItem(label: '我的通知', icon: SFSymbols.bell),
-    const _AccountMenuItem(label: '我的关注', icon: SFSymbols.lasso),
+        label: '我的资料',
+        icon: SFSymbols.wand_stars,
+        separate: true,
+        child: const ProfileDelegate()),
     const _AccountMenuItem(
-        label: '黑名单', icon: SFSymbols.captions_bubble_fill, separate: true),
+        label: '我的钱包',
+        icon: SFSymbols.money_yen_circle,
+        child: const WalletDelegate()),
+    const _AccountMenuItem(
+        label: '我的收藏',
+        icon: SFSymbols.star,
+        child: const MyCollectionDelegate()),
+    const _AccountMenuItem(
+        label: '我的关注', icon: SFSymbols.lasso, child: const FollowingDelegate()),
+    const _AccountMenuItem(
+        label: '黑名单',
+        icon: SFSymbols.captions_bubble_fill,
+        separate: true,
+        child: const BlackListDelegate()),
     const _AccountMenuItem(
         label: '站点信息',
         icon: SFSymbols.info_circle,
@@ -77,6 +94,10 @@ class _AccountDelegateState extends State<AccountDelegate> {
                   ),
           ));
 
+
+  ///
+  /// 生成个人中心滑动菜单
+  /// 
   List<Widget> _buildMenus(AppModel model) => _menus
       .map((el) => Container(
             margin: EdgeInsets.only(top: el.separate == true ? 10 : 0),

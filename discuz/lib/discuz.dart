@@ -10,6 +10,7 @@ import 'package:discuzq/views/accountDelegate.dart';
 import 'package:discuzq/views/forumDelegate.dart';
 import 'package:discuzq/views/searchThreadDelegate.dart';
 import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';
+import 'package:discuzq/views/notificationsDelegate.dart';
 
 class Discuz extends StatefulWidget {
   const Discuz({Key key}) : super(key: key);
@@ -113,6 +114,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   static const List<Widget> _views = [
     const ForumDelegate(),
     const SearchThreadDelegate(),
+    const NotificationsDelegate(),
     const AccountDelegate()
   ];
 
@@ -120,6 +122,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   final List<NavigatorItem> _items = [
     const NavigatorItem(icon: SFSymbols.layers_alt_fill),
     const NavigatorItem(icon: SFSymbols.search, shouldLogin: true),
+    const NavigatorItem(icon: SFSymbols.bell, shouldLogin: true),
     const NavigatorItem(icon: SFSymbols.person_alt, shouldLogin: true)
   ];
 
