@@ -57,6 +57,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
           title,
           overflow: TextOverflow.ellipsis,
           textScaleFactor: 1.1,
+          color: dark ? Colors.white : null,
         )
       : title;
 

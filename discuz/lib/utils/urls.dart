@@ -22,7 +22,7 @@ class Urls {
   static const String usersAvatar = "$_apiPath/users/{id}/avatar";
 
   /// 用户资料展示
-  static const String usersData = "$_apiPath/users/{id}";
+  static const String usersData = "$_apiPath/users";
 
   /// 刷新Token
   static const String usersRefreshToken = "$_apiPath/refresh-token";

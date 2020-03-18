@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/authorizationHelper.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +53,25 @@ class AuthHelper {
   static Future<void> logout({@required AppModel model}) async {
     await AuthorizationHelper().clearAll();
     model.updateUser(null);
+  }
+
+  ///
+  /// 刷新用户信息
+  /// 这意味着当前登录的用户信息，将被刷新
+  /// 用户信息不回存到本地，只会被刷新成APP状态
+  /// 其实没有必要保存到本地，本地的仅需要登录时保存就可以了，因为用户信息刷新的逻辑其实很多的
+  ///
+  static Future<bool> refreshUser(
+      {@required BuildContext context, @required AppModel model}) async {
+    final String urlDataUrl = "${Urls.usersData}/${model.user['id']}";
+    Response resp = await Request(context: context).getUrl(url: urlDataUrl);
+
+    if (resp == null) {
+      return Future.value(false);
+    }
+
+    model.updateUser(resp.data['data']);
+    return Future.value(true);
   }
 
   ///
