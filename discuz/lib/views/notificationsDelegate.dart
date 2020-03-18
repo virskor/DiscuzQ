@@ -53,8 +53,11 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
 
     ///
     /// 窗体准备完毕后，过几秒为用户刷新信息啦
+    /// 这种不会从接口刷新，仅从状态刷新，如果用户要刷新还是得下拉
+    /// 或者其他交互逻辑涉及调用 Authhelper.refreshUser 也会自动刷新的
+    /// 
     Future.delayed(Duration(milliseconds: 500))
-        .then((_) => _controller.requestRefresh());
+        .then((_) => _refreshStateOnly());
   }
 
   @override
@@ -133,7 +136,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       );
 
   ///
-  /// todo: 下拉刷新消息列表
+  /// 下拉刷新列表
   /// 刷新列表的时候，要更新用户信息
   /// 其实这个信息不需要重构，直接从用户信息下取就可以了
   /// unreadNotifications	int		未读消息数
@@ -153,6 +156,21 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       return;
     }
 
+    _refreshStateOnly(model: model);
+  }
+
+  ///
+  /// 仅刷新状态
+  /// 页面initState 和 _refreshMessageList 都会刷新状态
+  void _refreshStateOnly({AppModel model}) {
+    if(model == null){
+      try{
+        model = ScopedModel.of<AppModel>(context, rebuildOnChange: true);
+      }catch(e){
+        print(e);
+      }
+    }
+
     ///
     /// 刷新列表
     ///
@@ -168,6 +186,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 消息数目就会自动刷新
     /// 要处理null，因为有时候可能没有对应的数据
     /// 就是那么懒
+    /// todo:增加消息查看组件
     setState(() {
       _menus = <_NotificationMenuItem>[
         _NotificationMenuItem(
