@@ -32,7 +32,7 @@ class WalletModel {
   ///
   final dynamic cashTaxRatio;
 
-  WalletModel(
+  const WalletModel(
       {this.userID,
       this.availableAmount = "0.00",
       this.freezeAmount = "0.00",
