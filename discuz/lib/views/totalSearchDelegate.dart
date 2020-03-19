@@ -39,9 +39,9 @@ class _TotalSearchDelegateState extends State<TotalSearchDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: SearchAppbar(
               onSubmit: (String keyword, bool showNotice) =>
                   _onSubmit(keyword: keyword, showNotice: showNotice),

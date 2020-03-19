@@ -57,9 +57,9 @@ class AppConfigurations {
 		if (context != null && rebuildOnChange == true) {
 			try {
 				/// modify app state
-				final AppModel model =
-				ScopedModel.of<AppModel>(context, rebuildOnChange: true);
-				model.updateAppConfByKeyName(key, value);
+				final AppState state =
+				ScopedModel.of<AppState>(context, rebuildOnChange: true);
+				state.updateAppConfByKeyName(key, value);
 
 				return Future.value(true);
 			} catch (e) {

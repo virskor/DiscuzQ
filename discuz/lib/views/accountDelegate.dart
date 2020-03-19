@@ -71,7 +71,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
     _AccountMenuItem(
         label: '退出登录',
         showDivider: false,
-        method: (AppModel model) => AuthHelper.logout(model: model),
+        method: (AppState state) => AuthHelper.logout(state: state),
         icon: SFSymbols.arrow_right_square),
     const _AccountMenuItem(
         label: '邀请朋友',
@@ -81,14 +81,14 @@ class _AccountDelegateState extends State<AccountDelegate> {
   ];
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: true,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '个人中心',
               elevation: 0,
             ),
-            body: model.user == null
+            body: state.user == null
                 ? const YetNotLogon()
                 : SingleChildScrollView(
                     child: Column(
@@ -97,7 +97,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
                         const _MyAccountCard(),
 
                         /// 菜单构造
-                        ..._buildMenus(model)
+                        ..._buildMenus(state)
                       ],
                     ),
                   ),
@@ -106,7 +106,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
   ///
   /// 生成个人中心滑动菜单
   ///
-  List<Widget> _buildMenus(AppModel model) => _menus
+  List<Widget> _buildMenus(AppState state) => _menus
       .map((el) => Container(
             margin: EdgeInsets.only(top: el.separate == true ? 10 : 0),
             decoration: BoxDecoration(
@@ -119,7 +119,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
                   /// 如果item中设置了运行相关的方法，则运行相关的方法，如果有child的话则在路由中打开
                   onTap: () => el.method != null
-                      ? el.method(model)
+                      ? el.method(state)
                       : el.child == null
                           ? DiscuzToast.failed(
                               context: context, message: '暂时不支持')
@@ -169,9 +169,9 @@ class _MyAccountCard extends StatelessWidget {
   const _MyAccountCard({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: true,
-      builder: (context, child, model) => Container(
+      builder: (context, child, state) => Container(
             padding: const EdgeInsets.only(top: 15, bottom: 15),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
@@ -183,7 +183,7 @@ class _MyAccountCard extends StatelessWidget {
                 ),
               ),
               title: DiscuzText(
-                model.user['attributes']['username'] ?? '',
+                state.user['attributes']['username'] ?? '',
                 fontSize: DiscuzApp.themeOf(context).largeTextSize,
               ),
 
@@ -195,7 +195,7 @@ class _MyAccountCard extends StatelessWidget {
               onTap: () => DiscuzRoute.open(
                   context: context,
                   widget: UserHomeDelegate(
-                    user: model.user,
+                    user: state.user,
                   )),
             ),
           ));

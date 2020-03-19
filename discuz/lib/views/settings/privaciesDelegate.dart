@@ -35,9 +35,9 @@ class _PrivaciesDelegateState extends State<PrivaciesDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
               appBar: DiscuzAppBar(
             title: widget.isPrivacy ? '隐私政策' : '用户协议',
           )));

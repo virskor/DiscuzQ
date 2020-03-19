@@ -21,11 +21,11 @@ class BootstrapForum {
     final Function closeLoading = DiscuzToast.loading(context: context);
 
     try {
-      final AppModel model =
-          ScopedModel.of<AppModel>(context, rebuildOnChange: true);
+      final AppState state =
+          ScopedModel.of<AppState>(context, rebuildOnChange: true);
 
       /// 减少重复的请求，如果状态已经有数据，直接返回好了
-      if(!force && model.forum != null){
+      if(!force && state.forum != null){
         closeLoading();
         return Future.value(true);
       }
@@ -39,7 +39,7 @@ class BootstrapForum {
       }
 
       /// 更新状态
-      model.updateForum(resp.data['data']['attributes']);
+      state.updateForum(resp.data['data']['attributes']);
 
       /// 返回成功
       return Future.value(true);

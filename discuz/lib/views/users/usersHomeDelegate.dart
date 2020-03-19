@@ -36,9 +36,9 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: "${widget.user['attributes']['username']}的个人主页",
             ),

@@ -30,9 +30,9 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
               appBar: DiscuzAppBar(
             title: '我的资料',
           )));

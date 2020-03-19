@@ -23,14 +23,14 @@ class AuthHelper {
 
   /// requst login dialog and waiting for login result
   static Future<bool> requsetShouldLogin(
-      {BuildContext context, AppModel model}) async {
+      {BuildContext context, AppState state}) async {
     bool success = false;
 
     ///
     /// 如果已经登录了直接返回 true
     /// 不要再次弹出登录对话框
     ///
-    if (model.user != null) {
+    if (state.user != null) {
       return Future.value(true);
     }
 
@@ -50,9 +50,9 @@ class AuthHelper {
   }
 
   /// 处理用户请求退出登录
-  static Future<void> logout({@required AppModel model}) async {
+  static Future<void> logout({@required AppState state}) async {
     await AuthorizationHelper().clearAll();
-    model.updateUser(null);
+    state.updateUser(null);
   }
 
   ///
@@ -63,7 +63,7 @@ class AuthHelper {
   ///
   static Future<bool> refreshUser(
       {@required BuildContext context,
-      @required AppModel model,
+      @required AppState state,
       dynamic data}) async {
 
     /// 有时候可能有的接口有反馈，这个时候直接用接口查询过来的数据更新
@@ -71,18 +71,18 @@ class AuthHelper {
     /// 其实这种方式虽然简单，但有问题
     /// todo: 最后还是要自己建立一些数据模型，来转化，防止前端出现一些难以维护的异常
     if (data != null) {
-      model.updateUser(data);
+      state.updateUser(data);
       return Future.value(true);
     }
 
-    final String urlDataUrl = "${Urls.usersData}/${model.user['id']}";
+    final String urlDataUrl = "${Urls.usersData}/${state.user['id']}";
     Response resp = await Request(context: context).getUrl(url: urlDataUrl);
 
     if (resp == null) {
       return Future.value(false);
     }
 
-    model.updateUser(resp.data['data']);
+    state.updateUser(resp.data['data']);
     return Future.value(true);
   }
 
@@ -90,10 +90,10 @@ class AuthHelper {
   /// 从本地读取已存的用户信息
   /// 从本地获取，如果用户没有登录的情况下会为null， 但是无关紧要
   ///
-  static Future<void> getUserFromLocal({@required AppModel model}) async {
+  static Future<void> getUserFromLocal({@required AppState state}) async {
     try {
       final dynamic user = await AuthorizationHelper().getUser();
-      model.updateUser(jsonDecode(user));
+      state.updateUser(jsonDecode(user));
     } catch (e) {
       print(e);
     }
@@ -104,7 +104,7 @@ class AuthHelper {
   /// Process login and register request
   ///
   static Future<void> processLoginByResponseData(dynamic response,
-      {@required AppModel model}) async {
+      {@required AppState state}) async {
     ///
     /// 读取accessToken
     ///
@@ -149,6 +149,6 @@ class AuthHelper {
         .save(data: refreshToken, key: AuthorizationHelper.refreshTokenKey);
 
     /// 更新用户状态
-    model.updateUser(user);
+    state.updateUser(user);
   }
 }

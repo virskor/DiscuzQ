@@ -62,12 +62,12 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => _buildForumCategoryTabTab(model));
+      builder: (context, child, state) => _buildForumCategoryTabTab(state));
 
   /// 构造tabbar
-  Widget _buildForumCategoryTabTab(AppModel model) {
+  Widget _buildForumCategoryTabTab(AppState state) {
     /// 返回加载中的视图
     if (_loading) {
       return const Center(
@@ -84,7 +84,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     return Column(
       children: <Widget>[
         /// 生成滑动选项
-        _buildtabs(model),
+        _buildtabs(state),
 
         /// 条件筛选组件
         ForumCategoryFilter(
@@ -106,7 +106,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: model.categories.map<Widget>((cat) {
+            children: state.categories.map<Widget>((cat) {
               //创建3个Tab页
               return ForumCategory(
                 cat,
@@ -121,7 +121,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     );
   }
 
-  Widget _buildtabs(AppModel model) => Container(
+  Widget _buildtabs(AppState state) => Container(
         width: MediaQuery.of(context).size.width,
         decoration:
             BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
@@ -145,7 +145,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
                 indicatorSize:
                     MD2IndicatorSize.normal //3 different modes tiny-normal-full
                 ),
-            tabs: model.categories
+            tabs: state.categories
                 .map<Widget>((e) => Tab(text: e['attributes']['name']))
                 .toList()),
       );
@@ -156,16 +156,16 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   ///
   Future<void> _initTabController() async {
     try {
-      final AppModel model =
-          ScopedModel.of<AppModel>(context, rebuildOnChange: true);
+      final AppState state =
+          ScopedModel.of<AppState>(context, rebuildOnChange: true);
 
-      final bool success = await _getCategories(model);
+      final bool success = await _getCategories(state);
       if (!success) {
         return;
       }
 
       /// 没有分类
-      if (model.categories == null || model.categories.length == 0) {
+      if (state.categories == null || state.categories.length == 0) {
         setState(() {
           _isEmptyCategories = true;
         });
@@ -173,7 +173,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
       /// 初始化tabber
       _tabController = TabController(
-          length: model.categories == null ? 0 : model.categories.length,
+          length: state.categories == null ? 0 : state.categories.length,
           vsync: this);
     } catch (e) {
       print(e);
@@ -185,7 +185,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   /// force should never be true on didChangeDependencies life cycle
   /// that would make your ui rendering loop and looping to die
   /// 
-  Future<bool> _getCategories(AppModel model, {bool force = false}) async {
+  Future<bool> _getCategories(AppState state, {bool force = false}) async {
     setState(() {
       _loading = true;
       _isEmptyCategories = false;
@@ -223,7 +223,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     });
 
     /// 更新状态
-    model.updateCategories(categories);
+    state.updateCategories(categories);
 
     return Future.value(true);
   }

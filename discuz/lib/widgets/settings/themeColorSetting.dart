@@ -29,9 +29,9 @@ class ThemeColorSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<AppModel>(
+    return ScopedModelDescendant<AppState>(
         rebuildOnChange: false,
-        builder: (context, child, model) {
+        builder: (context, child, state) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +45,7 @@ class ThemeColorSetting extends StatelessWidget {
                   children: <Widget>[
                     Wrap(
                         children: _themes.map((Color color) {
-                      return _colorPick(context, model, color: color);
+                      return _colorPick(context, state, color: color);
                     }).toList())
                   ],
                 ),
@@ -59,7 +59,7 @@ class ThemeColorSetting extends StatelessWidget {
   ///
   /// 选择器
   ///
-  Widget _colorPick(BuildContext context, AppModel model,
+  Widget _colorPick(BuildContext context, AppState state,
           {double width = 1.0, Color color}) =>
       GestureDetector(
         onTap: () => AppConfigurations()
@@ -75,7 +75,7 @@ class ThemeColorSetting extends StatelessWidget {
               color: color,
               borderRadius: const BorderRadius.all(Radius.circular(50))),
           child: Center(
-            child: Color(model.appConf['themeColor']) != color
+            child: Color(state.appConf['themeColor']) != color
                 ? Container(
                     child: Icon(
                       SFSymbols.circle_fill,

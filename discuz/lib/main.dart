@@ -15,13 +15,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final AppModel appModel = AppModel();
+  final AppState appState = AppState();
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => ScopedModel<AppModel>(
-      model: appModel,
-      child: ScopedModelDescendant<AppModel>(builder: (context, child, model) {
+  Widget build(BuildContext context) => ScopedModel<AppState>(
+      model: appState,
+      child: ScopedModelDescendant<AppState>(builder: (context, child, state) {
         return AppWrapper(
           onDispose: () {},
           onInit: () {
@@ -31,24 +31,24 @@ class MyApp extends StatelessWidget {
             ///
             /// 如果appconf还没有成功加载则创建初始化页面 并执行APP初始化
             /// 初始化页面会有loading 圈圈
-            if (model.appConf == null) {
-              _initAppState(model);
+            if (state.appConf == null) {
+              _initAppState(state);
             }
 
             /// 加载本地的用户信息
-            AuthHelper.getUserFromLocal(model: model);
+            AuthHelper.getUserFromLocal(state: state);
           },
 
           /// 创建入口APP
-          child: model.appConf == null
+          child: state.appConf == null
               ? const Center(child: const DiscuzIndicator())
               : const Discuz(),
         );
       }));
 
   /// 将本地的配置转换为APP的状态
-  Future<void> _initAppState(AppModel model) async =>
-      model.initAppConf(await AppConfigurations()
+  Future<void> _initAppState(AppState state) async =>
+      state.initAppConf(await AppConfigurations()
           .getLocalAppSetting(returnDefaultValueIfNotExits: true));
 
   /// 加载本地的配置

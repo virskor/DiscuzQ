@@ -42,11 +42,11 @@ class _DiscuzState extends State<Discuz> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<AppModel>(
+    return ScopedModelDescendant<AppState>(
         rebuildOnChange: true,
-        builder: (context, child, model) {
+        builder: (context, child, state) {
           return DiscuzApp(
-            theme: _buildTheme(model),
+            theme: _buildTheme(state),
             child: MaterialApp(
               title: Global.appname,
               debugShowCheckedModeBanner: false,
@@ -73,7 +73,7 @@ class _DiscuzState extends State<Discuz> {
                           data: MediaQuery.of(context).copyWith(
                               boldText: false,
                               textScaleFactor:
-                                  model.appConf['fontWidthFactor']),
+                                  state.appConf['fontWidthFactor']),
                           child: const _DiscuzAppDelegate(),
                         ),
                       )),
@@ -98,10 +98,10 @@ class _DiscuzState extends State<Discuz> {
   }
 
   // build discuz app theme
-  DiscuzTheme _buildTheme(AppModel model) {
-    if (model.appConf['darkTheme'] == true) {
+  DiscuzTheme _buildTheme(AppState state) {
+    if (state.appConf['darkTheme'] == true) {
       return DiscuzTheme(
-          primaryColor: Color(model.appConf['themeColor']),
+          primaryColor: Color(state.appConf['themeColor']),
           textColor: Global.textColorDark,
           greyTextColor: Global.greyTextColorDark,
           scaffoldBackgroundColor: Global.scaffoldBackgroundColorDark,
@@ -110,7 +110,7 @@ class _DiscuzState extends State<Discuz> {
     }
 
     return DiscuzTheme(
-      primaryColor: Color(model.appConf['themeColor']),
+      primaryColor: Color(state.appConf['themeColor']),
     );
   }
 }

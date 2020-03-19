@@ -13,12 +13,12 @@ class NightModeSwitcher extends StatelessWidget {
   const NightModeSwitcher({Key key, this.color}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<AppModel>(
+    return ScopedModelDescendant<AppState>(
         rebuildOnChange: false,
-        builder: (context, child, model) {
+        builder: (context, child, state) {
           return IconButton(
             icon: DiscuzIcon(
-              model.appConf['darkTheme'] == false
+              state.appConf['darkTheme'] == false
                   ? SFSymbols.sun_min_fill
                   : SFSymbols.moon_fill,
               color: color ?? DiscuzApp.themeOf(context).textColor,
@@ -26,7 +26,7 @@ class NightModeSwitcher extends StatelessWidget {
             onPressed: () => AppConfigurations().update(
                 context: context,
                 key: 'darkTheme',
-                value: !model.appConf['darkTheme']),
+                value: !state.appConf['darkTheme']),
           );
         });
   }

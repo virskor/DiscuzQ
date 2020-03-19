@@ -1,6 +1,6 @@
 import 'package:scoped_model/scoped_model.dart';
 
-class AppModel extends Model {
+class AppState extends Model {
   // forum 站点信息
   dynamic _forum;
   get forum => _forum;
@@ -29,6 +29,7 @@ class AppModel extends Model {
   dynamic _appConf;
   get appConf => _appConf;
 
+  /// 初始化配置状态
   void initAppConf(dynamic conf) {
     if (conf == null) {
       return;
@@ -37,6 +38,8 @@ class AppModel extends Model {
     notifyListeners();
   }
 
+  ///
+  /// 使用key 更新配置状态
   void updateAppConfByKeyName(String key, dynamic val) {
     _appConf[key] = val;
     notifyListeners();

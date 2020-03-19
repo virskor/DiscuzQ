@@ -30,9 +30,9 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
               appBar: DiscuzAppBar(
             title: '黑名单',
           )));

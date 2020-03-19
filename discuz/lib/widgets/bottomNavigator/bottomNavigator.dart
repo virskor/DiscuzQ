@@ -35,9 +35,9 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
       {@required this.onItemSelected, this.height = 40});
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<AppModel>(
+    return ScopedModelDescendant<AppState>(
         rebuildOnChange: false,
-        builder: (context, child, model) {
+        builder: (context, child, state) {
           return Frost(
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 270,),
@@ -48,17 +48,17 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
                   bottom: MediaQuery.of(context).padding.bottom),
               decoration: BoxDecoration(
                 //color: DiscuzApp.themeOf(context).backgroundColor.withOpacity(.29),
-                border: model.appConf['darkTheme'] == true
+                border: state.appConf['darkTheme'] == true
                     ? null
                     : const Border(top: Global.border),
               ),
-              child: _buildItems(model: model),
+              child: _buildItems(state: state),
             ),
           );
         });
   }
 
-  Widget _buildItems({AppModel model}) => Row(
+  Widget _buildItems({AppState state}) => Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: widget.items.map<Widget>((it) {
         final int index = widget.items.indexOf(it);
@@ -75,7 +75,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
           onPressed: () async {
             if (it.shouldLogin == true) {
               bool success = await AuthHelper.requsetShouldLogin(
-                  context: context, model: model);
+                  context: context, state: state);
               if (!success) {
                 return;
               }

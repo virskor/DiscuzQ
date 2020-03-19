@@ -70,9 +70,9 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '通知提醒',
             ),
@@ -82,7 +82,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
               // header: WaterDropHeader(),
               controller: _controller,
               onRefresh: () async {
-                await _refreshMessageList(context: context, model: model);
+                await _refreshMessageList(context: context, state: state);
                 _controller.refreshCompleted();
               },
               child: _buildMessageList(),
@@ -151,24 +151,24 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   /// #返回示例
   ///
   Future<void> _refreshMessageList(
-      {BuildContext context, AppModel model}) async {
+      {BuildContext context, AppState state}) async {
     final bool refreshed =
-        await AuthHelper.refreshUser(context: context, model: model);
+        await AuthHelper.refreshUser(context: context, state: state);
     if (!refreshed) {
       DiscuzToast.failed(context: context, message: '刷新失败');
       return;
     }
 
-    _refreshStateOnly(model: model);
+    _refreshStateOnly(state: state);
   }
 
   ///
   /// 仅刷新状态
   /// 页面initState 和 _refreshMessageList 都会刷新状态
-  void _refreshStateOnly({AppModel model}) {
-    if (model == null) {
+  void _refreshStateOnly({AppState state}) {
+    if (state == null) {
       try {
-        model = ScopedModel.of<AppModel>(context, rebuildOnChange: true);
+        state = ScopedModel.of<AppState>(context, rebuildOnChange: true);
       } catch (e) {
         print(e);
       }
@@ -178,13 +178,13 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 刷新列表
     /// 数据为空则不要继续
     ///
-    if (model.user['attributes']['typeUnreadNotifications'] == null ||
-        model.user['attributes']['typeUnreadNotifications'].length == 0) {
+    if (state.user['attributes']['typeUnreadNotifications'] == null ||
+        state.user['attributes']['typeUnreadNotifications'].length == 0) {
       return;
     }
 
     final Map<String, dynamic> typeUnreadNotifications =
-        model.user['attributes']['typeUnreadNotifications'];
+        state.user['attributes']['typeUnreadNotifications'];
     if (typeUnreadNotifications == null) {
       return;
     }

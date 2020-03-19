@@ -36,9 +36,9 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '偏好设置',
             ),

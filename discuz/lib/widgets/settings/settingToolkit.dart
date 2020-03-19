@@ -18,18 +18,18 @@ class SettingSwitcher extends StatelessWidget {
   const SettingSwitcher(
       {@required this.settinKey, @required this.icon, @required this.label});
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Container(
+      builder: (context, child, state) => Container(
             child: DiscuzListTile(
                 leading: DiscuzIcon(icon),
                 title: DiscuzText(label),
                 trailing: Switch.adaptive(
-                  value: model.appConf[settinKey],
+                  value: state.appConf[settinKey],
                   onChanged: (bool val) => AppConfigurations().update(
                       context: context,
                       key: 'darkTheme',
-                      value: !model.appConf['darkTheme']),
+                      value: !state.appConf['darkTheme']),
                 )),
           ));
 }
@@ -45,9 +45,9 @@ class SettingTile extends StatelessWidget {
   const SettingTile(
       {@required this.onPressed, @required this.icon, @required this.label});
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Container(
+      builder: (context, child, state) => Container(
             child: DiscuzListTile(
               leading: DiscuzIcon(icon),
               title: DiscuzText(label),

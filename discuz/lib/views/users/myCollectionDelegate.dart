@@ -30,9 +30,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
               appBar: DiscuzAppBar(
             title: '我的收藏',
           )));

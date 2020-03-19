@@ -65,9 +65,9 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Container(
+      builder: (context, child, state) => Container(
             width: MediaQuery.of(context).size.width,
             padding:
                 const EdgeInsets.only(left: 15, right: 0, top: 0, bottom: 0),
@@ -83,20 +83,20 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
                 DiscuzText(_selected.label),
 
                 /// 下拉筛选组件
-                _buildPopMenu(model)
+                _buildPopMenu(state)
               ],
             ),
           ));
 
   /// 下拉弹出菜单
-  Widget _buildPopMenu(AppModel model) {
+  Widget _buildPopMenu(AppState state) {
     /// 部分条件需要用户登录的时候才显示
     /// 先构造筛选列表
     final List<PopupMenuItem<ForumCategoryFilterItem>> items =
         ForumCategoryFilter.conditions
             .map<PopupMenuItem<ForumCategoryFilterItem>>(
                 (ForumCategoryFilterItem c) =>
-                    c.shouldLogin == true && model.user == null
+                    c.shouldLogin == true && state.user == null
                         ? null
                         : PopupMenuItem<ForumCategoryFilterItem>(
                             //checked: _selected == c,
@@ -125,7 +125,7 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
           /// 构造一个全新的filter进行强制替换
           if (val.shouldLogin == true) {
             Map<String, dynamic> replacement = {
-              "fromUserId": model.user['id'],
+              "fromUserId": state.user['id'],
             };
 
             /// 过滤可能发生重复的数据

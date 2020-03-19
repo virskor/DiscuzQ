@@ -39,17 +39,17 @@ class _SiteinfoDelegateState extends State<SiteinfoDelegate> {
   ];
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '站点信息',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: _body(model),
+            body: _body(state),
           ));
 
-  Widget _body(AppModel model) => ListView(
+  Widget _body(AppState state) => ListView(
         children: _items
             .map((it) => Container(
                   margin: it.separate == true
@@ -62,7 +62,7 @@ class _SiteinfoDelegateState extends State<SiteinfoDelegate> {
                     leading: DiscuzText(it.label),
                     trailing: it.isImage == false
                         ? DiscuzText(
-                            model.forum[it.group][it.childName],
+                            state.forum[it.group][it.childName],
                             color: DiscuzApp.themeOf(context).greyTextColor,
                           )
                         : const SizedBox(),

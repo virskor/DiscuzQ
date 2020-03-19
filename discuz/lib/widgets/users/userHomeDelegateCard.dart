@@ -30,9 +30,9 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   bool _followed = false;
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Container(
+      builder: (context, child, state) => Container(
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -60,7 +60,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                   fontWeight: FontWeight.bold,
                 ),
 
-                _buildFollowsTag(model),
+                _buildFollowsTag(state),
               ],
             ),
           ));
@@ -94,11 +94,11 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   /// 注意： 用户如果没有登，那么就不要显示
   /// 是否显示关注按钮
   ///
-  List<Widget> _followButton(AppModel model) => model.user == null
+  List<Widget> _followButton(AppState state) => state.user == null
       ? <Widget>[]
 
       /// 用户未登录 不显示组件
-      : model.user['id'] == widget.user['id']
+      : state.user['id'] == widget.user['id']
           ? <Widget>[]
 
           /// 查看的是自己 的账户，不显示关注按钮
@@ -128,7 +128,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   ///
   /// 生成描述关注情况的概览
   ///
-  Widget _buildFollowsTag(AppModel model) => Padding(
+  Widget _buildFollowsTag(AppState state) => Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +152,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
             ///
             /// 显示关注按钮，该按钮要根据情况显示
             ///
-            ..._followButton(model)
+            ..._followButton(state)
           ],
         ),
       );

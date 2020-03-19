@@ -15,9 +15,9 @@ class DiscuzAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<AppModel>(
+    return ScopedModelDescendant<AppState>(
         rebuildOnChange: false,
-        builder: (context, child, model) {
+        builder: (context, child, state) {
           ///
           /// 如果是指定url不要反悔scopedModel类型的Widget,因为头像多了将带来性能压力
           /// 注意这个要放在最上面，以避免别人的头像无法显示
@@ -27,15 +27,15 @@ class DiscuzAvatar extends StatelessWidget {
           }
 
           /// 用户头像,如果没有登录，返回一个空的
-          if (model.user == null) {
+          if (state.user == null) {
             return _empty();
           }
 
-          if (StringHelper.isEmpty(string: model.user['attributes']['avatarUrl']) == true) {
+          if (StringHelper.isEmpty(string: state.user['attributes']['avatarUrl']) == true) {
             return _empty();
           }
 
-          return _cachedNetworkAvatar(model.user['attributes']['avatarUrl']);
+          return _cachedNetworkAvatar(state.user['attributes']['avatarUrl']);
         });
   }
 

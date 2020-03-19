@@ -57,9 +57,9 @@ class _LoginDelegateState extends State<LoginDelegate> {
     super.dispose();
   }
 
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '登录',
               actions: <Widget>[
@@ -71,11 +71,11 @@ class _LoginDelegateState extends State<LoginDelegate> {
               ],
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: _buildLoginForm(model),
+            body: _buildLoginForm(state),
           ));
 
   /// 生成用于登录的表单
-  Widget _buildLoginForm(AppModel model) => DiscuzFormContainer(
+  Widget _buildLoginForm(AppState state) => DiscuzFormContainer(
           child: ListView(
         padding: const EdgeInsets.only(top: 60),
         children: <Widget>[
@@ -118,7 +118,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
           /// login button
           DiscuzButton(
             label: '登录',
-            onPressed: () => _requestLogin(model),
+            onPressed: () => _requestLogin(state),
           ),
 
           /// or register an account????
@@ -140,7 +140,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
   ///
   /// _requestLogin用户请求登录
   ///
-  Future<void> _requestLogin(AppModel model) async {
+  Future<void> _requestLogin(AppState state) async {
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");
       return;
@@ -174,7 +174,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
       return;
     }
 
-    await AuthHelper.processLoginByResponseData(resp.data, model: model);
+    await AuthHelper.processLoginByResponseData(resp.data, state: state);
 
     /// 提示登录成功。关闭对话框，重新初始化信息
     ///

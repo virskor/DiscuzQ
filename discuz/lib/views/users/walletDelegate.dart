@@ -54,9 +54,9 @@ class _WalletDelegateState extends State<WalletDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               dark: true,
               brightness: Brightness.dark,
@@ -80,7 +80,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
 
                   ///
                   /// 显示钱包残额
-                  _amount(model),
+                  _amount(state),
 
                   ///
                   /// 钱包详情，提现等
@@ -97,7 +97,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
                           ///
                           /// 冻结金额
                           ///
-                          _frozen(model),
+                          _frozen(state),
                           const DiscuzDivider(),
                           DiscuzListTile(
                             title: DiscuzText('提现记录'),
@@ -122,7 +122,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   ///
   /// 冻结金额
   ///
-  Widget _frozen(AppModel model) => DiscuzListTile(
+  Widget _frozen(AppState state) => DiscuzListTile(
         title: DiscuzText('冻结金额'),
         trailing: DiscuzText(
           _wallet == null ? '0.00' : _wallet['attributes']['freeze_amount'],
@@ -132,7 +132,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
 
   ///
   /// show amounts
-  Widget _amount(AppModel model) => Center(
+  Widget _amount(AppState state) => Center(
         child: DiscuzAmount(
           amount:
               _wallet == null ? '0.00' : _wallet['attributes']['freeze_amount'],
@@ -143,10 +143,10 @@ class _WalletDelegateState extends State<WalletDelegate> {
   ///
   /// 仅刷新状态
   /// 页面initState 和 _refreshMessageList 都会刷新状态
-  Future<void> _refreshWallet({AppModel model}) async {
-    if (model == null) {
+  Future<void> _refreshWallet({AppState state}) async {
+    if (state == null) {
       try {
-        model = ScopedModel.of<AppModel>(context, rebuildOnChange: true);
+        state = ScopedModel.of<AppState>(context, rebuildOnChange: true);
       } catch (e) {
         print(e);
       }
@@ -160,7 +160,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
     /// 视图请求 接口的最新数据
     ///
     ///
-    final String userWalletUrl = "${Urls.usersWallerData}/${model.user['id']}";
+    final String userWalletUrl = "${Urls.usersWallerData}/${state.user['id']}";
     Response resp = await Request(context: context).getUrl(url: userWalletUrl);
 
     if (resp == null) {

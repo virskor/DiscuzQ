@@ -10,10 +10,10 @@ class FloatLoginButton extends StatelessWidget {
   const FloatLoginButton({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: true,
-      builder: (context, child, model) {
-        if (model.user != null) {
+      builder: (context, child, state) {
+        if (state.user != null) {
           return SizedBox();
         }
 

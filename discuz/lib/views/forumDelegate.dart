@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/forum/floatLoginButton.dart';
 import 'package:discuzq/utils/global.dart';
@@ -58,9 +57,9 @@ class _ForumDelegateState extends State<ForumDelegate>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return ScopedModelDescendant<AppModel>(
+    return ScopedModelDescendant<AppState>(
         rebuildOnChange: true,
-        builder: (context, child, model) => Scaffold(
+        builder: (context, child, state) => Scaffold(
               appBar: DiscuzAppBar(
                 elevation: 0,
                 centerTitle: true,
@@ -77,12 +76,12 @@ class _ForumDelegateState extends State<ForumDelegate>
                 overflow: Overflow.clip,
                 children: <Widget>[
                   /// 显示论坛分类和分类下内容列表
-                  model.forum == null
+                  state.forum == null
                       ? const SizedBox()
                       : const ForumCategoryTab(),
 
                   /// 是否显示网络错误组件
-                  _buildNetwordError(model),
+                  _buildNetwordError(state),
 
                   /// 显示底部悬浮登录提示组件
                   Positioned(
@@ -96,7 +95,7 @@ class _ForumDelegateState extends State<ForumDelegate>
   }
 
   /// 创建网络错误提示组件，尽在加载失败的时候提示
-  Widget _buildNetwordError(AppModel model) => _loaded && model.forum == null
+  Widget _buildNetwordError(AppState state) => _loaded && state.forum == null
       ? Center(
           child: DiscuzNetworkError(
             onRequestRefresh: () => _getForumData(force: true),

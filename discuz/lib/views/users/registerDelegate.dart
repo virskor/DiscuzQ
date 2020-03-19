@@ -54,18 +54,18 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
     super.dispose();
   }
 
-  Widget build(BuildContext context) => ScopedModelDescendant<AppModel>(
+  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, model) => Scaffold(
+      builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '注册',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: _buildRegisterForm(model),
+            body: _buildRegisterForm(state),
           ));
 
   /// 生成用于登录的表单
-  Widget _buildRegisterForm(AppModel model) => DiscuzFormContainer(
+  Widget _buildRegisterForm(AppState state) => DiscuzFormContainer(
           child: ListView(
         padding: const EdgeInsets.only(top: 60),
         children: <Widget>[
@@ -108,7 +108,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
           /// login button
           DiscuzButton(
             label: '注册',
-            onPressed: () => _requestRegister(model),
+            onPressed: () => _requestRegister(state),
           ),
 
           /// or register an account????
@@ -129,7 +129,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
   ///
   /// 请求注册
   ///
-  Future<void> _requestRegister(AppModel model) async {
+  Future<void> _requestRegister(AppState state) async {
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");
       return;
@@ -165,7 +165,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
 
     /// 注册成功
     ///
-    /// await AuthHelper.processLoginByResponseData(resp.data, model: model);
+    /// await AuthHelper.processLoginByResponseData(resp.data, state: state);
 
     DiscuzToast.success(context: context, message: '注册成功，请登陆');
 
