@@ -119,6 +119,8 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                                     el.badges.toString(),
                                     color: Colors.white,
                                   ),
+                                  animationType: BadgeAnimationType.fade,
+                                  elevation: 0,
                                   child: const Icon(
                                     SFSymbols.chevron_right,
                                     color: const Color(0xFFDEDEDE),

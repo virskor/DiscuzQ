@@ -90,10 +90,10 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
           onChanged: (ForumCategoryFilterItem item) {
             /// todo: 条件切换啦，重新加载当前版块下的数据
             /// 注意，如果选择的条件相同，那么还是要做忽略return
-            if(_filterItem == item){
+            if (_filterItem == item) {
               return;
             }
-            
+
             print(item.filter.toString());
             setState(() {
               _filterItem = item;
@@ -202,10 +202,25 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     }
 
     /// 增加一个全部
-
+    List<dynamic> categories = resp.data['data'];
+    categories.insert(0, {
+      "type": "categories",
+      "id": null,
+      "attributes": {
+        "name": "全部",
+        "description": "圈闭分类",
+        "icon": "",
+        "sort": 0,
+        "property": 0,
+        "thread_count": 0,
+        "ip": "",
+        "created_at": "",
+        "updated_at": ""
+      }
+    });
 
     /// 更新状态
-    model.updateCategories(resp.data['data']);
+    model.updateCategories(categories);
 
     return Future.value(true);
   }

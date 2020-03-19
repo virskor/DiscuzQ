@@ -40,8 +40,6 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
-              elevation: 10,
-              
               title: '偏好设置',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
