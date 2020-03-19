@@ -17,6 +17,9 @@ class ThreadModel {
   ///
   final ThreadAttributesModel attributes;
 
+  ///
+  /// relationships
+  /// 关联数据
   final ThreadAttributesRelationshipsModel relationships;
 
   /// 主题模型
