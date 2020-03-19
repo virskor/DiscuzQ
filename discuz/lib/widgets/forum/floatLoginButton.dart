@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 
+import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
@@ -10,7 +10,7 @@ class FloatLoginButton extends StatelessWidget {
   const FloatLoginButton({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: true,
       builder: (context, child, state) {
         if (state.user != null) {

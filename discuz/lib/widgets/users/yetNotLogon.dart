@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
+
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/loginDelegate.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:flutter/material.dart';
 
 class YetNotLogon extends StatelessWidget {
   

@@ -1,5 +1,6 @@
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
+
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 class SearchHistoryList extends StatefulWidget {
   const SearchHistoryList({Key key}) : super(key: key);

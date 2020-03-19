@@ -1,5 +1,6 @@
-import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
+
+import 'package:discuzq/ui/ui.dart';
 
 class DiscuzIcon extends StatelessWidget {
   final double size;

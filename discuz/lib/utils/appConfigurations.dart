@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/localstorage.dart';
 
@@ -58,7 +58,7 @@ class AppConfigurations {
 			try {
 				/// modify app state
 				final AppState state =
-				ScopedModel.of<AppState>(context, rebuildOnChange: true);
+				ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
 				state.updateAppConfByKeyName(key, value);
 
 				return Future.value(true);

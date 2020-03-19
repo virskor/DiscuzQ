@@ -1,7 +1,7 @@
-import 'package:discuzq/utils/StringHelper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/utils/StringHelper.dart';
 
 ///
 /// 金融数字

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:scoped_model/scoped_model.dart';
 
+import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
@@ -81,7 +81,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
   ];
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: true,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
@@ -169,7 +169,7 @@ class _MyAccountCard extends StatelessWidget {
   const _MyAccountCard({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: true,
       builder: (context, child, state) => Container(
             padding: const EdgeInsets.only(top: 15, bottom: 15),

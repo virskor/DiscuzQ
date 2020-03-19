@@ -1,6 +1,6 @@
-import 'package:scoped_model/scoped_model.dart';
+import 'package:discuzq/states/scopedState.dart';
 
-class AppState extends Model {
+class AppState extends StateModel {
   // forum 站点信息
   dynamic _forum;
   get forum => _forum;

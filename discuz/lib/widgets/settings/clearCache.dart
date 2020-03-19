@@ -1,4 +1,3 @@
-import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -7,6 +6,7 @@ import 'package:discuzq/widgets/common/gradientText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
+import 'package:discuzq/ui/ui.dart';
 
 class ClearCacheDialog {
   static Future<bool> build({BuildContext context}) {

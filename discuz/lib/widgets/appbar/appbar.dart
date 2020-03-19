@@ -1,10 +1,10 @@
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor;

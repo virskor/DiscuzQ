@@ -1,4 +1,3 @@
-import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/appState.dart';
@@ -6,6 +5,7 @@ import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/states/scopedState.dart';
 
 ///
 /// notice: 使用SettingSwitcher 进行设置的选项，值必须是bool，否则将出错
@@ -18,7 +18,7 @@ class SettingSwitcher extends StatelessWidget {
   const SettingSwitcher(
       {@required this.settinKey, @required this.icon, @required this.label});
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Container(
             child: DiscuzListTile(
@@ -45,7 +45,7 @@ class SettingTile extends StatelessWidget {
   const SettingTile(
       {@required this.onPressed, @required this.icon, @required this.label});
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Container(
             child: DiscuzListTile(

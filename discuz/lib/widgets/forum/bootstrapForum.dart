@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 
+import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/urls.dart';
@@ -22,7 +22,7 @@ class BootstrapForum {
 
     try {
       final AppState state =
-          ScopedModel.of<AppState>(context, rebuildOnChange: true);
+          ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
 
       /// 减少重复的请求，如果状态已经有数据，直接返回好了
       if(!force && state.forum != null){

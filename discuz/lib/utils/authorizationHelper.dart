@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:discuzq/db/user.dart';
 
 class AuthorizationHelper {

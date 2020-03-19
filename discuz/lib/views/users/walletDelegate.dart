@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/ui/ui.dart';
@@ -54,7 +54,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
@@ -146,7 +146,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   Future<void> _refreshWallet({AppState state}) async {
     if (state == null) {
       try {
-        state = ScopedModel.of<AppState>(context, rebuildOnChange: true);
+        state = ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
       } catch (e) {
         print(e);
       }

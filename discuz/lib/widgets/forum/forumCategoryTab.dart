@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
 import 'package:discuzq/states/appState.dart';
@@ -12,6 +11,7 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumCategory.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
+import 'package:discuzq/states/scopedState.dart';
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
@@ -62,7 +62,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => _buildForumCategoryTabTab(state));
 
@@ -157,7 +157,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   Future<void> _initTabController() async {
     try {
       final AppState state =
-          ScopedModel.of<AppState>(context, rebuildOnChange: true);
+          ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
 
       final bool success = await _getCategories(state);
       if (!success) {

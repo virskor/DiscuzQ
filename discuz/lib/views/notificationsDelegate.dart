@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:badges/badges.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -14,6 +13,7 @@ import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
+import 'package:discuzq/states/scopedState.dart';
 
 class NotificationsDelegate extends StatefulWidget {
   const NotificationsDelegate({Key key}) : super(key: key);
@@ -70,7 +70,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedModelDescendant<AppState>(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
@@ -168,7 +168,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   void _refreshStateOnly({AppState state}) {
     if (state == null) {
       try {
-        state = ScopedModel.of<AppState>(context, rebuildOnChange: true);
+        state = ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
       } catch (e) {
         print(e);
       }

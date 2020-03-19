@@ -1,13 +1,12 @@
-import 'package:discuzq/utils/authHelper.dart';
-import 'package:discuzq/widgets/common/frost.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:scoped_model/scoped_model.dart';
 
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/widgets/common/frost.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/ui/ui.dart';
 
 class DiscuzBottomNavigator extends StatefulWidget {
   final ValueChanged<int> onItemSelected;
@@ -35,7 +34,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
       {@required this.onItemSelected, this.height = 40});
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<AppState>(
+    return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: false,
         builder: (context, child, state) {
           return Frost(

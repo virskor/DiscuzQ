@@ -1,9 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/authHelper.dart';
-import 'package:discuzq/utils/request/requestErrors.dart';
-import 'package:discuzq/utils/request/requestFormer.dart';
 import 'package:flutter/material.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -17,6 +14,9 @@ import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/device.dart';
 import 'package:discuzq/utils/urls.dart';
 import 'package:discuzq/utils/request/RequestCacheInterceptor.dart';
+import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/utils/request/requestErrors.dart';
+import 'package:discuzq/utils/request/requestFormer.dart';
 
 const _contentFormData = "multipart/form-data";
 

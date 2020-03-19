@@ -1,8 +1,7 @@
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:scoped_model/scoped_model.dart';
 
+import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
@@ -29,7 +28,7 @@ class ThemeColorSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<AppState>(
+    return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: false,
         builder: (context, child, state) {
           return Column(

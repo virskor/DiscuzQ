@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
+import 'package:discuzq/states/scopedState.dart';
 
 import 'package:discuzq/discuz.dart';
 import 'package:discuzq/states/appState.dart';
@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => ScopedModel<AppState>(
+  Widget build(BuildContext context) => ScopedStateModel<AppState>(
       model: appState,
-      child: ScopedModelDescendant<AppState>(builder: (context, child, state) {
+      child: ScopedStateModelDescendant<AppState>(builder: (context, child, state) {
         return AppWrapper(
           onDispose: () {},
           onInit: () {
