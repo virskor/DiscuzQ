@@ -1,0 +1,22 @@
+name: flutter_native_dialog
+description: Native dialogs for Flutter in Add2App use cases. (Android and iOS)
+version: 0.1.0
+author: Wouter Hardeman <wouterhardeman94@gmail.com>
+homepage: https://github.com/wouterhardeman/flutter_native_dialog
+
+environment:
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  meta: ^1.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    androidPackage: nl.wouterhardeman.flutternativedialog
+    pluginClass: FlutterNativeDialogPlugin
