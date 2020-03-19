@@ -73,5 +73,9 @@ class _TotalSearchDelegateState extends State<TotalSearchDelegate> {
     setState(() {
       _showHistory = false;
     });
+
+    /// 显示结果展示组件 
+    /// （渲染一个listview, 将两个searchReaultview返回的listview合并，得到一个listview）
+    /// searchResultView主要构造一个listview, 可以根据 实际情况开启infinite 直接将组件复用
   }
 }
