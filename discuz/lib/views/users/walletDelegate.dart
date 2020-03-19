@@ -1,9 +1,10 @@
-import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/common/discuzAmount.dart';
 
 class WalletDelegate extends StatefulWidget {
   const WalletDelegate({Key key}) : super(key: key);
@@ -41,5 +42,22 @@ class _WalletDelegateState extends State<WalletDelegate> {
               title: '我的钱包',
             ),
             backgroundColor: DiscuzApp.themeOf(context).primaryColor,
+            body: Column(
+              children: <Widget>[
+                const SizedBox(height: 100),
+                ///
+                /// 显示钱包残额
+                _amount(model)
+              ],
+            ),
           ));
+
+  ///
+  /// show amounts
+  Widget _amount(AppModel model) => Center(
+        child: DiscuzAmount(
+          amount: model.user['attributes']['walletBalance'],
+          textScaleFactor: 4,
+        ),
+      );
 }

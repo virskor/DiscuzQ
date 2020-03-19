@@ -7,6 +7,7 @@ class DiscuzText extends StatelessWidget {
   final double fontSize;
   final FontWeight fontWeight;
   final double textScaleFactor;
+  final String fontFamily;
   final TextOverflow overflow;
 
   const DiscuzText(this.text,
@@ -15,6 +16,7 @@ class DiscuzText extends StatelessWidget {
       this.fontSize,
       this.fontWeight,
       this.overflow,
+      this.fontFamily,
       this.textScaleFactor})
       : super(key: key);
 
@@ -27,6 +29,7 @@ class DiscuzText extends StatelessWidget {
       style: TextStyle(
           color: color ?? DiscuzApp.themeOf(context).textColor,
           fontWeight: fontWeight,
+          fontFamily: fontFamily,
           fontSize: fontSize ?? DiscuzApp.themeOf(context).normalTextSize),
     );
   }
