@@ -35,6 +35,7 @@ class TypeUnreadNotificationsModel {
   ///
   /// fromMap
   /// 转换模型
+  /// 
   static TypeUnreadNotificationsModel fromMap({@required dynamic maps}) {
     ///
     /// 返回一个空的模型，如果为空的话

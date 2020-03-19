@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+
 class UserModel {
   ///
   /// id
@@ -171,7 +174,6 @@ class UserModel {
   ///
   final int unreadNotifications;
 
-
   ///
   /// 用户信息模型
   const UserModel(
@@ -204,4 +206,26 @@ class UserModel {
       this.fansCount = 0,
       this.status = 0,
       this.followCount = 0});
+
+  ///
+  /// fromMap
+  /// 转换模型
+  /// 
+  static UserModel fromMap({@required dynamic maps}) {
+    ///
+    /// 返回一个空的模型，如果为空的话
+    ///
+    if (maps == null) {
+      return UserModel();
+    }
+
+    dynamic data = maps;
+
+    /// 数据来自json
+    if (maps.runtimeType == String) {
+      data = jsonDecode(data);
+    }
+
+    return UserModel();
+  }
 }

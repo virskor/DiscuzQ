@@ -40,8 +40,9 @@ class WalletModel {
       this.walletStatus = 1});
 
   ///
-  /// 从 map 获取一个模型
-  ///
+  /// fromMap
+  /// 转换模型
+  /// 
   static WalletModel fromMap({@required dynamic maps}) {
     ///
     /// 返回一个空的模型，如果为空的话

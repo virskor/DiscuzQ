@@ -1,3 +1,4 @@
+import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/states/scopedState.dart';
 
 class AppState extends StateModel {
@@ -10,9 +11,9 @@ class AppState extends StateModel {
   }
 
   // categories 分类
-  List<dynamic> _categories;
+  List<CategoryModel> _categories;
   get categories => _categories;
-  void updateCategories(List<dynamic> categories) {
+  void updateCategories(List<CategoryModel> categories) {
     _categories = categories;
     notifyListeners();
   }

@@ -6,7 +6,8 @@
 <p> 
 <img width="200px" src="snapshot.png"/> 
 <img width="200px" src="snapshot_me.png"/>  
-<img width="200px" src="snapwallet.png"/>  
+<img width="200px" src="snapshot_wallet.png"/>  
+<img width="200px" src="snapshot_notifications.png"/>  
 </p> 
 A new Flutter application for DiscuzQ. This Application is still under developing, this is an open source software.  
 

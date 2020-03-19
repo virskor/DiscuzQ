@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/models/categoryModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -146,7 +147,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
                     MD2IndicatorSize.normal //3 different modes tiny-normal-full
                 ),
             tabs: state.categories
-                .map<Widget>((e) => Tab(text: e['attributes']['name']))
+                .map<Widget>((CategoryModel e) => Tab(text: e.attributes.name))
                 .toList()),
       );
 
@@ -184,7 +185,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   /// _getCategories
   /// force should never be true on didChangeDependencies life cycle
   /// that would make your ui rendering loop and looping to die
-  /// 
+  ///
   Future<bool> _getCategories(AppState state, {bool force = false}) async {
     setState(() {
       _loading = true;
@@ -204,23 +205,14 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
       return Future.value(false);
     }
 
-    /// 增加一个全部
-    List<dynamic> categories = resp.data['data'];
-    categories.insert(0, {
-      "type": "categories",
-      "id": null,
-      "attributes": {
-        "name": "全部",
-        "description": "圈闭分类",
-        "icon": "",
-        "sort": 0,
-        "property": 0,
-        "thread_count": 0,
-        "ip": "",
-        "created_at": "",
-        "updated_at": ""
-      }
-    });
+    List<dynamic> originalCategories = resp.data['data'] ?? [];
+
+    /// 增加一个全部并转化所有分类到模型
+    List<CategoryModel> categories = originalCategories
+        .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
+        .toList();
+    categories.insert(
+        0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
 
     /// 更新状态
     state.updateCategories(categories);
