@@ -47,7 +47,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
                   right: 20,
                   bottom: MediaQuery.of(context).padding.bottom),
               decoration: BoxDecoration(
-                color: DiscuzApp.themeOf(context).backgroundColor.withOpacity(.29),
+                //color: DiscuzApp.themeOf(context).backgroundColor.withOpacity(.29),
                 border: model.appConf['darkTheme'] == true
                     ? null
                     : const Border(top: Global.border),

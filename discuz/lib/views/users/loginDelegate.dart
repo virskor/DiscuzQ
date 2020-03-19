@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
-import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 import 'package:discuzq/utils/global.dart';
@@ -18,6 +18,7 @@ import 'package:discuzq/utils/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/users/privacyBar.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 class LoginDelegate extends StatefulWidget {
   final Function onRequested;
@@ -61,32 +62,27 @@ class _LoginDelegateState extends State<LoginDelegate> {
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
               title: '登录',
+              actions: <Widget>[
+                IconButton(
+                  tooltip: '无法登陆',
+                  icon: DiscuzIcon(SFSymbols.question_circle_fill),
+                  onPressed: () => null,
+                )
+              ],
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: _buildLoginForm(model),
           ));
-
-  /// app logo
-  Widget _logo = const Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: const Center(
-        child: const DiscuzAppLogo(
-          width: 150,
-        ),
-      ));
 
   /// 生成用于登录的表单
   Widget _buildLoginForm(AppModel model) => DiscuzFormContainer(
           child: ListView(
         padding: const EdgeInsets.only(top: 60),
         children: <Widget>[
-          /// ... if you want a logo to be rendered
-          _logo,
-
           ///
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               const DiscuzText(
                 '用户名登录',

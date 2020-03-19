@@ -5,7 +5,6 @@ import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
-import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 import 'package:discuzq/utils/global.dart';
@@ -65,27 +64,15 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
             body: _buildRegisterForm(model),
           ));
 
-  /// app logo
-  Widget _logo = const Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: const Center(
-        child: const DiscuzAppLogo(
-          width: 150,
-        ),
-      ));
-
   /// 生成用于登录的表单
   Widget _buildRegisterForm(AppModel model) => DiscuzFormContainer(
           child: ListView(
         padding: const EdgeInsets.only(top: 60),
         children: <Widget>[
-          /// ... if you want a logo to be rendered
-          _logo,
-
           ///
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               const DiscuzText(
                 '注册账号',

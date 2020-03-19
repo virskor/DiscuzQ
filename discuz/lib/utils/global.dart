@@ -39,7 +39,7 @@ class Global {
   static const Color highlightColor = Colors.transparent;
 
   /// 日间模式底色
-  static const Color scaffoldBackgroundColorLight = Color(0xFFDEDEDE);
+  static const Color scaffoldBackgroundColorLight = Color(0xFFF1F1F1);
 
   /// 夜间模式底色
   static const Color scaffoldBackgroundColorDark = Color(0xFF111111);
@@ -51,7 +51,7 @@ class Global {
   static const Color backgroundColorDark = Color(0xFF222222);
 
   /// 日间模式字体颜色
-  static const Color textColorLight = Color(0xFF444444);
+  static const Color textColorLight = Color(0xFF111111);
 
   /// 夜间模式字体颜色
   static const Color textColorDark = Color(0xFFF2F2F2);

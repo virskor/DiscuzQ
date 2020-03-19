@@ -1089,7 +1089,7 @@ class _RenderDiscuzListTile extends RenderBox {
         _titleBaselineType = titleBaselineType,
         _subtitleBaselineType = subtitleBaselineType;
 
-  static const double _minLeadingWidth = 30.0;
+  static const double _minLeadingWidth = 20.0;
   // The horizontal gap between the titles and the leading/trailing widgets
   static const double _horizontalTitleGap = 10.0;
   // The minimum padding on the top and bottom of the title and subtitle widgets.
@@ -1322,7 +1322,7 @@ class _RenderDiscuzListTile extends RenderBox {
       // to accessibility requirements for smallest tappable widget.
       // Two- and three-line trailing widget heights are constrained
       // properly according to the Material spec.
-      maxHeight: isDense ? 45.0 : 50.0,
+      maxHeight: isDense ? 45.0 : 55.0,
     );
     final BoxConstraints looseConstraints = constraints.loosen();
     final BoxConstraints iconConstraints =

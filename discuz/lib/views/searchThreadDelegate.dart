@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/search/searchHistoryList.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -6,6 +5,7 @@ import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/search/searchAppbar.dart';
+import 'package:discuzq/widgets/search/searchHistoryList.dart';
 
 class SearchThreadDelegate extends StatefulWidget {
   final Function onRequested;

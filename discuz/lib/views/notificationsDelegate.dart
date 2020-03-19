@@ -73,7 +73,6 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       rebuildOnChange: false,
       builder: (context, child, model) => Scaffold(
             appBar: DiscuzAppBar(
-              elevation: 10,
               title: '通知提醒',
             ),
             body: SmartRefresher(

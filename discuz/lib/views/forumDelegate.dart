@@ -63,16 +63,10 @@ class _ForumDelegateState extends State<ForumDelegate>
         builder: (context, child, model) => Scaffold(
               appBar: DiscuzAppBar(
                 elevation: 0,
-                dark: true,
-                brightness: Brightness.dark,
-                backgroundColor: DiscuzApp.themeOf(context).primaryColor,
                 centerTitle: true,
-                leading: const NightModeSwitcher(
-                  color: Colors.white,
-                ),
+                leading: const NightModeSwitcher(),
                 title: const Center(
                     child: const DiscuzAppLogo(
-                  dark: true,
                   color: Colors.transparent,
                 )),
                 actions: _actions(context),

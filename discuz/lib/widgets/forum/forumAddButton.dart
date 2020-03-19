@@ -1,3 +1,4 @@
+import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:popup_menu/popup_menu.dart';
@@ -37,7 +38,7 @@ class _ForumAddButtonState extends State<ForumAddButton> {
       key: btnKey,
       icon: DiscuzIcon(
         SFSymbols.plus,
-        color: Colors.white,
+        color: DiscuzApp.themeOf(context).textColor,
       ),
       onPressed: _showPop,
     );
