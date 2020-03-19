@@ -1,7 +1,7 @@
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';

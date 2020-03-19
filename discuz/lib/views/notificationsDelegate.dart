@@ -4,7 +4,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:badges/badges.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';

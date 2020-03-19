@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/discuz.dart';
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/appWrapper.dart';
 import 'package:discuzq/utils/authHelper.dart';

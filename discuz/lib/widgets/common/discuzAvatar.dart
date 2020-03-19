@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 
 class DiscuzAvatar extends StatelessWidget {

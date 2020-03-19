@@ -6,7 +6,7 @@ import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/ui/ui.dart';
 
 class DiscuzBottomNavigator extends StatefulWidget {

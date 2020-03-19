@@ -10,7 +10,7 @@ import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/views/site/siteinfoDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/widgets/users/yetNotLogon.dart';

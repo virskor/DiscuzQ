@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/urls.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';

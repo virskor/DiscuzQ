@@ -7,7 +7,7 @@ import 'package:discuzq/widgets/forum/floatLoginButton.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/appbar/nightModeSwitcher.dart';
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/forum/bootstrapForum.dart';
 import 'package:discuzq/widgets/forum/forumCategoryTab.dart';

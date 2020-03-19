@@ -8,7 +8,7 @@ import 'package:discuzq/utils/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/router/routeBuilder.dart';
 import 'package:discuzq/views/users/loginDelegate.dart';
 

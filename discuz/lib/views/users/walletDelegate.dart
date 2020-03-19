@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzAmount.dart';
@@ -97,12 +98,15 @@ class _WalletDelegateState extends State<WalletDelegate> {
                           /// 冻结金额
                           ///
                           _frozen(model),
+                          const DiscuzDivider(),
                           DiscuzListTile(
                             title: DiscuzText('提现记录'),
                           ),
+                          const DiscuzDivider(),
                           DiscuzListTile(
                             title: DiscuzText('钱包明细'),
                           ),
+                          const DiscuzDivider(),
                           DiscuzListTile(
                             title: DiscuzText('订单明细'),
                           )

@@ -6,7 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/models/appModel.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/views/accountDelegate.dart';
 import 'package:discuzq/views/forumDelegate.dart';
