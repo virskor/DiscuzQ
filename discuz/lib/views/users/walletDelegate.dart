@@ -1,4 +1,4 @@
-import 'package:discuzq/widgets/common/discuzIndicater.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -8,6 +8,10 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzAmount.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/widgets/common/discuzIndicater.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 class WalletDelegate extends StatefulWidget {
   const WalletDelegate({Key key}) : super(key: key);
@@ -22,6 +26,11 @@ class _WalletDelegateState extends State<WalletDelegate> {
   /// is _loading data
   bool _loading = true;
 
+  ///
+  /// wallet data
+  ///
+  dynamic _wallet;
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -33,6 +42,9 @@ class _WalletDelegateState extends State<WalletDelegate> {
   @override
   void initState() {
     super.initState();
+
+    Future.delayed(Duration(milliseconds: 450))
+        .then((_) async => await _refreshWallet());
   }
 
   @override
@@ -109,7 +121,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   Widget _frozen(AppModel model) => DiscuzListTile(
         title: DiscuzText('冻结金额'),
         trailing: DiscuzText(
-          '0.00',
+          _wallet == null ? '0.00' : _wallet['attributes']['freeze_amount'],
           color: DiscuzApp.themeOf(context).greyTextColor,
         ),
       );
@@ -118,8 +130,49 @@ class _WalletDelegateState extends State<WalletDelegate> {
   /// show amounts
   Widget _amount(AppModel model) => Center(
         child: DiscuzAmount(
-          amount: "123.00",
+          amount:
+              _wallet == null ? '0.00' : _wallet['attributes']['freeze_amount'],
           textScaleFactor: 4,
         ),
       );
+
+  ///
+  /// 仅刷新状态
+  /// 页面initState 和 _refreshMessageList 都会刷新状态
+  Future<void> _refreshWallet({AppModel model}) async {
+    if (model == null) {
+      try {
+        model = ScopedModel.of<AppModel>(context, rebuildOnChange: true);
+      } catch (e) {
+        print(e);
+      }
+    }
+
+    setState(() {
+      _loading = true;
+    });
+
+    ///
+    /// 视图请求 接口的最新数据
+    ///
+    ///
+    final String userWalletUrl = "${Urls.usersWallerData}/${model.user['id']}";
+    Response resp = await Request(context: context).getUrl(url: userWalletUrl);
+
+    if (resp == null) {
+      setState(() {
+        _loading = false;
+      });
+
+      DiscuzToast.failed(context: context, message: '加载失败');
+      return;
+    }
+
+    /// 更新钱包状态
+    ///
+    setState(() {
+      _loading = false;
+      _wallet = resp.data['data'];
+    });
+  }
 }

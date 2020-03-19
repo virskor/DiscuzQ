@@ -37,4 +37,10 @@ class Urls {
   /// 分类
   /// 查询所有分类
   static const String categories = "$_apiPath/categories";
+
+
+  /// -----------------------------------
+  /// 金融钱包等
+  /// 金融钱包相关接口
+  static const String usersWallerData = "$_apiPath/wallet/user";
 }
