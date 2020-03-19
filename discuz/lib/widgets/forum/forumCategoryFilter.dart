@@ -69,7 +69,6 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
       rebuildOnChange: false,
       builder: (context, child, model) => Container(
             width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(bottom: 20),
             padding:
                 const EdgeInsets.only(left: 15, right: 0, top: 0, bottom: 0),
             decoration: BoxDecoration(

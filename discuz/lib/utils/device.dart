@@ -51,6 +51,8 @@ class Device {
 
 
   /// 设备震动
+  /// 仅IOs
+  /// 
   static void emitVibration() {
     switch (defaultTargetPlatform) {
       case TargetPlatform.iOS:

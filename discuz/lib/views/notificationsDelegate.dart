@@ -13,6 +13,7 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/router/route.dart';
+import 'package:discuzq/widgets/common/discuzRefresh.dart';
 
 class NotificationsDelegate extends StatefulWidget {
   const NotificationsDelegate({Key key}) : super(key: key);
@@ -75,7 +76,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
             appBar: DiscuzAppBar(
               title: '通知提醒',
             ),
-            body: SmartRefresher(
+            body: DiscuzRefresh(
               enablePullDown: true,
               enablePullUp: false,
               // header: WaterDropHeader(),

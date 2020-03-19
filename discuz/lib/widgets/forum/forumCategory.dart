@@ -3,6 +3,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
+import 'package:discuzq/widgets/common/discuzRefresh.dart';
 
 ///
 /// 注意：
@@ -69,7 +70,7 @@ class _ForumCategoryState extends State<ForumCategory> {
   ///
   /// DiscuzText(widget.filter.filter.toString())
   @override
-  Widget build(BuildContext context) => SmartRefresher(
+  Widget build(BuildContext context) => DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp(),
 
