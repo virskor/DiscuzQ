@@ -116,7 +116,8 @@ class ScopedStateModel<T extends StateModel> extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: model,
-      builder: (context, _) => _InheritedStateModel<T>(model: model, child: child),
+      builder: (context, _) =>
+          _InheritedStateModel<T>(model: model, child: child),
     );
   }
 
@@ -173,8 +174,11 @@ class ScopedStateModel<T extends StateModel> extends StatelessWidget {
     final Type type = _type<_InheritedStateModel<T>>();
 
     Widget widget = rebuildOnChange
-        ? context.inheritFromWidgetOfExactType(type)
-        : context.ancestorInheritedElementForWidgetOfExactType(type)?.widget;
+        ? context.dependOnInheritedWidgetOfExactType<_InheritedStateModel<T>>(
+            aspect: type)
+        : context
+            .getElementForInheritedWidgetOfExactType<_InheritedStateModel<T>>()
+            ?.widget;
 
     if (widget == null) {
       throw ScopedStateModelError();
@@ -188,7 +192,7 @@ class ScopedStateModel<T extends StateModel> extends StatelessWidget {
 
 /// Provides [model] to its [child] [Widget] tree via [InheritedWidget].  When
 /// [version] changes, all descendants who request (via
-/// [BuildContext.inheritFromWidgetOfExactType]) to be rebuilt when the model
+/// [BuildContext.dependOnInheritedWidgetOfExactType]) to be rebuilt when the model
 /// changes will do so.
 class _InheritedStateModel<T extends StateModel> extends InheritedWidget {
   final T model;
