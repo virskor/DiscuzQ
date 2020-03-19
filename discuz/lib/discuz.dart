@@ -10,7 +10,7 @@ import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/views/accountDelegate.dart';
 import 'package:discuzq/views/forumDelegate.dart';
-import 'package:discuzq/views/searchThreadDelegate.dart';
+import 'package:discuzq/views/totalSearchDelegate.dart';
 import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';
 import 'package:discuzq/views/notificationsDelegate.dart';
 
@@ -130,7 +130,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 页面集合
   static const List<Widget> _views = [
     const ForumDelegate(),
-    const SearchThreadDelegate(),
+    const TotalSearchDelegate(),
     const NotificationsDelegate(),
     const AccountDelegate()
   ];

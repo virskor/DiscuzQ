@@ -10,8 +10,10 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 class SearchAppbar extends StatefulWidget implements PreferredSizeWidget {
   final double contentHeight; //从外部指定高度
   final Function onSubmit;
+  final String placeholder;
 
-  SearchAppbar({this.contentHeight = 45, this.onSubmit});
+  SearchAppbar(
+      {this.contentHeight = 45, this.placeholder = '输入关键字搜索', this.onSubmit});
 
   @override
   _SearchAppbarState createState() => _SearchAppbarState();
@@ -63,56 +65,57 @@ class _SearchAppbarState extends State<SearchAppbar> {
         child: Stack(
           children: <Widget>[
             AnimatedContainer(
-                duration: Duration(milliseconds: 270),
-                ///padding: EdgeInsets.only(right: _showButton ? 50 : 0),
-                margin: EdgeInsets.only(right: _showButton ? 50 : 0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
-                child: DiscuzTextfiled(
-                  controller: _controller,
-                  prefixIcon: const DiscuzIcon(SFSymbols.search),
-                  placeHolder: '输入关键字搜索',
-                  borderColor: Colors.transparent,
-                  bottomMargin: 10,
-                  borderWidth: 0.1,
-                  textInputAction: TextInputAction.search,
-                  clearable: true,
-                  onClear: () {
-                    setState(() {
-                      _showButton = false;
-                    });
+              duration: Duration(milliseconds: 270),
 
-                    if (widget.onSubmit != null) {
-                      widget.onSubmit(_controller.text, false);
+              ///padding: EdgeInsets.only(right: _showButton ? 50 : 0),
+              margin: EdgeInsets.only(right: _showButton ? 50 : 0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
+              child: DiscuzTextfiled(
+                controller: _controller,
+                prefixIcon: const DiscuzIcon(SFSymbols.search),
+                placeHolder: widget.placeholder,
+                borderColor: Colors.transparent,
+                bottomMargin: 10,
+                borderWidth: 0.1,
+                textInputAction: TextInputAction.search,
+                clearable: true,
+                onClear: () {
+                  setState(() {
+                    _showButton = false;
+                  });
 
-                      /// 用户清空时，仅触发UI返回到显示历史搜索，但是不提示错误信息
+                  if (widget.onSubmit != null) {
+                    widget.onSubmit(_controller.text, false);
 
-                      /// show notice
-                    }
-                  },
-                  onChanged: (String val) {
-                    /// 
-                    /// 输入的内容不为空的时候显示按钮，
-                    /// 如果已经显示了，就别再buildUI 了
-                    if (StringHelper.isEmpty(string: val) ||
-                        _showButton == true) {
-                      return;
-                    }
+                    /// 用户清空时，仅触发UI返回到显示历史搜索，但是不提示错误信息
 
-                    setState(() {
-                      _showButton = true;
-                    });
-                  },
-                  onSubmit: (String val) {
-                    if (widget.onSubmit != null) {
-                      widget.onSubmit(_controller.text, true);
+                    /// show notice
+                  }
+                },
+                onChanged: (String val) {
+                  ///
+                  /// 输入的内容不为空的时候显示按钮，
+                  /// 如果已经显示了，就别再buildUI 了
+                  if (StringHelper.isEmpty(string: val) ||
+                      _showButton == true) {
+                    return;
+                  }
 
-                      /// show notice
-                    }
-                  },
-                ),
+                  setState(() {
+                    _showButton = true;
+                  });
+                },
+                onSubmit: (String val) {
+                  if (widget.onSubmit != null) {
+                    widget.onSubmit(_controller.text, true);
+
+                    /// show notice
+                  }
+                },
               ),
+            ),
 
             /// ...搜索按钮
             _showButton ? _searchButton() : const SizedBox()

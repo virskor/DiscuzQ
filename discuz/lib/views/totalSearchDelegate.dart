@@ -7,15 +7,15 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/search/searchAppbar.dart';
 import 'package:discuzq/widgets/search/searchHistoryList.dart';
 
-class SearchThreadDelegate extends StatefulWidget {
+class TotalSearchDelegate extends StatefulWidget {
   final Function onRequested;
 
-  const SearchThreadDelegate({Key key, this.onRequested}) : super(key: key);
+  const TotalSearchDelegate({Key key, this.onRequested}) : super(key: key);
   @override
-  _SearchThreadDelegateState createState() => _SearchThreadDelegateState();
+  _TotalSearchDelegateState createState() => _TotalSearchDelegateState();
 }
 
-class _SearchThreadDelegateState extends State<SearchThreadDelegate> {
+class _TotalSearchDelegateState extends State<TotalSearchDelegate> {
   //// state
   ///
   bool _showHistory = true;

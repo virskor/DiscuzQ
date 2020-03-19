@@ -55,7 +55,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 窗体准备完毕后，过几秒为用户刷新信息啦
     /// 这种不会从接口刷新，仅从状态刷新，如果用户要刷新还是得下拉
     /// 或者其他交互逻辑涉及调用 Authhelper.refreshUser 也会自动刷新的
-    /// 
+    ///
     Future.delayed(Duration(milliseconds: 500))
         .then((_) => _refreshStateOnly());
   }
@@ -164,18 +164,23 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   /// 仅刷新状态
   /// 页面initState 和 _refreshMessageList 都会刷新状态
   void _refreshStateOnly({AppModel model}) {
-    if(model == null){
-      try{
+    if (model == null) {
+      try {
         model = ScopedModel.of<AppModel>(context, rebuildOnChange: true);
-      }catch(e){
+      } catch (e) {
         print(e);
       }
     }
 
     ///
     /// 刷新列表
+    /// 数据为空则不要继续
     ///
-    ///
+    if (model.user['attributes']['typeUnreadNotifications'] == null ||
+        model.user['attributes']['typeUnreadNotifications'].length == 0) {
+      return;
+    }
+
     final Map<String, dynamic> typeUnreadNotifications =
         model.user['attributes']['typeUnreadNotifications'];
     if (typeUnreadNotifications == null) {
