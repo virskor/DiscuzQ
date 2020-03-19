@@ -11,6 +11,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumCategory.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
+import 'package:discuzq/widgets/common/discuzIndicater.dart';
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
@@ -70,7 +71,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     /// 返回加载中的视图
     if (_loading) {
       return const Center(
-        child: const CupertinoActivityIndicator(),
+        child: const DiscuzIndicator(),
       );
     }
 

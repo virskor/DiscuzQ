@@ -1,12 +1,12 @@
-import 'package:discuzq/utils/authHelper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'package:discuzq/discuz.dart';
 import 'package:discuzq/models/appModel.dart';
 import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/appWrapper.dart';
+import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/widgets/common/discuzIndicater.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
 
           /// 创建入口APP
           child: model.appConf == null
-              ? const Center(child: const CupertinoActivityIndicator())
+              ? const Center(child: const DiscuzIndicator())
               : const Discuz(),
         );
       }));

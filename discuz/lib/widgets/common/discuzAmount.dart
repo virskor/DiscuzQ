@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/StringHelper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzText.dart';
@@ -22,7 +23,7 @@ class DiscuzAmount extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         DiscuzText(
-          amount == null ? 0 : amount.toString(),
+          StringHelper.isEmpty(string: amount) ? 0.toString() : amount.toString(),
           fontFamily: 'Roboto Condensed',
           fontWeight: fontWeight,
           color: Colors.white,

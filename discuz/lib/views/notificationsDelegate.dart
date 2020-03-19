@@ -125,6 +125,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                                   child: const Icon(
                                     SFSymbols.chevron_right,
                                     color: const Color(0xFFDEDEDE),
+                                    size: 20,
                                   ),
                                 )
                               : const DiscuzListTileTrailing(),
