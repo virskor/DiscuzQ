@@ -183,7 +183,7 @@ class _MyAccountCard extends StatelessWidget {
                 ),
               ),
               title: DiscuzText(
-                state.user['attributes']['username'] ?? '',
+                state.user.username ?? '',
                 fontSize: DiscuzApp.themeOf(context).largeTextSize,
               ),
 

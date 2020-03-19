@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/request/request.dart';
@@ -64,8 +65,7 @@ class AuthHelper {
   static Future<bool> refreshUser(
       {@required BuildContext context,
       @required AppState state,
-      dynamic data}) async {
-
+      UserModel data}) async {
     /// 有时候可能有的接口有反馈，这个时候直接用接口查询过来的数据更新
     /// 这样就避免了自己去查
     /// 其实这种方式虽然简单，但有问题
@@ -75,14 +75,14 @@ class AuthHelper {
       return Future.value(true);
     }
 
-    final String urlDataUrl = "${Urls.usersData}/${state.user['id']}";
+    final String urlDataUrl = "${Urls.usersData}/${state.user.id}";
     Response resp = await Request(context: context).getUrl(url: urlDataUrl);
 
     if (resp == null) {
       return Future.value(false);
     }
 
-    state.updateUser(resp.data['data']);
+    state.updateUser(UserModel.fromMap(maps: resp.data['data']['attributes']));
     return Future.value(true);
   }
 
@@ -93,7 +93,7 @@ class AuthHelper {
   static Future<void> getUserFromLocal({@required AppState state}) async {
     try {
       final dynamic user = await AuthorizationHelper().getUser();
-      state.updateUser(jsonDecode(user));
+      state.updateUser(UserModel.fromMap(maps: user));
     } catch (e) {
       print(e);
     }
@@ -142,13 +142,13 @@ class AuthHelper {
 
     /// 保存token
     await AuthorizationHelper()
-        .save(data: jsonEncode(user), key: AuthorizationHelper.userKey);
+        .save(data: jsonEncode(user['attributes']), key: AuthorizationHelper.userKey);
     await AuthorizationHelper()
         .save(data: accessToken, key: AuthorizationHelper.authorizationKey);
     await AuthorizationHelper()
         .save(data: refreshToken, key: AuthorizationHelper.refreshTokenKey);
 
     /// 更新用户状态
-    state.updateUser(user);
+    state.updateUser(UserModel.fromMap(maps: user['attributes']));
   }
 }

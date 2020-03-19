@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:discuzq/models/typeUnreadNotificationsModel.dart';
 import 'package:flutter/material.dart';
 
 class UserModel {
@@ -175,6 +176,11 @@ class UserModel {
   final int unreadNotifications;
 
   ///
+  /// 未读消息列表
+  ///
+  final TypeUnreadNotificationsModel typeUnreadNotifications;
+
+  ///
   /// 用户信息模型
   const UserModel(
       {this.id,
@@ -205,12 +211,13 @@ class UserModel {
       this.paid = false,
       this.fansCount = 0,
       this.status = 0,
+      this.typeUnreadNotifications,
       this.followCount = 0});
 
   ///
   /// fromMap
   /// 转换模型
-  /// 
+  ///
   static UserModel fromMap({@required dynamic maps}) {
     ///
     /// 返回一个空的模型，如果为空的话
@@ -226,6 +233,43 @@ class UserModel {
       data = jsonDecode(data);
     }
 
-    return UserModel();
+    return UserModel(
+        id: data['id'] == null
+            ? 0
+            : data['id'].runtimeType == String
+                ? int.tryParse(data['id'])
+                : data['id'],
+        username: data['username'] ?? '',
+        mobile: data['mobile'] ?? '',
+        avatarUrl: data['avatarUrl'] ?? '',
+        threadCount: data['threadCount'] ?? 0,
+        followCount: data['followCount'] ?? 0,
+        fansCount: data['fansCount'] ?? 0,
+        follow: data['follow'] ?? 0,
+        status: data['status'] ?? 0,
+        loginAt: data['loginAt'] ?? '',
+        joinedAt: data['joinedAt'] ?? '',
+        expiredAt: data['expiredAt'] ?? '',
+        createdAt: data['createdAt'] ?? '',
+        updatedAt: data['updatedAt'] ?? '',
+        canEdit: data['canEdit'] ?? false,
+        canDelete: data['canDelete'] ?? false,
+        canWalletPay: data['canWalletPay'] ?? false,
+        registerReason: data['registerReason'] ?? '',
+        banReason: data['banReason'] ?? '',
+        originalMobile: data['originalMobile'] ?? '',
+        mobileConfirmed: data['mobileConfirmed'] ?? false,
+        registerIp: data['registerIp'] ?? '',
+        lastLoginIp: data['lastLoginIp'] ?? '',
+        identity: data['identity'] ?? '',
+        realname: data['realname'] ?? '',
+        walletBalance: data['walletBalance'] ?? '',
+        paid: data['paid'] ?? false,
+        payTime: data['payTime'] ?? '',
+        unreadNotifications: data['unreadNotifications'] ?? 0,
+        typeUnreadNotifications: data['typeUnreadNotifications'] == null
+            ? TypeUnreadNotificationsModel()
+            : TypeUnreadNotificationsModel.fromMap(
+                maps: data['typeUnreadNotifications']));
   }
 }

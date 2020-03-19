@@ -173,7 +173,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       DiscuzToast.failed(context: context, message: '刷新失败');
       return;
     }
-
+    
     _refreshStateOnly(state: state);
   }
 
@@ -193,13 +193,12 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 刷新列表
     /// 数据为空则不要继续
     ///
-    if (state.user['attributes']['typeUnreadNotifications'] == null ||
-        state.user['attributes']['typeUnreadNotifications'].length == 0) {
+    if (state.user.typeUnreadNotifications == null) {
       return;
     }
 
-    final Map<String, dynamic> notifications =
-        state.user['attributes']['typeUnreadNotifications'];
+    final TypeUnreadNotificationsModel notifications =
+        state.user.typeUnreadNotifications;
     if (notifications == null) {
       return;
     }
@@ -211,8 +210,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 就是那么懒
     /// todo:增加消息查看组件
     setState(() {
-      _typeUnreadNotifications = TypeUnreadNotificationsModel.fromMap(
-          maps: state.user['attributes']['typeUnreadNotifications']);
+      _typeUnreadNotifications = state.user.typeUnreadNotifications;
     });
   }
 }

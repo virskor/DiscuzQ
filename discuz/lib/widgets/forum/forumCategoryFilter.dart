@@ -125,7 +125,7 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
           /// 构造一个全新的filter进行强制替换
           if (val.shouldLogin == true) {
             Map<String, dynamic> replacement = {
-              "fromUserId": state.user['id'],
+              "fromUserId": state.user.id,
             };
 
             /// 过滤可能发生重复的数据

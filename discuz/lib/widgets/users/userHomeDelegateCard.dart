@@ -7,12 +7,13 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/models/userModel.dart';
 
 ///
 /// 用户主页顶部卡片
 ///
 class UserHomeDelegateCard extends StatefulWidget {
-  final dynamic user;
+  final UserModel user;
 
   UserHomeDelegateCard({Key key, @required this.user}) : super(key: key);
 
@@ -46,7 +47,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                   child: Hero(
                     tag: 'heroAvatar',
                     child: DiscuzAvatar(
-                      url: widget.user['attributes']['avatarUrl'],
+                      url: widget.user.avatarUrl,
                     ),
                   ),
                 ),
@@ -55,7 +56,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                 /// username
                 const SizedBox(height: 10),
                 DiscuzText(
-                  widget.user['attributes']['username'],
+                  widget.user.username,
                   fontSize: DiscuzApp.themeOf(context).mediumTextSize,
                   fontWeight: FontWeight.bold,
                 ),
@@ -84,8 +85,8 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   /// 生成当前的关注数量
   /// 如果我点击了关注就加1，如果没有，就不加
   String _resetFollowedCount() => (_followed == true
-          ? widget.user['attributes']['fansCount'] + 1
-          : widget.user['attributes']['fansCount'])
+          ? widget.user.fansCount + 1
+          : widget.user.fansCount)
       .toString();
 
   ///
@@ -98,7 +99,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
       ? <Widget>[]
 
       /// 用户未登录 不显示组件
-      : state.user['id'] == widget.user['id']
+      : state.user.id == widget.user.id
           ? <Widget>[]
 
           /// 查看的是自己 的账户，不显示关注按钮
@@ -123,7 +124,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   ///
   String _followButtonLabel() => _followed == true
       ? "取消关注"
-      : widget.user['attributes']['follow'] == 1 ? "取消关注" : "关注";
+      : widget.user.follow == 1 ? "取消关注" : "关注";
 
   ///
   /// 生成描述关注情况的概览
@@ -135,7 +136,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             DiscuzText(
-              '关注：${widget.user['attributes']['followCount'].toString()}',
+              '关注：${widget.user.followCount.toString()}',
               color: DiscuzApp.themeOf(context).greyTextColor,
             ),
             const SizedBox(width: 10),

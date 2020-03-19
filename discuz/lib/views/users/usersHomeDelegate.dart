@@ -5,9 +5,10 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/users/userHomeDelegateCard.dart';
+import 'package:discuzq/models/userModel.dart';
 
 class UserHomeDelegate extends StatefulWidget {
-  final dynamic user;
+  final UserModel user;
 
   UserHomeDelegate({Key key, @required this.user}) : super(key: key);
 
@@ -40,7 +41,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
-              title: "${widget.user['attributes']['username']}的个人主页",
+              title: "${widget.user.username}的个人主页",
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: ListView(
