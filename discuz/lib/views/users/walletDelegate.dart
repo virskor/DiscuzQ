@@ -13,6 +13,7 @@ import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/urls.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/models/walletModel.dart';
 
 class WalletDelegate extends StatefulWidget {
   const WalletDelegate({Key key}) : super(key: key);
@@ -30,7 +31,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   ///
   /// wallet data
   ///
-  dynamic _wallet;
+  WalletModel _wallet = WalletModel();
 
   @override
   void setState(fn) {
@@ -125,7 +126,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   Widget _frozen(AppState state) => DiscuzListTile(
         title: DiscuzText('冻结金额'),
         trailing: DiscuzText(
-          _wallet == null ? '0.00' : _wallet['attributes']['freeze_amount'],
+          _wallet.freezeAmount,
           color: DiscuzApp.themeOf(context).greyTextColor,
         ),
       );
@@ -134,8 +135,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   /// show amounts
   Widget _amount(AppState state) => Center(
         child: DiscuzAmount(
-          amount:
-              _wallet == null ? '0.00' : _wallet['attributes']['freeze_amount'],
+          amount: _wallet.availableAmount,
           textScaleFactor: 4,
         ),
       );
@@ -176,7 +176,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
     ///
     setState(() {
       _loading = false;
-      _wallet = resp.data['data'];
+      _wallet = WalletModel.fromMap(maps: resp.data['data']['attributes']);
     });
   }
 }
