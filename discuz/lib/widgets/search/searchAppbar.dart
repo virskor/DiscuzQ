@@ -1,4 +1,5 @@
 import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
@@ -21,6 +22,9 @@ class SearchAppbar extends StatefulWidget implements PreferredSizeWidget {
 
 class _SearchAppbarState extends State<SearchAppbar> {
   final TextEditingController _controller = TextEditingController();
+
+  /// state
+  bool _showButton = false;
 
   @override
   void setState(fn) {
@@ -58,41 +62,60 @@ class _SearchAppbarState extends State<SearchAppbar> {
         bottom: false,
         child: Stack(
           children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(right: 50),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
-              child: DiscuzTextfiled(
-                controller: _controller,
-                prefixIcon: const DiscuzIcon(SFSymbols.search),
-                placeHolder: '输入关键字搜索',
-                borderColor: Colors.transparent,
-                bottomMargin: 10,
-                borderWidth: 0.1,
-                textInputAction: TextInputAction.search,
-                clearable: true,
-                onClear: () {
-                  if (widget.onSubmit != null) {
-                    widget.onSubmit(_controller.text, false);
+            AnimatedContainer(
+                duration: Duration(milliseconds: 270),
+                ///padding: EdgeInsets.only(right: _showButton ? 50 : 0),
+                margin: EdgeInsets.only(right: _showButton ? 50 : 0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
+                child: DiscuzTextfiled(
+                  controller: _controller,
+                  prefixIcon: const DiscuzIcon(SFSymbols.search),
+                  placeHolder: '输入关键字搜索',
+                  borderColor: Colors.transparent,
+                  bottomMargin: 10,
+                  borderWidth: 0.1,
+                  textInputAction: TextInputAction.search,
+                  clearable: true,
+                  onClear: () {
+                    setState(() {
+                      _showButton = false;
+                    });
 
-                    /// 用户清空时，仅触发UI返回到显示历史搜索，但是不提示错误信息
+                    if (widget.onSubmit != null) {
+                      widget.onSubmit(_controller.text, false);
 
-                    /// show notice
-                  }
-                },
-                onSubmit: (String val) {
-                  if (widget.onSubmit != null) {
-                    widget.onSubmit(_controller.text, true);
+                      /// 用户清空时，仅触发UI返回到显示历史搜索，但是不提示错误信息
 
-                    /// show notice
-                  }
-                },
+                      /// show notice
+                    }
+                  },
+                  onChanged: (String val) {
+                    /// 
+                    /// 输入的内容不为空的时候显示按钮，
+                    /// 如果已经显示了，就别再buildUI 了
+                    if (StringHelper.isEmpty(string: val) ||
+                        _showButton == true) {
+                      return;
+                    }
+
+                    setState(() {
+                      _showButton = true;
+                    });
+                  },
+                  onSubmit: (String val) {
+                    if (widget.onSubmit != null) {
+                      widget.onSubmit(_controller.text, true);
+
+                      /// show notice
+                    }
+                  },
+                ),
               ),
-            ),
 
             /// ...搜索按钮
-            _searchButton()
+            _showButton ? _searchButton() : const SizedBox()
           ],
         ),
       ),
@@ -113,6 +136,9 @@ class _SearchAppbarState extends State<SearchAppbar> {
             DiscuzLink(
               label: '搜索',
               onTap: () {
+                setState(() {
+                  _showButton = false;
+                });
                 FocusScope.of(context).requestFocus(FocusNode());
                 if (widget.onSubmit != null) {
                   widget.onSubmit(_controller.text, true);

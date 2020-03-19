@@ -179,9 +179,11 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     }
   }
 
+  ///
   /// _getCategories
   /// force should never be true on didChangeDependencies life cycle
   /// that would make your ui rendering loop and looping to die
+  /// 
   Future<bool> _getCategories(AppModel model, {bool force = false}) async {
     setState(() {
       _loading = true;
