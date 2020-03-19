@@ -15,6 +15,7 @@ import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/models/typeUnreadNotificationsModel.dart';
 
 class NotificationsDelegate extends StatefulWidget {
   const NotificationsDelegate({Key key}) : super(key: key);
@@ -28,18 +29,10 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   ///
   final RefreshController _controller = RefreshController();
 
-  /// states
   ///
-  /// menus
-  ///
-  List<_NotificationMenuItem> _menus = <_NotificationMenuItem>[
-    const _NotificationMenuItem(
-        label: '回复我的', icon: SFSymbols.bubble_left_bubble_right_fill),
-    const _NotificationMenuItem(
-        label: '打赏我的', icon: SFSymbols.money_yen_circle_fill),
-    const _NotificationMenuItem(label: '点赞我的', icon: SFSymbols.heart_fill),
-    const _NotificationMenuItem(label: '系统通知', icon: SFSymbols.bell_fill),
-  ];
+  /// 未读消息
+  TypeUnreadNotificationsModel _typeUnreadNotifications =
+      TypeUnreadNotificationsModel();
 
   @override
   void setState(fn) {
@@ -87,7 +80,32 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                 _controller.refreshCompleted();
               },
               child: Column(
-                children: _buildMessageList(),
+                children: <Widget>[
+                  _notificationsSelection(
+                    item: _NotificationMenuItem(
+                        label: '回复我的',
+                        icon: SFSymbols.bubble_left_bubble_right_fill,
+                        badges: _typeUnreadNotifications.replied),
+                  ),
+                  _notificationsSelection(
+                    item: _NotificationMenuItem(
+                        label: '打赏我的',
+                        icon: SFSymbols.money_yen_circle_fill,
+                        badges: _typeUnreadNotifications.rewarded),
+                  ),
+                  _notificationsSelection(
+                    item: _NotificationMenuItem(
+                        label: '点赞我的',
+                        icon: SFSymbols.heart_fill,
+                        badges: _typeUnreadNotifications.liked),
+                  ),
+                  _notificationsSelection(
+                    item: _NotificationMenuItem(
+                        label: '系统通知',
+                        icon: SFSymbols.bell_fill,
+                        badges: _typeUnreadNotifications.system),
+                  )
+                ],
               ),
             ),
           ));
@@ -97,45 +115,43 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   /// 通知列表的具体数据，根据 _menus 生成
   /// 具体的更新逻辑，参考 _refreshMessageList
   ///
-  List<Widget> _buildMessageList() => _menus
-      .map((el) => Container(
-            decoration: BoxDecoration(
-                color: DiscuzApp.themeOf(context).backgroundColor),
-            child: Column(
-              children: <Widget>[
-                DiscuzListTile(
-                  leading: DiscuzIcon(el.icon,
-                      color: DiscuzApp.themeOf(context).primaryColor),
-                  title: DiscuzText(el.label),
+  Widget _notificationsSelection({_NotificationMenuItem item}) => Container(
+        decoration:
+            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+        child: Column(
+          children: <Widget>[
+            DiscuzListTile(
+              leading: DiscuzIcon(item.icon,
+                  color: DiscuzApp.themeOf(context).primaryColor),
+              title: DiscuzText(item.label),
 
-                  ///
-                  /// 点击查看消息
-                  ///
-                  onTap: () => el.child == null
-                      ? DiscuzToast.failed(context: context, message: '暂不支持')
-                      : DiscuzRoute.open(context: context, widget: el.child),
-                  trailing: el.badges != null && el.badges > 0
-                      ? Badge(
-                          /// 显示消息条目长度
-                          badgeContent: DiscuzText(
-                            el.badges.toString(),
-                            color: Colors.white,
-                          ),
-                          animationType: BadgeAnimationType.fade,
-                          elevation: 0,
-                          child: const Icon(
-                            SFSymbols.chevron_right,
-                            color: const Color(0xFFDEDEDE),
-                            size: 20,
-                          ),
-                        )
-                      : const DiscuzListTileTrailing(),
-                ),
-                const DiscuzDivider(),
-              ],
+              ///
+              /// 点击查看消息
+              ///
+              onTap: () => item.child == null
+                  ? DiscuzToast.failed(context: context, message: '暂不支持')
+                  : DiscuzRoute.open(context: context, widget: item.child),
+              trailing: item.badges != null && item.badges > 0
+                  ? Badge(
+                      /// 显示消息条目长度
+                      badgeContent: DiscuzText(
+                        item.badges.toString(),
+                        color: Colors.white,
+                      ),
+                      animationType: BadgeAnimationType.fade,
+                      elevation: 0,
+                      child: const Icon(
+                        SFSymbols.chevron_right,
+                        color: const Color(0xFFDEDEDE),
+                        size: 20,
+                      ),
+                    )
+                  : const DiscuzListTileTrailing(),
             ),
-          ))
-      .toList();
+            const DiscuzDivider(),
+          ],
+        ),
+      );
 
   ///
   /// 下拉刷新列表
@@ -182,9 +198,9 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       return;
     }
 
-    final Map<String, dynamic> typeUnreadNotifications =
+    final Map<String, dynamic> notifications =
         state.user['attributes']['typeUnreadNotifications'];
-    if (typeUnreadNotifications == null) {
+    if (notifications == null) {
       return;
     }
 
@@ -195,24 +211,8 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 就是那么懒
     /// todo:增加消息查看组件
     setState(() {
-      _menus = <_NotificationMenuItem>[
-        _NotificationMenuItem(
-            label: '回复我的',
-            badges: typeUnreadNotifications['replied'] ?? 0,
-            icon: SFSymbols.bubble_left_bubble_right_fill),
-        _NotificationMenuItem(
-            label: '打赏我的',
-            badges: typeUnreadNotifications['rewarded'] ?? 0,
-            icon: SFSymbols.money_yen_circle_fill),
-        _NotificationMenuItem(
-            label: '点赞我的',
-            badges: typeUnreadNotifications['liked'] ?? 0,
-            icon: SFSymbols.heart_fill),
-        _NotificationMenuItem(
-            label: '系统通知',
-            badges: typeUnreadNotifications['system'] ?? 0,
-            icon: SFSymbols.bell_fill),
-      ];
+      _typeUnreadNotifications = TypeUnreadNotificationsModel.fromMap(
+          maps: state.user['attributes']['typeUnreadNotifications']);
     });
   }
 }
