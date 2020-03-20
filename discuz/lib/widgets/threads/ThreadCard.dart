@@ -7,6 +7,7 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/threads/threadHeaderCard.dart';
+import 'package:discuzq/widgets/common/discuzDivider.dart';
 
 final ThreadsCacher threadsCacher = ThreadsCacher();
 
@@ -71,13 +72,38 @@ class _ThreadCardState extends State<ThreadCard> {
           Container(
             padding: EdgeInsets.only(top: 10, bottom: 10),
             alignment: Alignment.topLeft,
-            child: DiscuzText(_firstPost.attributes.content),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                /// 显示主题的title
+                ..._buildContentTitle(),
+
+                /// 主题的内容
+                DiscuzText(_firstPost.attributes.content)
+              ],
+            ),
           ),
           _ThreadPostSnapshot(),
         ],
       ),
     );
   }
+
+  /// 显示主题的标题
+  /// 并不是所有主题都有标题，所以要做判断
+  List<Widget> _buildContentTitle() => widget.thread.attributes.title == ""
+      ? <Widget>[]
+      : <Widget>[
+          DiscuzText(widget.thread.attributes.title, fontWeight: FontWeight.bold,),
+          const SizedBox(height: 5),
+          const DiscuzDivider(
+            padding: 0,
+          ),
+          const SizedBox(height: 5),
+        ];
+
+
 }
 
 ///

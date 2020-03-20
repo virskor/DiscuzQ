@@ -49,10 +49,32 @@ class RelationshipsModel {
   /// post will be an array []
   /// notice: you need use postModel to convert this data
   ///
-  final List<dynamic> posts;
+  final dynamic posts;
+
+  ///
+  /// lastThreePosts
+  /// /// lastThreePosts: {
+  /// data:[]
+  /// }
+  /// 最近3条回复
+  final dynamic lastThreePosts;
+
+
+  ///
+  /// lastThreePosts
+  /// lastThreePosts: {
+  /// data:[]
+  /// }
+  /// 打赏的用户
+  final dynamic rewardedUsers;
 
   const RelationshipsModel(
-      {this.user, this.firstPost, this.threadVideo, this.posts});
+      {this.user,
+      this.firstPost,
+      this.threadVideo,
+      this.posts,
+      this.rewardedUsers,
+      this.lastThreePosts});
 
   ///
   /// RelationshipsModel
@@ -76,6 +98,8 @@ class RelationshipsModel {
         user: data['user'] ?? null,
         firstPost: data['firstPost'] ?? null,
         posts: data['posts'] ?? [],
+        lastThreePosts: data['lastThreePosts'] ?? [],
+        rewardedUsers: data['rewardedUsers'] ?? [],
         threadVideo: data['threadVideo'] ?? null);
   }
 }
