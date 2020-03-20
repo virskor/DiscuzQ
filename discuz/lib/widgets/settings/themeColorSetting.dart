@@ -49,7 +49,7 @@ class ThemeColorSetting extends StatelessWidget {
                   ],
                 ),
               ),
-              const DiscuzDivider(),
+              const DiscuzDivider(padding: 0,),
             ],
           );
         });

@@ -79,7 +79,7 @@ class _SearchAppbarState extends State<SearchAppbar> {
                   right: _showButton ? 50 : 0,
                   left: ModalRoute.of(context).canPop == true &&
                           ModalRoute.of(context).isFirst == false
-                      ? 60
+                      ? 50
                       : 0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),

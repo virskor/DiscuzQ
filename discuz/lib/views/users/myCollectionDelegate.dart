@@ -4,19 +4,24 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/search/searchAppbar.dart';
-import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncluedes.dart';
 import 'package:discuzq/utils/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/models/postModel.dart';
+import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/widgets/common/discuzDivider.dart';
 
+///
+/// 我的收藏
 class MyCollectionDelegate extends StatefulWidget {
   const MyCollectionDelegate({Key key}) : super(key: key);
   @override
@@ -24,6 +29,16 @@ class MyCollectionDelegate extends StatefulWidget {
 }
 
 class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
+  ///------------------------------
+  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// 当数据更新的时候，数据会存储到 threadsCacher
+  /// threadsCacher 在页面销毁的时候，务必清空 .clear()
+  ///
+  final ThreadsCacher _threadsCacher = ThreadsCacher();
+
+  ///
+  /// 下拉刷新
+  ///
   final RefreshController _controller = RefreshController();
 
   /// states
@@ -33,15 +48,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
   /// meta required threadCount && pageCount
   dynamic _meta;
-
-  ///
-  /// collections
-  List<ThreadModel> _collections;
-
-  ///
-  /// users
-  List<UserModel> _users = [];
-
 
   @override
   void setState(fn) {
@@ -60,6 +66,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   @override
   void dispose() {
     _controller.dispose();
+    _threadsCacher.clear();
     super.dispose();
   }
 
@@ -87,7 +94,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   /// _body
   /// 生成Body
   Widget _body({AppState state}) {
-    if (_collections == null || _collections.length == 0) {
+    if (_threadsCacher.threads == null || _threadsCacher.threads.length == 0) {
       return const DiscuzNoMoreData();
     }
 
@@ -115,8 +122,10 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   ///
   /// 构造收藏的列表
   ///
-  List<Widget> _buildCollectionsList({AppState state}) => _collections
-      .map((it) => Column(
+  List<Widget> _buildCollectionsList({AppState state}) => _threadsCacher.threads
+      .map<Widget>((ThreadModel it) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               ///
               /// 显示主题顶部信息
@@ -124,7 +133,8 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
               // ThreadHeaderCard(
               //   thread: it,
               // ),
-              const DiscuzText('测试')
+              const DiscuzText('测试的'),
+              const DiscuzDivider()
             ],
           ))
       .toList();
@@ -135,8 +145,14 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   /// 如果没有提供，则使用_pageNumber
   Future<void> _requestData({int pageNumber, String keyword}) async {
     ///
+    /// 如果是第一页的时候要先清空数据，防止数据重复
+    if (_pageNumber <= 1 || pageNumber <= 1) {
+      _threadsCacher.clear();
+    }
+
+    ///
     /// 关联查询的数据
-    /// 
+    ///
     List<String> includes = [
       RequestIncludes.user,
       RequestIncludes.firstPost,
@@ -161,11 +177,30 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     ///
     /// 更新数据
-    /// todo: 更新数据这个过程我想应该做个专门用于渲染主题列表的组件，
-    /// 因为flutter的性能其实堪忧，所以该想办法如何保证渲染性能优化和内存处理
-    /// 预设计方案( preload用户滑动到视图的上下几个项目，不渲染获取的数据的所有内容，而是滑动到哪里预加载列表上下几条? )
+    /// 更新ThreadsCacher中的数据
+    /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来重构Widget tree便会展示最新数据
+    final List<dynamic> _threads = resp.data['data'] ?? [];
+    final List<dynamic> _included = resp.data['included'] ?? [];
+
+    /// 关联的数据，包含user, post，需要在缓存前进行转义
+    try {
+      _threadsCacher.threads = _threads
+          .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
+          .toList();
+      _threadsCacher.posts = _included
+          .where((inc) => inc['type'] == 'posts')
+          .map((p) => PostModel.fromMap(maps: p))
+          .toList();
+      _threadsCacher.users = _included
+          .where((inc) => inc['type'] == 'users')
+          .map((p) => UserModel.fromMap(maps: p))
+          .toList();
+    } catch (e) {
+      print(e);
+    }
+
     setState(() {
-      
+      _pageNumber = resp.data['meta']['pageCount'];
     });
   }
 }

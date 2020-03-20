@@ -131,7 +131,7 @@ class PostAttributesModel {
   ///
   /// isApproved
   /// 是否合法(审核)
-  final bool isApproved;
+  final int isApproved;
 
   ///
   /// canDelete
@@ -165,7 +165,7 @@ class PostAttributesModel {
       this.createdAt = '',
       this.updatedAt = '',
       this.isFirst = false,
-      this.isApproved = false,
+      this.isApproved = 0,
       this.canDelete = false,
       this.canHide = false,
       this.canApprove = false,

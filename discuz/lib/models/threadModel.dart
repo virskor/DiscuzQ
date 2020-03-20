@@ -116,7 +116,7 @@ class ThreadAttributesModel {
   ///
   /// isApproved
   /// 是否合法(审核)
-  final bool isApproved;
+  final int isApproved;
 
   ///
   /// isSticky
@@ -186,7 +186,7 @@ class ThreadAttributesModel {
       this.updatedAt = '',
       this.deletedAt = '',
       this.postCount = 0,
-      this.isApproved = false,
+      this.isApproved = 0,
       this.isSticky = false,
       this.canFavorite = false,
       this.canHide = false,
@@ -236,7 +236,7 @@ class ThreadAttributesModel {
             : data['postCount'].runtimeType == String
                 ? int.tryParse(data['postCount'])
                 : data['postCount'],
-        isApproved: data['isApproved'] ?? false,
+        isApproved: data['isApproved'] ?? 0,
         isSticky: data['isSticky'] ?? false,
         canFavorite: data['canFavorite'] ?? false,
         canHide: data['canHide'] ?? false,
