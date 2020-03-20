@@ -64,7 +64,7 @@ class _TotalSearchDelegateState extends State<TotalSearchDelegate> {
       });
 
       if (showNotice) {
-        DiscuzToast.failed(context: context, message: '请输入关键字在搜索');
+        DiscuzToast.failed(context: context, message: '缺少关键字');
       }
       return;
     }

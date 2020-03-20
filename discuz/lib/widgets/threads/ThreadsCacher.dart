@@ -17,8 +17,25 @@ import 'package:discuzq/models/userModel.dart';
 /// 但是更新这些数据只能由统一的方式进行，以便于去除重复的数据
 class ThreadsCacher {
 
-  ThreadsCacher();
-  
+  ///
+  /// 注意 ThreadsCacher 是一个单例
+  /// 所以如果不用了，就一定要clear
+  /// 否则，在下次调用的时候数据还在，将直接导致错误的数据渲染
+  /// 
+  factory ThreadsCacher() => _getInstance();
+  static ThreadsCacher get instance => _getInstance();
+  static ThreadsCacher _instance;
+
+  ThreadsCacher._internal() {
+    // 初始化单例实例
+  }
+  static ThreadsCacher _getInstance() {
+    if (_instance == null) {
+      _instance = new ThreadsCacher._internal();
+    }
+    return _instance;
+  }
+
   ///
   /// 话题
   ///

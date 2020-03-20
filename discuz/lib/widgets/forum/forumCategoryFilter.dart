@@ -71,7 +71,7 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
       builder: (context, child, state) => Container(
             width: MediaQuery.of(context).size.width,
             padding:
-                const EdgeInsets.only(left: 15, right: 0, top: 0, bottom: 0),
+                const EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 0),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor,
                 border: Border(top: Global.border)),

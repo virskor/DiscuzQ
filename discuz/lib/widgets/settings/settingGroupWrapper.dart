@@ -16,7 +16,7 @@ class SettingGroupWrapper extends StatelessWidget {
     rebuildChildren.insert(
         0,
         Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
+            padding: const EdgeInsets.only(right: 10, left: 10),
             child: DiscuzText(
               label,
               fontSize: DiscuzApp.themeOf(context).normalTextSize,
@@ -26,7 +26,7 @@ class SettingGroupWrapper extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(bottom: 10),
-      margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
+      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,

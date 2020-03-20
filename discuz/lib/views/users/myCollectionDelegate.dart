@@ -7,8 +7,7 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/search/searchAppbar.dart';
+import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncluedes.dart';
@@ -18,7 +17,15 @@ import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
-import 'package:discuzq/widgets/common/discuzDivider.dart';
+import 'package:discuzq/widgets/common/discuzIndicater.dart';
+import 'package:discuzq/widgets/threads/ThreadCard.dart';
+
+///------------------------------
+/// threadsCacher 是用于缓存当前页面的主题数据的对象
+/// 当数据更新的时候，数据会存储到 threadsCacher
+/// threadsCacher 在页面销毁的时候，务必清空 .clear()
+///
+final ThreadsCacher threadsCacher = ThreadsCacher();
 
 ///
 /// 我的收藏
@@ -29,13 +36,6 @@ class MyCollectionDelegate extends StatefulWidget {
 }
 
 class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
-  ///------------------------------
-  /// threadsCacher 是用于缓存当前页面的主题数据的对象
-  /// 当数据更新的时候，数据会存储到 threadsCacher
-  /// threadsCacher 在页面销毁的时候，务必清空 .clear()
-  ///
-  final ThreadsCacher _threadsCacher = ThreadsCacher();
-
   ///
   /// 下拉刷新
   ///
@@ -48,6 +48,11 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
   /// meta required threadCount && pageCount
   dynamic _meta;
+
+  ///
+  /// loading
+  /// 是否正在加载
+  bool _loading = false;
 
   @override
   void setState(fn) {
@@ -66,7 +71,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   @override
   void dispose() {
     _controller.dispose();
-    _threadsCacher.clear();
+    threadsCacher.clear();
     super.dispose();
   }
 
@@ -80,11 +85,8 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
-          appBar: SearchAppbar(
-            placeholder: '输入关键字搜索',
-            onSubmit: (String keyword) {
-              /// ... 用户输入了关键字
-            },
+          appBar: DiscuzAppBar(
+            title: '我的收藏',
           ),
           backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
 
@@ -94,7 +96,13 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   /// _body
   /// 生成Body
   Widget _body({AppState state}) {
-    if (_threadsCacher.threads == null || _threadsCacher.threads.length == 0) {
+    if (_loading) {
+      return const Center(
+        child: const DiscuzIndicator(),
+      );
+    }
+
+    if (threadsCacher.threads == null || threadsCacher.threads.length == 0) {
       return const DiscuzNoMoreData();
     }
 
@@ -121,22 +129,13 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
   ///
   /// 构造收藏的列表
-  ///
-  List<Widget> _buildCollectionsList({AppState state}) => _threadsCacher.threads
-      .map<Widget>((ThreadModel it) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              ///
-              /// 显示主题顶部信息
-              /// todo: 移除，这个组件，直接使用已经封装的ThreadCard组件进行渲染即可
-              // ThreadHeaderCard(
-              //   thread: it,
-              // ),
-              const DiscuzText('测试的'),
-              const DiscuzDivider()
-            ],
-          ))
+  /// todo: 直接把主题列表做成一个组件好了，这样也不用每个地方一大堆代码
+  List<Widget> _buildCollectionsList({AppState state}) => threadsCacher.threads
+      .map<Widget>(
+        (ThreadModel it) => ThreadCard(
+          thread: it,
+        ),
+      )
       .toList();
 
   ///
@@ -147,8 +146,15 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
     if (_pageNumber <= 1 || pageNumber <= 1) {
-      _threadsCacher.clear();
+      threadsCacher.clear();
     }
+
+    ///
+    /// 正在加载
+    ///
+    setState(() {
+      _loading = true;
+    });
 
     ///
     /// 关联查询的数据
@@ -171,6 +177,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
         .getUrl(url: Urls.threadsFavorites, queryParameters: data);
 
     if (resp == null) {
+      setState(() {
+        _loading = false;
+      });
       DiscuzToast.failed(context: context, message: '加载失败');
       return;
     }
@@ -184,22 +193,23 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     /// 关联的数据，包含user, post，需要在缓存前进行转义
     try {
-      _threadsCacher.threads = _threads
+      threadsCacher.threads = _threads
           .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
           .toList();
-      _threadsCacher.posts = _included
+      threadsCacher.posts = _included
           .where((inc) => inc['type'] == 'posts')
           .map((p) => PostModel.fromMap(maps: p))
           .toList();
-      _threadsCacher.users = _included
+      threadsCacher.users = _included
           .where((inc) => inc['type'] == 'users')
-          .map((p) => UserModel.fromMap(maps: p))
+          .map((p) => UserModel.fromMap(maps: p['attributes']))
           .toList();
     } catch (e) {
       print(e);
     }
 
     setState(() {
+      _loading = false;
       _pageNumber = resp.data['meta']['pageCount'];
     });
   }

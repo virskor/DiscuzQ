@@ -66,7 +66,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
               actions: <Widget>[
                 _loading
                     ? const Padding(
-                        padding: const EdgeInsets.only(right: 15),
+                        padding: const EdgeInsets.only(right: 10),
                         child: const DiscuzIndicator(
                           brightness: Brightness.dark,
                         ))
@@ -89,7 +89,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
                     borderRadius: _borderRadius,
                     child: Container(
                       margin:
-                          const EdgeInsets.only(top: 40, left: 15, right: 15),
+                          const EdgeInsets.only(top: 40, left: 10, right: 10),
                       decoration: BoxDecoration(
                           borderRadius: _borderRadius,
                           color: DiscuzApp.themeOf(context).backgroundColor),
