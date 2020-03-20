@@ -1,16 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
+import 'package:discuzq/models/relationShipsModel.dart';
+
 class ThreadModel {
   ///
   /// id
   ///
-  final String id;
+  final int id;
 
   ///
   /// 主题类型
   ///
-  final String type;
+  final int type;
 
   ///
   /// 主题信息
@@ -20,10 +22,11 @@ class ThreadModel {
   ///
   /// relationships
   /// 关联数据
-  final ThreadAttributesRelationshipsModel relationships;
+  final RelationshipsModel relationships;
 
   /// 主题模型
-  const ThreadModel({this.id, this.type, this.attributes, this.relationships});
+  const ThreadModel(
+      {this.id = 0, this.type = 0, this.attributes, this.relationships});
 
   ///
   /// fromMap
@@ -47,11 +50,19 @@ class ThreadModel {
     ///
     /// 返回转化的分类模型
     return ThreadModel(
-        id: data['id'] ?? 0,
-        type: data['type'],
+        id: data['id'] == null
+            ? 0
+            : data['id'].runtimeType == String
+                ? int.tryParse(data['id'])
+                : data['id'],
+        type: data['type'] == null
+            ? 0
+            : data['type'].runtimeType == String
+                ? int.tryParse(data['type'])
+                : data['type'],
         relationships: data['attributes'] == null
-            ? ThreadAttributesRelationshipsModel()
-            : ThreadAttributesRelationshipsModel.fromMap(
+            ? RelationshipsModel()
+            : RelationshipsModel.fromMap(
                 maps: data['relationships']),
         attributes: data['attributes'] == null
             ? ThreadAttributesModel()
@@ -210,13 +221,21 @@ class ThreadAttributesModel {
     }
 
     return ThreadAttributesModel(
-        type: data['type'] ?? 0,
+        type: data['type'] == null
+            ? 0
+            : data['type'].runtimeType == String
+                ? int.tryParse(data['type'])
+                : data['type'],
         title: data['title'] ?? '',
         price: data['price'] ?? '0.00',
         createdAt: data['createdAt'] ?? '',
         updatedAt: data['updatedAt'] ?? '',
         deletedAt: data['deletedAt'] ?? '',
-        postCount: data['postCount'] ?? 0,
+        postCount: data['postCount'] == null
+            ? 0
+            : data['postCount'].runtimeType == String
+                ? int.tryParse(data['postCount'])
+                : data['postCount'],
         isApproved: data['isApproved'] ?? false,
         isSticky: data['isSticky'] ?? false,
         canFavorite: data['canFavorite'] ?? false,
@@ -231,84 +250,5 @@ class ThreadAttributesModel {
         canViewPosts: data['canViewPosts'] ?? false,
         canDelete: data['canDelete'] ?? false,
         viewCount: data['viewCount'] ?? false);
-  }
-}
-
-///
-/// relationships
-///
-class ThreadAttributesRelationshipsModel {
-  ///
-  /// user
-  ///
-  ///
-  /// {
-  ///    "data": {
-  ///       "type": "users",
-  ///          "id": "3"
-  ///       }
-  /// }
-  ///
-  ///
-  final dynamic user;
-
-  ///
-  /// firstPost
-  ///
-  ///
-  /// {
-  ///    "data": {
-  ///       "type": "posts",
-  ///         "id": "23"
-  ///       }
-  /// }
-  ///
-  ///
-  final dynamic firstPost;
-
-  ///
-  /// threadVideo
-  ///
-  /// "threadVideo": {
-  ///              "data": {
-  ///                  "type": "thread-video",
-  ///                  "id": "18"
-  ///              }
-  ///          },
-  final dynamic threadVideo;
-
-  ///
-  /// posts
-  /// post will be an array []
-  /// notice: you need use postModel to convert this data
-  ///
-  final List<dynamic> posts;
-
-  const ThreadAttributesRelationshipsModel(
-      {this.user, this.firstPost, this.threadVideo, this.posts});
-
-  ///
-  /// ThreadAttributesRelationshipsModel
-  ///
-  static ThreadAttributesRelationshipsModel fromMap({@required dynamic maps}) {
-    ///
-    /// 返回一个空的模型，如果为空的话
-    ///
-    if (maps == null) {
-      return ThreadAttributesRelationshipsModel();
-    }
-
-    dynamic data = maps;
-
-    /// 数据来自json
-    if (maps.runtimeType == String) {
-      data = jsonDecode(data);
-    }
-
-    return ThreadAttributesRelationshipsModel(
-        user: data['user'] ?? null,
-        firstPost: data['firstPost'] ?? null,
-        posts: data['posts'] ?? [],
-        threadVideo: data['threadVideo'] ?? null);
   }
 }

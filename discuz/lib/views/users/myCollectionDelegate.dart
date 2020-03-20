@@ -1,9 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/request/requestIncluedes.dart';
-import 'package:discuzq/utils/urls.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -16,6 +11,11 @@ import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/search/searchAppbar.dart';
 import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/request/requestIncluedes.dart';
+import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 class MyCollectionDelegate extends StatefulWidget {
   const MyCollectionDelegate({Key key}) : super(key: key);
@@ -41,6 +41,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   ///
   /// users
   List<UserModel> _users = [];
+
 
   @override
   void setState(fn) {
@@ -160,6 +161,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     ///
     /// 更新数据
+    /// todo: 更新数据这个过程我想应该做个专门用于渲染主题列表的组件，
+    /// 因为flutter的性能其实堪忧，所以该想办法如何保证渲染性能优化和内存处理
+    /// 预设计方案( preload用户滑动到视图的上下几个项目，不渲染获取的数据的所有内容，而是滑动到哪里预加载列表上下几条? )
     setState(() {
       
     });
