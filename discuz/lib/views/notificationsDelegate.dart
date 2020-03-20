@@ -84,25 +84,25 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '回复我的',
-                        icon: SFSymbols.bubble_left_bubble_right_fill,
+                        icon: SFSymbols.bubble_left_bubble_right,
                         badges: _typeUnreadNotifications.replied),
                   ),
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '打赏我的',
-                        icon: SFSymbols.money_yen_circle_fill,
+                        icon: SFSymbols.money_yen_circle,
                         badges: _typeUnreadNotifications.rewarded),
                   ),
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '点赞我的',
-                        icon: SFSymbols.heart_fill,
+                        icon: SFSymbols.heart,
                         badges: _typeUnreadNotifications.liked),
                   ),
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '系统通知',
-                        icon: SFSymbols.bell_fill,
+                        icon: SFSymbols.bell,
                         badges: _typeUnreadNotifications.system),
                   )
                 ],

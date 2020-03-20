@@ -83,5 +83,5 @@ class Global {
   ///
   /// 分页，单页加载数量
   /// 分页下拉加载组件将以此为准
-  static const int perPage = 20;
+  static const int requestPageLimit = 20;
 }

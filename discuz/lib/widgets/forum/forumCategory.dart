@@ -83,7 +83,12 @@ class _ForumCategoryState extends State<ForumCategory> {
         onLoading: () async {
           _controller.loadComplete();
         },
-        child: DiscuzText(widget.filter.filter.toString()),
+        child: Column(
+          children: <Widget>[
+            DiscuzText(widget.filter.includes.toString()),
+            DiscuzText(widget.filter.filter.toString())
+          ],
+        ),
       );
 
   ///

@@ -73,7 +73,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? leadingWidth > 0 ? leadingWidth : 100
             : kToolbarHeight,
         leading: leading ??
-            _Leading(
+            AppbarLeading(
               previousPageTitle: previousPageTitle,
               dark: dark,
             ),
@@ -94,13 +94,13 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
       );
 }
 
-class _Leading extends StatelessWidget {
+class AppbarLeading extends StatelessWidget {
   final IconData codePoint;
   final double size;
   final String previousPageTitle;
   final bool dark;
 
-  _Leading(
+  const AppbarLeading(
       {Key key,
       this.codePoint = SFSymbols.arrow_left,
       this.size = 25,

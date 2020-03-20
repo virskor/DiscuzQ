@@ -7,6 +7,7 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/utils/request/requestIncluedes.dart';
 
 /// 筛选组件
 class ForumCategoryFilter extends StatefulWidget {
@@ -156,8 +157,17 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
 /// ForumCategoryFilterItem 过滤条件选项
 class ForumCategoryFilterItem {
   /// 默认的关联数据
-  static const String _defaultIncludes =
-      'user,firstPost,firstPost.images,lastThreePosts,lastThreePosts.user,lastThreePosts.replyUser,firstPost.likedUsers,rewardedUsers';
+  static const List<String> _defaultIncludes = <String>[
+    RequestIncludes.user,
+    RequestIncludes.thread,
+    RequestIncludes.firstPost,
+    RequestIncludes.firstPostImages,
+    RequestIncludes.firstPostLikedUsers,
+    RequestIncludes.rewardedUsers,
+    RequestIncludes.lastThreePosts,
+    RequestIncludes.lastThreePostsUser,
+    RequestIncludes.lastThreePostsReplyUser,
+  ];
 
   /// 用于筛选的条件的标签
   final String label;
@@ -166,7 +176,7 @@ class ForumCategoryFilterItem {
   final List<Map<String, dynamic>> filter;
 
   /// 查询时所需的关联数据
-  final String includes;
+  final List<dynamic> includes;
 
   /// 是否需要登录才显示
   final bool shouldLogin;

@@ -43,4 +43,10 @@ class Urls {
   /// 金融钱包等
   /// 金融钱包相关接口
   static const String usersWallerData = "$_apiPath/wallet/user";
+
+
+  /// -----------------------------------
+  /// 主题
+  /// 主题相关的接口
+  static const String threadsFavorites = "$_apiPath/favorites";
 }

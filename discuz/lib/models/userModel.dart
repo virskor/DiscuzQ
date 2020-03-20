@@ -242,11 +242,31 @@ class UserModel {
         username: data['username'] ?? '',
         mobile: data['mobile'] ?? '',
         avatarUrl: data['avatarUrl'] ?? '',
-        threadCount: data['threadCount'] ?? 0,
-        followCount: data['followCount'] ?? 0,
-        fansCount: data['fansCount'] ?? 0,
-        follow: data['follow'] ?? 0,
-        status: data['status'] ?? 0,
+        threadCount: data['threadCount'] == null
+            ? 0
+            : data['threadCount'].runtimeType == String
+                ? int.tryParse(data['threadCount'])
+                : data['threadCount'],
+        followCount: data['followCount'] == null
+            ? 0
+            : data['followCount'].runtimeType == String
+                ? int.tryParse(data['followCount'])
+                : data['followCount'],
+        fansCount: data['fansCount'] == null
+            ? 0
+            : data['fansCount'].runtimeType == String
+                ? int.tryParse(data['fansCount'])
+                : data['fansCount'],
+        follow: data['follow'] == null
+            ? 0
+            : data['follow'].runtimeType == String
+                ? int.tryParse(data['follow'])
+                : data['follow'],
+        status: data['status'] == null
+            ? 0
+            : data['status'].runtimeType == String
+                ? int.tryParse(data['status'])
+                : data['status'],
         loginAt: data['loginAt'] ?? '',
         joinedAt: data['joinedAt'] ?? '',
         expiredAt: data['expiredAt'] ?? '',
@@ -266,7 +286,11 @@ class UserModel {
         walletBalance: data['walletBalance'] ?? '',
         paid: data['paid'] ?? false,
         payTime: data['payTime'] ?? '',
-        unreadNotifications: data['unreadNotifications'] ?? 0,
+        unreadNotifications: data['unreadNotifications'] == null
+            ? 0
+            : data['unreadNotifications'].runtimeType == String
+                ? int.tryParse(data['unreadNotifications'])
+                : data['unreadNotifications'],
         typeUnreadNotifications: data['typeUnreadNotifications'] == null
             ? TypeUnreadNotificationsModel()
             : TypeUnreadNotificationsModel.fromMap(

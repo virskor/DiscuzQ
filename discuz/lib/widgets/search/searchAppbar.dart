@@ -1,7 +1,7 @@
+import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-
 
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/utils/StringHelper.dart';
@@ -66,11 +66,21 @@ class _SearchAppbarState extends State<SearchAppbar> {
         bottom: false,
         child: Stack(
           children: <Widget>[
+
+            Positioned(
+              top: -6, /// todo: Not recommend modify appbar leading
+              child: const AppbarLeading(),),
+
             AnimatedContainer(
               duration: Duration(milliseconds: 270),
 
               ///padding: EdgeInsets.only(right: _showButton ? 50 : 0),
-              margin: EdgeInsets.only(right: _showButton ? 50 : 0),
+              margin: EdgeInsets.only(
+                  right: _showButton ? 50 : 0,
+                  left: ModalRoute.of(context).canPop == true &&
+                          ModalRoute.of(context).isFirst == false
+                      ? 60
+                      : 0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
