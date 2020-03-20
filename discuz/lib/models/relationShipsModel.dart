@@ -45,36 +45,27 @@ class RelationshipsModel {
   final dynamic threadVideo;
 
   ///
-  /// posts
-  /// post will be an array []
-  /// notice: you need use postModel to convert this data
-  ///
-  final dynamic posts;
-
-  ///
   /// lastThreePosts
-  /// /// lastThreePosts: {
-  /// data:[]
-  /// }
   /// 最近3条回复
-  final dynamic lastThreePosts;
-
+  final List<dynamic> lastThreePosts;
 
   ///
   /// lastThreePosts
-  /// lastThreePosts: {
-  /// data:[]
-  /// }
   /// 打赏的用户
-  final dynamic rewardedUsers;
+  final List<dynamic> rewardedUsers;
+
+  ///
+  /// replyUser
+  /// 回复的用户
+  final dynamic replyUser;
 
   const RelationshipsModel(
       {this.user,
       this.firstPost,
       this.threadVideo,
-      this.posts,
-      this.rewardedUsers,
-      this.lastThreePosts});
+      this.replyUser,
+      this.rewardedUsers = const [],
+      this.lastThreePosts = const []});
 
   ///
   /// RelationshipsModel
@@ -93,13 +84,17 @@ class RelationshipsModel {
     if (maps.runtimeType == String) {
       data = jsonDecode(data);
     }
+    
 
     return RelationshipsModel(
         user: data['user'] ?? null,
         firstPost: data['firstPost'] ?? null,
-        posts: data['posts'] ?? [],
-        lastThreePosts: data['lastThreePosts'] ?? [],
-        rewardedUsers: data['rewardedUsers'] ?? [],
+        replyUser: data['replyUser'] ?? null,
+        lastThreePosts: data['lastThreePosts'] == null
+            ? []
+            : data['lastThreePosts']['data'],
+        rewardedUsers:
+            data['rewardedUsers'] == null ? [] : data['rewardedUsers']['data'],
         threadVideo: data['threadVideo'] ?? null);
   }
 }

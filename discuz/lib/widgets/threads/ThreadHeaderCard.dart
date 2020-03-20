@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
+
 ///
 /// ThreadHeaderCard
 /// 主题的顶部信息显示
@@ -18,7 +18,7 @@ class ThreadHeaderCard extends StatelessWidget {
   /// 主题
   final ThreadModel thread;
 
-  const ThreadHeaderCard({this.author, this.thread});
+  const ThreadHeaderCard({@required this.author, @required this.thread});
 
   @override
   Widget build(BuildContext context) {

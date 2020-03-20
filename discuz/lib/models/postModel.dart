@@ -61,7 +61,7 @@ class PostModel {
             : data['type'].runtimeType == String
                 ? int.tryParse(data['type'])
                 : data['type'],
-        relationships: data['attributes'] == null
+        relationships: data['relationships'] == null
             ? RelationshipsModel()
             : RelationshipsModel.fromMap(maps: data['relationships']),
         attributes: data['attributes'] == null
@@ -71,20 +71,7 @@ class PostModel {
 }
 
 ///
-/// "replyUserId": null,
-/// "content": "abc",
-/// "contentHtml": "abc",
-/// "replyCount": 0,
-/// "likeCount": 0,
-/// "createdAt": "2020-03-10T16:31:54+08:00",
-/// "updatedAt": "2020-03-10T16:31:54+08:00",
-/// "isFirst": true,
-/// "isApproved": 1,
-/// "canEdit": false,
-/// "canApprove": false,
-/// "canDelete": false,
-/// "canHide": false,
-/// "canLike": false
+/// PostAttributesModel
 class PostAttributesModel {
   ///
   /// replyUserID
