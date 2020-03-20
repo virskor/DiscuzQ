@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -22,6 +23,7 @@ import 'package:discuzq/views/users/walletDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
 import 'package:discuzq/views/users/followingDelegate.dart';
 import 'package:discuzq/views/users/blackListDelegate.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -30,6 +32,8 @@ class AccountDelegate extends StatefulWidget {
 }
 
 class _AccountDelegateState extends State<AccountDelegate> {
+  final RefreshController _controller = RefreshController();
+
   final List<_AccountMenuItem> _menus = [
     const _AccountMenuItem(
         label: '偏好设置',
@@ -81,6 +85,25 @@ class _AccountDelegateState extends State<AccountDelegate> {
   ];
 
   @override
+  void setState(fn) {
+    if (!mounted) {
+      return;
+    }
+    super.setState(fn);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: true,
       builder: (context, child, state) => Scaffold(
@@ -90,15 +113,24 @@ class _AccountDelegateState extends State<AccountDelegate> {
             ),
             body: state.user == null
                 ? const YetNotLogon()
-                : SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        /// 构造登录信息页
-                        const _MyAccountCard(),
+                : DiscuzRefresh(
+                    controller: _controller,
+                    enablePullDown: true,
+                    onRefresh: () async {
+                      await AuthHelper.refreshUser(
+                          context: context, state: state);
+                      _controller.refreshCompleted();
+                    },
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          /// 构造登录信息页
+                          const _MyAccountCard(),
 
-                        /// 菜单构造
-                        ..._buildMenus(state)
-                      ],
+                          /// 菜单构造
+                          ..._buildMenus(state)
+                        ],
+                      ),
                     ),
                   ),
           ));

@@ -151,6 +151,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_native_dialog:
+    dependency: "direct main"
+    description:
+      path: "../dependencies/flutter_native_dialog"
+      relative: true
+    source: path
+    version: "0.1.0"
   flutter_native_loading:
     dependency: "direct main"
     description:

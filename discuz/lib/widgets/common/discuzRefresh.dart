@@ -37,7 +37,7 @@ class DiscuzRefresh extends StatelessWidget {
   final Widget child;
 
   DiscuzRefresh(
-      {this.controller,
+      {@required this.controller,
       this.enablePullDown = false,
       this.onLoading,
       this.onRefresh,

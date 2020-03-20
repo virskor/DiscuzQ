@@ -4,6 +4,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_des (0.0.1):
     - Flutter
+  - flutter_native_dialog (0.0.1):
+    - Flutter
   - flutter_native_loading (0.0.1):
     - Flutter
     - SVProgressHUD
@@ -37,6 +39,7 @@ DEPENDENCIES:
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `Flutter`)
   - flutter_des (from `.symlinks/plugins/flutter_des/ios`)
+  - flutter_native_dialog (from `.symlinks/plugins/flutter_native_dialog/ios`)
   - flutter_native_loading (from `.symlinks/plugins/flutter_native_loading/ios`)
   - flutter_user_agent (from `.symlinks/plugins/flutter_user_agent/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -61,6 +64,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_des:
     :path: ".symlinks/plugins/flutter_des/ios"
+  flutter_native_dialog:
+    :path: ".symlinks/plugins/flutter_native_dialog/ios"
   flutter_native_loading:
     :path: ".symlinks/plugins/flutter_native_loading/ios"
   flutter_user_agent:
@@ -88,6 +93,7 @@ SPEC CHECKSUMS:
   device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_des: af0bb83f27f1468ad652d907958b1d42d5644544
+  flutter_native_dialog: dd322cb82cdb53801cad92a3becca4de2dfdf4ef
   flutter_native_loading: fd0c759a3e4fbc8e26336d4fa372dc5c67141c86
   flutter_user_agent: 73414e04725e8332d4a61d4b1d4153971d7a2349
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
