@@ -14,7 +14,7 @@ class UserLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return DiscuzLink(
       label: user.username,
-      padding: const EdgeInsets.only(right: 5),
+      padding: const EdgeInsets.only(right: 2, top: 0, left:2, bottom: 0),
       onTap: () => DiscuzRoute.open(
           context: context,
           widget: UserHomeDelegate(

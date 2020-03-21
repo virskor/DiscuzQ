@@ -55,6 +55,11 @@ class RelationshipsModel {
   final List<dynamic> rewardedUsers;
 
   ///
+  /// lastThreePosts
+  /// 打赏的用户
+  final List<dynamic> likedUsers;
+
+  ///
   /// replyUser
   /// 回复的用户
   final dynamic replyUser;
@@ -64,6 +69,7 @@ class RelationshipsModel {
       this.firstPost,
       this.threadVideo,
       this.replyUser,
+      this.likedUsers = const [],
       this.rewardedUsers = const [],
       this.lastThreePosts = const []});
 
@@ -84,12 +90,13 @@ class RelationshipsModel {
     if (maps.runtimeType == String) {
       data = jsonDecode(data);
     }
-    
 
     return RelationshipsModel(
         user: data['user'] ?? null,
         firstPost: data['firstPost'] ?? null,
         replyUser: data['replyUser'] ?? null,
+        likedUsers:
+            data['likedUsers'] == null ? [] : data['likedUsers']['data'],
         lastThreePosts: data['lastThreePosts'] == null
             ? []
             : data['lastThreePosts']['data'],

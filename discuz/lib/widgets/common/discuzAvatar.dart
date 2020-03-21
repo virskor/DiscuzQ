@@ -21,7 +21,12 @@ class DiscuzAvatar extends StatelessWidget {
           ///
           /// 如果是指定url不要反悔scopedModel类型的Widget,因为头像多了将带来性能压力
           /// 注意这个要放在最上面，以避免别人的头像无法显示
-          /// 
+          ///
+
+          if (url != null && StringHelper.isEmpty(string: url)) {
+            return _empty();
+          }
+
           if (url != null) {
             return _cachedNetworkAvatar(url);
           }

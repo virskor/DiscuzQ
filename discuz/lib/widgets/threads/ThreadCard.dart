@@ -12,8 +12,9 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
+import 'package:discuzq/widgets/threads/ThreadFavoritesAndRewards.dart';
 
-final ThreadsCacher threadsCacher = ThreadsCacher();
+final ThreadsCacher _threadsCacher = ThreadsCacher();
 
 ///
 /// 主题卡片
@@ -40,7 +41,7 @@ class _ThreadCardState extends State<ThreadCard> {
   @override
   void initState() {
     super.initState();
-    _author = threadsCacher.users
+    _author = _threadsCacher.users
             .where((UserModel it) =>
                 it.id ==
                 int.tryParse(widget.thread.relationships.user['data']['id']))
@@ -48,7 +49,7 @@ class _ThreadCardState extends State<ThreadCard> {
         UserModel();
 
     /// 查找firstPost
-    _firstPost = threadsCacher.posts
+    _firstPost = _threadsCacher.posts
             .where((PostModel it) =>
                 it.id ==
                 int.tryParse(
@@ -97,6 +98,8 @@ class _ThreadCardState extends State<ThreadCard> {
           _ThreadPostSnapshot(
             replyCounts: widget.thread.attributes.postCount,
             lastThreePosts: widget.thread.relationships.lastThreePosts,
+            firstPost: _firstPost,
+            thread: widget.thread,
           ),
         ],
       ),
@@ -128,6 +131,14 @@ class _ThreadCardState extends State<ThreadCard> {
 ///
 class _ThreadPostSnapshot extends StatelessWidget {
   ///
+  /// 主题
+  final ThreadModel thread;
+
+  ///
+  /// 第一条post
+  final PostModel firstPost;
+
+  ///
   /// 最近三条
   final List<dynamic> lastThreePosts;
 
@@ -135,25 +146,37 @@ class _ThreadPostSnapshot extends StatelessWidget {
   /// 回复总条数
   final int replyCounts;
 
-  _ThreadPostSnapshot({@required this.lastThreePosts, this.replyCounts = 0});
+  _ThreadPostSnapshot(
+      {@required this.lastThreePosts,
+      @required this.thread,
+      @required this.firstPost,
+      this.replyCounts = 0});
 
   @override
   Widget build(BuildContext context) {
     if (lastThreePosts == null || lastThreePosts.length == 0) {
-      return const SizedBox();
+      ///
+      /// 没有回复，仅显示点赞和打赏记录
+      ///
+      return _wrapper(
+          context: context,
+          child: ThreadFavoritesAndRewards(
+            thread: thread,
+            firstPost: firstPost,
+          ));
     }
 
     ///
     /// 构造回复组件
     ///
     final List<Widget> _repliesWidgets = lastThreePosts.map((dynamic p) {
-      final PostModel post = threadsCacher.posts
+      final PostModel post = _threadsCacher.posts
           .where((PostModel e) => e.id == int.tryParse(p['id']))
           .toList()[0];
 
       ///
       /// 查询回帖用户
-      final List<UserModel> userReplayThreads = threadsCacher.users
+      final List<UserModel> userReplayThreads = _threadsCacher.users
           .where((UserModel u) =>
               u.id == int.tryParse(post.relationships.user['data']['id']))
           .toList();
@@ -161,18 +184,11 @@ class _ThreadPostSnapshot extends StatelessWidget {
       /// 查询二级回复关联用户（查询活肤评论的用户）
       /// post.relationships.replyUser 不一定每个 post中都会存在
       /// todo: 排查故障
-      final List<UserModel> userReplyPosts =
-          post.attributes.replyUserID != null
-              ? threadsCacher.users
-                  .where((UserModel u) =>
-                      u.id ==
-                      post.attributes.replyUserID)
-                  .toList()
-              : null;
-      print({
-        "--------------------",
-        post.attributes.replyUserID
-      });
+      final List<UserModel> userReplyPosts = post.attributes.replyUserID != null
+          ? _threadsCacher.users
+              .where((UserModel u) => u.id == post.attributes.replyUserID)
+              .toList()
+          : null;
 
       return Container(
         alignment: Alignment.topLeft,
@@ -180,6 +196,7 @@ class _ThreadPostSnapshot extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            /// 用户
             UserLink(
               user: userReplayThreads[0],
             ),
@@ -189,6 +206,8 @@ class _ThreadPostSnapshot extends StatelessWidget {
             userReplyPosts == null || userReplyPosts.length == 0
                 ? const SizedBox()
                 : Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       DiscuzText(
                         '回复',
@@ -199,7 +218,7 @@ class _ThreadPostSnapshot extends StatelessWidget {
                       )
                     ],
                   ),
-            
+
             ///
             /// 回复内容
             Flexible(
@@ -215,36 +234,56 @@ class _ThreadPostSnapshot extends StatelessWidget {
       );
     }).toList();
 
-    return Container(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ..._repliesWidgets,
+    return _wrapper(
+        context: context,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              /// 点赞和打赏记录
+              ThreadFavoritesAndRewards(
+                thread: thread,
+                firstPost: firstPost,
+              ),
 
-            ///
-            /// 回复
-            Row(
-              children: <Widget>[
-                DiscuzLink(
-                  padding: const EdgeInsets.only(top: 5),
-                  label: '全部${(replyCounts - 1).toString()}条回复',
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 5),
-                  child: const DiscuzIcon(SFSymbols.chevron_compact_right,
-                      size: 16),
-                ),
-              ],
-            )
-          ]),
-    );
+              /// 渲染所有回复记录
+              ..._repliesWidgets,
+
+              ///
+              /// 回复
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  DiscuzLink(
+                    padding: const EdgeInsets.only(top: 5),
+                    label: '全部${(replyCounts - 1).toString()}条回复',
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 5),
+                    child: const DiscuzIcon(SFSymbols.chevron_compact_right,
+                        size: 16),
+                  ),
+                ],
+              )
+            ]));
   }
+
+  ///
+  /// 用于包裹组件
+  Widget _wrapper({@required BuildContext context, @required Widget child}) =>
+      Container(
+        padding: const EdgeInsets.only(
+          left: 10,
+          right: 10,
+          top: 5,
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
+        child: child,
+      );
 }

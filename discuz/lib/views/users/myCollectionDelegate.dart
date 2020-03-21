@@ -21,11 +21,11 @@ import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/threads/ThreadCard.dart';
 
 ///------------------------------
-/// threadsCacher 是用于缓存当前页面的主题数据的对象
-/// 当数据更新的时候，数据会存储到 threadsCacher
-/// threadsCacher 在页面销毁的时候，务必清空 .clear()
+/// _threadsCacher 是用于缓存当前页面的主题数据的对象
+/// 当数据更新的时候，数据会存储到 _threadsCacher
+/// _threadsCacher 在页面销毁的时候，务必清空 .clear()
 ///
-final ThreadsCacher threadsCacher = ThreadsCacher();
+final ThreadsCacher _threadsCacher = ThreadsCacher();
 
 ///
 /// 我的收藏
@@ -71,7 +71,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   @override
   void dispose() {
     _controller.dispose();
-    threadsCacher.clear();
+    _threadsCacher.clear();
     super.dispose();
   }
 
@@ -102,7 +102,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       );
     }
 
-    if (threadsCacher.threads == null || threadsCacher.threads.length == 0) {
+    if (_threadsCacher.threads == null || _threadsCacher.threads.length == 0) {
       return const DiscuzNoMoreData();
     }
 
@@ -130,7 +130,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   ///
   /// 构造收藏的列表
   /// todo: 直接把主题列表做成一个组件好了，这样也不用每个地方一大堆代码
-  List<Widget> _buildCollectionsList({AppState state}) => threadsCacher.threads
+  List<Widget> _buildCollectionsList({AppState state}) => _threadsCacher.threads
       .map<Widget>(
         (ThreadModel it) => ThreadCard(
           thread: it,
@@ -146,7 +146,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
     if (_pageNumber <= 1 || pageNumber <= 1) {
-      threadsCacher.clear();
+      _threadsCacher.clear();
     }
 
     ///
@@ -193,14 +193,14 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     /// 关联的数据，包含user, post，需要在缓存前进行转义
     try {
-      threadsCacher.threads = _threads
+      _threadsCacher.threads = _threads
           .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
           .toList();
-      threadsCacher.posts = _included
+      _threadsCacher.posts = _included
           .where((inc) => inc['type'] == 'posts')
           .map((p) => PostModel.fromMap(maps: p))
           .toList();
-      threadsCacher.users = _included
+      _threadsCacher.users = _included
           .where((inc) => inc['type'] == 'users')
           .map((p) => UserModel.fromMap(maps: p['attributes']))
           .toList();
