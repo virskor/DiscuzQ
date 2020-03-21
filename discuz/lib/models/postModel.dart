@@ -38,7 +38,7 @@ class PostModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return PostModel();
+      return const PostModel();
     }
 
     dynamic data = maps;
@@ -62,10 +62,10 @@ class PostModel {
                 ? int.tryParse(data['type'])
                 : data['type'],
         relationships: data['relationships'] == null
-            ? RelationshipsModel()
+            ? const RelationshipsModel()
             : RelationshipsModel.fromMap(maps: data['relationships']),
         attributes: data['attributes'] == null
-            ? PostAttributesModel()
+            ? const PostAttributesModel()
             : PostAttributesModel.fromMap(maps: data['attributes']));
   }
 }
@@ -170,7 +170,7 @@ class PostAttributesModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return PostAttributesModel();
+      return const PostAttributesModel();
     }
 
     dynamic data = maps;

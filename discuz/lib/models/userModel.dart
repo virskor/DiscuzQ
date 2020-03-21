@@ -223,7 +223,7 @@ class UserModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return UserModel();
+      return const UserModel();
     }
 
     dynamic data = maps;
@@ -292,7 +292,7 @@ class UserModel {
                 ? int.tryParse(data['unreadNotifications'])
                 : data['unreadNotifications'],
         typeUnreadNotifications: data['typeUnreadNotifications'] == null
-            ? TypeUnreadNotificationsModel()
+            ? const TypeUnreadNotificationsModel()
             : TypeUnreadNotificationsModel.fromMap(
                 maps: data['typeUnreadNotifications']));
   }

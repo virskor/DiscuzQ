@@ -81,7 +81,7 @@ class RelationshipsModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return RelationshipsModel();
+      return const RelationshipsModel();
     }
 
     dynamic data = maps;

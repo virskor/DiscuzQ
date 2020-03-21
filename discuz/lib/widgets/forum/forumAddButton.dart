@@ -1,4 +1,6 @@
+import 'package:discuzq/router/route.dart';
 import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/views/editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:popup_menu/popup_menu.dart';
@@ -73,7 +75,11 @@ class _ForumAddButtonState extends State<ForumAddButton> {
           //       color: Colors.white,
           //     )),
         ],
-        onClickMenu: (MenuItemProvider item) {},
+        onClickMenu: (MenuItemProvider item) {
+          /// todo, 要根据item.menuTitle 来展示不同的编辑器
+          /// 长文编辑器和一般的编辑器是不一样的
+          return DiscuzRoute.open(context: context, widget: const Editor());
+        },
         stateChanged: (bool isShow) => null,
         onDismiss: () {});
 

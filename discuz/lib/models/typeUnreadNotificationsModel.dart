@@ -30,18 +30,18 @@ class TypeUnreadNotificationsModel {
   /// 未读消息数量模型
   ///
   const TypeUnreadNotificationsModel(
-      {this.replied = 0, this.liked = 0, this.rewarded = 0, this.system});
+      {this.replied = 0, this.liked = 0, this.rewarded = 0, this.system = 0});
 
   ///
   /// fromMap
   /// 转换模型
-  /// 
+  ///
   static TypeUnreadNotificationsModel fromMap({@required dynamic maps}) {
     ///
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return TypeUnreadNotificationsModel();
+      return const TypeUnreadNotificationsModel();
     }
 
     dynamic data = maps;
@@ -51,10 +51,35 @@ class TypeUnreadNotificationsModel {
       data = jsonDecode(data);
     }
 
+    ///
+    /// 要注意，有的时候 接口没有消息的时候会返回 [],数组，这时和Map<String, dynamic> 不一样，继续转换，会导致错误！
+    /// 
+    if(data.runtimeType != dynamic && data.length == 0){
+      return const TypeUnreadNotificationsModel();
+    }
+
+
     return TypeUnreadNotificationsModel(
-        replied: data['replied'] ?? 0,
-        liked: data['liked'] ?? 0,
-        rewarded: data['rewarded'] ?? 0,
-        system: data['system'] ?? 0);
+      replied: data['replied'] == null
+          ? 0
+          : data['replied'].runtimeType == String
+              ? int.tryParse(data['replied'])
+              : data['replied'],
+      liked: data['liked'] == null
+          ? 0
+          : data['liked'].runtimeType == String
+              ? int.tryParse(data['liked'])
+              : data['liked'],
+      rewarded: data['rewarded'] == null
+          ? 0
+          : data['rewarded'].runtimeType == String
+              ? int.tryParse(data['rewarded'])
+              : data['rewarded'],
+      system: data['system'] == null
+          ? 0
+          : data['system'].runtimeType == String
+              ? int.tryParse(data['system'])
+              : data['system'],
+    );
   }
 }

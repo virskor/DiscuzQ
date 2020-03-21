@@ -1,4 +1,3 @@
-import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzLogo.dart';
@@ -12,6 +11,7 @@ import 'package:discuzq/widgets/forum/bootstrapForum.dart';
 import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/ui/ui.dart';
 
 /// 论坛首页
 class ForumDelegate extends StatefulWidget {

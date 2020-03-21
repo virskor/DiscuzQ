@@ -1,5 +1,5 @@
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/users/usersHomeDelegate.dart';
+import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +8,6 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 ///
 /// ThreadHeaderCard

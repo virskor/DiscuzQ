@@ -46,6 +46,11 @@ class Urls {
 
 
   /// -----------------------------------
+  /// 表情
+  /// 拉取表情列表
+  static const String emoji = "$_apiPath/api/emoji";
+  
+  /// -----------------------------------
   /// 主题
   /// 主题相关的接口
   static const String threads = "$_apiPath/threads";

@@ -210,7 +210,7 @@ class ThreadAttributesModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return ThreadAttributesModel();
+      return const ThreadAttributesModel();
     }
 
     dynamic data = maps;

@@ -48,7 +48,7 @@ class WalletModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return WalletModel();
+      return const WalletModel();
     }
 
     dynamic data = maps;

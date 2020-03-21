@@ -34,7 +34,7 @@ class CategoryModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return CategoryModel();
+      return const CategoryModel();
     }
 
     dynamic data = maps;
@@ -54,7 +54,7 @@ class CategoryModel {
                 : data['id'],
         type: data['type'],
         attributes: data['attributes'] == null
-            ? CategoryModelAttributes()
+            ? const CategoryModelAttributes()
             : CategoryModelAttributes.fromMap(maps: data['attributes']));
   }
 }
@@ -134,7 +134,7 @@ class CategoryModelAttributes {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return CategoryModelAttributes();
+      return const CategoryModelAttributes();
     }
 
     dynamic data = maps;

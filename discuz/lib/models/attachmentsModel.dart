@@ -53,7 +53,7 @@ class AttachmentsModel {
                 ? int.tryParse(data['type'])
                 : data['type'],
         attributes: data['attributes'] == null
-            ? AttachmentsAttributesModel()
+            ? const AttachmentsAttributesModel()
             : AttachmentsAttributesModel.fromMap(maps: data['attributes']));
   }
 }
@@ -130,7 +130,7 @@ class AttachmentsAttributesModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return AttachmentsAttributesModel();
+      return const AttachmentsAttributesModel();
     }
 
     dynamic data = maps;

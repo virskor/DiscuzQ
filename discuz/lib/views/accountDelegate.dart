@@ -17,7 +17,7 @@ import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/widgets/users/yetNotLogon.dart';
 import 'package:discuzq/views/settings/preferencesDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/views/users/usersHomeDelegate.dart';
+import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/views/users/profileDelegate.dart';
 import 'package:discuzq/views/users/walletDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
