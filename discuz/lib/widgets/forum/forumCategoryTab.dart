@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/models/categoryModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -13,6 +12,7 @@ import 'package:discuzq/widgets/forum/forumCategory.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/models/categoryModel.dart';
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前

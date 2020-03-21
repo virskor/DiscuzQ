@@ -61,8 +61,21 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
   ForumCategoryFilterItem _selected = ForumCategoryFilter.conditions[0];
 
   @override
+  void setState(fn) {
+    if (!mounted) {
+      return;
+    }
+    super.setState(fn);
+  }
+
+  @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
