@@ -1,9 +1,9 @@
-import 'package:discuzq/views/users/usersHomeDelegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
+import 'package:discuzq/views/users/usersHomeDelegate.dart';
 
 class UserLink extends StatelessWidget {
   final UserModel user;

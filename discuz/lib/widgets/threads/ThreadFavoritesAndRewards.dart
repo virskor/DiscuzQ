@@ -1,7 +1,3 @@
-import 'package:discuzq/widgets/common/discuzDivider.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/users/userLink.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -9,6 +5,9 @@ import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/users/userLink.dart';
 
 final ThreadsCacher _threadsCacher = ThreadsCacher();
 
