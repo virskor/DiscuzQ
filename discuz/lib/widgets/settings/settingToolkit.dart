@@ -28,8 +28,8 @@ class SettingSwitcher extends StatelessWidget {
                   value: state.appConf[settinKey],
                   onChanged: (bool val) => AppConfigurations().update(
                       context: context,
-                      key: 'darkTheme',
-                      value: !state.appConf['darkTheme']),
+                      key: settinKey,
+                      value: !state.appConf[settinKey]),
                 )),
           ));
 }

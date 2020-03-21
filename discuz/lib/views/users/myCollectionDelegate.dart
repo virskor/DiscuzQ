@@ -105,7 +105,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
           ),
           backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
 
-          /// 如果没有更多信息则直接提示用户，没有更多信息了
           body: _body(state: state)));
 
   /// _body
@@ -123,7 +122,10 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       );
     }
 
-    if (_threadsCacher.threads == null || _threadsCacher.threads.length == 0) {
+    ///
+    /// 如果没有更多信息则直接提示用户，没有更多信息了
+    /// 
+    if (!_loading && _threadsCacher.threads == null || _threadsCacher.threads.length == 0) {
       return const DiscuzNoMoreData();
     }
 
@@ -175,6 +177,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
     if (_pageNumber <= 1 || pageNumber <= 1) {
+      ///
+      /// 仅更新_continueToRead 不Build UI, 因为下面的 set _loading 其实会触发UI Build，所以不需要再这里也触发
+      _continueToRead = false;
       _threadsCacher.clear();
     }
 

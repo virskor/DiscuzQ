@@ -50,6 +50,7 @@ class _DiscuzState extends State<Discuz> {
             child: MaterialApp(
               title: Global.appname,
               debugShowCheckedModeBanner: false,
+              showPerformanceOverlay: state.appConf['showPerformanceOverlay'],
               home: Builder(
 
                   /// 不在 MaterialApp 使用theme属性

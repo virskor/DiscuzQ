@@ -53,6 +53,11 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                       settinKey: 'darkTheme',
                       icon: SFSymbols.moon,
                       label: '黑暗模式',
+                    ),
+                    const SettingSwitcher(
+                      settinKey: 'showPerformanceOverlay',
+                      icon: SFSymbols.graph_circle,
+                      label: '性能调试工具',
                     )
                   ],
                 ),
@@ -65,7 +70,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                       onPressed: () {
                         ClearCacheDialog.build(context: context);
                       },
-                    )
+                    ),
                   ],
                 ),
               ],
