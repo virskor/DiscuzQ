@@ -19,6 +19,7 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/threads/ThreadCard.dart';
+import 'package:discuzq/models/metaModel.dart';
 
 ///------------------------------
 /// _threadsCacher 是用于缓存当前页面的主题数据的对象
@@ -47,12 +48,17 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   int _pageNumber = 1;
 
   /// meta required threadCount && pageCount
-  dynamic _meta;
+  MetaModel _meta;
 
   ///
   /// loading
   /// 是否正在加载
   bool _loading = false;
+
+  ///
+  /// _enablePullUp
+  /// 是否允许加载更多
+  bool _enablePullUp = false;
 
   @override
   void setState(fn) {
@@ -78,8 +84,11 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   ///
   /// 是否允许加载更多页面
   ///
-  bool _enablePullUp() =>
-      _meta == null ? false : _meta['pageCount'] >= _pageNumber ? false : true;
+  void _refreshEnablePullUp() {
+    final bool enabled =
+        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+    _enablePullUp = enabled;
+  }
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
@@ -108,7 +117,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     return DiscuzRefresh(
       controller: _controller,
-      enablePullUp: _enablePullUp(),
+      enablePullUp: _enablePullUp,
       enablePullDown: true,
       onRefresh: () async {
         /// ... 刷新的时候，要将页面_pagenumber更新到第一页
@@ -117,6 +126,14 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
         });
 
         await _requestData();
+        _controller.refreshCompleted();
+      },
+      onLoading: () async {
+        if (_loading) {
+          return;
+        }
+
+        await _requestData(pageNumber: _pageNumber + 1);
         _controller.refreshCompleted();
       },
 
@@ -169,13 +186,13 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     ];
 
     dynamic data = {
-      "page['limit']": Global.requestPageLimit,
-      "page['pageNumber']": pageNumber ?? _pageNumber,
+      "page[limit]": Global.requestPageLimit,
+      "page[number]": pageNumber ?? _pageNumber,
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
     };
+
     Response resp = await Request(context: context)
         .getUrl(url: Urls.threadsFavorites, queryParameters: data);
-
     if (resp == null) {
       setState(() {
         _loading = false;
@@ -210,7 +227,12 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     setState(() {
       _loading = false;
-      _pageNumber = resp.data['meta']['pageCount'];
+      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+
+      /// 修改
+      _meta = MetaModel.fromMap(maps: resp.data['meta']);
+
+      _refreshEnablePullUp();
     });
   }
 }

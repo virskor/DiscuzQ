@@ -6,7 +6,7 @@ class CategoryModel {
   /// id
   /// 分类的ID
   ///
-  final String id;
+  final int id;
 
   ///
   /// type
@@ -23,7 +23,7 @@ class CategoryModel {
   ///
   /// 分类模型
   ///
-  const CategoryModel({this.id, this.type = 'categories', this.attributes});
+  const CategoryModel({this.id = 0, this.type = 'categories', this.attributes});
 
   ///
   /// fromMap
@@ -47,7 +47,11 @@ class CategoryModel {
     ///
     /// 返回转化的分类模型
     return CategoryModel(
-        id: data['id'] ?? 0,
+        id: data['id'] == null
+            ? 0
+            : data['id'].runtimeType == String
+                ? int.tryParse(data['id'])
+                : data['id'],
         type: data['type'],
         attributes: data['attributes'] == null
             ? CategoryModelAttributes()

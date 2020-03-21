@@ -107,7 +107,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
         Expanded(
           child: TabBarView(
             controller: _tabController,
-            children: state.categories.map<Widget>((cat) {
+            children: state.categories.map<Widget>((CategoryModel cat) {
               //创建3个Tab页
               return ForumCategory(
                 cat,

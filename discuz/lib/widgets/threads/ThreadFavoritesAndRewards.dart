@@ -30,8 +30,6 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
     final List<dynamic> rewardedUsers = thread.relationships.rewardedUsers;
     List<Widget> rewardedUsersWidgets = [];
 
-    print(rewardedUsers.toString());
-
     ///
     /// 如果点赞和打赏都没有，那么久直接返回 sizedbox 好了
     ///

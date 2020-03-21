@@ -3,6 +3,7 @@
 
 ### 实现目标
 基本上和官方版本是保持一致的，只是会增加黑暗模式，主题颜色，字体大小等设置罢了。
+* 考虑接入腾讯云短视频SDK
 <p> 
 <img width="200px" src="snapshot.png"/> 
 <img width="200px" src="snapshot_me.png"/>  
