@@ -1,6 +1,3 @@
-import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzLink.dart';
-import 'package:discuzq/widgets/users/userLink.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -12,6 +9,9 @@ import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/threads/threadHeaderCard.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/common/discuzLink.dart';
+import 'package:discuzq/widgets/users/userLink.dart';
 
 final ThreadsCacher threadsCacher = ThreadsCacher();
 
@@ -88,7 +88,9 @@ class _ThreadCardState extends State<ThreadCard> {
                 ..._buildContentTitle(),
 
                 /// 主题的内容
-                DiscuzText(_firstPost.attributes.content)
+                DiscuzText(
+                  _firstPost.attributes.content,
+                )
               ],
             ),
           ),
@@ -160,20 +162,23 @@ class _ThreadPostSnapshot extends StatelessWidget {
       /// post.relationships.replyUser 不一定每个 post中都会存在
       /// todo: 排查故障
       final List<UserModel> userReplyPosts =
-          post.relationships.replyUser != null
+          post.attributes.replyUserID != null
               ? threadsCacher.users
                   .where((UserModel u) =>
                       u.id ==
-                      int.tryParse(post.relationships.replyUser['data']['id']))
+                      post.attributes.replyUserID)
                   .toList()
               : null;
       print({
-        post.relationships.replyUser,
+        "--------------------",
+        post.attributes.replyUserID
       });
 
       return Container(
         alignment: Alignment.topLeft,
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             UserLink(
               user: userReplayThreads[0],
@@ -194,7 +199,17 @@ class _ThreadPostSnapshot extends StatelessWidget {
                       )
                     ],
                   ),
-            DiscuzText(post.attributes.content),
+            
+            ///
+            /// 回复内容
+            Flexible(
+              child: Container(
+                child: DiscuzText(
+                  post.attributes.content,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            )
           ],
         ),
       );

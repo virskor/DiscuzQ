@@ -1,3 +1,5 @@
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/users/usersHomeDelegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
@@ -27,9 +29,16 @@ class ThreadHeaderCard extends StatelessWidget {
         children: <Widget>[
           ///
           /// user avatar
-          DiscuzAvatar(
-            size: 35,
-            url: author.avatarUrl,
+          GestureDetector(
+            onTap: () => DiscuzRoute.open(
+                context: context,
+                widget: UserHomeDelegate(
+                  user: author,
+                )),
+            child: DiscuzAvatar(
+              size: 35,
+              url: author.avatarUrl,
+            ),
           ),
 
           /// userinfo
