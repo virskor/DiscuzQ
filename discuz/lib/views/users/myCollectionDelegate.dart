@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -107,7 +108,11 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   Widget _body({AppState state}) {
     if (_loading) {
       return const Center(
-        child: const DiscuzIndicator(),
+        child: const DiscuzSkeleton(
+          isCircularImage: false,
+          length: Global.requestPageLimit,
+          isBottomLinesActive: true,
+        ),
       );
     }
 

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -132,9 +133,15 @@ class _ForumCategoryState extends State<ForumCategory> {
           await _requestData(pageNumber: _pageNumber + 1);
           _controller.loadComplete();
         },
-        child: ListView(
-          children: _buildCollectionsList(state: state),
-        ),
+        child: _loading
+            ? const DiscuzSkeleton(
+                isCircularImage: false,
+                length: Global.requestPageLimit,
+                isBottomLinesActive: true,
+              )
+            : ListView(
+                children: _buildCollectionsList(state: state),
+              ),
       );
 
   ///

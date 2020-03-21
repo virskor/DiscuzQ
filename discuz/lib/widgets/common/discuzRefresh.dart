@@ -48,7 +48,7 @@ class DiscuzRefresh extends StatelessWidget {
   Widget build(BuildContext context) => SmartRefresher(
         enablePullDown: enablePullDown,
         enablePullUp: enablePullUp,
-
+        header: const WaterDropHeader(),
         /// 允许乡下加载
         // header: WaterDropHeader(),
         controller: controller,
