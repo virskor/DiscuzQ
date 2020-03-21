@@ -73,6 +73,11 @@ class _ForumCategoryState extends State<ForumCategory> {
   /// 是否允许加载更多
   bool _enablePullUp = false;
 
+  ///
+  /// _continueToRead
+  /// 是否是联系加载
+  bool _continueToRead = false;
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -133,16 +138,25 @@ class _ForumCategoryState extends State<ForumCategory> {
           await _requestData(pageNumber: _pageNumber + 1);
           _controller.loadComplete();
         },
-        child: _loading
-            ? const DiscuzSkeleton(
-                isCircularImage: false,
-                length: Global.requestPageLimit,
-                isBottomLinesActive: true,
-              )
-            : ListView(
-                children: _buildCollectionsList(state: state),
-              ),
+        child: _buildContents(state: state),
       );
+
+  Widget _buildContents({AppState state}) {
+    ///
+    /// 骨架屏仅在初始化时加载
+    ///
+    if (!_continueToRead && _loading) {
+      return const DiscuzSkeleton(
+        isCircularImage: false,
+        length: Global.requestPageLimit,
+        isBottomLinesActive: true,
+      );
+    }
+
+    return ListView(
+      children: _buildCollectionsList(state: state),
+    );
+  }
 
   ///
   /// 构造收藏的列表
@@ -228,6 +242,7 @@ class _ForumCategoryState extends State<ForumCategory> {
 
     setState(() {
       _loading = false;
+      _continueToRead = true;
       _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
       _refreshEnablePullUp();

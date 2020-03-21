@@ -61,6 +61,11 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   /// 是否允许加载更多
   bool _enablePullUp = false;
 
+  ///
+  /// _continueToRead
+  /// 是否是联系加载
+  bool _continueToRead = false;
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -106,7 +111,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   /// _body
   /// 生成Body
   Widget _body({AppState state}) {
-    if (_loading) {
+    ///
+    /// 仅在第一次加载骨架屏
+    if (_loading && !_continueToRead) {
       return const Center(
         child: const DiscuzSkeleton(
           isCircularImage: false,
@@ -233,7 +240,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     setState(() {
       _loading = false;
       _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
-
+      _continueToRead = true;
       /// 修改
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
 

@@ -170,6 +170,7 @@ class ThreadPostSnapshot extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: 10,
           right: 10,
+          bottom: 5,
           top: 5,
         ),
         decoration: BoxDecoration(
