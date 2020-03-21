@@ -39,10 +39,15 @@ class ForumCategory extends StatefulWidget {
   /// 要显示的分类
   final CategoryModel category;
 
+  ///
+  /// onAppbarState
+  final Function onAppbarState;
+
   /// 用户查询的筛选条件
   final ForumCategoryFilterItem filter;
 
-  ForumCategory(this.category, {Key key, @required this.filter})
+  ForumCategory(this.category,
+      {Key key, this.onAppbarState, @required this.filter})
       : super(key: key);
 
   @override
@@ -54,6 +59,11 @@ class _ForumCategoryState extends State<ForumCategory> {
   /// _controller refresh
   ///
   final RefreshController _controller = RefreshController();
+
+  ///
+  /// _scrollController
+  /// 列表滑动，用于决定是否影藏appbar
+  final ScrollController _scrollController = ScrollController();
 
   /// states
   ///
@@ -89,6 +99,11 @@ class _ForumCategoryState extends State<ForumCategory> {
   @override
   void initState() {
     super.initState();
+
+    ///
+    /// 绑定列表移动时间观察
+    this._watchScrollOffset();
+
     Future.delayed(Duration(milliseconds: 450))
         .then((_) async => await _requestData());
   }
@@ -96,11 +111,29 @@ class _ForumCategoryState extends State<ForumCategory> {
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose();
     _threadsCacher.clear();
 
     /// 清空缓存的主题列表数据
     /// do not forget to dispose _controller
     super.dispose();
+  }
+
+  ///
+  /// 观察列表移动
+  /// 观察移动要传递变化时候的值并减少传递，避免UI渲染过程中的Loop造成性能消耗
+  ///
+  void _watchScrollOffset() {
+    bool showAppbar = true;
+
+    _scrollController.addListener(() {
+      final bool wantHide = _scrollController.offset > 300 ? false : true;
+
+      if (widget.onAppbarState != null && wantHide != showAppbar) {
+        widget.onAppbarState(wantHide);
+        showAppbar = wantHide;
+      }
+    });
   }
 
   ///
@@ -154,6 +187,7 @@ class _ForumCategoryState extends State<ForumCategory> {
     }
 
     return ListView(
+      controller: _scrollController,
       children: _buildCollectionsList(state: state),
     );
   }

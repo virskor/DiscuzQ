@@ -70,11 +70,13 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
       rebuildOnChange: false,
       builder: (context, child, state) => Container(
             width: MediaQuery.of(context).size.width,
-            padding:
-                const EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 0),
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 0,
+            ),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor,
-                border: Border(top: Global.border)),
+                border: Border(top: Global.border, bottom: Global.border)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,7 +120,6 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
           SFSymbols.slider_horizontal_3,
           color: DiscuzApp.themeOf(context).primaryColor,
         ),
-        padding: const EdgeInsets.all(0),
         onSelected: (ForumCategoryFilterItem val) {
           /// 先拷贝过滤参数
           List<Map<String, dynamic>> rebuildFilterList = [...val.filter];

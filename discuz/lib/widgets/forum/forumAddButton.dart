@@ -6,7 +6,11 @@ import 'package:popup_menu/popup_menu.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 class ForumAddButton extends StatefulWidget {
-  const ForumAddButton({Key key}) : super(key: key);
+  ///
+  /// 图标颜色永远渲染白色
+  final bool awalysDark;
+
+  const ForumAddButton({Key key, this.awalysDark = false}) : super(key: key);
   @override
   _ForumAddButtonState createState() => _ForumAddButtonState();
 }
@@ -38,7 +42,9 @@ class _ForumAddButtonState extends State<ForumAddButton> {
       key: btnKey,
       icon: DiscuzIcon(
         SFSymbols.plus,
-        color: DiscuzApp.themeOf(context).textColor,
+        color: widget.awalysDark
+            ? Colors.white
+            : DiscuzApp.themeOf(context).textColor,
       ),
       onPressed: _showPop,
     );
@@ -46,7 +52,7 @@ class _ForumAddButtonState extends State<ForumAddButton> {
 
   void _showPop() {
     PopupMenu menu = PopupMenu(
-      context: context,
+        context: context,
         items: [
           MenuItem(
               title: '发主题',

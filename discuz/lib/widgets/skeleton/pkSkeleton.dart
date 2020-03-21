@@ -74,10 +74,12 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(3))),
+            padding: EdgeInsets.all(10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -230,10 +232,12 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Container(
-            color: Colors.grey[800],
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Colors.grey[800],
+                borderRadius: BorderRadius.all(Radius.circular(3))),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -410,10 +414,10 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Container(
             color: Colors.white,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(10),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -557,10 +561,10 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Container(
             color: Colors.grey[800],
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(10),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -701,10 +705,10 @@ class _PKCardPageSkeletonState extends State<PKCardPageSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Container(
               color: Colors.white,
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(10),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -791,10 +795,10 @@ class _PKDarkCardPageSkeletonState extends State<PKDarkCardPageSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: Container(
               color: Colors.grey[800],
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(10),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

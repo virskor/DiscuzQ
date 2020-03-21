@@ -18,7 +18,11 @@ import 'package:discuzq/states/scopedState.dart';
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
 /// 这样做的目的是为了不要一次性请求过多，来尽量避免阻塞，所以在使用这个组件到其他地方渲染的时候，你也需要这样做
 class ForumCategoryTab extends StatefulWidget {
-  const ForumCategoryTab({Key key}) : super(key: key);
+  ///
+  /// onAppbarState
+  final Function onAppbarState;
+
+  const ForumCategoryTab({Key key, this.onAppbarState}) : super(key: key);
   @override
   _ForumCategoryTabState createState() => _ForumCategoryTabState();
 }
@@ -103,6 +107,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
           },
         ),
 
+        /// tab Content
         /// 生成帖子渲染content区域(tabviews)
         Expanded(
           child: TabBarView(
@@ -111,6 +116,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               //创建3个Tab页
               return ForumCategory(
                 cat,
+                onAppbarState: widget.onAppbarState,
 
                 /// 初始化的时候，用户没有选择，则默认使用第一个筛选条件
                 filter: _filterItem ?? ForumCategoryFilter.conditions[0],
@@ -122,33 +128,41 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     );
   }
 
+  ///
+  /// 生成分类Tabs 非Tabcontent
+  /// 
   Widget _buildtabs(AppState state) => Container(
         width: MediaQuery.of(context).size.width,
         decoration:
             BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
-        child: TabBar(
-            //生成Tab菜单
-            controller: _tabController,
-            labelStyle: TextStyle(
-              //up to your taste
-              fontSize: DiscuzApp.themeOf(context).normalTextSize,
-            ),
-            indicatorSize: TabBarIndicatorSize.label, //makes it better
-            labelColor:
-                DiscuzApp.themeOf(context).primaryColor, //Google's sweet blue
-            unselectedLabelColor:
-                DiscuzApp.themeOf(context).textColor, //niceish grey
-            isScrollable: true, //up to your taste
-            indicator: MD2Indicator(
-                //it begins here
-                indicatorHeight: 2,
-                indicatorColor: DiscuzApp.themeOf(context).primaryColor,
-                indicatorSize:
-                    MD2IndicatorSize.normal //3 different modes tiny-normal-full
-                ),
-            tabs: state.categories
-                .map<Widget>((CategoryModel e) => Tab(text: e.attributes.name))
-                .toList()),
+        child: SafeArea(
+          top: true,
+          bottom: false,
+          child: TabBar(
+              //生成Tab菜单
+              controller: _tabController,
+              labelStyle: TextStyle(
+                //up to your taste
+                fontSize: DiscuzApp.themeOf(context).normalTextSize,
+              ),
+              indicatorSize: TabBarIndicatorSize.label, //makes it better
+              labelColor:
+                  DiscuzApp.themeOf(context).primaryColor, //Google's sweet blue
+              unselectedLabelColor:
+                  DiscuzApp.themeOf(context).textColor, //niceish grey
+              isScrollable: true, //up to your taste
+              indicator: MD2Indicator(
+                  //it begins here
+                  indicatorHeight: 2,
+                  indicatorColor: DiscuzApp.themeOf(context).primaryColor,
+                  indicatorSize: MD2IndicatorSize
+                      .normal //3 different modes tiny-normal-full
+                  ),
+              tabs: state.categories
+                  .map<Widget>(
+                      (CategoryModel e) => Tab(text: e.attributes.name))
+                  .toList()),
+        ),
       );
 
   /// 初始化 tab controller

@@ -1,3 +1,4 @@
+import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzLogo.dart';
@@ -25,6 +26,11 @@ class _ForumDelegateState extends State<ForumDelegate>
   /// states
   /// _loaded means user forum api already requested! not means success or fail to load data
   bool _loaded = false;
+
+  ///
+  /// _showAppbar
+  /// 是否隐藏appbar
+  bool _showAppbar = true;
 
   @override
   bool get wantKeepAlive => true;
@@ -60,16 +66,27 @@ class _ForumDelegateState extends State<ForumDelegate>
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: true,
         builder: (context, child, state) => Scaffold(
-              appBar: DiscuzAppBar(
-                elevation: 0,
-                centerTitle: true,
-                leading: const NightModeSwitcher(),
-                title: const Center(
-                    child: const DiscuzAppLogo(
-                  color: Colors.transparent,
-                )),
-                actions: _actions(context),
-              ),
+              appBar: _showAppbar
+                  ? DiscuzAppBar(
+                      elevation: 0,
+                      centerTitle: true,
+                      leading: const NightModeSwitcher(),
+                      title: const Center(
+                          child: const DiscuzAppLogo(
+                        color: Colors.transparent,
+                      )),
+                      actions: _actions(context),
+                    )
+                  : null,
+              floatingActionButton: _showAppbar
+                  ? null
+                  : FloatingActionButton(
+                      backgroundColor: DiscuzApp.themeOf(context).primaryColor,
+                      child: const ForumAddButton(
+                        awalysDark: true,
+                      ),
+                      onPressed: () => null,
+                    ),
               drawerEdgeDragWidth: Global.drawerEdgeDragWidth,
               body: Stack(
                 fit: StackFit.expand,
@@ -78,7 +95,19 @@ class _ForumDelegateState extends State<ForumDelegate>
                   /// 显示论坛分类和分类下内容列表
                   state.forum == null
                       ? const SizedBox()
-                      : const ForumCategoryTab(),
+                      : ForumCategoryTab(
+                          onAppbarState: (bool show) {
+                            ///
+                            /// 过滤相同的状态，避免UI重新Build
+                            ///
+                            if (_showAppbar == show) {
+                              return;
+                            }
+                            setState(() {
+                              _showAppbar = show;
+                            });
+                          },
+                        ),
 
                   /// 是否显示网络错误组件
                   _buildNetwordError(state),

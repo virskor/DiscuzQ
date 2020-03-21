@@ -60,6 +60,8 @@ class _ThreadCardState extends State<ThreadCard> {
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
       margin: const EdgeInsets.only(
         top: 10,
+        left: 10,
+        right: 10
       ),
       decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
