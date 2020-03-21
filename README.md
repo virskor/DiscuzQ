@@ -10,6 +10,8 @@
 <img width="200px" src="snapshot_wallet.png"/>  
 <img width="200px" src="snapshot_notifications.png"/>  
 <img width="200px" src="snapshot_collection.png"/>  
+<img width="200px" src="snapshot_dartmode_1.png"/>  
+<img width="200px" src="snapshot_dartmode_2.png"/>  
 </p> 
 A new Flutter application for DiscuzQ. This Application is still under developing, this is an open source software.  
 
