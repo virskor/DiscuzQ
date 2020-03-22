@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:discuzq/utils/authHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:path/path.dart' as path;
@@ -36,13 +37,13 @@ enum PickerState {
 }
 
 class _AvatarPickerState extends State<AvatarPicker> {
-  PickerState state;
+  PickerState pickerState;
   File imageFile;
 
   @override
   void initState() {
     super.initState();
-    state = PickerState.free;
+    pickerState = PickerState.free;
   }
 
   @override
@@ -65,7 +66,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
             onTap: () {
               // open avatar seletor
               _clearImage();
-              _pickImage();
+              _pickImage(state: state);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -76,7 +77,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
                   onTap: () {
                     // open avatar seletor
                     _clearImage();
-                    _pickImage();
+                    _pickImage(state: state);
                   },
                 ),
               ],
@@ -85,8 +86,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
 
   ///
   /// 选择图片
-  Future<Null> _pickImage() async {
-    await PermissionHelper.requesting([PermissionGroup.photos]);
+  Future<Null> _pickImage({AppState state}) async {
     final bool havePermission =
         await PermissionHelper.checkWithNotice(PermissionGroup.photos);
     if (havePermission == false) {
@@ -95,15 +95,15 @@ class _AvatarPickerState extends State<AvatarPicker> {
     imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     if (imageFile != null) {
       setState(() {
-        state = PickerState.picked;
+        pickerState = PickerState.picked;
       });
-      _cropImage();
+      _cropImage(state: state);
     }
   }
 
   ///
   /// 图片剪裁
-  Future<Null> _cropImage() async {
+  Future<Null> _cropImage({AppState state}) async {
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: imageFile.path,
         aspectRatioPresets: [
@@ -125,11 +125,11 @@ class _AvatarPickerState extends State<AvatarPicker> {
     if (croppedFile != null) {
       setState(() {
         imageFile = croppedFile;
-        state = PickerState.cropped;
+        pickerState = PickerState.cropped;
       });
 
       Function close = DiscuzToast.loading();
-      final bool result = await _uploadAvatar();
+      final bool result = await _uploadAvatar(state: state);
       close();
 
       DiscuzToast.show(
@@ -138,6 +138,9 @@ class _AvatarPickerState extends State<AvatarPicker> {
         if (widget.onSuccess != null) {
           widget.onSuccess();
         }
+
+        /// 刷新用户资料
+        await AuthHelper.refreshUser(context: context, state: state);
       }
       // should clear image success or failed
       _clearImage();
@@ -191,7 +194,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
   void _clearImage() {
     imageFile = null;
     setState(() {
-      state = PickerState.free;
+      pickerState = PickerState.free;
     });
   }
 }

@@ -1,6 +1,11 @@
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/avatarPicker.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
+import 'package:discuzq/widgets/common/discuzDivider.dart';
+import 'package:discuzq/widgets/common/discuzListTile.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -42,8 +47,34 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
           backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
           body: Column(
             children: <Widget>[
-              AvatarPicker(
-                avatar: DiscuzAvatar(),
+              SettingGroupWrapper(
+                label: '个人档案',
+                children: <Widget>[
+                  DiscuzListTile(
+                    title: const DiscuzText('头像'),
+                    trailing: AvatarPicker(
+                      avatar: DiscuzAvatar(
+                        size: 40,
+                      ),
+                    ),
+                  ),
+                  const DiscuzDivider(
+                    padding: 0,
+                  ),
+                  DiscuzListTile(
+                    title: const DiscuzText('登录密码'),
+                    onTap: () =>
+                        DiscuzToast.failed(context: context, message: '暂不支持'),
+                  ),
+                  const DiscuzDivider(
+                    padding: 0,
+                  ),
+                  DiscuzListTile(
+                    title: const DiscuzText('钱包密码'),
+                    onTap: () =>
+                        DiscuzToast.failed(context: context, message: '暂不支持'),
+                  ),
+                ],
               )
             ],
           ),
