@@ -18,11 +18,13 @@ class Urls {
   /// -----------------------------------
   /// 用户
   ///
-  /// 上传头像接口
-  static const String usersAvatar = "$_apiPath/users/{id}/avatar";
 
   /// 用户资料展示
-  static const String usersData = "$_apiPath/users";
+  static const String users = "$_apiPath/users";
+
+  /// 上传头像接口
+  /// 该接口存在拼接，在avatarPicker
+  /// static const String usersAvatar = "$_apiPath/users/{id}/avatar";
 
   /// 刷新Token
   static const String usersRefreshToken = "$_apiPath/refresh-token";
@@ -38,22 +40,21 @@ class Urls {
   /// 查询所有分类
   static const String categories = "$_apiPath/categories";
 
-
   /// -----------------------------------
   /// 金融钱包等
   /// 金融钱包相关接口
   static const String usersWallerData = "$_apiPath/wallet/user";
 
-
   /// -----------------------------------
   /// 表情
   /// 拉取表情列表
   static const String emoji = "$_apiPath/api/emoji";
-  
+
   /// -----------------------------------
   /// 主题
   /// 主题相关的接口
   static const String threads = "$_apiPath/threads";
+
   ///
   /// 收藏
   static const String threadsFavorites = "$_apiPath/favorites";

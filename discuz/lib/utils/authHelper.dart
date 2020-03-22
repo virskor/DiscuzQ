@@ -75,7 +75,7 @@ class AuthHelper {
       return Future.value(true);
     }
 
-    final String urlDataUrl = "${Urls.usersData}/${state.user.id}";
+    final String urlDataUrl = "${Urls.users}/${state.user.id}";
     Response resp = await Request(context: context).getUrl(url: urlDataUrl);
 
     if (resp == null) {
