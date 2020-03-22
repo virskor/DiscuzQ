@@ -145,7 +145,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
         // header: WaterDropHeader(),
         controller: _controller,
         onRefresh: () async {
-          await _requestData();
+          await _requestData(pageNumber: 1);
           _controller.refreshCompleted();
         },
         onLoading: () async {
@@ -206,7 +206,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
   Future<void> _requestData({int pageNumber, String keyword}) async {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
-    if (_pageNumber == 1 || pageNumber == 1) {
+    if (pageNumber == 1) {
       _threadsCacher.clear();
     }
 

@@ -217,7 +217,8 @@ class _ForumCategoryState extends State<ForumCategory> {
   Future<void> _requestData({int pageNumber, String keyword}) async {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
-    if (_pageNumber == 1 || pageNumber == 1) {
+    if (pageNumber == 1) {
+      _continueToRead = false;
       _threadsCacher.clear();
     }
 

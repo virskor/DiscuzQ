@@ -139,7 +139,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
           _pageNumber = 1;
         });
 
-        await _requestData();
+        await _requestData(pageNumber: 1);
         _controller.refreshCompleted();
       },
       onLoading: () async {
@@ -177,7 +177,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   Future<void> _requestData({int pageNumber, String keyword}) async {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
-    if (_pageNumber <= 1 || pageNumber <= 1) {
+    if (pageNumber == 1) {
       ///
       /// 仅更新_continueToRead 不Build UI, 因为下面的 set _loading 其实会触发UI Build，所以不需要再这里也触发
       _continueToRead = false;
