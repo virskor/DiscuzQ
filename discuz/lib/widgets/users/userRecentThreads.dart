@@ -3,12 +3,10 @@ import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
-import 'package:discuzq/widgets/common/discuzRefresh.dart';
-import 'package:discuzq/models/categoryModel.dart';
-import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/metaModel.dart';
+import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
@@ -16,20 +14,11 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncluedes.dart';
 import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/threads/ThreadCard.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
+import 'package:discuzq/widgets/threads/ThreadCard.dart';
 
-///
-/// 注意：
-/// 当filter传入的属性变化时，组件会异步重载，
-/// 重载指的是完全从头开始重新筛选，因为此时用户修改了筛选条件
-/// 页面下拉则会从头刷新
-/// load 上拉则会加载下一页的数据
-///
-///
-///
 ///------------------------------
 /// _threadsCacher 是用于缓存当前页面的主题数据的对象
 /// 当数据更新的时候，数据会存储到 _threadsCacher
@@ -37,35 +26,26 @@ import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 ///
 final ThreadsCacher _threadsCacher = ThreadsCacher();
 
-class ForumCategory extends StatefulWidget {
-  /// 要显示的分类
-  final CategoryModel category;
-
+///
+/// 用于展示用户最近发帖的组件
+///
+class UserRecentThreads extends StatefulWidget {
   ///
-  /// onAppbarState
-  final Function onAppbarState;
+  /// 要查询的用户，将展示他最近发帖的数据
+  ///
+  final UserModel user;
 
-  /// 用户查询的筛选条件
-  final ForumCategoryFilterItem filter;
-
-  ForumCategory(this.category,
-      {Key key, this.onAppbarState, @required this.filter})
-      : super(key: key);
+  const UserRecentThreads({this.user});
 
   @override
-  _ForumCategoryState createState() => _ForumCategoryState();
+  _UserRecentThreadsState createState() => _UserRecentThreadsState();
 }
 
-class _ForumCategoryState extends State<ForumCategory> {
+class _UserRecentThreadsState extends State<UserRecentThreads> {
   ///
   /// _controller refresh
   ///
   final RefreshController _controller = RefreshController();
-
-  ///
-  /// _scrollController
-  /// 列表滑动，用于决定是否影藏appbar
-  final ScrollController _scrollController = ScrollController();
 
   /// states
   ///
@@ -103,9 +83,8 @@ class _ForumCategoryState extends State<ForumCategory> {
     super.initState();
 
     ///
-    /// 绑定列表移动时间观察
-    this._watchScrollOffset();
-
+    /// 加载数据
+    ///
     Future.delayed(Duration(milliseconds: 450))
         .then((_) async => await _requestData());
   }
@@ -113,38 +92,8 @@ class _ForumCategoryState extends State<ForumCategory> {
   @override
   void dispose() {
     _controller.dispose();
-    _scrollController.dispose();
     _threadsCacher.clear();
-
-    /// 清空缓存的主题列表数据
-    /// do not forget to dispose _controller
     super.dispose();
-  }
-
-  ///
-  /// 观察列表移动
-  /// 观察移动要传递变化时候的值并减少传递，避免UI渲染过程中的Loop造成性能消耗
-  ///
-  void _watchScrollOffset() {
-    bool showAppbar = true;
-
-    _scrollController.addListener(() {
-      final bool wantHide = _scrollController.offset > 300 ? false : true;
-
-      if (widget.onAppbarState != null && wantHide != showAppbar) {
-        widget.onAppbarState(wantHide);
-        showAppbar = wantHide;
-      }
-    });
-  }
-
-  ///
-  /// 是否允许加载更多页面
-  ///
-  void _refreshEnablePullUp() {
-    final bool enabled =
-        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
-    _enablePullUp = enabled;
   }
 
   @override
@@ -188,12 +137,11 @@ class _ForumCategoryState extends State<ForumCategory> {
       );
     }
 
-    if(_threadsCacher.threads.length ==0){
+    if (_threadsCacher.threads.length == 0) {
       return const DiscuzNoMoreData();
     }
-    
+
     return ListView(
-      controller: _scrollController,
       children: _buildCollectionsList(state: state),
     );
   }
@@ -210,6 +158,15 @@ class _ForumCategoryState extends State<ForumCategory> {
       .toList();
 
   ///
+  /// 是否允许加载更多页面
+  ///
+  void _refreshEnablePullUp() {
+    final bool enabled =
+        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+    _enablePullUp = enabled;
+  }
+
+  ///
   /// _requestData will get data from backend
   Future<void> _requestData({int pageNumber, String keyword}) async {
     ///
@@ -217,7 +174,7 @@ class _ForumCategoryState extends State<ForumCategory> {
     if (_pageNumber == 1 || pageNumber == 1) {
       _threadsCacher.clear();
     }
-    
+
     ///
     /// 正在加载
     ///
@@ -225,6 +182,8 @@ class _ForumCategoryState extends State<ForumCategory> {
       _loading = true;
     });
 
+    ///
+    ///
     List<String> includes = [
       RequestIncludes.user,
       RequestIncludes.firstPost,
@@ -237,19 +196,11 @@ class _ForumCategoryState extends State<ForumCategory> {
       RequestIncludes.rewardedUsers
     ];
 
-    Map<String, dynamic> filters = {};
-    widget.filter.filter.forEach((element) {
-      filters.addAll({"filter[${element.keys.first}]": element.values.first});
-    });
-
     dynamic data = {
       "page[limit]": Global.requestPageLimit,
       "page[number]": pageNumber ?? _pageNumber,
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
-      "filter[categoryId]": widget.category.id,
-
-      /// ext filters
-      ...filters
+      "filter[userId]": widget.user.id,
     };
 
     Response resp = await Request(context: context)

@@ -6,11 +6,13 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/users/userHomeDelegateCard.dart';
 import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/widgets/common/discuzNomoreData.dart';
+import 'package:discuzq/widgets/users/userRecentThreads.dart';
 
 class UserHomeDelegate extends StatefulWidget {
   final UserModel user;
 
-  UserHomeDelegate({Key key, @required this.user}) : super(key: key);
+  const UserHomeDelegate({Key key, @required this.user}) : super(key: key);
 
   @override
   _UserHomeDelegateState createState() => _UserHomeDelegateState();
@@ -42,19 +44,41 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
-              title: "${widget.user.username}的个人主页",
+              title: _getTitle(),
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: ListView(
-              children: <Widget>[
-                ///
-                /// 用户信息卡片
-                /// 用于显示粉丝数量
-                /// 关注或取消
-                UserHomeDelegateCard(
-                  user: widget.user,
-                ),
-              ],
-            ),
+            body: _buildBody(context: context),
           ));
+
+  ///
+  /// Title
+  String _getTitle() =>
+      widget.user.username == '' ? '这个人去火星了' : '${widget.user.username}的个人主页';
+
+  Widget _buildBody({BuildContext context}) {
+    if (widget.user.username == "") {
+      return const Center(
+        child: const DiscuzNoMoreData(),
+      );
+    }
+
+    return Column(
+      children: <Widget>[
+        ///
+        /// 用户信息卡片
+        /// 用于显示粉丝数量
+        /// 关注或取消
+        UserHomeDelegateCard(
+          user: widget.user,
+        ),
+
+        ///
+        /// 展示用户最近发帖
+        ///
+        Expanded(
+          child: UserRecentThreads(user: widget.user),
+        )
+      ],
+    );
+  }
 }

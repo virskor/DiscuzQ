@@ -29,9 +29,10 @@ class ThreadsCacher {
   ThreadsCacher._internal() {
     // 初始化单例实例
   }
+  
   static ThreadsCacher _getInstance() {
     if (_instance == null) {
-      _instance = new ThreadsCacher._internal();
+      _instance = ThreadsCacher._internal();
     }
     return _instance;
   }

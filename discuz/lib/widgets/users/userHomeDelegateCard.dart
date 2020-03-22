@@ -33,7 +33,8 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, state) => Container(
+      builder: (context, child, state) => AnimatedContainer(
+            duration: Duration(milliseconds: 300),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -84,10 +85,9 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   ///
   /// 生成当前的关注数量
   /// 如果我点击了关注就加1，如果没有，就不加
-  String _resetFollowedCount() => (_followed == true
-          ? widget.user.fansCount + 1
-          : widget.user.fansCount)
-      .toString();
+  String _resetFollowedCount() =>
+      (_followed == true ? widget.user.fansCount + 1 : widget.user.fansCount)
+          .toString();
 
   ///
   /// todo:
@@ -122,9 +122,8 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   /// 关注按钮的文案
   /// 根据实际情况来显示关注按钮的文案，如果已经关注了，则显示取消否则关注
   ///
-  String _followButtonLabel() => _followed == true
-      ? "取消关注"
-      : widget.user.follow == 1 ? "取消关注" : "关注";
+  String _followButtonLabel() =>
+      _followed == true ? "取消关注" : widget.user.follow == 1 ? "取消关注" : "关注";
 
   ///
   /// 生成描述关注情况的概览
