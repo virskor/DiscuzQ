@@ -8,6 +8,7 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/threads/ThreadPopmenu.dart';
 
 ///
 /// ThreadHeaderCard
@@ -68,7 +69,10 @@ class ThreadHeaderCard extends StatelessWidget {
           /// isSticky
           thread.attributes.isSticky
               ? const DiscuzIcon(0xe60c)
-              : const SizedBox()
+              : const SizedBox(),
+          
+          /// popmenu
+          ThreadPopMenu(thread: thread,),
         ],
       ),
     );

@@ -4,6 +4,16 @@
 ### 实现目标
 基本上和官方版本是保持一致的，只是会增加黑暗模式，主题颜色，字体大小等设置罢了。
 * 考虑接入腾讯云短视频SDK
+A new Flutter application for DiscuzQ. This Application is still under developing, this is an open source software.  
+
+If you have any question about this project, follow and post an issue. I will consit to write this application.
+
+## 还在开发和版权说明
+现在还在开发，不是最终功能  
+第三方APP，与Discuz无关，不代表Dz团队，仅做个人学习使用。该Flutter APP将不考虑支持Web。  
+该APP现在处于开发阶段，暂时不推荐clone并编译，后续编排改动都很大，直到release前暂不要使用这些代码。  
+
+## 最近UI截屏
 <p> 
 <img width="200px" src="snapshot.png"/> 
 <img width="200px" src="snapshot_me.png"/>  
@@ -13,15 +23,8 @@
 <img width="200px" src="snapshot_dartmode_1.png"/>  
 <img width="200px" src="snapshot_dartmode_2.png"/>  
 <img width="200px" src="snapshot_skeleton.png"/>  
+<img width="200px" src="snapshot_create.png"/>  
 </p> 
-A new Flutter application for DiscuzQ. This Application is still under developing, this is an open source software.  
-
-If you have any question about this project, follow and post an issue. I will consit to write this application.
-
-## 还在开发和版权说明
-现在还在开发，不是最终功能  
-第三方APP，与Discuz无关，不代表Dz团队，仅做个人学习使用。该Flutter APP将不考虑支持Web。  
-该APP现在处于开发阶段，暂时不推荐clone并编译，后续编排改动都很大，直到release前暂不要使用这些代码。  
 
 ### 一起开发
 了解开发进度，或者有疑问，可以加我微信奥

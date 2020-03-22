@@ -91,7 +91,7 @@ class ThreadPostSnapshot extends StatelessWidget {
       return Container(
         alignment: Alignment.topLeft,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             /// 用户

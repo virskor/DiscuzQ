@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -18,9 +17,9 @@ import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
-import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/threads/ThreadCard.dart';
 import 'package:discuzq/models/metaModel.dart';
+import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 
 ///------------------------------
 /// _threadsCacher 是用于缓存当前页面的主题数据的对象

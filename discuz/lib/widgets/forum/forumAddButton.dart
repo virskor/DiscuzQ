@@ -1,11 +1,13 @@
+import 'package:discuzq/widgets/common/blurBackground.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/views/editor.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:popup_menu/popup_menu.dart';
-
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 class ForumAddButton extends StatefulWidget {
   ///
@@ -18,8 +20,6 @@ class ForumAddButton extends StatefulWidget {
 }
 
 class _ForumAddButtonState extends State<ForumAddButton> {
-  final GlobalKey btnKey = GlobalKey();
-
   @override
   void setState(fn) {
     if (!mounted) {
@@ -41,7 +41,6 @@ class _ForumAddButtonState extends State<ForumAddButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      key: btnKey,
       icon: DiscuzIcon(
         SFSymbols.plus,
         color: widget.awalysDark
@@ -52,38 +51,107 @@ class _ForumAddButtonState extends State<ForumAddButton> {
     );
   }
 
-  void _showPop() {
-    PopupMenu menu = PopupMenu(
-        context: context,
-        items: [
-          MenuItem(
-              title: '发主题',
-              image: Icon(
-                SFSymbols.pencil_ellipsis_rectangle,
-                color: Colors.white,
-              )),
-          MenuItem(
-              title: '发长文',
-              image: Icon(
-                SFSymbols.pencil_outline,
-                color: Colors.white,
-              )),
-          // MenuItem(
-          //     title: '扫一扫',
-          //     image: Icon(
-          //       SFSymbols.qrcode_viewfinder,
-          //       color: Colors.white,
-          //     )),
-        ],
-        onClickMenu: (MenuItemProvider item) {
-          /// todo, 要根据item.menuTitle 来展示不同的编辑器
-          /// 长文编辑器和一般的编辑器是不一样的
-          return DiscuzRoute.open(
-              context: context, fullscreenDialog: true, widget: const Editor());
-        },
-        stateChanged: (bool isShow) => null,
-        onDismiss: () {});
+  ///
+  /// show pop
+  ///
+  Future<bool> _showPop() => showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return const BlurDialogBackground(
+          child: const _ForumCreateThreadDialog(),
+        );
+      });
+}
 
-    menu.show(widgetKey: btnKey);
+class _ForumCreateThreadDialog extends StatelessWidget {
+  const _ForumCreateThreadDialog();
+
+  static const List<_ForumCreateThreadDialogItem> _menus = [
+    const _ForumCreateThreadDialogItem(
+        caption: '发布主题',
+        subTitle: '一些简单的想法',
+        icon: SFSymbols.pencil_ellipsis_rectangle),
+    const _ForumCreateThreadDialogItem(
+        caption: '发布长文', subTitle: '发布我的文章', icon: SFSymbols.pencil_outline),
+    const _ForumCreateThreadDialogItem(
+        caption: '发布视频', subTitle: '发布我的小视频', icon: SFSymbols.videocam_fill),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: _menus
+            .map((e) => GestureDetector(
+                  onTap: () => _showEditor(context: context),
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.all(10),
+                    width: MediaQuery.of(context).size.width / 2,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                        color: DiscuzApp.themeOf(context).backgroundColor),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        DiscuzIcon(e.icon),
+
+                        ///
+                        /// 制造间距
+                        const SizedBox(width: 20),
+
+                        /// 制造间距
+                        ///
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            DiscuzText(
+                              e.caption,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            DiscuzText(
+                              e.subTitle,
+                              color: DiscuzApp.themeOf(context).greyTextColor,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ))
+            .toList(),
+      ),
+    );
   }
+
+  ///
+  /// 打开编辑器
+  /// 
+  Future<bool> _showEditor({BuildContext context}) {
+    if (Navigator.of(context).canPop()) {
+      Navigator.pop(context);
+    }
+
+    return DiscuzRoute.open(context: context, widget: const Editor());
+  }
+}
+
+class _ForumCreateThreadDialogItem {
+  ///
+  /// 选项卡标题
+  final String caption;
+
+  ///
+  /// 副标题
+  final String subTitle;
+
+  ///
+  /// 图标
+  final IconData icon;
+
+  const _ForumCreateThreadDialogItem({this.caption, this.subTitle, this.icon});
 }
