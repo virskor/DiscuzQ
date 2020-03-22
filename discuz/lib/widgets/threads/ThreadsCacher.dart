@@ -3,7 +3,6 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 
 class _ThreadBaseCacher {
-
   ///
   /// 话题
   ///
@@ -60,13 +59,17 @@ class _ThreadBaseCacher {
 ///
 /// ThreadsCacher 包含的getter， 他们可以获取这些数据，
 /// 但是更新这些数据只能由统一的方式进行，以便于去除重复的数据
-class ThreadsCacher extends _ThreadBaseCacher{
+class ThreadsCacher extends _ThreadBaseCacher {
   ///
-  /// 注意 ThreadsCacher 是一个单例
+  /// 注意 ThreadsCacher 是一个单例，但当singleton传入为false时，则不会是一个单例，
+  /// 这是为了多个Stack调用时出现数据重复
+  /// 
+  /// 但一般情况下，要保持这是个单例的设计
+  /// 
   /// 所以如果不用了，就一定要clear
   /// 否则，在下次调用的时候数据还在，将直接导致错误的数据渲染
   ///
-  factory ThreadsCacher() => _getInstance();
+  factory ThreadsCacher({bool singleton = true}) => _getInstance(singleton: singleton);
   static ThreadsCacher get instance => _getInstance();
   static ThreadsCacher _instance;
 
@@ -74,8 +77,12 @@ class ThreadsCacher extends _ThreadBaseCacher{
     // 初始化单例实例
   }
 
-  static ThreadsCacher _getInstance() {
+  static ThreadsCacher _getInstance({bool singleton = true}) {
     if (_instance == null) {
+      _instance = ThreadsCacher._internal();
+    }
+
+    if (singleton == false) {
       _instance = ThreadsCacher._internal();
     }
     return _instance;

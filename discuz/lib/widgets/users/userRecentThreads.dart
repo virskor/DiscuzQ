@@ -55,7 +55,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
   /// 当数据更新的时候，数据会存储到 _threadsCacher
   /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
-  final ThreadsCacher _threadsCacher = ThreadsCacher();
+  final ThreadsCacher _threadsCacher = ThreadsCacher(singleton: false);
 
   /// states
   ///
