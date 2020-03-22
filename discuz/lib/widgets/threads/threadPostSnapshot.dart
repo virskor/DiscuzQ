@@ -12,8 +12,6 @@ import 'package:discuzq/widgets/threads/ThreadFavoritesAndRewards.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
 
-final ThreadsCacher _threadsCacher = ThreadsCacher();
-
 ///
 /// 主题下回复的快照
 /// 一般ThreadCard中显示的数据只会有3条的
@@ -21,6 +19,13 @@ final ThreadsCacher _threadsCacher = ThreadsCacher();
 /// ThreadPostSnapshot 包含点赞，打赏的信息，还有回复，并增加全部...条回复
 ///
 class ThreadPostSnapshot extends StatelessWidget {
+  ///------------------------------
+  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// 当数据更新的时候，数据会存储到 threadsCacher
+  /// threadsCacher 在页面销毁的时候，务必清空 .clear()
+  ///
+  final ThreadsCacher threadsCacher;
+
   ///
   /// 主题
   final ThreadModel thread;
@@ -41,6 +46,7 @@ class ThreadPostSnapshot extends StatelessWidget {
       {@required this.lastThreePosts,
       @required this.thread,
       @required this.firstPost,
+      @required this.threadsCacher,
       this.replyCounts = 0});
 
   @override
@@ -54,6 +60,7 @@ class ThreadPostSnapshot extends StatelessWidget {
           child: ThreadFavoritesAndRewards(
             thread: thread,
             firstPost: firstPost,
+            threadsCacher: threadsCacher,
           ));
     }
 
@@ -61,13 +68,13 @@ class ThreadPostSnapshot extends StatelessWidget {
     /// 构造回复组件
     ///
     final List<Widget> _repliesWidgets = lastThreePosts.map((dynamic p) {
-      final PostModel post = _threadsCacher.posts
+      final PostModel post = threadsCacher.posts
           .where((PostModel e) => e.id == int.tryParse(p['id']))
           .toList()[0];
 
       ///
       /// 查询回帖用户
-      final List<UserModel> userReplayThreads = _threadsCacher.users
+      final List<UserModel> userReplayThreads = threadsCacher.users
           .where((UserModel u) =>
               u.id == int.tryParse(post.relationships.user['data']['id']))
           .toList();
@@ -76,7 +83,7 @@ class ThreadPostSnapshot extends StatelessWidget {
       /// post.relationships.replyUser 不一定每个 post中都会存在
       /// todo: 排查故障
       final List<UserModel> userReplyPosts = post.attributes.replyUserID != null
-          ? _threadsCacher.users
+          ? threadsCacher.users
               .where((UserModel u) => u.id == post.attributes.replyUserID)
               .toList()
           : null;
@@ -135,6 +142,7 @@ class ThreadPostSnapshot extends StatelessWidget {
               ThreadFavoritesAndRewards(
                 thread: thread,
                 firstPost: firstPost,
+                threadsCacher: threadsCacher,
               ),
 
               /// 渲染所有回复记录

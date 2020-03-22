@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -18,13 +17,7 @@ import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/threads/ThreadCard.dart';
-
-///------------------------------
-/// _threadsCacher 是用于缓存当前页面的主题数据的对象
-/// 当数据更新的时候，数据会存储到 _threadsCacher
-/// _threadsCacher 在页面销毁的时候，务必清空 .clear()
-///
-final ThreadsCacher _threadsCacher = ThreadsCacher();
+import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 
 ///
 /// 用于展示用户最近发帖的组件
@@ -35,7 +28,12 @@ class UserRecentThreads extends StatefulWidget {
   ///
   final UserModel user;
 
-  const UserRecentThreads({this.user});
+  ///
+  /// onUserCardState
+  /// 请求关闭用户顶部卡片
+  final Function onUserCardState;
+
+  const UserRecentThreads({this.user, this.onUserCardState});
 
   @override
   _UserRecentThreadsState createState() => _UserRecentThreadsState();
@@ -46,6 +44,18 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
   /// _controller refresh
   ///
   final RefreshController _controller = RefreshController();
+
+  ///
+  /// _scrollController
+  /// 列表滑动，用于决定是否影藏appbar
+  final ScrollController _scrollController = ScrollController();
+
+  ///------------------------------
+  /// _threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// 当数据更新的时候，数据会存储到 _threadsCacher
+  /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
+  ///
+  final ThreadsCacher _threadsCacher = ThreadsCacher();
 
   /// states
   ///
@@ -83,15 +93,20 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     super.initState();
 
     ///
+    /// 绑定列表移动时间观察
+    this._watchScrollOffset();
+
+    ///
     /// 加载数据
     ///
     Future.delayed(Duration(milliseconds: 450))
-        .then((_) async => await _requestData());
+        .then((_) async => await _requestData(pageNumber: 1));
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose();
     _threadsCacher.clear();
     super.dispose();
   }
@@ -99,8 +114,26 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, state) =>
-          _body(context: context, state: state));
+      builder: (context, child, state) => RepaintBoundary(
+            child: _body(context: context, state: state),
+          ));
+
+  ///
+  /// 观察列表移动
+  /// 观察移动要传递变化时候的值并减少传递，避免UI渲染过程中的Loop造成性能消耗
+  ///
+  void _watchScrollOffset() {
+    bool showAppbar = true;
+
+    _scrollController.addListener(() {
+      final bool wantHide = _scrollController.offset > 300 ? false : true;
+
+      if (widget.onUserCardState != null && wantHide != showAppbar) {
+        widget.onUserCardState(wantHide);
+        showAppbar = wantHide;
+      }
+    });
+  }
 
   /// build body
   Widget _body({@required BuildContext context, @required AppState state}) =>
@@ -142,6 +175,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     }
 
     return ListView(
+      controller: _scrollController,
       children: _buildCollectionsList(state: state),
     );
   }
@@ -153,6 +187,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
       .map<Widget>(
         (ThreadModel it) => ThreadCard(
           thread: it,
+          threadsCacher: _threadsCacher,
         ),
       )
       .toList();

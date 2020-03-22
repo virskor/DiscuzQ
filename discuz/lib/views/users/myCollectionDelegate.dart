@@ -164,6 +164,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   List<Widget> _buildCollectionsList({AppState state}) => _threadsCacher.threads
       .map<Widget>(
         (ThreadModel it) => ThreadCard(
+          threadsCacher: _threadsCacher,
           thread: it,
         ),
       )

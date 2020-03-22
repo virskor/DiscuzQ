@@ -9,9 +9,14 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
 
-final ThreadsCacher _threadsCacher = ThreadsCacher();
-
 class ThreadFavoritesAndRewards extends StatelessWidget {
+  ///------------------------------
+  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// 当数据更新的时候，数据会存储到 threadsCacher
+  /// threadsCacher 在页面销毁的时候，务必清空 .clear()
+  ///
+  final ThreadsCacher threadsCacher;
+
   ///
   /// 主题
   final ThreadModel thread;
@@ -20,7 +25,10 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
   /// firstPost
   final PostModel firstPost;
 
-  const ThreadFavoritesAndRewards({this.thread, this.firstPost});
+  ThreadFavoritesAndRewards(
+      {@required this.thread,
+      @required this.threadsCacher,
+      @required this.firstPost});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,7 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
       try {
         final int uid = int.tryParse(e['id']);
         final List<UserModel> findUsers =
-            _threadsCacher.users.where((u) => u.id == uid).toList();
+            threadsCacher.users.where((u) => u.id == uid).toList();
 
         if (findUsers != null && findUsers.length > 0) {
           rewardedUsersWidgets.addAll([
@@ -59,7 +67,7 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
       try {
         final int uid = int.tryParse(e['id']);
         final List<UserModel> findUsers =
-            _threadsCacher.users.where((u) => u.id == uid).toList();
+            threadsCacher.users.where((u) => u.id == uid).toList();
 
         if (findUsers != null && findUsers.length > 0) {
           likedUsersWidgets.addAll([
@@ -72,7 +80,7 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
     });
 
     /// 增加打赏部件
-    if(rewardedUsersWidgets.length >0){
+    if (rewardedUsersWidgets.length > 0) {
       /// 增加心形状 图标
       rewardedUsersWidgets.insert(
           0,
@@ -85,7 +93,6 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
             ),
           ));
     }
-
 
     /// 增加点赞其他部件
     if (likedUsersWidgets.length > 0) {

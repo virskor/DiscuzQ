@@ -30,12 +30,6 @@ import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 ///
 ///
 ///
-///------------------------------
-/// _threadsCacher 是用于缓存当前页面的主题数据的对象
-/// 当数据更新的时候，数据会存储到 _threadsCacher
-/// _threadsCacher 在页面销毁的时候，务必清空 .clear()
-///
-final ThreadsCacher _threadsCacher = ThreadsCacher();
 
 class ForumCategory extends StatefulWidget {
   /// 要显示的分类
@@ -67,6 +61,13 @@ class _ForumCategoryState extends State<ForumCategory> {
   /// 列表滑动，用于决定是否影藏appbar
   final ScrollController _scrollController = ScrollController();
 
+  ///------------------------------
+  /// _threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// 当数据更新的时候，数据会存储到 _threadsCacher
+  /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
+  ///
+  final ThreadsCacher _threadsCacher = ThreadsCacher();
+
   /// states
   ///
   /// pageNumber
@@ -78,7 +79,7 @@ class _ForumCategoryState extends State<ForumCategory> {
   ///
   /// loading
   /// 是否正在加载
-  bool _loading = false;
+  bool _loading = true;
 
   ///
   /// _enablePullUp
@@ -107,7 +108,7 @@ class _ForumCategoryState extends State<ForumCategory> {
     this._watchScrollOffset();
 
     Future.delayed(Duration(milliseconds: 450))
-        .then((_) async => await _requestData());
+        .then((_) async => await _requestData(pageNumber: 1));
   }
 
   @override
@@ -150,8 +151,9 @@ class _ForumCategoryState extends State<ForumCategory> {
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, state) =>
-          _body(context: context, state: state));
+      builder: (context, child, state) => RepaintBoundary(
+            child: _body(context: context, state: state),
+          ));
 
   /// build body
   Widget _body({@required BuildContext context, @required AppState state}) =>
@@ -163,7 +165,7 @@ class _ForumCategoryState extends State<ForumCategory> {
         // header: WaterDropHeader(),
         controller: _controller,
         onRefresh: () async {
-          await _requestData();
+          await _requestData(pageNumber: 1);
           _controller.refreshCompleted();
         },
         onLoading: () async {
@@ -188,10 +190,10 @@ class _ForumCategoryState extends State<ForumCategory> {
       );
     }
 
-    if(_threadsCacher.threads.length ==0){
+    if (_threadsCacher.threads.length == 0 && !_loading) {
       return const DiscuzNoMoreData();
     }
-    
+
     return ListView(
       controller: _scrollController,
       children: _buildCollectionsList(state: state),
@@ -204,6 +206,7 @@ class _ForumCategoryState extends State<ForumCategory> {
   List<Widget> _buildCollectionsList({AppState state}) => _threadsCacher.threads
       .map<Widget>(
         (ThreadModel it) => ThreadCard(
+          threadsCacher: _threadsCacher,
           thread: it,
         ),
       )
@@ -217,7 +220,7 @@ class _ForumCategoryState extends State<ForumCategory> {
     if (_pageNumber == 1 || pageNumber == 1) {
       _threadsCacher.clear();
     }
-    
+
     ///
     /// 正在加载
     ///

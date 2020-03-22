@@ -14,10 +14,15 @@ class Editor extends StatefulWidget {
 }
 
 class _EditorState extends State<Editor> {
+  ///
+  /// uniqueKey
+  final UniqueKey uniqueKey = UniqueKey();
+
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
+            key: uniqueKey,
             appBar: DiscuzAppBar(
               title: '发布内容',
             ),

@@ -45,21 +45,24 @@ class DiscuzRefresh extends StatelessWidget {
       this.enablePullUp = false});
 
   @override
-  Widget build(BuildContext context) => SmartRefresher(
-        enablePullDown: enablePullDown,
-        enablePullUp: enablePullUp,
-        header: const WaterDropHeader(),
-        /// 允许乡下加载
-        // header: WaterDropHeader(),
-        controller: controller,
-        onRefresh: () {
-          Device.emitVibration();
-          onRefresh();
-        },
-        onLoading: () {
-          Device.emitVibration();
-          onLoading();
-        },
-        child: child,
+  Widget build(BuildContext context) => Scrollbar(
+        child: SmartRefresher(
+          enablePullDown: enablePullDown,
+          enablePullUp: enablePullUp,
+          header: const WaterDropHeader(),
+
+          /// 允许乡下加载
+          // header: WaterDropHeader(),
+          controller: controller,
+          onRefresh: () {
+            Device.emitVibration();
+            onRefresh();
+          },
+          onLoading: () {
+            Device.emitVibration();
+            onLoading();
+          },
+          child: child,
+        ),
       );
 }

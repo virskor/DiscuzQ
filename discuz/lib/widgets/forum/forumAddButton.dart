@@ -78,7 +78,8 @@ class _ForumAddButtonState extends State<ForumAddButton> {
         onClickMenu: (MenuItemProvider item) {
           /// todo, 要根据item.menuTitle 来展示不同的编辑器
           /// 长文编辑器和一般的编辑器是不一样的
-          return DiscuzRoute.open(context: context, widget: const Editor());
+          return DiscuzRoute.open(
+              context: context, fullscreenDialog: true, widget: const Editor());
         },
         stateChanged: (bool isShow) => null,
         onDismiss: () {});

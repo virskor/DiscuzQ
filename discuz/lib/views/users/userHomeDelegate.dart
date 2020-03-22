@@ -19,6 +19,16 @@ class UserHomeDelegate extends StatefulWidget {
 }
 
 class _UserHomeDelegateState extends State<UserHomeDelegate> {
+  ///
+  /// uniquekey
+  ///
+  final UniqueKey uniqueKey = UniqueKey();
+
+  ///
+  /// showUserDeleagetCard
+  /// 显示顶部用户信息卡片
+  bool _showUserDeleagetCard = true;
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -43,6 +53,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
+            key: uniqueKey,
             appBar: DiscuzAppBar(
               title: _getTitle(),
             ),
@@ -70,13 +81,25 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
         /// 关注或取消
         UserHomeDelegateCard(
           user: widget.user,
+          height:  _showUserDeleagetCard == true ? 200 : 0,
         ),
 
         ///
         /// 展示用户最近发帖
         ///
         Expanded(
-          child: UserRecentThreads(user: widget.user),
+          child: UserRecentThreads(
+            user: widget.user,
+            onUserCardState: (bool showUserDeleagetCard) {
+              if (_showUserDeleagetCard == showUserDeleagetCard) {
+                return;
+              }
+
+              setState(() {
+                _showUserDeleagetCard = showUserDeleagetCard;
+              });
+            },
+          ),
         )
       ],
     );

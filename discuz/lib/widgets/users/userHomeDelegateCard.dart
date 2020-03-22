@@ -13,9 +13,16 @@ import 'package:discuzq/models/userModel.dart';
 /// 用户主页顶部卡片
 ///
 class UserHomeDelegateCard extends StatefulWidget {
+  ///
+  /// 指定要显示的用户
   final UserModel user;
 
-  UserHomeDelegateCard({Key key, @required this.user}) : super(key: key);
+  ///
+  /// 高度
+  final double height;
+
+  UserHomeDelegateCard({Key key, @required this.user, this.height})
+      : super(key: key);
 
   @override
   _UserHomeDelegateCardState createState() => _UserHomeDelegateCardState();
@@ -38,32 +45,37 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             padding: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ///
-                /// avatar
-                Center(
-                  child: Hero(
-                    tag: 'heroAvatar',
-                    child: DiscuzAvatar(
-                      url: widget.user.avatarUrl,
+            height: widget.height,
+            ///
+            /// 要防止overflow哦
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ///
+                  /// avatar
+                  Center(
+                    child: Hero(
+                      tag: 'heroAvatar',
+                      child: DiscuzAvatar(
+                        url: widget.user.avatarUrl,
+                      ),
                     ),
                   ),
-                ),
 
-                ///
-                /// username
-                const SizedBox(height: 10),
-                DiscuzText(
-                  widget.user.username,
-                  fontSize: DiscuzApp.themeOf(context).mediumTextSize,
-                  fontWeight: FontWeight.bold,
-                ),
+                  ///
+                  /// username
+                  const SizedBox(height: 10),
+                  DiscuzText(
+                    widget.user.username,
+                    fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+                    fontWeight: FontWeight.bold,
+                  ),
 
-                _buildFollowsTag(state),
-              ],
+                  _buildFollowsTag(state),
+                ],
+              ),
             ),
           ));
 

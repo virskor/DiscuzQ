@@ -10,8 +10,6 @@ import 'package:discuzq/widgets/threads/threadHeaderCard.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/threads/threadPostSnapshot.dart';
 
-final ThreadsCacher _threadsCacher = ThreadsCacher();
-
 ///
 /// 主题卡片
 /// 用于展示一个主题的快照，但不是详情
@@ -22,7 +20,11 @@ class ThreadCard extends StatefulWidget {
   ///
   final ThreadModel thread;
 
-  ThreadCard({this.thread});
+  ///------------------------------
+  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  final ThreadsCacher threadsCacher;
+
+  ThreadCard({this.thread, @required this.threadsCacher});
   @override
   _ThreadCardState createState() => _ThreadCardState();
 }
@@ -37,7 +39,7 @@ class _ThreadCardState extends State<ThreadCard> {
   @override
   void initState() {
     super.initState();
-    _author = _threadsCacher.users
+    _author = widget.threadsCacher.users
             .where((UserModel it) =>
                 it.id ==
                 int.tryParse(widget.thread.relationships.user['data']['id']))
@@ -45,7 +47,7 @@ class _ThreadCardState extends State<ThreadCard> {
         UserModel();
 
     /// 查找firstPost
-    _firstPost = _threadsCacher.posts
+    _firstPost = widget.threadsCacher.posts
             .where((PostModel it) =>
                 it.id ==
                 int.tryParse(
@@ -58,11 +60,7 @@ class _ThreadCardState extends State<ThreadCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-      margin: const EdgeInsets.only(
-        top: 10,
-        left: 10,
-        right: 10
-      ),
+      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(3))),
@@ -97,6 +95,7 @@ class _ThreadCardState extends State<ThreadCard> {
             replyCounts: widget.thread.attributes.postCount,
             lastThreePosts: widget.thread.relationships.lastThreePosts,
             firstPost: _firstPost,
+            threadsCacher: widget.threadsCacher,
             thread: widget.thread,
           ),
         ],
