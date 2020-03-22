@@ -1,3 +1,6 @@
+import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/common/avatarPicker.dart';
+import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -31,9 +34,19 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-              appBar: DiscuzAppBar(
+        rebuildOnChange: false,
+        builder: (context, child, state) => Scaffold(
+          appBar: DiscuzAppBar(
             title: '我的资料',
-          )));
+          ),
+          backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+          body: Column(
+            children: <Widget>[
+              AvatarPicker(
+                avatar: DiscuzAvatar(),
+              )
+            ],
+          ),
+        ),
+      );
 }

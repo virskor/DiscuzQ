@@ -62,7 +62,7 @@ class BlurDialogBackground extends StatelessWidget {
                     : () {},
                 child: ControlledAnimation(
                   tween: Tween<double>(begin: 0, end: blur ?? 3),
-                  duration: Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 270),
                   builder: (context, val) {
                     return BackdropFilter(
                       filter: ImageFilter.blur(

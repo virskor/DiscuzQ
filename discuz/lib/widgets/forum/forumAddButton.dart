@@ -97,6 +97,7 @@ class _ForumCreateThreadDialog extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        const SizedBox(width: 20),
                         DiscuzIcon(e.icon),
 
                         ///
@@ -130,13 +131,14 @@ class _ForumCreateThreadDialog extends StatelessWidget {
 
   ///
   /// 打开编辑器
-  /// 
+  ///
   Future<bool> _showEditor({BuildContext context}) {
     if (Navigator.of(context).canPop()) {
       Navigator.pop(context);
     }
 
-    return DiscuzRoute.open(context: context, widget: const Editor());
+    return DiscuzRoute.open(
+        context: context, fullscreenDialog: true, widget: const Editor());
   }
 }
 
