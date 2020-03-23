@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/posts/postRender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -8,7 +9,7 @@ import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
-import 'package:discuzq/widgets/threads/ThreadFavoritesAndRewards.dart';
+import 'package:discuzq/widgets/threads/parts/ThreadFavoritesAndRewards.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/router/route.dart';
@@ -123,10 +124,7 @@ class ThreadPostSnapshot extends StatelessWidget {
             /// 回复内容
             Flexible(
               child: Container(
-                child: DiscuzText(
-                  post.attributes.content,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                child: PostRender(content: post.attributes.contentHtml,),
               ),
             )
           ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:discuzq/states/scopedState.dart';
 
+import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/discuz.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/appConfigurations.dart';
@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
       child: ScopedStateModelDescendant<AppState>(builder: (context, child, state) {
         return AppWrapper(
           onDispose: () {},
-          onInit: () {
+          onInit: () async{
             // 加载配置文件
-            this.initAppSettings();
+            await this.initAppSettings();
 
             ///
             /// 如果appconf还没有成功加载则创建初始化页面 并执行APP初始化

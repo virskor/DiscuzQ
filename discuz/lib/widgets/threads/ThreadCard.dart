@@ -6,9 +6,9 @@ import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
-import 'package:discuzq/widgets/threads/threadHeaderCard.dart';
+import 'package:discuzq/widgets/threads/parts/threadHeaderCard.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
-import 'package:discuzq/widgets/threads/threadPostSnapshot.dart';
+import 'package:discuzq/widgets/threads/parts/threadPostSnapshot.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/threads/theadDetailDelegate.dart';
 

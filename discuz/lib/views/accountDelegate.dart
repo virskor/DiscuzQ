@@ -80,7 +80,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
             DiscuzDialog.confirm(
                 context: context,
                 title: '提示',
-                message: '是否退出登录',
+                message: '是否退出登录？',
                 onConfirm: () => AuthHelper.logout(state: state)),
         icon: SFSymbols.arrow_right_square),
     const _AccountMenuItem(
