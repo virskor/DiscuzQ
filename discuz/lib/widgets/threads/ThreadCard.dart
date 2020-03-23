@@ -9,6 +9,8 @@ import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/threads/threadHeaderCard.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/threads/threadPostSnapshot.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/threads/theadDetailDelegate.dart';
 
 ///
 /// 主题卡片
@@ -85,8 +87,14 @@ class _ThreadCardState extends State<ThreadCard> {
                 ..._buildContentTitle(),
 
                 /// 主题的内容
-                DiscuzText(
-                  _firstPost.attributes.content,
+                GestureDetector(
+                  onTap: () => DiscuzRoute.open(
+                      context: context,
+                      shouldLogin: true,
+                      widget: const ThreadDetailDelegate()),
+                  child: DiscuzText(
+                    _firstPost.attributes.content,
+                  ),
                 )
               ],
             ),

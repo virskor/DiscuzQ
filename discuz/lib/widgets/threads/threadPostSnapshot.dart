@@ -11,6 +11,8 @@ import 'package:discuzq/widgets/users/userLink.dart';
 import 'package:discuzq/widgets/threads/ThreadFavoritesAndRewards.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/threads/theadDetailDelegate.dart';
 
 ///
 /// 主题下回复的快照
@@ -157,6 +159,10 @@ class ThreadPostSnapshot extends StatelessWidget {
                   DiscuzLink(
                     padding: const EdgeInsets.only(top: 5),
                     label: '全部${(replyCounts - 1).toString()}条回复',
+                    onTap: ()=> DiscuzRoute.open(
+                      context: context,
+                      shouldLogin: true,
+                      widget: const ThreadDetailDelegate()),
                   ),
                   const SizedBox(
                     width: 5,

@@ -5,13 +5,13 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 
-class BlackListDelegate extends StatefulWidget {
-  const BlackListDelegate({Key key}) : super(key: key);
+class ThreadDetailDelegate extends StatefulWidget {
+  const ThreadDetailDelegate({Key key}) : super(key: key);
   @override
-  _BlackListDelegateState createState() => _BlackListDelegateState();
+  _ThreadDetailDelegateState createState() => _ThreadDetailDelegateState();
 }
 
-class _BlackListDelegateState extends State<BlackListDelegate> {
+class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   @override
   void setState(fn) {
     if (!mounted) {
@@ -35,7 +35,7 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
-              title: '黑名单',
+              title: '详情',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
           ));

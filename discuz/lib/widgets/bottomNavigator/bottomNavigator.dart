@@ -39,17 +39,17 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
         builder: (context, child, state) {
           return Frost(
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 270,),
+              duration: const Duration(
+                milliseconds: 270,
+              ),
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(
                   left: 20,
                   right: 20,
                   bottom: MediaQuery.of(context).padding.bottom),
-              decoration: BoxDecoration(
-                //color: DiscuzApp.themeOf(context).backgroundColor.withOpacity(.29),
-                border: state.appConf['darkTheme'] == true
-                    ? null
-                    : const Border(top: Global.border),
+              decoration:const BoxDecoration(
+                color: Colors.transparent,
+                border: const Border(top: Global.border),
               ),
               child: _buildItems(state: state),
             ),
