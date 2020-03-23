@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -75,7 +76,12 @@ class _AccountDelegateState extends State<AccountDelegate> {
     _AccountMenuItem(
         label: '退出登录',
         showDivider: false,
-        method: (AppState state) => AuthHelper.logout(state: state),
+        method: (AppState state, {BuildContext context}) =>
+            DiscuzDialog.confirm(
+                context: context,
+                title: '提示',
+                message: '是否退出登录',
+                onConfirm: () => AuthHelper.logout(state: state)),
         icon: SFSymbols.arrow_right_square),
     const _AccountMenuItem(
         label: '邀请朋友',
@@ -151,7 +157,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
                   /// 如果item中设置了运行相关的方法，则运行相关的方法，如果有child的话则在路由中打开
                   onTap: () => el.method != null
-                      ? el.method(state)
+                      ? el.method(state, context: context)
                       : el.child == null
                           ? DiscuzToast.failed(
                               context: context, message: '暂时不支持')

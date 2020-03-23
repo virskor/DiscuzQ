@@ -153,7 +153,7 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
               },
             ),
           ),
-          const DiscuzDivider()
+          const DiscuzDivider(padding: 0,)
         ],
       ),
     );
