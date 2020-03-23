@@ -34,6 +34,7 @@ class ThreadHeaderCard extends StatelessWidget {
           GestureDetector(
             onTap: () => DiscuzRoute.open(
                 context: context,
+                shouldLogin: true,
                 widget: UserHomeDelegate(
                   user: author,
                 )),
@@ -70,9 +71,11 @@ class ThreadHeaderCard extends StatelessWidget {
           thread.attributes.isSticky
               ? const DiscuzIcon(0xe60c)
               : const SizedBox(),
-          
+
           /// popmenu
-          ThreadPopMenu(thread: thread,),
+          ThreadPopMenu(
+            thread: thread,
+          ),
         ],
       ),
     );

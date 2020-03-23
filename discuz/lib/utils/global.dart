@@ -10,7 +10,7 @@ class Global {
   ///
   /// domain
   /// 服务端域名
-  /// 注意： 不要在域名后面加 / 路劲符
+  /// 注意： 不要在域名后面加 / 路径符
   ///
   static const String domain = 'https://discuz.chat';
 

@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -8,9 +7,17 @@ import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
+import 'package:discuzq/widgets/appbar/appbar.dart';
 
 class SearchAppbar extends StatefulWidget implements PreferredSizeWidget {
   final double contentHeight; //从外部指定高度
+
+  ///
+  /// onSubmit(String keyword, bool shouldShowNoticeEmpty)
+  /// keyword 用户输入的关键字
+  /// shouldShowNoticeEmpty 用户输入的字符为空，是否要提示
+  /// 这里为空的是，clear同样会触发onSubmit 这种时候不需要通知用户输入关键字 shouldShowNoticeEmpty== false
+  /// 列子 shouldShowNoticeEmpty && keyword == "" 则提示用户输入关键字
   final Function onSubmit;
   final String placeholder;
 

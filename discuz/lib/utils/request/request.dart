@@ -12,7 +12,7 @@ import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/device.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/utils/request/RequestCacheInterceptor.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/utils/request/requestErrors.dart';
@@ -106,16 +106,12 @@ class Request {
         /// 处理http status code非正常错误
         ///
         if (e.response != null && e.response.data != null) {
-          if (e.response.data['errors'][0]['code'] == 200) {
-            return Future.value(e);
-          }
-
           if (e.response.data['errors'][0]['code'] == 401) {
             ///
             /// todo:
             /// 401的时候先校验错误信息是不是token过期，因为有时候站点关闭也是401。。。。
-            /// 
-            /// 
+            ///
+            ///
             /// 尝试自动刷新token，如果刷新token成功，继续上次请求
             debugPrint("------------Token 自动刷新开始-----------");
             try {
@@ -283,12 +279,39 @@ class Request {
           options: Options(contentType: Headers.jsonContentType),
           onReceiveProgress: onReceiveProgress,
           onSendProgress: onSendProgress);
+      // todo: this method should be removed after DIO fixed bugs some how
+      resp.data = _temporaryTransformer(resp.data);
     } catch (e) {
       return Future.value(null);
     }
 
-    // todo: this method should be removed after DIO fixed bugs some how
-    resp.data = _temporaryTransformer(resp.data);
+    return Future.value(resp);
+  }
+
+  ///
+  /// DELETE
+  ///
+  Future<Response> delete({
+    @required String url,
+    dynamic data,
+    dynamic queryParameters,
+    CancelToken cancelToken,
+  }) async {
+    Response resp;
+
+    try {
+      resp = await _dio.delete(
+        url,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(contentType: Headers.jsonContentType),
+        cancelToken: cancelToken,
+      );
+      // todo: this method should be removed after DIO fixed bugs some how
+      resp.data = _temporaryTransformer(resp.data);
+    } catch (e) {
+      return Future.value(null);
+    }
 
     return Future.value(resp);
   }

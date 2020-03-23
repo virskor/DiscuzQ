@@ -5,7 +5,7 @@ import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -93,7 +93,7 @@ class AuthHelper {
   static Future<void> getUserFromLocal({@required AppState state}) async {
     try {
       final dynamic user = await AuthorizationHelper().getUser();
-      state.updateUser(UserModel.fromMap(maps: user));
+      state.updateUser(UserModel.fromMap(maps: jsonDecode(user)));
     } catch (e) {
       print(e);
     }

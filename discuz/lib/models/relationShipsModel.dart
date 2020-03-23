@@ -64,11 +64,24 @@ class RelationshipsModel {
   /// 回复的用户
   final dynamic replyUser;
 
+
+  ///
+  /// toUser
+  /// 关注的人
+  final dynamic toUser;
+
+  ///
+  /// fromUser
+  /// 关注我的人
+  final dynamic fromUser;
+
   const RelationshipsModel(
       {this.user,
       this.firstPost,
       this.threadVideo,
       this.replyUser,
+      this.toUser,
+      this.fromUser,
       this.likedUsers = const [],
       this.rewardedUsers = const [],
       this.lastThreePosts = const []});
@@ -93,6 +106,8 @@ class RelationshipsModel {
 
     return RelationshipsModel(
         user: data['user'] ?? null,
+        toUser: data['toUser'] ?? null,
+        fromUser: data['fromUser'] ?? null,
         firstPost: data['firstPost'] ?? null,
         replyUser: data['replyUser'] ?? null,
         likedUsers:

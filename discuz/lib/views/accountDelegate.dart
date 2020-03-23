@@ -1,6 +1,6 @@
-import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/router/route.dart';
@@ -21,9 +21,9 @@ import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/views/users/profileDelegate.dart';
 import 'package:discuzq/views/users/walletDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
-import 'package:discuzq/views/users/followingDelegate.dart';
+import 'package:discuzq/views/users/follows/followingDelegate.dart';
 import 'package:discuzq/views/users/blackListDelegate.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:discuzq/widgets/common/discuzRefresh.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -226,6 +226,7 @@ class _MyAccountCard extends StatelessWidget {
               ),
               onTap: () => DiscuzRoute.open(
                   context: context,
+                  shouldLogin: true,
                   widget: UserHomeDelegate(
                     user: state.user,
                   )),

@@ -54,8 +54,12 @@ class Urls {
   /// 主题
   /// 主题相关的接口
   static const String threads = "$_apiPath/threads";
-
   ///
   /// 收藏
   static const String threadsFavorites = "$_apiPath/favorites";
+
+  /// -----------------------------------
+  /// 关注
+  /// 创建关注接口
+  static const String follow = "$_apiPath/follow";
 }

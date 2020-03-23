@@ -215,6 +215,55 @@ class UserModel {
       this.followCount = 0});
 
   ///
+  /// 使用一个已经存在的User，浅拷贝复制部分属性，活得一个新的用户对象
+  ///为了安全起见，不是所有的属性都能这样操作
+  static UserModel copyWith({
+    @required UserModel userModel,
+    String username,
+    int follow,
+    int fansCount,
+    String mobile,
+    String avatarUrl,
+  }) {
+    assert(userModel != null);
+    if (userModel == const UserModel()) return const UserModel();
+
+    return UserModel(
+      id: userModel.id,
+      username: username ?? userModel.username,
+      follow: follow ?? userModel.follow,
+      mobile: mobile ?? userModel.mobile,
+
+      /// todo: 脱敏mobile
+      canDelete: userModel.canDelete,
+      registerReason: userModel.registerReason,
+      avatarUrl: avatarUrl ?? userModel.avatarUrl,
+      originalMobile: mobile ?? userModel.mobile,
+      loginAt: userModel.loginAt,
+      banReason: userModel.banReason,
+      expiredAt: userModel.expiredAt,
+      joinedAt: userModel.joinedAt,
+      identity: userModel.identity,
+      fansCount: fansCount ?? userModel.fansCount,
+      registerIp: userModel.registerIp,
+      followCount: userModel.followCount,
+      lastLoginIp: userModel.lastLoginIp,
+      walletBalance: userModel.walletBalance,
+      canEdit: userModel.canEdit,
+      paid: userModel.paid,
+      payTime: userModel.payTime,
+      canWalletPay: userModel.canWalletPay,
+      createdAt: userModel.createdAt,
+      threadCount: userModel.threadCount,
+      status: userModel.status,
+      typeUnreadNotifications: userModel.typeUnreadNotifications,
+      unreadNotifications: userModel.unreadNotifications,
+      mobileConfirmed: userModel.mobileConfirmed,
+      realname: userModel.realname,
+    );
+  }
+
+  ///
   /// fromMap
   /// 转换模型
   ///

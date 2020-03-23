@@ -13,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'package:discuzq/utils/permissionHepler.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';

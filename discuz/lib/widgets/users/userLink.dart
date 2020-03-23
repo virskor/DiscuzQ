@@ -17,6 +17,7 @@ class UserLink extends StatelessWidget {
       padding: const EdgeInsets.only(right: 2, top: 0, left:2, bottom: 0),
       onTap: () => DiscuzRoute.open(
           context: context,
+          shouldLogin: true,
           widget: UserHomeDelegate(
             user: user,
           )),

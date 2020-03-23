@@ -5,7 +5,7 @@ import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumCategory.dart';

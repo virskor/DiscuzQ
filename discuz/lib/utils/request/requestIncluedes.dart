@@ -76,6 +76,16 @@ class RequestIncludes {
   static const String lastDeletedLog = 'lastDeletedLog';
 
   ///
+  /// toUser
+  /// 关注用户数据
+  static const String toUser = 'toUser';
+
+  ///
+  /// fromUser
+  /// 粉丝用户数据
+  static const String fromUser = 'fromUser';
+
+  ///
   /// fromIncludes
   /// 使用RequestIncludes包含的可用于查询关联信息的数据构造用于请求的 queryParams
   ///

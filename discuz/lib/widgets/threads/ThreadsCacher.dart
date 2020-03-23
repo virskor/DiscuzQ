@@ -42,9 +42,9 @@ class _ThreadBaseCacher {
   ///
   /// 清空数据
   void clear() async {
-    _threads = [];
-    _posts = [];
-    _users = [];
+    _threads.clear();
+    _posts.clear();
+    _users.clear();
   }
 }
 

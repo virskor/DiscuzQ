@@ -12,7 +12,7 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncluedes.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
@@ -77,7 +77,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
 
   ///
   /// _continueToRead
-  /// 是否是联系加载
+  /// 是否是连续加载
   bool _continueToRead = false;
 
   @override
@@ -252,19 +252,19 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     /// 更新数据
     /// 更新ThreadsCacher中的数据
     /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来重构Widget tree便会展示最新数据
-    final List<dynamic> _threads = resp.data['data'] ?? [];
-    final List<dynamic> _included = resp.data['included'] ?? [];
+    final List<dynamic> threads = resp.data['data'] ?? [];
+    final List<dynamic> included = resp.data['included'] ?? [];
 
     /// 关联的数据，包含user, post，需要在缓存前进行转义
     try {
-      _threadsCacher.threads = _threads
+      _threadsCacher.threads = threads
           .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
           .toList();
-      _threadsCacher.posts = _included
+      _threadsCacher.posts = included
           .where((inc) => inc['type'] == 'posts')
           .map((p) => PostModel.fromMap(maps: p))
           .toList();
-      _threadsCacher.users = _included
+      _threadsCacher.users = included
           .where((inc) => inc['type'] == 'users')
           .map((p) => UserModel.fromMap(maps: p['attributes']))
           .toList();
@@ -275,7 +275,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     setState(() {
       _loading = false;
       _continueToRead = true;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;  /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
       _refreshEnablePullUp();
     });
