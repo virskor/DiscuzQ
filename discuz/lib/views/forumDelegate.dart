@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/forum/floatLoginButton.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
-import 'package:discuzq/widgets/appbar/nightModeSwitcher.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/forum/bootstrapForum.dart';
@@ -12,6 +12,9 @@ import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/views/totalSearchDelegate.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 /// 论坛首页
 class ForumDelegate extends StatefulWidget {
@@ -70,11 +73,19 @@ class _ForumDelegateState extends State<ForumDelegate>
                   ? DiscuzAppBar(
                       elevation: 0,
                       centerTitle: true,
-                      leading: const NightModeSwitcher(),
                       title: const Center(
                           child: const DiscuzAppLogo(
                         color: Colors.transparent,
                       )),
+                      leading: IconButton(
+                        icon: DiscuzIcon(
+                          SFSymbols.search,
+                          color: DiscuzApp.themeOf(context).textColor,
+                        ),
+                        onPressed: () => DiscuzRoute.open(
+                            context: context,
+                            widget: const TotalSearchDelegate()),
+                      ),
                       actions: _actions(context),
                     )
                   : null,

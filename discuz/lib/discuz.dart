@@ -10,7 +10,6 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/views/accountDelegate.dart';
 import 'package:discuzq/views/forumDelegate.dart';
-import 'package:discuzq/views/totalSearchDelegate.dart';
 import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';
 import 'package:discuzq/views/notificationsDelegate.dart';
 
@@ -131,7 +130,6 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 页面集合
   static const List<Widget> _views = [
     const ForumDelegate(),
-    const TotalSearchDelegate(),
     const NotificationsDelegate(),
     const AccountDelegate()
   ];
@@ -139,7 +137,6 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 底部按钮菜单
   final List<NavigatorItem> _items = [
     const NavigatorItem(icon: SFSymbols.layers_alt_fill),
-    const NavigatorItem(icon: SFSymbols.search, shouldLogin: true),
     const NavigatorItem(icon: SFSymbols.bell, shouldLogin: true),
     const NavigatorItem(icon: SFSymbols.person_alt, shouldLogin: true)
   ];

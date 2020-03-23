@@ -8,7 +8,7 @@ class HtmlRender extends StatelessWidget {
 
   HtmlRender({@required this.html});
 
-  /// 
+  ///
   /// 处理表情渲染
   final emojiOp = BuildOp(
     onPieces: (meta, pieces) {
