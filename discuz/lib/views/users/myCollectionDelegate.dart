@@ -152,6 +152,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
       /// 允许刷新
       child: ListView(
+        shrinkWrap: true,
         children: _buildCollectionsList(state: state),
       ),
     );

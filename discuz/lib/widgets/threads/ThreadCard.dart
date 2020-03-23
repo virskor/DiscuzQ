@@ -11,6 +11,7 @@ import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/threads/parts/threadPostSnapshot.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/threads/theadDetailDelegate.dart';
+import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 
 ///
 /// 主题卡片
@@ -92,8 +93,8 @@ class _ThreadCardState extends State<ThreadCard> {
                       context: context,
                       shouldLogin: true,
                       widget: const ThreadDetailDelegate()),
-                  child: DiscuzText(
-                    _firstPost.attributes.content,
+                  child: HtmlRender(
+                    html: _firstPost.attributes.contentHtml,
                   ),
                 )
               ],

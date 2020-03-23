@@ -94,7 +94,7 @@ class ThreadPostSnapshot extends StatelessWidget {
       return Container(
         alignment: Alignment.topLeft,
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             /// 用户
@@ -123,8 +123,8 @@ class ThreadPostSnapshot extends StatelessWidget {
             ///
             /// 回复内容
             Flexible(
-              child: Container(
-                child: PostRender(content: post.attributes.contentHtml,),
+              child: PostRender(
+                content: post.attributes.contentHtml,
               ),
             )
           ],
@@ -157,10 +157,10 @@ class ThreadPostSnapshot extends StatelessWidget {
                   DiscuzLink(
                     padding: const EdgeInsets.only(top: 5),
                     label: '全部${(replyCounts - 1).toString()}条回复',
-                    onTap: ()=> DiscuzRoute.open(
-                      context: context,
-                      shouldLogin: true,
-                      widget: const ThreadDetailDelegate()),
+                    onTap: () => DiscuzRoute.open(
+                        context: context,
+                        shouldLogin: true,
+                        widget: const ThreadDetailDelegate()),
                   ),
                   const SizedBox(
                     width: 5,
