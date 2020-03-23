@@ -12,7 +12,7 @@ import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/device.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/utils/request/RequestCacheInterceptor.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/utils/request/requestErrors.dart';

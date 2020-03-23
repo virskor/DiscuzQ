@@ -5,7 +5,7 @@ import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

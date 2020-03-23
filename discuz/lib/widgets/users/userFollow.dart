@@ -6,11 +6,12 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/users/userFollowRequest.dart';
 
 ///
 /// 关注用户
@@ -145,54 +146,12 @@ class _UserFollowState extends State<UserFollow> {
   /// request follow
   /// 如果用户请求取消关注，应该发送delete请求，如果是关注则，直接发送post请求
   /// 关注
-  Future<void> _requestFollow() async {
-    Response resp;
+  Future<void> _requestFollow({BuildContext context}) async {
+    final bool requetFollow =
+        await UserFollowRequest.requestFollow(context: context, user: _user);
 
-    ///
-    /// 用于请求的数据
-    final dynamic data = {
-      "data": {
-        "attributes": {
-          "to_user_id": _user.id,
-        }
-      }
-    };
-
-    final Function closeLoading = DiscuzToast.loading(context: context);
-
-    if (_user.follow == 1) {
-      /// 取消关注
-      /// 取消关注时，会返回204，DIO会默认处理成错误，所以要自己在处理下
-      /// 如果后续DZ接口调整，也要直接返回
-      try {
-        resp = await Request(context: context)
-            .delete(url: Urls.follow, data: data);
-        closeLoading();
-        setState(() {
-          ///
-          /// 更新当前查看的用户信息
-          _user = UserModel.copyWith(
-              userModel: _user, follow: 0, fansCount: _user.fansCount - 1);
-        });
-      } catch (e) {
-        final DioError err = e;
-        if (err.response.statusCode == 204) {
-          DiscuzToast.success(context: context, message: '操作成功');
-          return;
-        }
-      }
-      DiscuzToast.success(context: context, message: '操作成功');
-      return;
-    }
-
-    ///
-    /// 请求关注某个用户
-    ///
-    resp =
-        await Request(context: context).postJson(url: Urls.follow, data: data);
-    closeLoading();
-    if (resp == null) {
-      DiscuzToast.failed(context: context, message: '操作失败');
+    /// 请求时失败的，不更新UI
+    if (!requetFollow) {
       return;
     }
 
@@ -200,8 +159,10 @@ class _UserFollowState extends State<UserFollow> {
       ///
       /// 更新当前查看的用户信息
       _user = UserModel.copyWith(
-          userModel: _user, follow: 1, fansCount: _user.fansCount + 1);
+          userModel: _user,
+          follow: _user.follow == 0 ? 1 : 0,
+          fansCount:
+              _user.follow == 0 ? _user.fansCount + 1 : _user.fansCount - 1);
     });
-    DiscuzToast.success(context: context, message: '操作成功');
   }
 }

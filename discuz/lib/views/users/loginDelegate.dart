@@ -14,7 +14,7 @@ import 'package:discuzq/widgets/common/discuzFormContainer.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/registerDelegate.dart';
 import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/users/privacyBar.dart';

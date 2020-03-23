@@ -51,7 +51,11 @@ class _FollowingDelegateState extends State<FollowingDelegate> {
                   DiscuzListTile(
                     title: const DiscuzText('我关注的人'),
                     onTap: () => DiscuzRoute.open(
-                        context: context, widget: const FollowerListDelegate()),
+                        shouldLogin: true,
+                        context: context,
+                        widget: const FollowerListDelegate(
+                          isToUser: true,
+                        )),
                   ),
                   const DiscuzDivider(
                     padding: 0,
@@ -59,7 +63,11 @@ class _FollowingDelegateState extends State<FollowingDelegate> {
                   DiscuzListTile(
                     title: const DiscuzText('关注我的人'),
                     onTap: () => DiscuzRoute.open(
-                        context: context, widget: const FollowerListDelegate()),
+                        shouldLogin: true,
+                        context: context,
+                        widget: const FollowerListDelegate(
+                          isToUser: false,
+                        )),
                   ),
                 ],
               ),

@@ -10,7 +10,7 @@ import 'package:discuzq/widgets/common/discuzAmount.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/models/walletModel.dart';

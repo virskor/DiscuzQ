@@ -37,7 +37,7 @@ class ThreadModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return ThreadModel();
+      return const ThreadModel();
     }
 
     dynamic data = maps;
@@ -61,11 +61,11 @@ class ThreadModel {
                 ? int.tryParse(data['type'])
                 : data['type'],
         relationships: data['attributes'] == null
-            ? RelationshipsModel()
+            ? const RelationshipsModel()
             : RelationshipsModel.fromMap(
                 maps: data['relationships']),
         attributes: data['attributes'] == null
-            ? ThreadAttributesModel()
+            ? const ThreadAttributesModel()
             : ThreadAttributesModel.fromMap(maps: data['attributes']));
   }
 }

@@ -11,7 +11,7 @@ import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncluedes.dart';
-import 'package:discuzq/utils/urls.dart';
+import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
@@ -244,7 +244,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     setState(() {
       _loading = false;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;  /// pageNumber 在onload传入时已经自动加1
       _continueToRead = true;
       /// 修改
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
