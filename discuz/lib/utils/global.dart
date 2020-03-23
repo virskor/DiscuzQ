@@ -10,9 +10,9 @@ class Global {
   ///
   /// domain
   /// 服务端域名
-  /// 注意： 不要在域名后面加 / 路劲符
+  /// 注意： 不要在域名后面加 / 路径符
   ///
-  static const String domain = 'https://discuz.chat';
+  static const String domain = 'https://www.bushcraftcn.com';
 
   /// 
   /// 隐私政策和用户协议常规不需要设置

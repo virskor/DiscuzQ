@@ -158,8 +158,8 @@ class _UserFollowState extends State<UserFollow> {
       }
     };
 
-    // final Function closeLoading = DiscuzToast.loading(context: context);
-    final Function closeLoading = () => null;
+    final Function closeLoading = DiscuzToast.loading(context: context);
+
     if (_user.follow == 1) {
       /// 取消关注
       /// 取消关注时，会返回204，DIO会默认处理成错误，所以要自己在处理下
