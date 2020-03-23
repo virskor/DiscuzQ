@@ -80,51 +80,55 @@ class _ForumCreateThreadDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: _menus
-            .map((e) => GestureDetector(
-                  onTap: () => _showEditor(context: context),
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    padding: const EdgeInsets.all(10),
-                    width: MediaQuery.of(context).size.width / 2,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: DiscuzApp.themeOf(context).backgroundColor),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        const SizedBox(width: 20),
-                        DiscuzIcon(e.icon),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: _menus
+              .map((e) => GestureDetector(
+                    onTap: () => _showEditor(context: context),
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      padding: const EdgeInsets.all(10),
+                      width: MediaQuery.of(context).size.width / 2,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
+                          color: DiscuzApp.themeOf(context).backgroundColor),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          const SizedBox(width: 20),
+                          DiscuzIcon(e.icon),
 
-                        ///
-                        /// 制造间距
-                        const SizedBox(width: 20),
+                          ///
+                          /// 制造间距
+                          const SizedBox(width: 20),
 
-                        /// 制造间距
-                        ///
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            DiscuzText(
-                              e.caption,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            DiscuzText(
-                              e.subTitle,
-                              color: DiscuzApp.themeOf(context).greyTextColor,
-                            ),
-                          ],
-                        )
-                      ],
+                          /// 制造间距
+                          ///
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              DiscuzText(
+                                e.caption,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              DiscuzText(
+                                e.subTitle,
+                                color: DiscuzApp.themeOf(context).greyTextColor,
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ))
-            .toList(),
+                  ))
+              .toList(),
+        ),
       ),
     );
   }
@@ -142,6 +146,8 @@ class _ForumCreateThreadDialog extends StatelessWidget {
   }
 }
 
+///
+/// 发帖选项
 class _ForumCreateThreadDialogItem {
   ///
   /// 选项卡标题

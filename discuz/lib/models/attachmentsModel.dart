@@ -154,7 +154,6 @@ class AttachmentsAttributesModel {
       fileType: data['fileType'] ?? '',
       thumbUrl: data['thumbUrl'] ?? '',
       extensions: data['extension'] ?? '',
-
       /// 要注意接口返回的数据其实是extension
       fileName: data['fileName'] ?? '',
     );

@@ -93,7 +93,7 @@ class AuthHelper {
   static Future<void> getUserFromLocal({@required AppState state}) async {
     try {
       final dynamic user = await AuthorizationHelper().getUser();
-      state.updateUser(UserModel.fromMap(maps: user));
+      state.updateUser(UserModel.fromMap(maps: jsonDecode(user)));
     } catch (e) {
       print(e);
     }
