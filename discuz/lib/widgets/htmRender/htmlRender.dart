@@ -1,12 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
+import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
+
 class HtmlRender extends StatelessWidget {
+  ///
+  /// 用于渲染的html 字符串
   final String html;
 
-  HtmlRender({@required this.html});
+  ///
+  /// 至于渲染的HTML内容之前的Widgets
+  final List<Widget> prefixsChild;
 
   ///
   /// 处理表情渲染
@@ -22,31 +28,28 @@ class HtmlRender extends StatelessWidget {
     },
   );
 
-  @override
-  Widget build(BuildContext context) => RepaintBoundary(
-        child: HtmlWidget(
-          html,
-          bodyPadding: const EdgeInsets.all(0),
-          tableCellPadding: const EdgeInsets.all(2),
-          enableCaching: true,
-          webView: false,
-          webViewJs: false,
-          hyperlinkColor: DiscuzApp.themeOf(context).primaryColor,
-          textStyle: TextStyle(
-              color: DiscuzApp.themeOf(context).textColor,
-              fontSize: DiscuzApp.themeOf(context).normalTextSize),
-          onTapUrl: (url) => showDialog(
-            context: context,
-            builder: (_) => AlertDialog(
-              title: Text('onTapUrl'),
-              content: Text(url),
-            ),
-          ),
+  HtmlRender({@required this.html, this.prefixsChild});
 
-          /// 处理表情渲染
-          builderCallback: (meta, e) => e.classes.contains('qq-emotion')
-              ? lazySet(null, buildOp: emojiOp)
-              : meta,
-        ),
-      );
+  @override
+  Widget build(BuildContext context) => HtmlWidget(html,
+      bodyPadding: const EdgeInsets.all(0),
+      tableCellPadding: const EdgeInsets.all(2),
+      enableCaching: true,
+      webView: false,
+      webViewJs: false,
+      hyperlinkColor: DiscuzApp.themeOf(context).primaryColor,
+      textStyle: TextStyle(
+          color: DiscuzApp.themeOf(context).textColor,
+          fontSize: DiscuzApp.themeOf(context).normalTextSize),
+      onTapUrl: (url) =>
+          DiscuzToast.show(context: context, message: '暂不支持打开$url'),
+
+      /// 处理表情渲染
+      builderCallback: (meta, e) {
+        if (e.classes.contains('qq-emotion')) {
+          return lazySet(null, buildOp: emojiOp);
+        }
+
+        return meta;
+      });
 }

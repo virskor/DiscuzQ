@@ -90,13 +90,12 @@ class ThreadPostSnapshot extends StatelessWidget {
               .where((UserModel u) => u.id == post.attributes.replyUserID)
               .toList()
           : null;
-
+      
+      /// 渲染回复的内容和回复的用户
       return Container(
-        alignment: Alignment.topLeft,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
+        child: PostRender(
+          content: post.attributes.contentHtml,
+          prefixsChild: <Widget>[
             /// 用户
             UserLink(
               user: userReplayThreads[0],
@@ -119,14 +118,6 @@ class ThreadPostSnapshot extends StatelessWidget {
                       )
                     ],
                   ),
-
-            ///
-            /// 回复内容
-            Flexible(
-              child: PostRender(
-                content: post.attributes.contentHtml,
-              ),
-            )
           ],
         ),
       );
