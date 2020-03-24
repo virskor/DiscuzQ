@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -75,8 +77,10 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   Widget _buildForumCategoryTabTab(AppState state) {
     /// 返回加载中的视图
     if (_loading) {
-      return const Center(
-        child: const DiscuzIndicator(),
+      return const DiscuzSkeleton(
+        isCircularImage: false,
+        length: Global.requestPageLimit,
+        isBottomLinesActive: true,
       );
     }
 

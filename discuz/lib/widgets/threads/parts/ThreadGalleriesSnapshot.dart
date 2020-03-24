@@ -1,13 +1,20 @@
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 ///
 /// 帖子9宫格图片预览组件
-/// 
+///
 class ThreadGalleriesSnapshot extends StatelessWidget {
   ///------------------------------
   /// threadsCacher 是用于缓存当前页面的主题数据的对象
@@ -67,16 +74,65 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                   ? SizedBox()
                   : Padding(
                       padding: const EdgeInsets.all(2),
-                      child: CachedNetworkImage(
-                        imageUrl: e.attributes.thumbUrl,
-                        fit: BoxFit.cover,
-                        width: imageSize,
-                        height: imageSize,
-                        errorWidget: (context, url, error) => Image.asset(
-                          'assets/images/errimage.png',
+                      child: CupertinoContextMenu(
+                        previewBuilder: (BuildContext context,
+                            Animation<double> animation, Widget child) {
+                          return FittedBox(
+                            fit: BoxFit.cover,
+                            // This ClipRRect rounds the corners of the image when the
+                            // CupertinoContextMenu is open, even though it's not rounded when
+                            // it's closed. It uses the given animation to animate the corners
+                            // in sync with the opening animation.
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(4 * animation.value),
+                              child: child,
+                            ),
+                          );
+                        },
+                        actions: <Widget>[
+                          // CupertinoContextMenuAction(
+                          //   child: const Text('查看大图'),
+                          //   isDefaultAction: false,
+                          //   trailingIcon: SFSymbols.viewfinder_circle,
+                          //   onPressed: () {
+                          //     Navigator.pop(context);
+                          //   },
+                          // ),
+                          CupertinoContextMenuAction(
+                            child: const Text('保存原图'),
+                            isDefaultAction: true,
+                            trailingIcon: SFSymbols.tray_arrow_down,
+                            onPressed: () async {
+                              final Response response = await Dio().get(
+                                  e.attributes.url,
+                                  options: Options(
+                                      responseType: ResponseType.bytes));
+                              final result = await ImageGallerySaver.saveImage(
+                                  Uint8List.fromList(response.data));
+                              if (result) {
+                                DiscuzToast.success(
+                                    context: context, message: '保存成功');
+                                Navigator.pop(context);
+                                return;
+                              }
+                              DiscuzToast.failed(
+                                  context: context, message: '保存失败');
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                        child: CachedNetworkImage(
+                          imageUrl: e.attributes.thumbUrl,
+                          fit: BoxFit.cover,
                           width: imageSize,
                           height: imageSize,
-                          fit: BoxFit.contain,
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/errimage.png',
+                            width: imageSize,
+                            height: imageSize,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ))

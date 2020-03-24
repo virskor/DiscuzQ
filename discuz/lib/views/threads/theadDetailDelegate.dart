@@ -3,7 +3,6 @@ import 'package:discuzq/ui/ui.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/threads/render/ThreadExtendBottomBar.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
@@ -35,13 +34,9 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '详情',
-            ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: Stack(
               children: <Widget>[
-
                 ///
                 /// 底部点赞 回复 打赏工具栏
                 _positionedBottomBar(),
@@ -49,11 +44,8 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
             ),
           ));
 
-
   Widget _positionedBottomBar() => Positioned(
-    bottom: 0,
-    child: const ThreadExtendBottomBar(
-
-    ),
-  );
+        bottom: 0,
+        child: const ThreadExtendBottomBar(),
+      );
 }
