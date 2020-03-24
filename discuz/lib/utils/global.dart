@@ -26,6 +26,13 @@ class Global {
   ///用户协议
   static const String policiesUri = '';
 
+  /// 开启支付
+  /// 允许支付功能
+  /// 允许钱包功能
+  /// 值得注意，当您设置为False时，请记得根据后续文档中的提示，编译时将Payment相关的SDK排出
+  /// 如果不移除payment相关的SDK将导致你的应用无法上架
+  static const bool enablePayment = true;
+
   ///
   /// theme
   static const Color primaryColor = Color(0xFF316598);

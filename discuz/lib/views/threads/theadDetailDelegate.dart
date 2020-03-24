@@ -1,5 +1,6 @@
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/threads/render/ThreadExtendBottomBar.dart';
 import 'package:flutter/material.dart';
+import 'package:discuzq/ui/ui.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
@@ -38,5 +39,21 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
               title: '详情',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+            body: Stack(
+              children: <Widget>[
+
+                ///
+                /// 底部点赞 回复 打赏工具栏
+                _positionedBottomBar(),
+              ],
+            ),
           ));
+
+
+  Widget _positionedBottomBar() => Positioned(
+    bottom: 0,
+    child: const ThreadExtendBottomBar(
+
+    ),
+  );
 }
