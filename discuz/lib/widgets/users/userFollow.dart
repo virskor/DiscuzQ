@@ -83,33 +83,37 @@ class _UserFollowState extends State<UserFollow> {
           ? <Widget>[]
 
           /// 用户未登录 不显示组件
-          : state.user.id == widget.user.id
-              ? <Widget>[]
 
-              /// 查看的是自己 的账户，不显示关注按钮
-              : <Widget>[
-                  DiscuzText(
-                    '关注：${widget.user.followCount.toString()}',
-                    color: DiscuzApp.themeOf(context).greyTextColor,
-                  ),
-                  const SizedBox(width: 10),
-                  DiscuzText(
-                    '|',
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(width: 10),
-                  DiscuzText(
-                    '被关注：${_user.fansCount.toString()}',
-                    color: DiscuzApp.themeOf(context).greyTextColor,
-                  ),
-                  const SizedBox(width: 10),
-                  DiscuzLink(
-                    label: _followButtonLabel(),
+          /// 查看的是自己 的账户，不显示关注按钮
+          : <Widget>[
+              DiscuzText(
+                '关注：${widget.user.followCount.toString()}',
+                color: DiscuzApp.themeOf(context).greyTextColor,
+              ),
+              const SizedBox(width: 10),
+              DiscuzText(
+                '|',
+                color: Colors.grey,
+              ),
+              const SizedBox(width: 10),
+              DiscuzText(
+                '被关注：${_user.fansCount.toString()}',
+                color: DiscuzApp.themeOf(context).greyTextColor,
+              ),
+              state.user.id == widget.user.id
+                  ? const SizedBox()
+                  : Row(
+                      children: <Widget>[
+                        const SizedBox(width: 10),
+                        DiscuzLink(
+                          label: _followButtonLabel(),
 
-                    /// 动态文案
-                    onTap: _requestFollow,
-                  )
-                ],
+                          /// 动态文案
+                          onTap: _requestFollow,
+                        )
+                      ],
+                    )
+            ],
     );
   }
 

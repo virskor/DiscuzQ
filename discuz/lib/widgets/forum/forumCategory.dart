@@ -21,6 +21,7 @@ import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
+import 'package:discuzq/models/threadVideoModel.dart';
 
 ///
 /// 注意：
@@ -290,6 +291,10 @@ class _ForumCategoryState extends State<ForumCategory> {
       _threadsCacher.attachments = _included
           .where((inc) => inc['type'] == 'attachments')
           .map((p) => AttachmentsModel.fromMap(maps: p))
+          .toList();
+      _threadsCacher.videos = _included
+          .where((inc) => inc['type'] == 'thread-video')
+          .map((p) => ThreadVideoModel.fromMap(maps: p))
           .toList();
     } catch (e) {
       print(e);
