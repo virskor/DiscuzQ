@@ -37,7 +37,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: false,
         builder: (context, child, state) {
-          return Frost(
+          return Container(
             child: AnimatedContainer(
               duration: const Duration(
                 milliseconds: 270,
@@ -47,7 +47,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
                   left: 20,
                   right: 20,
                   bottom: MediaQuery.of(context).padding.bottom),
-              decoration:const BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.transparent,
                 border: const Border(top: Global.border),
               ),

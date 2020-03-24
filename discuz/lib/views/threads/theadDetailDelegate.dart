@@ -1,10 +1,10 @@
-import 'package:discuzq/widgets/threads/render/ThreadExtendBottomBar.dart';
 import 'package:flutter/material.dart';
 import 'package:discuzq/ui/ui.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/threads/render/ThreadExtendBottomBar.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   const ThreadDetailDelegate({Key key}) : super(key: key);

@@ -130,7 +130,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
   ///
   /// 生成分类Tabs 非Tabcontent
-  /// 
+  ///
   Widget _buildtabs(AppState state) => Container(
         width: MediaQuery.of(context).size.width,
         decoration:
@@ -144,6 +144,10 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               labelStyle: TextStyle(
                 //up to your taste
                 fontSize: DiscuzApp.themeOf(context).normalTextSize,
+                fontWeight: FontWeight.bold,
+              ),
+              unselectedLabelStyle: TextStyle(
+                fontWeight: FontWeight.normal,
               ),
               indicatorSize: TabBarIndicatorSize.label, //makes it better
               labelColor:

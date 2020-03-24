@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/dateUtil.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
@@ -61,9 +62,16 @@ class ThreadHeaderCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  DiscuzText(author.username),
                   DiscuzText(
-                    thread.attributes.createdAt,
+                    author.username,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  DiscuzText(
+                    ///
+                    /// 格式化时间
+                    DateUtil.formatDate(
+                        DateTime.parse(thread.attributes.createdAt),
+                        format: "yyyy-MM-dd HH:mm"),
                     color: DiscuzApp.themeOf(context).greyTextColor,
                     fontSize: DiscuzApp.themeOf(context).smallTextSize,
                   )

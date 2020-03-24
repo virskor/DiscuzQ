@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -49,32 +50,53 @@ class ThreadVideoSnapshot extends StatelessWidget {
       return const SizedBox();
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
-        child: Container(
-          height: 180,
-          decoration: const BoxDecoration(color: Colors.black),
-          child: Stack(
-            fit: StackFit.passthrough,
-            alignment: Alignment.center,
-            children: <Widget>[
-              CachedNetworkImage(
-                imageUrl: videos[0].attributes.coverUrl,
-                fit: BoxFit.cover,
-              ),
-              Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
-                  child: IconButton(
-                    icon: Image.asset('assets/images/play.png', width: 80,height: 80,),
-                    onPressed: () => print(videos[0].toString()),
-                  ))
-            ],
+    return Container(
+      alignment: Alignment.center,
+      margin: const EdgeInsets.only(
+        top: 10,
+      ),
+      decoration: const BoxDecoration(
+        color: Global.scaffoldBackgroundColorDark,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(5),
+        ),
+        boxShadow: [
+          const BoxShadow(
+            color: Colors.black,
+            offset: const Offset(0.5, 0.6),
           ),
+          const BoxShadow(
+            color: Colors.black,
+            offset: const Offset(0.5, 0.6),
+            spreadRadius: -12.0,
+            blurRadius: 12.0,
+          ),
+        ],
+      ),
+      child: Container(
+        height: 180,
+        child: Stack(
+          fit: StackFit.passthrough,
+          alignment: Alignment.center,
+          children: <Widget>[
+            CachedNetworkImage(
+              imageUrl: videos[0].attributes.coverUrl,
+              fit: BoxFit.cover,
+            ),
+            Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: IconButton(
+                  icon: Image.asset(
+                    'assets/images/play.png',
+                    width: 80,
+                    height: 80,
+                  ),
+                  onPressed: () => print(videos[0].toString()),
+                ))
+          ],
         ),
       ),
     );
