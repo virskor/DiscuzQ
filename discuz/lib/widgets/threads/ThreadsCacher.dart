@@ -1,3 +1,4 @@
+import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
@@ -40,11 +41,25 @@ class _ThreadBaseCacher {
   }
 
   ///
+  /// 附件列表
+  ///
+  List<AttachmentsModel> _attachments = [];
+  get attachments => _attachments;
+  set attachments(List<AttachmentsModel> value) {
+    assert(value != null);
+    if (_attachments == value) return;
+
+    _attachments.addAll(value);
+  }
+
+
+  ///
   /// 清空数据
   void clear() async {
     _threads.clear();
     _posts.clear();
     _users.clear();
+    _attachments.clear();
   }
 }
 

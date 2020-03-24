@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -20,6 +19,8 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/threads/ThreadCard.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
+import 'package:discuzq/models/attachmentsModel.dart';
+import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 
 ///
 /// 注意：
@@ -243,9 +244,8 @@ class _ForumCategoryState extends State<ForumCategory> {
     ];
 
     Map<String, dynamic> filters = {};
-    widget.filter.filter.forEach((element) {
-      filters.addAll({"filter[${element.keys.first}]": element.values.first});
-    });
+    widget.filter.filter.forEach((element) => filters
+        .addAll({"filter[${element.keys.first}]": element.values.first}));
 
     dynamic data = {
       "page[limit]": Global.requestPageLimit,
@@ -274,7 +274,7 @@ class _ForumCategoryState extends State<ForumCategory> {
     final List<dynamic> _threads = resp.data['data'] ?? [];
     final List<dynamic> _included = resp.data['included'] ?? [];
 
-    /// 关联的数据，包含user, post，需要在缓存前进行转义
+    /// 关联的数据，包����user, post，attachments 需要在缓存前进行转义
     try {
       _threadsCacher.threads = _threads
           .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
@@ -287,6 +287,10 @@ class _ForumCategoryState extends State<ForumCategory> {
           .where((inc) => inc['type'] == 'users')
           .map((p) => UserModel.fromMap(maps: p['attributes']))
           .toList();
+      _threadsCacher.attachments = _included
+          .where((inc) => inc['type'] == 'attachments')
+          .map((p) => AttachmentsModel.fromMap(maps: p))
+          .toList();
     } catch (e) {
       print(e);
     }
@@ -294,7 +298,9 @@ class _ForumCategoryState extends State<ForumCategory> {
     setState(() {
       _loading = false;
       _continueToRead = true;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;  /// pageNumber 在onload传入时已经自动加1
+      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+
+      /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
       _refreshEnablePullUp();
     });

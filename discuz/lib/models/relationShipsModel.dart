@@ -64,6 +64,10 @@ class RelationshipsModel {
   /// 回复的用户
   final dynamic replyUser;
 
+  ///
+  /// images
+  /// 帖子关联的图片
+  final List<dynamic> images;
 
   ///
   /// toUser
@@ -82,6 +86,7 @@ class RelationshipsModel {
       this.replyUser,
       this.toUser,
       this.fromUser,
+      this.images = const [],
       this.likedUsers = const [],
       this.rewardedUsers = const [],
       this.lastThreePosts = const []});
@@ -111,12 +116,14 @@ class RelationshipsModel {
         firstPost: data['firstPost'] ?? null,
         replyUser: data['replyUser'] ?? null,
         likedUsers:
-            data['likedUsers'] == null ? [] : data['likedUsers']['data'],
+            data['likedUsers'] == null ? [] : data['likedUsers']['data'] ?? [],
+        images: data['images'] == null ? [] : data['images']['data'] ?? [],
         lastThreePosts: data['lastThreePosts'] == null
             ? []
-            : data['lastThreePosts']['data'],
-        rewardedUsers:
-            data['rewardedUsers'] == null ? [] : data['rewardedUsers']['data'],
+            : data['lastThreePosts']['data'] ?? [],
+        rewardedUsers: data['rewardedUsers'] == null
+            ? []
+            : data['rewardedUsers']['data'] ?? [],
         threadVideo: data['threadVideo'] ?? null);
   }
 }

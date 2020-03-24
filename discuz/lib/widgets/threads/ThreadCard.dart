@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/threads/parts/ThreadGalleriesSnapshot.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -57,6 +58,8 @@ class _ThreadCardState extends State<ThreadCard> {
                     widget.thread.relationships.firstPost['data']['id']))
             .toList()[0] ??
         PostModel();
+
+    /// 查找附件图片
   }
 
   @override
@@ -96,6 +99,14 @@ class _ThreadCardState extends State<ThreadCard> {
                   child: HtmlRender(
                     html: _firstPost.attributes.contentHtml,
                   ),
+                ),
+
+                /// 渲染九宫格图片
+                ///
+                ///
+                ThreadGalleriesSnapshot(
+                  firstPost: _firstPost,
+                  threadsCacher: widget.threadsCacher,
                 )
               ],
             ),
