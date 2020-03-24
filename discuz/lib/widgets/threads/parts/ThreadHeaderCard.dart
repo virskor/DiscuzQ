@@ -8,7 +8,7 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/threads/ThreadPopmenu.dart';
+import 'package:discuzq/widgets/threads/parts/ThreadPopmenu.dart';
 
 ///
 /// ThreadHeaderCard
@@ -22,7 +22,14 @@ class ThreadHeaderCard extends StatelessWidget {
   /// 主题
   final ThreadModel thread;
 
-  const ThreadHeaderCard({@required this.author, @required this.thread});
+  ///
+  /// 是否显示更多操作
+  final bool showOperations;
+
+  const ThreadHeaderCard(
+      {@required this.author,
+      @required this.thread,
+      this.showOperations = true});
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +80,11 @@ class ThreadHeaderCard extends StatelessWidget {
               : const SizedBox(),
 
           /// popmenu
-          ThreadPopMenu(
-            thread: thread,
-          ),
+          showOperations == true
+              ? ThreadPopMenu(
+                  thread: thread,
+                )
+              : const SizedBox(),
         ],
       ),
     );

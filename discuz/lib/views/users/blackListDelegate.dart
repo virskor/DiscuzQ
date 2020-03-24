@@ -1,3 +1,4 @@
+import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -33,7 +34,9 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
-              appBar: DiscuzAppBar(
-            title: '黑名单',
-          )));
+            appBar: DiscuzAppBar(
+              title: '黑名单',
+            ),
+            backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+          ));
 }

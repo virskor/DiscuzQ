@@ -53,6 +53,7 @@ class DiscuzAvatar extends StatelessWidget {
         height: size,
         fit: BoxFit.cover,
         errorWidget: (context, url, error) => _empty(),
+        fadeInDuration: Duration(milliseconds: 270),
       ));
 
   /// 用户未设置头像，刷新头像

@@ -10,8 +10,8 @@ class Frost extends StatelessWidget {
   const Frost(
       {Key key,
       this.child,
-      this.sigmaX = 50,
-      this.sigmaY = 50,
+      this.sigmaX = 80,
+      this.sigmaY = 40,
       this.circular = 0});
 
   @override

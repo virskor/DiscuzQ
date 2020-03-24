@@ -196,6 +196,7 @@ class _ForumCategoryState extends State<ForumCategory> {
 
     return ListView(
       controller: _scrollController,
+      shrinkWrap: true,
       children: _buildCollectionsList(state: state),
     );
   }

@@ -18,21 +18,16 @@ class BootstrapForum {
   Future<bool> getForum({bool force = false}) async {
     Response resp;
 
-    final Function closeLoading = DiscuzToast.loading(context: context);
-
     try {
       final AppState state =
           ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
 
       /// 减少重复的请求，如果状态已经有数据，直接返回好了
       if(!force && state.forum != null){
-        closeLoading();
         return Future.value(true);
       }
 
       resp = await Request(context: context).getUrl(url: Urls.forum);
-
-      closeLoading();
 
       if (resp == null) {
         return Future.value(false);
@@ -44,7 +39,6 @@ class BootstrapForum {
       /// 返回成功
       return Future.value(true);
     } catch (e) {
-      closeLoading();
       return Future.value(false);
     }
   }

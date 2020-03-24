@@ -5,6 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/appbar/nightModeSwitcher.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
@@ -24,6 +25,7 @@ import 'package:discuzq/views/users/myCollectionDelegate.dart';
 import 'package:discuzq/views/users/follows/followingDelegate.dart';
 import 'package:discuzq/views/users/blackListDelegate.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -75,7 +77,12 @@ class _AccountDelegateState extends State<AccountDelegate> {
     _AccountMenuItem(
         label: '退出登录',
         showDivider: false,
-        method: (AppState state) => AuthHelper.logout(state: state),
+        method: (AppState state, {BuildContext context}) =>
+            DiscuzDialog.confirm(
+                context: context,
+                title: '提示',
+                message: '是否退出登录？',
+                onConfirm: () => AuthHelper.logout(state: state)),
         icon: SFSymbols.arrow_right_square),
     const _AccountMenuItem(
         label: '邀请朋友',
@@ -110,6 +117,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
             appBar: DiscuzAppBar(
               title: '个人中心',
               elevation: 0,
+              actions: <Widget>[const NightModeSwitcher()],
             ),
             body: state.user == null
                 ? const YetNotLogon()
@@ -151,7 +159,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
                   /// 如果item中设置了运行相关的方法，则运行相关的方法，如果有child的话则在路由中打开
                   onTap: () => el.method != null
-                      ? el.method(state)
+                      ? el.method(state, context: context)
                       : el.child == null
                           ? DiscuzToast.failed(
                               context: context, message: '暂时不支持')

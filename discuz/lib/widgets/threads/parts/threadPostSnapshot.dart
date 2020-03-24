@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/posts/postRender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -8,9 +9,11 @@ import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
-import 'package:discuzq/widgets/threads/ThreadFavoritesAndRewards.dart';
+import 'package:discuzq/widgets/threads/parts/ThreadFavoritesAndRewards.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/threads/theadDetailDelegate.dart';
 
 ///
 /// 主题下回复的快照
@@ -87,13 +90,12 @@ class ThreadPostSnapshot extends StatelessWidget {
               .where((UserModel u) => u.id == post.attributes.replyUserID)
               .toList()
           : null;
-
+      
+      /// 渲染回复的内容和回复的用户
       return Container(
-        alignment: Alignment.topLeft,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
+        child: PostRender(
+          content: post.attributes.contentHtml,
+          prefixsChild: <Widget>[
             /// 用户
             UserLink(
               user: userReplayThreads[0],
@@ -116,17 +118,6 @@ class ThreadPostSnapshot extends StatelessWidget {
                       )
                     ],
                   ),
-
-            ///
-            /// 回复内容
-            Flexible(
-              child: Container(
-                child: DiscuzText(
-                  post.attributes.content,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            )
           ],
         ),
       );
@@ -157,6 +148,10 @@ class ThreadPostSnapshot extends StatelessWidget {
                   DiscuzLink(
                     padding: const EdgeInsets.only(top: 5),
                     label: '全部${(replyCounts - 1).toString()}条回复',
+                    onTap: () => DiscuzRoute.open(
+                        context: context,
+                        shouldLogin: true,
+                        widget: const ThreadDetailDelegate()),
                   ),
                   const SizedBox(
                     width: 5,

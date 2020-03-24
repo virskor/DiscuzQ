@@ -176,6 +176,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
 
     return ListView(
       controller: _scrollController,
+      shrinkWrap: true,
       children: _buildCollectionsList(state: state),
     );
   }
