@@ -89,7 +89,9 @@ class _ForumDelegateState extends State<ForumDelegate>
                       actions: _actions(context),
                     )
                   : null,
-              floatingActionButton: _showAppbar
+
+              /// 用户未登录时也不显示floatingActionButton
+              floatingActionButton: _showAppbar || state.user == null
                   ? null
                   : FloatingActionButton(
                       backgroundColor: DiscuzApp.themeOf(context).primaryColor,

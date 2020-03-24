@@ -5,6 +5,9 @@ import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 
+///
+/// 帖子9宫格图片预览组件
+/// 
 class ThreadGalleriesSnapshot extends StatelessWidget {
   ///------------------------------
   /// threadsCacher 是用于缓存当前页面的主题数据的对象
