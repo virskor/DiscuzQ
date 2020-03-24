@@ -129,7 +129,11 @@ class _ForumDelegateState extends State<ForumDelegate>
                   Positioned(
                     bottom: 20,
                     width: MediaQuery.of(context).size.width,
-                    child: const FloatLoginButton(),
+                    child: AnimatedOpacity(
+                      opacity: _showAppbar ? 1 : 0,
+                      duration: Duration(milliseconds: 270),
+                      child: const FloatLoginButton(),
+                    ),
                   )
                 ],
               ),
