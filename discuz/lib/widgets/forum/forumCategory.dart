@@ -162,8 +162,6 @@ class _ForumCategoryState extends State<ForumCategory> {
       DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
-        scrollController: _scrollController,
-
         /// 允许乡下加载
         // header: WaterDropHeader(),
         controller: _controller,
@@ -181,6 +179,8 @@ class _ForumCategoryState extends State<ForumCategory> {
         child: _buildContents(state: state),
       );
 
+  ///
+  /// 渲染内容区
   Widget _buildContents({AppState state}) {
     ///
     /// 骨架屏仅在初始化时加载
@@ -200,6 +200,8 @@ class _ForumCategoryState extends State<ForumCategory> {
     ///
     /// 为了保证scroll 滑动流畅，这里不要使用Listview，不然总有些奇奇怪怪的问题
     return ListView(
+      controller: _scrollController,
+      shrinkWrap: true,
       children: _buildCollectionsList(state: state),
     );
   }

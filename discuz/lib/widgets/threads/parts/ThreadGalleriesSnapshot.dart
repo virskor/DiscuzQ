@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/common/discuzContextMenu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -113,7 +114,7 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
         );
       },
       actions: <Widget>[
-        CupertinoContextMenuAction(
+        DiscuzContextMenuAction(
           child: const Text('查看大图'),
           isDefaultAction: false,
           trailingIcon: SFSymbols.viewfinder_circle,
@@ -124,9 +125,8 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        CupertinoContextMenuAction(
+        DiscuzContextMenuAction(
           child: const Text('保存原图'),
-          isDefaultAction: true,
           trailingIcon: SFSymbols.tray_arrow_down,
           onPressed: () async {
             final Response response = await Dio().get(attachment.attributes.url,
