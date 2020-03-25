@@ -71,6 +71,11 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                         ClearCacheDialog.build(context: context);
                       },
                     ),
+                    SettingTile(
+                      icon: SFSymbols.info_circle,
+                      label: '关于APP',
+                      onPressed: ()=>null,
+                    ),
                   ],
                 ),
               ],

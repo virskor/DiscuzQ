@@ -76,7 +76,7 @@ class Global {
 
   /// 边
   static const BorderSide border =
-      const BorderSide(width: .2, color: const Color(0x3F000000));
+      const BorderSide(width: .2, color: const Color(0x1F000000));
 
   /// 加密
   ///

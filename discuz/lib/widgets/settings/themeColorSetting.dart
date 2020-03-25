@@ -15,6 +15,7 @@ class ThemeColorSetting extends StatelessWidget {
     Color(0xFF007AFF),
     Color(0xFF05A9F1),
     Color(0xFF04BBD3),
+    Color(0xFF3EAF7C),
     Color(0xFFCE0A0C),
     Color(0xFFEA2165),
     Color(0xFF9F28B5),

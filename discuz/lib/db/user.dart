@@ -56,11 +56,11 @@ class UserDataSqlite {
       return null;
     }
 
-    List<UserDBModel> books = [];
+    List<UserDBModel> users = [];
     maps.forEach((it) {
-      books.add(UserDBModel.fromMap(it));
+      users.add(UserDBModel.fromMap(it));
     });
-    return books;
+    return users;
   }
 
   /// 使用记录ID进行查询
@@ -72,7 +72,7 @@ class UserDataSqlite {
         ],
         where: 'item = ?',
         whereArgs: [item]);
-    if (maps.length > 0) {
+    if (maps != null && maps.length > 0) {
       return UserDBModel.fromMap(maps.first);
     }
 

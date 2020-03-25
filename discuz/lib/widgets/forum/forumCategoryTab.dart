@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/utils/localstorage.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +16,10 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumCategory.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
-import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/models/categoryModel.dart';
+
+const String _localCategoriesStorageKey = 'categories';
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
@@ -208,7 +213,10 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   /// force should never be true on didChangeDependencies life cycle
   /// that would make your ui rendering loop and looping to die
   ///
-  Future<bool> _getCategories(AppState state, {bool force = false}) async {
+  /// 新逻辑： 先从本地缓存取得分类列表，如果本地存储了分类列表直接取出
+  /// 如果没有缓存，那么还是向接口请求
+  ///
+  Future<bool> _getCategories(AppState state) async {
     setState(() {
       _loading = true;
       _isEmptyCategories = false;
@@ -216,28 +224,80 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
       /// 仅需要复原 _initTabController会再次处理
     });
 
+    ///
+    /// 先从本地取得供APP快速启动，接口请求的数据供下次使用
+    final String localCategoriesData =
+        await DiscuzLocalStorage.getString(_localCategoriesStorageKey);
+    if (!StringHelper.isEmpty(string: localCategoriesData)) {
+      ///
+      /// 从本地取得上次缓存的数据
+      ///
+      final List<dynamic> decodeLocalCategoriesData =
+          jsonDecode(localCategoriesData);
+      if (decodeLocalCategoriesData == null) {
+        final bool result = await _requestCategories(state);
+        return Future.value(result);
+      }
+
+      /// 增加一个全部并转化所有分类到模型
+      List<CategoryModel> categories = decodeLocalCategoriesData
+          .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
+          .toList();
+      categories.insert(
+          0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
+
+      state.updateCategories(categories);
+      setState(() {
+        _loading = false;
+      });
+    }
+
+    ///
+    /// 异步请求，不在乎结果，因为本地有可用数据
+    _requestCategories(state);
+
+    return Future.value(true);
+  }
+
+  /// request Categories Data
+  ///
+  Future<bool> _requestCategories(
+    AppState state,
+  ) async {
     Response resp =
         await Request(context: context).getUrl(url: Urls.categories);
 
-    setState(() {
-      _loading = false;
-    });
+    /// 减少UI重绘
+    if (!_loading) {
+      setState(() {
+        _loading = false;
+      });
+    }
 
     if (resp == null) {
       return Future.value(false);
     }
 
     List<dynamic> originalCategories = resp.data['data'] ?? [];
+    if (originalCategories.length > 0) {
+      /// 存储分类到本地供下次使用
+      DiscuzLocalStorage.setString(
+          _localCategoriesStorageKey, jsonEncode(originalCategories));
+    }
 
-    /// 增加一个全部并转化所有分类到模型
-    List<CategoryModel> categories = originalCategories
-        .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
-        .toList();
-    categories.insert(
-        0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
+    ///
+    /// 如果已经从本地更新过了就不要在更新了
+    if (state.categories == null) {
+      /// 增加一个全部并转化所有分类到模型
+      List<CategoryModel> categories = originalCategories
+          .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
+          .toList();
+      categories.insert(
+          0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
 
-    /// 更新状态
-    state.updateCategories(categories);
+      /// 更新状态
+      state.updateCategories(categories);
+    }
 
     return Future.value(true);
   }

@@ -11,6 +11,8 @@ import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 
+const String _localForumStorageKey = 'forum';
+
 class BootstrapForum {
   final BuildContext context;
 
@@ -32,7 +34,8 @@ class BootstrapForum {
       final AppState state =
           ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
 
-      final String localForumData = await DiscuzLocalStorage.getString('forum');
+      final String localForumData =
+          await DiscuzLocalStorage.getString(_localForumStorageKey);
       if (!StringHelper.isEmpty(string: localForumData)) {
         state.updateForum(jsonDecode(localForumData));
         closeLoading();
@@ -52,7 +55,7 @@ class BootstrapForum {
       /// 更新状态
       state.updateForum(resp.data['data']['attributes']);
       DiscuzLocalStorage.setString(
-          'forum', jsonEncode(resp.data['data']['attributes']));
+          _localForumStorageKey, jsonEncode(resp.data['data']['attributes']));
 
       /// 返回成功
       return Future.value(true);
