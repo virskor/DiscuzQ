@@ -162,6 +162,7 @@ class _ForumCategoryState extends State<ForumCategory> {
       DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
+        scrollController: _scrollController,
 
         /// 允许乡下加载
         // header: WaterDropHeader(),
@@ -196,9 +197,9 @@ class _ForumCategoryState extends State<ForumCategory> {
       return const DiscuzNoMoreData();
     }
 
+    ///
+    /// 为了保证scroll 滑动流畅，这里不要使用Listview，不然总有些奇奇怪怪的问题
     return ListView(
-      controller: _scrollController,
-      shrinkWrap: true,
       children: _buildCollectionsList(state: state),
     );
   }
@@ -271,7 +272,7 @@ class _ForumCategoryState extends State<ForumCategory> {
     ///
     /// 更新数据
     /// 更新ThreadsCacher中的数据
-    /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来重构Widget tree便会展示最新数据
+    /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来��构Widget tree便会展示最新数据
     final List<dynamic> _threads = resp.data['data'] ?? [];
     final List<dynamic> _included = resp.data['included'] ?? [];
 

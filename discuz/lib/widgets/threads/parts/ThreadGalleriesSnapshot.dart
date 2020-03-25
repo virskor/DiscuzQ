@@ -62,7 +62,10 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
       return const SizedBox();
     }
 
-    final double imageSize = (MediaQuery.of(context).size.width * .3) - 4;
+    ///
+    /// 原图所有图片Url 图集
+    final List<String> originalImageUrls =
+        attachmentsModels.map((e) => e.attributes.url).toList();
 
     return RepaintBoundary(
       child: Container(
@@ -74,69 +77,85 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                   ? SizedBox()
                   : Padding(
                       padding: const EdgeInsets.all(2),
-                      child: CupertinoContextMenu(
-                        previewBuilder: (BuildContext context,
-                            Animation<double> animation, Widget child) {
-                          return FittedBox(
-                            fit: BoxFit.cover,
-                            // This ClipRRect rounds the corners of the image when the
-                            // CupertinoContextMenu is open, even though it's not rounded when
-                            // it's closed. It uses the given animation to animate the corners
-                            // in sync with the opening animation.
-                            child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(4 * animation.value),
-                              child: child,
-                            ),
-                          );
-                        },
-                        actions: <Widget>[
-                          // CupertinoContextMenuAction(
-                          //   child: const Text('查看大图'),
-                          //   isDefaultAction: false,
-                          //   trailingIcon: SFSymbols.viewfinder_circle,
-                          //   onPressed: () {
-                          //     Navigator.pop(context);
-                          //   },
-                          // ),
-                          CupertinoContextMenuAction(
-                            child: const Text('保存原图'),
-                            isDefaultAction: true,
-                            trailingIcon: SFSymbols.tray_arrow_down,
-                            onPressed: () async {
-                              final Response response = await Dio().get(
-                                  e.attributes.url,
-                                  options: Options(
-                                      responseType: ResponseType.bytes));
-                              final result = await ImageGallerySaver.saveImage(
-                                  Uint8List.fromList(response.data));
-                              if (result) {
-                                DiscuzToast.success(
-                                    context: context, message: '保存成功');
-                                Navigator.pop(context);
-                                return;
-                              }
-                              DiscuzToast.failed(
-                                  context: context, message: '保存失败');
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                        child: CachedNetworkImage(
-                          imageUrl: e.attributes.thumbUrl,
-                          fit: BoxFit.cover,
-                          width: imageSize,
-                          height: imageSize,
-                          errorWidget: (context, url, error) => Image.asset(
-                            'assets/images/errimage.png',
-                            width: imageSize,
-                            height: imageSize,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                      ),
+                      child: _buildImage(
+                          context: context,
+                          attachment: e,
+                          onWantOriginalImage: (String targetUrl) {
+                            /// 显示原图图集
+                            /// targetUrl是用户点击到的要查看的图片
+                            /// 调整数组，将targetUrl置于第一个，然后传入图集组件 
+                            print(originalImageUrls.toString());
+                          }),
                     ))
               .toList(),
+        ),
+      ),
+    );
+  }
+
+  ///
+  /// 渲染图片
+  Widget _buildImage(
+      {BuildContext context,
+      @required AttachmentsModel attachment,
+      @required Function onWantOriginalImage}) {
+    final double imageSize = (MediaQuery.of(context).size.width * .3) - 4;
+
+    return CupertinoContextMenu(
+      previewBuilder:
+          (BuildContext context, Animation<double> animation, Widget child) {
+        return FittedBox(
+          fit: BoxFit.cover,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4 * animation.value),
+            child: child,
+          ),
+        );
+      },
+      actions: <Widget>[
+        CupertinoContextMenuAction(
+          child: const Text('查看大图'),
+          isDefaultAction: false,
+          trailingIcon: SFSymbols.viewfinder_circle,
+          onPressed: () {
+            if (onWantOriginalImage != null) {
+              onWantOriginalImage(attachment.attributes.url);
+            }
+            Navigator.pop(context);
+          },
+        ),
+        CupertinoContextMenuAction(
+          child: const Text('保存原图'),
+          isDefaultAction: true,
+          trailingIcon: SFSymbols.tray_arrow_down,
+          onPressed: () async {
+            final Response response = await Dio().get(attachment.attributes.url,
+                options: Options(responseType: ResponseType.bytes));
+            final result = await ImageGallerySaver.saveImage(
+                Uint8List.fromList(response.data));
+            if (result) {
+              DiscuzToast.success(context: context, message: '保存成功');
+              Navigator.pop(context);
+              return;
+            }
+            DiscuzToast.failed(context: context, message: '保存失败');
+            Navigator.pop(context);
+          },
+        ),
+      ],
+      child: GestureDetector(
+        onTap: () => onWantOriginalImage(attachment.attributes.url),
+        child: CachedNetworkImage(
+          imageUrl: attachment.attributes.thumbUrl,
+          fit: BoxFit.cover,
+          width: imageSize,
+          height: imageSize,
+          errorWidget: (context, url, error) => Image.asset(
+            'assets/images/errimage.png',
+            width: imageSize,
+            height: imageSize,
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );

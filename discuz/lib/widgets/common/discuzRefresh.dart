@@ -12,6 +12,11 @@ class DiscuzRefresh extends StatelessWidget {
   final RefreshController controller;
 
   ///
+  /// ScrollController
+  /// 滑动控制
+  final ScrollController scrollController;
+
+  ///
   /// enablePullDown
   /// 是否允许刷新操作
   ///
@@ -41,6 +46,7 @@ class DiscuzRefresh extends StatelessWidget {
       this.enablePullDown = false,
       this.onLoading,
       this.onRefresh,
+      this.scrollController,
       this.child,
       this.enablePullUp = false});
 
@@ -50,7 +56,7 @@ class DiscuzRefresh extends StatelessWidget {
           enablePullDown: enablePullDown,
           enablePullUp: enablePullUp,
           header: const WaterDropHeader(),
-
+          scrollController: scrollController,
           /// 允许乡下加载
           // header: WaterDropHeader(),
           controller: controller,
