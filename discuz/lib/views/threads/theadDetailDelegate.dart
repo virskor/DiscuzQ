@@ -1,5 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
@@ -11,7 +15,6 @@ import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
-import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
@@ -25,14 +28,10 @@ import 'package:discuzq/widgets/threads/parts/ThreadHeaderCard.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/posts/postFloorCard.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:discuzq/ui/ui.dart';
-
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/threads/render/ThreadExtendBottomBar.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///
