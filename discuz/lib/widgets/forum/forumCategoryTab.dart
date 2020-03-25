@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -75,8 +77,10 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   Widget _buildForumCategoryTabTab(AppState state) {
     /// 返回加载中的视图
     if (_loading) {
-      return const Center(
-        child: const DiscuzIndicator(),
+      return const DiscuzSkeleton(
+        isCircularImage: false,
+        length: Global.requestPageLimit,
+        isBottomLinesActive: true,
       );
     }
 
@@ -130,7 +134,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
   ///
   /// 生成分类Tabs 非Tabcontent
-  /// 
+  ///
   Widget _buildtabs(AppState state) => Container(
         width: MediaQuery.of(context).size.width,
         decoration:
@@ -144,6 +148,10 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               labelStyle: TextStyle(
                 //up to your taste
                 fontSize: DiscuzApp.themeOf(context).normalTextSize,
+                fontWeight: FontWeight.bold,
+              ),
+              unselectedLabelStyle: TextStyle(
+                fontWeight: FontWeight.normal,
               ),
               indicatorSize: TabBarIndicatorSize.label, //makes it better
               labelColor:

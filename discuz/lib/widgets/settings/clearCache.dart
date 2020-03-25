@@ -27,7 +27,7 @@ class ClearCache extends StatefulWidget {
 }
 
 class _ClearCacheState extends State<ClearCache> {
-  int _cachedSize = 0;
+  int _cachedEntries = 0;
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _ClearCacheState extends State<ClearCache> {
   void _getCacheSize() {
     int cachedImageSize = imageCache.currentSize;
     setState(() {
-      _cachedSize = cachedImageSize;
+      _cachedEntries = cachedImageSize;
     });
   }
 
@@ -107,7 +107,7 @@ class _ClearCacheState extends State<ClearCache> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           GradientText(
-            _cachedSize == 0 ? '暂无' : _cachedSize.toString(),
+            _cachedEntries == 0 ? '暂无' : _cachedEntries.toString(),
             gradient: LinearGradient(colors: [
               Theme.of(context).primaryColor,
               Theme.of(context).primaryColor.withOpacity(.66),
@@ -115,11 +115,11 @@ class _ClearCacheState extends State<ClearCache> {
             ]),
             style: TextStyle(
                 textBaseline: TextBaseline.ideographic,
-                fontSize: 70,
+                fontSize: 40,
                 fontFamily: 'Roboto Condensed'),
           ),
           GradientText(
-            "/mb",
+            "/个文件",
             gradient: LinearGradient(colors: [
               Colors.grey,
               Colors.grey.withOpacity(.66),
@@ -127,7 +127,7 @@ class _ClearCacheState extends State<ClearCache> {
             ]),
             style: TextStyle(
                 textBaseline: TextBaseline.ideographic,
-                fontSize: 40,
+                fontSize: 30,
                 fontFamily: 'Roboto Condensed'),
           ),
         ],

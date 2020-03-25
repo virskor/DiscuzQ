@@ -62,8 +62,7 @@ class ThreadModel {
                 : data['type'],
         relationships: data['attributes'] == null
             ? const RelationshipsModel()
-            : RelationshipsModel.fromMap(
-                maps: data['relationships']),
+            : RelationshipsModel.fromMap(maps: data['relationships']),
         attributes: data['attributes'] == null
             ? const ThreadAttributesModel()
             : ThreadAttributesModel.fromMap(maps: data['attributes']));
@@ -221,34 +220,43 @@ class ThreadAttributesModel {
     }
 
     return ThreadAttributesModel(
-        type: data['type'] == null
-            ? 0
-            : data['type'].runtimeType == String
-                ? int.tryParse(data['type'])
-                : data['type'],
-        title: data['title'] ?? '',
-        price: data['price'] ?? '0.00',
-        createdAt: data['createdAt'] ?? '',
-        updatedAt: data['updatedAt'] ?? '',
-        deletedAt: data['deletedAt'] ?? '',
-        postCount: data['postCount'] == null
-            ? 0
-            : data['postCount'].runtimeType == String
-                ? int.tryParse(data['postCount'])
-                : data['postCount'],
-        isApproved: data['isApproved'] ?? 0,
-        isSticky: data['isSticky'] ?? false,
-        canFavorite: data['canFavorite'] ?? false,
-        canHide: data['canHide'] ?? false,
-        canEssence: data['canEssence'] ?? false,
-        canApprove: data['canApprove'] ?? false,
-        canSticky: data['canSticky'] ?? false,
-        paid: data['paid'] ?? false,
-        isFavorite: data['isFavorite'] ?? false,
-        isEssence: data['isEssence'] ?? false,
-        canReply: data['canReply'] ?? false,
-        canViewPosts: data['canViewPosts'] ?? false,
-        canDelete: data['canDelete'] ?? false,
-        viewCount: data['viewCount'] ?? false);
+      type: data['type'] == null
+          ? 0
+          : data['type'].runtimeType == String
+              ? int.tryParse(data['type'])
+              : data['type'],
+      title: data['title'] ?? '',
+      price: data['price'] ?? '0.00',
+      createdAt: data['createdAt'] ?? '',
+      updatedAt: data['updatedAt'] ?? '',
+      deletedAt: data['deletedAt'] ?? '',
+      postCount: data['postCount'] == null
+          ? 0
+          : data['postCount'].runtimeType == String
+              ? int.tryParse(data['postCount'])
+              : data['postCount'],
+      isApproved: data['isApproved'] == null
+          ? 0
+          : data['isApproved'].runtimeType == String
+              ? int.tryParse(data['isApproved'])
+              : data['isApproved'],
+      isSticky: data['isSticky'] ?? false,
+      canFavorite: data['canFavorite'] ?? false,
+      canHide: data['canHide'] ?? false,
+      canEssence: data['canEssence'] ?? false,
+      canApprove: data['canApprove'] ?? false,
+      canSticky: data['canSticky'] ?? false,
+      paid: data['paid'] ?? false,
+      isFavorite: data['isFavorite'] ?? false,
+      isEssence: data['isEssence'] ?? false,
+      canReply: data['canReply'] ?? false,
+      canViewPosts: data['canViewPosts'] ?? false,
+      canDelete: data['canDelete'] ?? false,
+      viewCount: data['viewCount'] == null
+          ? 0
+          : data['viewCount'].runtimeType == String
+              ? int.tryParse(data['viewCount'])
+              : data['viewCount'],
+    );
   }
 }

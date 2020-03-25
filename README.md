@@ -24,6 +24,7 @@ If you have any question about this project, follow and post an issue. I will co
 <img width="200px" src="snapshot_dartmode_2.png"/>  
 <img width="200px" src="snapshot_skeleton.png"/>  
 <img width="200px" src="snapshot_create.png"/>  
+<img width="200px" src="snapshot_detail.png">
 </p> 
 
 ### 一起开发

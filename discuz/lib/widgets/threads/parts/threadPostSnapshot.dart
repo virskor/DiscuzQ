@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/posts/postRender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -14,6 +13,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/threads/theadDetailDelegate.dart';
+import 'package:discuzq/widgets/posts/postRender.dart';
 
 ///
 /// 主题下回复的快照
@@ -45,11 +45,17 @@ class ThreadPostSnapshot extends StatelessWidget {
   /// 回复总条数
   final int replyCounts;
 
+  ///
+  /// author
+  /// 作者
+  final UserModel author;
+
   ThreadPostSnapshot(
       {@required this.lastThreePosts,
       @required this.thread,
       @required this.firstPost,
       @required this.threadsCacher,
+      @required this.author,
       this.replyCounts = 0});
 
   @override
@@ -151,7 +157,7 @@ class ThreadPostSnapshot extends StatelessWidget {
                     onTap: () => DiscuzRoute.open(
                         context: context,
                         shouldLogin: true,
-                        widget: const ThreadDetailDelegate()),
+                        widget: ThreadDetailDelegate(thread: thread, author: author,)),
                   ),
                   const SizedBox(
                     width: 5,
@@ -177,7 +183,7 @@ class ThreadPostSnapshot extends StatelessWidget {
           top: 5,
         ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
             color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
         child: child,
       );

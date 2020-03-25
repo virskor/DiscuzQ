@@ -1,3 +1,5 @@
+import 'package:discuzq/widgets/threads/parts/ThreadGalleriesSnapshot.dart';
+import 'package:discuzq/widgets/threads/parts/ThreadVideoSnapshot.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -57,60 +59,87 @@ class _ThreadCardState extends State<ThreadCard> {
                     widget.thread.relationships.firstPost['data']['id']))
             .toList()[0] ??
         PostModel();
+
+    /// 查找附件图片
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-      decoration: BoxDecoration(
-          color: DiscuzApp.themeOf(context).backgroundColor,
-          borderRadius: BorderRadius.all(Radius.circular(3))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          ///
-          /// 主题顶部的用户信息
-          ThreadHeaderCard(
-            thread: widget.thread,
-            author: _author,
+  Widget build(BuildContext context) => RepaintBoundary(
+        child: Container(
+          padding:
+              const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+          margin: const EdgeInsets.only(
+            top: 10,
           ),
-          Container(
-            padding: EdgeInsets.only(top: 10, bottom: 10),
-            alignment: Alignment.topLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                /// 显示主题的title
-                ..._buildContentTitle(),
+          decoration: BoxDecoration(
+            color: DiscuzApp.themeOf(context).backgroundColor,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              ///
+              /// 主题顶部的用户信息
+              ThreadHeaderCard(
+                thread: widget.thread,
+                author: _author,
+              ),
+              Container(
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    /// 显示主题的title
+                    ..._buildContentTitle(),
 
-                /// 主题的内容
-                GestureDetector(
-                  onTap: () => DiscuzRoute.open(
-                      context: context,
-                      shouldLogin: true,
-                      widget: const ThreadDetailDelegate()),
-                  child: HtmlRender(
-                    html: _firstPost.attributes.contentHtml,
-                  ),
-                )
-              ],
-            ),
+                    /// 主题的内容
+                    GestureDetector(
+                      onTap: () => DiscuzRoute.open(
+                          context: context,
+                          shouldLogin: true,
+                          widget: ThreadDetailDelegate(
+                            author: _author,
+                            thread: widget.thread,
+                          )),
+                      child: HtmlRender(
+                        html: _firstPost.attributes.contentHtml,
+                      ),
+                    ),
+
+                    /// 渲染九宫格图片
+                    ///
+                    ///
+                    ThreadGalleriesSnapshot(
+                      firstPost: _firstPost,
+                      threadsCacher: widget.threadsCacher,
+                    ),
+
+                    ///
+                    /// 用于渲染小视频
+                    ///
+                    widget.thread.relationships.threadVideo == null
+                        ? const SizedBox()
+                        : ThreadVideoSnapshot(
+                            threadsCacher: widget.threadsCacher,
+                            thread: widget.thread,
+                          )
+                  ],
+                ),
+              ),
+              ThreadPostSnapshot(
+                replyCounts: widget.thread.attributes.postCount,
+                lastThreePosts: widget.thread.relationships.lastThreePosts,
+                firstPost: _firstPost,
+                threadsCacher: widget.threadsCacher,
+                thread: widget.thread,
+                author: _author,
+              ),
+            ],
           ),
-          ThreadPostSnapshot(
-            replyCounts: widget.thread.attributes.postCount,
-            lastThreePosts: widget.thread.relationships.lastThreePosts,
-            firstPost: _firstPost,
-            threadsCacher: widget.threadsCacher,
-            thread: widget.thread,
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      );
 
   /// 显示主题的标题
   /// 并不是所有主题都有标题，所以要做判断

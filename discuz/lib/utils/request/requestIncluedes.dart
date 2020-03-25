@@ -46,6 +46,11 @@ class RequestIncludes {
   static const String firstPostImages = 'firstPost.images';
 
   ///
+  /// firstPost.attachments
+  /// 首贴附件
+  static const String firstPostAttachments = 'firstPost.attachments';
+
+  ///
   /// firstPostLikedUsers
   /// 点赞首贴的用户
   static const String firstPostLikedUsers = 'firstPost.likedUsers';
@@ -79,6 +84,31 @@ class RequestIncludes {
   /// toUser
   /// 关注用户数据
   static const String toUser = 'toUser';
+
+  ///
+  /// replyUser
+  /// 回复的用户
+  static const String postReplyUser = 'posts.replyUser';
+
+  ///
+  /// posts
+  /// 回复
+  static const String posts = 'posts';
+
+  ///
+  /// postsUser
+  /// 回复的用户
+  static const String postsUser = 'posts.user';
+
+  ///
+  /// postslikedUsers
+  /// 点赞的用户
+  static const String postslikedUsers = 'posts.likedUsers';
+
+  ///
+  /// postsImages
+  /// 评论的图片
+  static const String postsImages = 'posts.images';
 
   ///
   /// fromUser

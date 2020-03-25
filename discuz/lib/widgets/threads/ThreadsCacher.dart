@@ -1,5 +1,7 @@
+import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/models/userModel.dart';
 
 class _ThreadBaseCacher {
@@ -40,11 +42,37 @@ class _ThreadBaseCacher {
   }
 
   ///
+  /// 附件列表
+  ///
+  List<AttachmentsModel> _attachments = [];
+  get attachments => _attachments;
+  set attachments(List<AttachmentsModel> value) {
+    assert(value != null);
+    if (_attachments == value) return;
+
+    _attachments.addAll(value);
+  }
+
+  ///
+  /// 视频列表
+  ///
+  List<ThreadVideoModel> _videos = [];
+  get videos => _videos;
+  set videos(List<ThreadVideoModel> value) {
+    assert(value != null);
+    if (_videos == value) return;
+
+    _videos.addAll(value);
+  }
+
+  ///
   /// 清空数据
   void clear() async {
     _threads.clear();
     _posts.clear();
     _users.clear();
+    _videos.clear();
+    _attachments.clear();
   }
 }
 
@@ -63,13 +91,14 @@ class ThreadsCacher extends _ThreadBaseCacher {
   ///
   /// 注意 ThreadsCacher 是一个单例，但当singleton传入为false时，则不会是一个单例，
   /// 这是为了多个Stack调用时出现数据重复
-  /// 
+  ///
   /// 但一般情况下，要保持这是个单例的设计
-  /// 
+  ///
   /// 所以如果不用了，就一定要clear
   /// 否则，在下次调用的时候数据还在，将直接导致错误的数据渲染
   ///
-  factory ThreadsCacher({bool singleton = true}) => _getInstance(singleton: singleton);
+  factory ThreadsCacher({bool singleton = true}) =>
+      _getInstance(singleton: singleton);
   static ThreadsCacher get instance => _getInstance();
   static ThreadsCacher _instance;
 

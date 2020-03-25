@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -20,6 +19,9 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/threads/ThreadCard.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
+import 'package:discuzq/models/attachmentsModel.dart';
+import 'package:discuzq/widgets/common/discuzNomoreData.dart';
+import 'package:discuzq/models/threadVideoModel.dart';
 
 ///
 /// 注意：
@@ -88,7 +90,7 @@ class _ForumCategoryState extends State<ForumCategory> {
 
   ///
   /// _continueToRead
-  /// 是否是联系加载
+  /// 是否是连续加载
   bool _continueToRead = false;
 
   @override
@@ -160,7 +162,6 @@ class _ForumCategoryState extends State<ForumCategory> {
       DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
-
         /// 允许乡下加载
         // header: WaterDropHeader(),
         controller: _controller,
@@ -178,6 +179,8 @@ class _ForumCategoryState extends State<ForumCategory> {
         child: _buildContents(state: state),
       );
 
+  ///
+  /// 渲染内容区
   Widget _buildContents({AppState state}) {
     ///
     /// 骨架屏仅在初始化时加载
@@ -194,6 +197,8 @@ class _ForumCategoryState extends State<ForumCategory> {
       return const DiscuzNoMoreData();
     }
 
+    ///
+    /// 为了保证scroll 滑动流畅，这里不要使用Listview，不然总有些奇奇怪怪的问题
     return ListView(
       controller: _scrollController,
       shrinkWrap: true,
@@ -243,9 +248,8 @@ class _ForumCategoryState extends State<ForumCategory> {
     ];
 
     Map<String, dynamic> filters = {};
-    widget.filter.filter.forEach((element) {
-      filters.addAll({"filter[${element.keys.first}]": element.values.first});
-    });
+    widget.filter.filter.forEach((element) => filters
+        .addAll({"filter[${element.keys.first}]": element.values.first}));
 
     dynamic data = {
       "page[limit]": Global.requestPageLimit,
@@ -270,11 +274,11 @@ class _ForumCategoryState extends State<ForumCategory> {
     ///
     /// 更新数据
     /// 更新ThreadsCacher中的数据
-    /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来重构Widget tree便会展示最新数据
+    /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来��构Widget tree便会展示最新数据
     final List<dynamic> _threads = resp.data['data'] ?? [];
     final List<dynamic> _included = resp.data['included'] ?? [];
 
-    /// 关联的数据，包含user, post，需要在缓存前进行转义
+    /// 关联的数据，包����user, post，attachments 需要在缓存前进行转义
     try {
       _threadsCacher.threads = _threads
           .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
@@ -287,6 +291,14 @@ class _ForumCategoryState extends State<ForumCategory> {
           .where((inc) => inc['type'] == 'users')
           .map((p) => UserModel.fromMap(maps: p['attributes']))
           .toList();
+      _threadsCacher.attachments = _included
+          .where((inc) => inc['type'] == 'attachments')
+          .map((p) => AttachmentsModel.fromMap(maps: p))
+          .toList();
+      _threadsCacher.videos = _included
+          .where((inc) => inc['type'] == 'thread-video')
+          .map((p) => ThreadVideoModel.fromMap(maps: p))
+          .toList();
     } catch (e) {
       print(e);
     }
@@ -294,7 +306,9 @@ class _ForumCategoryState extends State<ForumCategory> {
     setState(() {
       _loading = false;
       _continueToRead = true;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;  /// pageNumber 在onload传入时已经自动加1
+      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+
+      /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
       _refreshEnablePullUp();
     });
