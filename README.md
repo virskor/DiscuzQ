@@ -1,5 +1,11 @@
 # DiscuzQ Flutter Application
-<p><img src="discuz/assets/images/logo.png"/>  </p> 
+该项目的诞生，离不开他们的贡献
+<p>
+<img width="200px" src="./snapshots/logo.png"/> 
+</p> 
+<p>
+<img width="200px"  src="./snapshots/tencentCloud.png"/>  
+</p> 
 
 ### 实现目标
 基本上和官方版本是保持一致的，只是会增加黑暗模式，主题颜色，字体大小等设置罢了。
@@ -8,28 +14,33 @@ A new Flutter application for DiscuzQ. This Application is still under developin
 
 If you have any question about this project, follow and post an issue. I will consit to write this application.
 
-## 还在开发和版权说明
-现在还在开发，不是最终功能  
-第三方APP，与Discuz无关，不代表Dz团队，仅做个人学习使用。该Flutter APP将不考虑支持Web。  
+## 版权说明
+第三方APP，不代表Discuz团队，仅做个人学习使用。该Flutter APP将不考虑支持Web。  
 该APP现在处于开发阶段，暂时不推荐clone并编译，后续编排改动都很大，直到release前暂不要使用这些代码。  
+
+### 开发提示
+现在，我们的仓库每日都有新的commit，这样一来代码变动都是很大的，并且很多功能都没有完成，你可能跑步起来或者跑起来了还有很多问题。我们将在基础功能完成后，进行很大的Code Review工作和测试工作，现在请不要将代码用于生产环境的构建。  
+
+详细关注Release Tags
 
 ## 最近UI截屏
 <p> 
-<img width="200px" src="snapshot.png"/> 
-<img width="200px" src="snapshot_me.png"/>  
-<img width="200px" src="snapshot_wallet.png"/>  
-<img width="200px" src="snapshot_notifications.png"/>  
-<img width="200px" src="snapshot_collection.png"/>  
-<img width="200px" src="snapshot_dartmode_1.png"/>  
-<img width="200px" src="snapshot_dartmode_2.png"/>  
-<img width="200px" src="snapshot_skeleton.png"/>  
-<img width="200px" src="snapshot_create.png"/>  
-<img width="200px" src="snapshot_detail.png">
+<img width="200px" src="./snapshots/snapshot.png"/> 
+<img width="200px" src="./snapshots/snapshot_me.png"/>  
+<img width="200px" src="./snapshots/snapshot_wallet.png"/>  
+<img width="200px" src="./snapshots/snapshot_notifications.png"/>  
+<img width="200px" src="./snapshots/snapshot_collection.png"/>  
+<img width="200px" src="./snapshots/snapshot_dartmode_1.png"/>  
+<img width="200px" src="./snapshots/snapshot_dartmode_2.png"/>  
+<img width="200px" src="./snapshots/snapshot_skeleton.png"/>  
+<img width="200px" src="./snapshots/snapshot_create.png"/>  
+<img width="200px" src="./snapshots/snapshot_detail.png">
+<img width="200px" src="./snapshots/snapshot_android.png">
 </p> 
 
 ### 一起开发
 了解开发进度，或者有疑问，可以加我微信奥
-<p><img width="200px" src="wechat.jpeg"/> </p>
+<p><img width="200px" src="./snapshots/wechat.jpeg"/> </p>
 
 ## 一些隐藏的功能
 有的时候因为不同需要，有的功能可能开发了，但是并没有直接启用，因为这些功能取决于你的后端情况或者偏好。
@@ -78,12 +89,20 @@ void dispose() {
 ```
 
 ### 启动调试
+首先，要确认你的Flutter版本
+```yaml
+environment:
+  sdk: ">=2.6.0 <3.0.0"
+```
 你可以使用命令行开启调试，如果你使用android studio，你可以直接运行。  
+不过在此之前值得说明的是，如果你的网络不能正常快速访问一些技术类网站，建议你使用pub国内源，你可以搜索找到配置的方式。  
 ```sh
 cd ./discuz
 flutter run
 ```
 项目中的 ./dependencies 本地化了一些依赖，这些依赖有改动所以没有直接使用pub.dev中的进行安装。  
+我们推荐使用IOS模拟器开始你的调试，如果你Build Android版本，首先你需要生成一个keystore文件，存储到 ./discuz/android/目录下，并命名为android.keystore   
+接下来，将同目录下的 key.properties.example 文件修改为 key.properties 并更新里面的签名配置内容。切记不要将其提交到Git，这些签名文件是涉及安全的。其次你还可以根据需要修改gradle文件，我们默认下使用了国内的源。
 
 ## 如何自定义主体颜色，字体大小
 App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.dart修改对应的参数，在lib/utils/global.dart中修改对应的参数完整定制。  

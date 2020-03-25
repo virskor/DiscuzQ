@@ -23,10 +23,8 @@ dependencies:
   md2_tab_indicator: ^1.0.2
   dio_http2_adapter: ^1.0.0
   pretty_dio_logger: ^1.1.1
-  flutter_user_agent: ^1.2.1
   package_info: ^0.4.0+13
   device_info: ^0.4.1+4
-  udid: ^0.0.2
   flutter_des: ^1.1.0
   sqflite: ^1.2.0
   cached_network_image: ^2.0.0
@@ -56,6 +54,10 @@ dependencies:
     path: ../dependencies/flutter_native_dialog
   flutter_widget_from_html:
     path: ../dependencies/flutter_widget_from_html
+  flutter_user_agent:
+    path: ../dependencies/flutter_user_agent
+  udid:
+    path: ../dependencies/flutter_udid
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -74,6 +76,7 @@ flutter_icons:
   image_path: "assets/images/app.png"
 flutter_native_splash:
   image: assets/images/splash.png
+  android_disable_fullscreen: true
   color: "ffffff"
   fill: true
 
