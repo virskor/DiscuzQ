@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/common/discuzContextMenu.dart';
 import 'package:discuzq/widgets/gallery/discuzGallery.dart';
 import 'package:flutter/cupertino.dart';
@@ -121,17 +120,6 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
         );
       },
       actions: <Widget>[
-        DiscuzContextMenuAction(
-          child: const Text('查看大图'),
-          isDefaultAction: false,
-          trailingIcon: SFSymbols.viewfinder_circle,
-          onPressed: () {
-            if (onWantOriginalImage != null) {
-              onWantOriginalImage(attachment.attributes.url);
-            }
-            Navigator.pop(context);
-          },
-        ),
         DiscuzContextMenuAction(
           child: const Text('保存原图'),
           trailingIcon: SFSymbols.tray_arrow_down,

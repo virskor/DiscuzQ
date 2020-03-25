@@ -9,6 +9,7 @@
     <!--允许程序打开网络套接字-->
     <uses-permission android:name="android.permission.INTERNET" />  
     <!--允许程序设置内置sd卡的写权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />    
     <!--允许程序获取网络状态-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
@@ -18,6 +19,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />     
     <!--允许程序访问CellID或WiFi热点来获取粗略的位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> 
+    <!--点播播放器悬浮窗权限-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name="io.flutter.app.FlutterApplication"

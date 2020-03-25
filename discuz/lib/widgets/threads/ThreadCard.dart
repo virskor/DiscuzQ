@@ -68,9 +68,12 @@ class _ThreadCardState extends State<ThreadCard> {
         child: Container(
           padding:
               const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-          margin: const EdgeInsets.only(top: 10,),
+          margin: const EdgeInsets.only(
+            top: 10,
+          ),
           decoration: BoxDecoration(
-              color: DiscuzApp.themeOf(context).backgroundColor,),
+            color: DiscuzApp.themeOf(context).backgroundColor,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -96,7 +99,10 @@ class _ThreadCardState extends State<ThreadCard> {
                       onTap: () => DiscuzRoute.open(
                           context: context,
                           shouldLogin: true,
-                          widget: const ThreadDetailDelegate()),
+                          widget: ThreadDetailDelegate(
+                            author: _author,
+                            thread: widget.thread,
+                          )),
                       child: HtmlRender(
                         html: _firstPost.attributes.contentHtml,
                       ),
@@ -128,6 +134,7 @@ class _ThreadCardState extends State<ThreadCard> {
                 firstPost: _firstPost,
                 threadsCacher: widget.threadsCacher,
                 thread: widget.thread,
+                author: _author,
               ),
             ],
           ),

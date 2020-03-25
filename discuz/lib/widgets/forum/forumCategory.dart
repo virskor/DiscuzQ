@@ -90,7 +90,7 @@ class _ForumCategoryState extends State<ForumCategory> {
 
   ///
   /// _continueToRead
-  /// 是否是联系加载
+  /// 是否是连续加载
   bool _continueToRead = false;
 
   @override

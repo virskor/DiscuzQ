@@ -1,3 +1,4 @@
+import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -37,17 +38,14 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: false,
         builder: (context, child, state) {
-          return AnimatedContainer(
-            duration: const Duration(
-              milliseconds: 270,
-            ),
+          return Container(
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.only(
                 left: 20,
                 right: 20,
                 bottom: MediaQuery.of(context).padding.bottom),
-            decoration: const BoxDecoration(
-              //color: Colors.transparent,
+            decoration:  BoxDecoration(
+              color: DiscuzApp.themeOf(context).backgroundColor,
               border: const Border(top: Global.border),
             ),
             child: _buildItems(state: state),

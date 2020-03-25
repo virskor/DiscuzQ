@@ -423,6 +423,19 @@ class WidgetFactory {
         break;
 
       case 'blockquote':
+        meta = lazySet(meta,
+            styles: [
+              kCssTextAlign,
+              kCssTextAlignLeft,
+              kCssBackgroundColor,
+              '#f1f1f1',
+              kCssColor,
+              '#888',
+              kCssMargin,
+              '0 0 1em 0',
+            ],
+            isBlockElement: true);
+        break;
       case 'figure':
         meta = lazySet(meta, styles: [kCssMargin, '1em 40px']);
         break;

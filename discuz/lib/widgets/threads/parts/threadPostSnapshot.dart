@@ -45,11 +45,17 @@ class ThreadPostSnapshot extends StatelessWidget {
   /// 回复总条数
   final int replyCounts;
 
+  ///
+  /// author
+  /// 作者
+  final UserModel author;
+
   ThreadPostSnapshot(
       {@required this.lastThreePosts,
       @required this.thread,
       @required this.firstPost,
       @required this.threadsCacher,
+      @required this.author,
       this.replyCounts = 0});
 
   @override
@@ -151,7 +157,7 @@ class ThreadPostSnapshot extends StatelessWidget {
                     onTap: () => DiscuzRoute.open(
                         context: context,
                         shouldLogin: true,
-                        widget: const ThreadDetailDelegate()),
+                        widget: ThreadDetailDelegate(thread: thread, author: author,)),
                   ),
                   const SizedBox(
                     width: 5,

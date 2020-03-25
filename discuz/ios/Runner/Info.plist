@@ -43,7 +43,11 @@
 	<false/>
 	<key>UIStatusBarHidden</key>
 	<true/>
-
+	<key>NSAppTransportSecurity</key>
+	<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+	</dict>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>App需要您的同意,才能访问Apple Music</string>
 	<key>NSBluetoothPeripheralUsageDescription</key>

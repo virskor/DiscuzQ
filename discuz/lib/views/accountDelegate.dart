@@ -10,7 +10,6 @@ import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/views/site/siteinfoDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/authHelper.dart';
@@ -67,11 +66,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
         showDivider: false,
         separate: true,
         child: const BlackListDelegate()),
-    const _AccountMenuItem(
-        label: '站点信息',
-        icon: SFSymbols.info_circle,
-        separate: true,
-        child: const SiteinfoDelegate()),
 
     /// 请求退出账户
     _AccountMenuItem(
