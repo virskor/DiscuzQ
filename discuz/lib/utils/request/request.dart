@@ -49,14 +49,14 @@ class Request {
     _dio.interceptors
 
       /// logger
-      ..add(PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseBody: true,
-          responseHeader: false,
-          error: true,
-          compact: true,
-          maxWidth: 90))
+      // ..add(PrettyDioLogger(
+      //     requestHeader: true,
+      //     requestBody: true,
+      //     responseBody: true,
+      //     responseHeader: false,
+      //     error: true,
+      //     compact: true,
+      //     maxWidth: 90))
 
       /// 请求时携带cookies
       ..add(CookieManager(CookieJar()))
