@@ -91,8 +91,8 @@ class ThreadVideoSnapshot extends StatelessWidget {
                 child: IconButton(
                   icon: Image.asset(
                     'assets/images/play.png',
-                    width: 80,
-                    height: 80,
+                    width: 40,
+                    height: 40,
                   ),
                   onPressed: () => print(videos[0].toString()),
                 ))

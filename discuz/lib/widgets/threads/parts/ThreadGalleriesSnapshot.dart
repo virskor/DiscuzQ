@@ -2,7 +2,9 @@ import 'dart:typed_data';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/common/discuzContextMenu.dart';
+import 'package:discuzq/widgets/gallery/discuzGallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -84,8 +86,14 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                           onWantOriginalImage: (String targetUrl) {
                             /// 显示原图图集
                             /// targetUrl是用户点击到的要查看的图片
-                            /// 调整数组，将targetUrl置于第一个，然后传入图集组件 
-                            print(originalImageUrls.toString());
+                            /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                            originalImageUrls.remove(targetUrl);
+                            originalImageUrls.insert(0, targetUrl);
+                            DiscuzRoute.open(
+                                context: context,
+                                fullscreenDialog: true,
+                                widget:
+                                    DiscuzGallery(gallery: originalImageUrls));
                           }),
                     ))
               .toList(),
