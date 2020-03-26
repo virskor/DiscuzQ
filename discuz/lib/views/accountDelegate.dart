@@ -1,3 +1,5 @@
+import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
+import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -78,9 +80,11 @@ class _AccountDelegateState extends State<AccountDelegate> {
                 message: '是否退出登录？',
                 onConfirm: () => AuthHelper.logout(state: state)),
         icon: SFSymbols.arrow_right_square),
-    const _AccountMenuItem(
+    _AccountMenuItem(
         label: '邀请朋友',
         icon: SFSymbols.square_arrow_up,
+        method: (AppState state, {BuildContext context}) =>
+            ShareApp.show(context: context, user: state.user),
         showDivider: false,
         separate: true),
   ];
@@ -123,16 +127,19 @@ class _AccountDelegateState extends State<AccountDelegate> {
                           context: context, state: state);
                       _controller.refreshCompleted();
                     },
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          /// 构造登录信息页
-                          const _MyAccountCard(),
+                    child: ListView(
+                      children: <Widget>[
+                        /// 构造登录信息页
+                        const _MyAccountCard(),
 
-                          /// 菜单构造
-                          ..._buildMenus(state)
-                        ],
-                      ),
+                        /// 菜单构造
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Column(
+                            children: _buildMenus(state),
+                          ),
+                        )
+                      ],
                     ),
                   ),
           ));
@@ -142,7 +149,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
   ///
   List<Widget> _buildMenus(AppState state) => _menus
       .map((el) => Container(
-            margin: EdgeInsets.only(top: el.separate == true ? 10 : 0),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Column(

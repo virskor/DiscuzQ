@@ -57,6 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.10"
+  clipboard_manager:
+    dependency: "direct main"
+    description:
+      name: clipboard_manager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   collection:
     dependency: transitive
     description:
@@ -580,7 +587,7 @@ packages:
     source: path
     version: "0.0.2"
   url_launcher:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher
       url: "https://pub.dartlang.org"

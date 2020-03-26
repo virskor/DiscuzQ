@@ -7,21 +7,22 @@ class SettingGroupWrapper extends StatelessWidget {
   final List<Widget> children;
   final String label;
 
-  const SettingGroupWrapper({this.children, this.label = '未分组'});
+  const SettingGroupWrapper({this.children, this.label = ''});
 
   @override
   Widget build(BuildContext context) {
-
     List<Widget> rebuildChildren = [...children];
-    rebuildChildren.insert(
-        0,
-        Padding(
-            padding: const EdgeInsets.only(right: 10, left: 10),
-            child: DiscuzText(
-              label,
-              fontSize: DiscuzApp.themeOf(context).normalTextSize,
-              color: DiscuzApp.themeOf(context).greyTextColor,
-            )));
+    if (label != '') {
+      rebuildChildren.insert(
+          0,
+          Padding(
+              padding: const EdgeInsets.only(right: 10, left: 10),
+              child: DiscuzText(
+                label,
+                fontSize: DiscuzApp.themeOf(context).normalTextSize,
+                color: DiscuzApp.themeOf(context).greyTextColor,
+              )));
+    }
     rebuildChildren.insert(0, const SizedBox(height: 10));
 
     return Container(

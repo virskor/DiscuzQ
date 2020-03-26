@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 
 Decoration myBoxDec(animation, {isCircle = false}) {
@@ -165,9 +166,9 @@ Decoration myDarkBoxDec(animation, {isCircle = false}) {
       begin: Alignment.centerLeft,
       end: Alignment.centerRight,
       colors: [
-        Colors.grey[700],
-        Colors.grey[600],
-        Colors.grey[700],
+        Global.scaffoldBackgroundColorDark,
+        Global.scaffoldBackgroundColorDark.withOpacity(.32),
+        Global.scaffoldBackgroundColorDark.withOpacity(.78),
         // Color(0xfff6f7f9),
       ],
       stops: [
@@ -236,7 +237,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
           child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: Global.backgroundColorDark,
                 borderRadius: BorderRadius.all(Radius.circular(3))),
             child: Column(
               mainAxisSize: MainAxisSize.min,
