@@ -12,7 +12,7 @@ class DiscuzSkeleton extends StatelessWidget {
   const DiscuzSkeleton(
       {Key key,
       this.length = 10,
-      this.isCircularImage = true,
+      this.isCircularImage = false,
       this.isBottomLinesActive = false});
 
   @override

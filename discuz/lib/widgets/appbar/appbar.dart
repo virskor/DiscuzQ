@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -61,10 +63,21 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
         )
       : title;
 
+  ///
+  /// 生成阴影，ios下默认不带阴影(海拔)，除非用户提供
+  /// 但是安卓则需要
+  double _computeElevation() {
+    if (Platform.isIOS) {
+      return elevation;
+    }
+
+    return elevation == 0 ? 10 : elevation;
+  }
+
   @override
   Widget build(BuildContext context) => AppBarExt(
         title: _title(),
-        elevation: elevation,
+        elevation: _computeElevation(),
         bottomOpacity: bottomOpacity,
         automaticallyImplyLeading: automaticallyImplyLeading,
         centerTitle: centerTitle,

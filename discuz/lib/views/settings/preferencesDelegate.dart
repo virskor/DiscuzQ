@@ -1,3 +1,5 @@
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/settings/aboutDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -72,10 +74,10 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                       },
                     ),
                     SettingTile(
-                      icon: SFSymbols.info_circle,
-                      label: '关于APP',
-                      onPressed: ()=>null,
-                    ),
+                        icon: SFSymbols.info_circle,
+                        label: '关于APP',
+                        onPressed: () => DiscuzRoute.open(
+                            context: context, widget: const AboutDelegate())),
                   ],
                 ),
               ],

@@ -25,6 +25,7 @@ dependencies:
   pretty_dio_logger: ^1.1.1
   package_info: ^0.4.0+13
   device_info: ^0.4.1+4
+  clipboard_manager: ^0.0.4
   flutter_des: ^1.1.0
   sqflite: ^1.2.0
   cached_network_image: ^2.0.0

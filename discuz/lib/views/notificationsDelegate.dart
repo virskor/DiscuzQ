@@ -148,7 +148,6 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                     )
                   : const DiscuzListTileTrailing(),
             ),
-            const DiscuzDivider(),
           ],
         ),
       );
