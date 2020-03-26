@@ -56,12 +56,15 @@ class ThreadVideoSnapshot extends StatelessWidget {
     );
   }
 
+  ///
+  /// 生成视频缩图
+  ///
   Widget _videoContainer({BuildContext context, ThreadVideoModel video}) =>
       Container(
         alignment: Alignment.center,
         height: 180,
         decoration: const BoxDecoration(
-          color: Global.scaffoldBackgroundColorDark,
+          color: Colors.black,
           borderRadius: const BorderRadius.all(
             Radius.circular(5),
           ),

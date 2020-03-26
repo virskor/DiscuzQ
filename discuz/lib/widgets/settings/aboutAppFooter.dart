@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/ui/ui.dart';
-import 'package:discuzq/utils/webviewHelper.dart';
+import 'package:discuzq/widgets/webview/webviewHelper.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/utils/global.dart';

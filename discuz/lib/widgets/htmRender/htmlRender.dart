@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/utils/webviewHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import 'package:discuzq/ui/ui.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/webview/webviewHelper.dart';
 
+///
+/// 渲染HTML
 class HtmlRender extends StatelessWidget {
   ///
   /// 用于渲染的html 字符串
