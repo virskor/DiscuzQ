@@ -67,10 +67,7 @@ class _ThreadCardState extends State<ThreadCard> {
   Widget build(BuildContext context) => RepaintBoundary(
         child: Container(
           padding:
-              const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-          margin: const EdgeInsets.only(
-            top: 10,
-          ),
+              const EdgeInsets.only(bottom: 10, left: 10, right: 10),
           decoration: BoxDecoration(
             color: DiscuzApp.themeOf(context).backgroundColor,
           ),
@@ -78,6 +75,8 @@ class _ThreadCardState extends State<ThreadCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              const DiscuzDivider(padding: 0,),
+              const SizedBox(height: 10),
               ///
               /// 主题顶部的用户信息
               ThreadHeaderCard(
@@ -149,10 +148,6 @@ class _ThreadCardState extends State<ThreadCard> {
           DiscuzText(
             widget.thread.attributes.title,
             fontWeight: FontWeight.bold,
-          ),
-          const SizedBox(height: 5),
-          const DiscuzDivider(
-            padding: 0,
           ),
           const SizedBox(height: 5),
         ];

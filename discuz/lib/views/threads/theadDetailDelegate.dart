@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
-import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
@@ -313,7 +312,18 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   /// 底部工具栏
   Widget _positionedBottomBar() => Positioned(
         bottom: 0,
-        child: const ThreadExtendBottomBar(),
+        child: ThreadExtendBottomBar(
+          thread: widget.thread,
+          firstPost: _firstPost,
+          onLikeTap: (bool liked){
+            print(liked);
+            /// 如果我本次是点赞，那么就在用户列表增加我的名字
+            ///
+            /// 本次操作的是取消点赞那么就在点赞列表中移除我，
+            /// 
+            
+          },
+        ),
       );
 
   /// 显示主题的标题
@@ -397,7 +407,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
           resp.data == null || resp.data['data'] == null
               ? []
               : [resp.data['data']];
-              
+
       await _threadsCacher.computeThreads(threads: threads);
       await _threadsCacher.computeUsers(include: included);
       await _threadsCacher.computePosts(include: included);

@@ -73,8 +73,9 @@ class _ForumDelegateState extends State<ForumDelegate>
                   ? DiscuzAppBar(
                       elevation: 0,
                       centerTitle: true,
-                      title: const Center(
-                          child: const DiscuzAppLogo(
+                      title:  Center(
+                          child: DiscuzAppLogo(
+                            dark: state.appConf['darkTheme'],
                         color: Colors.transparent,
                       )),
                       leading: IconButton(
@@ -94,6 +95,7 @@ class _ForumDelegateState extends State<ForumDelegate>
               floatingActionButton: _showAppbar || state.user == null
                   ? null
                   : FloatingActionButton(
+                    elevation: 0,
                       backgroundColor: DiscuzApp.themeOf(context).primaryColor,
                       child: const ForumAddButton(
                         awalysDark: true,

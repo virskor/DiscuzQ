@@ -1,3 +1,4 @@
+import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class DiscuzAppLogo extends StatelessWidget {
@@ -18,8 +19,9 @@ class DiscuzAppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizedBox(
           child: Image.asset(
-        dark ? 'assets/images/darklogo.png' : 'assets/images/logo.png',
+        'assets/images/discuzapptitle.png',
         fit: BoxFit.contain,
+        color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
         width: width,
         height: height,
       ));
