@@ -389,29 +389,20 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
     /// 更新数据
     /// 更新ThreadsCacher中的数据
     /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来重构Widget tree便会展示最新数据
-    final List<dynamic> _included = resp.data['included'] ?? [];
+    final List<dynamic> included = resp.data['included'] ?? [];
 
     /// 关联的数据，包含user, post，attachments 需要在缓存前进行转义
     try {
-      _threadsCacher.threads.add(ThreadModel.fromMap(
-        maps: resp.data['data'],
-      ));
-      _threadsCacher.posts = _included
-          .where((inc) => inc['type'] == 'posts')
-          .map((p) => PostModel.fromMap(maps: p))
-          .toList();
-      _threadsCacher.users = _included
-          .where((inc) => inc['type'] == 'users')
-          .map((p) => UserModel.fromMap(maps: p['attributes']))
-          .toList();
-      _threadsCacher.attachments = _included
-          .where((inc) => inc['type'] == 'attachments')
-          .map((p) => AttachmentsModel.fromMap(maps: p))
-          .toList();
-      _threadsCacher.videos = _included
-          .where((inc) => inc['type'] == 'thread-video')
-          .map((p) => ThreadVideoModel.fromMap(maps: p))
-          .toList();
+      final List<dynamic> threads =
+          resp.data == null || resp.data['data'] == null
+              ? []
+              : [resp.data['data']];
+              
+      await _threadsCacher.computeThreads(threads: threads);
+      await _threadsCacher.computeUsers(include: included);
+      await _threadsCacher.computePosts(include: included);
+      await _threadsCacher.computeAttachements(include: included);
+      await _threadsCacher.computeThreadVideos(include: included);
     } catch (e) {
       print(e);
     }
