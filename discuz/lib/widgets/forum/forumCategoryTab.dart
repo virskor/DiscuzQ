@@ -285,19 +285,15 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
           _localCategoriesStorageKey, jsonEncode(originalCategories));
     }
 
-    ///
-    /// 如果已经从本地更新过了就不要在更新了
-    if (state.categories == null || state.categories.length == 0) {
-      /// 增加一个全部并转化所有分类到模型
-      List<CategoryModel> categories = originalCategories
-          .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
-          .toList();
-      categories.insert(
-          0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
+    /// 增加一个全部并转化所有分类到模型
+    List<CategoryModel> categories = originalCategories
+        .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
+        .toList();
+    categories.insert(
+        0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
 
-      /// 更新状态
-      state.updateCategories(categories);
-    }
+    /// 重新更新状态
+    state.updateCategories(categories);
 
     return Future.value(true);
   }

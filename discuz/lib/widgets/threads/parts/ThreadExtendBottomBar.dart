@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/device.dart';
+import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
@@ -108,8 +109,9 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
           return Container(
             width: MediaQuery.of(context).size.width,
             padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
+                const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
             decoration: BoxDecoration(
+              border: Border(top: Global.border),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: SafeArea(
               top: false,

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/utils/webviewHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
@@ -41,8 +42,8 @@ class HtmlRender extends StatelessWidget {
       textStyle: TextStyle(
           color: DiscuzApp.themeOf(context).textColor,
           fontSize: DiscuzApp.themeOf(context).normalTextSize),
-      onTapUrl: (url) =>
-          DiscuzToast.show(context: context, message: '暂不支持打开$url'),
+      onTapUrl: (url) async =>
+          await WebviewHelper.launchUrl(url: url),
 
       /// 处理表情渲染
       builderCallback: (meta, e) {
