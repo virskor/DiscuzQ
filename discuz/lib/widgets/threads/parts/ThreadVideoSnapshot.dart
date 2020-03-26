@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/widgets/common/discuzContextMenu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -7,9 +6,6 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/widgets/player/discuzPlayer.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-
 ///
 /// 显示视频缩略图的组件
 class ThreadVideoSnapshot extends StatelessWidget {
@@ -59,7 +55,6 @@ class ThreadVideoSnapshot extends StatelessWidget {
 
   Widget _videoContainer({BuildContext context, ThreadVideoModel video}) =>
       Container(
-        margin: const EdgeInsets.only(top: 10),
         alignment: Alignment.center,
         height: 180,
         decoration: const BoxDecoration(

@@ -31,7 +31,7 @@ import 'package:discuzq/widgets/posts/postFloorCard.dart';
 import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/threads/render/ThreadExtendBottomBar.dart';
+import 'package:discuzq/widgets/threads/parts/ThreadExtendBottomBar.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///

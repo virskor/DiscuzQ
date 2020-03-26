@@ -5,6 +5,10 @@ import 'package:discuzq/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 
+const int _tapReplayButton = 1;
+const int _tapFavoriteButton = 2;
+const int _tapRewardButton = 3;
+
 ///
 /// 梯子详情底部工具栏
 ///
@@ -20,18 +24,24 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
     ///
     /// 回复
     const _ThreadExtendBottomBarItem(
-        attributes: SFSymbols.bubble_middle_bottom, caption: '回复', uniqueId: 1),
+        attributes: SFSymbols.bubble_middle_bottom,
+        caption: '回复',
+        uniqueId: _tapReplayButton),
 
     ///
     /// 点赞
     const _ThreadExtendBottomBarItem(
-        attributes: SFSymbols.heart, caption: '点赞', uniqueId: 2),
+        attributes: SFSymbols.heart,
+        caption: '点赞',
+        uniqueId: _tapFavoriteButton),
 
     ///
     /// 打赏
     ///
     const _ThreadExtendBottomBarItem(
-        attributes: SFSymbols.money_yen_circle, caption: '打赏', uniqueId: 3),
+        attributes: SFSymbols.money_yen_circle,
+        caption: '打赏',
+        uniqueId: _tapRewardButton),
   ];
 
   @override
@@ -91,6 +101,14 @@ class _ThreadExtendBottomBarItem {
   ///  请不要重复
   final int uniqueId;
 
+  ///
+  /// reverse selected state
+  /// bool
+  final bool selected;
+
   const _ThreadExtendBottomBarItem(
-      {this.caption = '', @required this.attributes, @required this.uniqueId});
+      {this.caption = '',
+      @required this.attributes,
+      @required this.uniqueId,
+      this.selected = false});
 }
