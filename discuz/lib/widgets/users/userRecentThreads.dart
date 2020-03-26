@@ -5,7 +5,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
-import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
@@ -258,17 +257,11 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
 
     /// 关联的数据，包含user, post，需要在缓存前进行转义
     try {
-      _threadsCacher.threads = threads
-          .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
-          .toList();
-      _threadsCacher.posts = included
-          .where((inc) => inc['type'] == 'posts')
-          .map((p) => PostModel.fromMap(maps: p))
-          .toList();
-      _threadsCacher.users = included
-          .where((inc) => inc['type'] == 'users')
-          .map((p) => UserModel.fromMap(maps: p['attributes']))
-          .toList();
+      await _threadsCacher.computeThreads(threads: threads);
+      await _threadsCacher.computeUsers(include: included);
+      await _threadsCacher.computePosts(include: included);
+      await _threadsCacher.computeAttachements(include: included);
+      await _threadsCacher.computeThreadVideos(include: included);
     } catch (e) {
       print(e);
     }
@@ -276,7 +269,9 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     setState(() {
       _loading = false;
       _continueToRead = true;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;  /// pageNumber 在onload传入时已经自动加1
+      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+
+      /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
       _refreshEnablePullUp();
     });

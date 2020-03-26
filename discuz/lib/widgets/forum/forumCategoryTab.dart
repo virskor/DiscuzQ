@@ -287,7 +287,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
     ///
     /// 如果已经从本地更新过了就不要在更新了
-    if (state.categories == null) {
+    if (state.categories == null || state.categories.length == 0) {
       /// 增加一个全部并转化所有分类到模型
       List<CategoryModel> categories = originalCategories
           .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))

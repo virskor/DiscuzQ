@@ -223,22 +223,16 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     /// 更新数据
     /// 更新ThreadsCacher中的数据
     /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来重构Widget tree便会展示最新数据
-    final List<dynamic> _threads = resp.data['data'] ?? [];
-    final List<dynamic> _included = resp.data['included'] ?? [];
+    final List<dynamic> threads = resp.data['data'] ?? [];
+    final List<dynamic> included = resp.data['included'] ?? [];
 
     /// 关联的数据，包含user, post，需要在缓存前进行转义
     try {
-      _threadsCacher.threads = _threads
-          .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
-          .toList();
-      _threadsCacher.posts = _included
-          .where((inc) => inc['type'] == 'posts')
-          .map((p) => PostModel.fromMap(maps: p))
-          .toList();
-      _threadsCacher.users = _included
-          .where((inc) => inc['type'] == 'users')
-          .map((p) => UserModel.fromMap(maps: p['attributes']))
-          .toList();
+      await _threadsCacher.computeThreads(threads: threads);
+      await _threadsCacher.computeUsers(include: included);
+      await _threadsCacher.computePosts(include: included);
+      await _threadsCacher.computeAttachements(include: included);
+      await _threadsCacher.computeThreadVideos(include: included);
     } catch (e) {
       print(e);
     }

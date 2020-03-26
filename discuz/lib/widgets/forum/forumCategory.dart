@@ -162,6 +162,7 @@ class _ForumCategoryState extends State<ForumCategory> {
       DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
+
         /// 允许乡下加载
         // header: WaterDropHeader(),
         controller: _controller,
@@ -274,31 +275,17 @@ class _ForumCategoryState extends State<ForumCategory> {
     ///
     /// 更新数据
     /// 更新ThreadsCacher中的数据
-    /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来��构Widget tree便会展示最新数据
-    final List<dynamic> _threads = resp.data['data'] ?? [];
-    final List<dynamic> _included = resp.data['included'] ?? [];
+    /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来���构Widget tree便会展示最新数据
+    final List<dynamic> threads = resp.data['data'] ?? [];
+    final List<dynamic> included = resp.data['included'] ?? [];
 
-    /// 关联的数据，包����user, post，attachments 需要在缓存前进行转义
+    /// 关联的数据，包含user, post，attachments 需要在缓存前进行转义
     try {
-      _threadsCacher.threads = _threads
-          .map<ThreadModel>((t) => ThreadModel.fromMap(maps: t))
-          .toList();
-      _threadsCacher.posts = _included
-          .where((inc) => inc['type'] == 'posts')
-          .map((p) => PostModel.fromMap(maps: p))
-          .toList();
-      _threadsCacher.users = _included
-          .where((inc) => inc['type'] == 'users')
-          .map((p) => UserModel.fromMap(maps: p['attributes']))
-          .toList();
-      _threadsCacher.attachments = _included
-          .where((inc) => inc['type'] == 'attachments')
-          .map((p) => AttachmentsModel.fromMap(maps: p))
-          .toList();
-      _threadsCacher.videos = _included
-          .where((inc) => inc['type'] == 'thread-video')
-          .map((p) => ThreadVideoModel.fromMap(maps: p))
-          .toList();
+      await _threadsCacher.computeThreads(threads: threads);
+      await _threadsCacher.computeUsers(include: included);
+      await _threadsCacher.computePosts(include: included);
+      await _threadsCacher.computeAttachements(include: included);
+      await _threadsCacher.computeThreadVideos(include: included);
     } catch (e) {
       print(e);
     }

@@ -1,8 +1,88 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/models/userModel.dart';
+
+///
+/// transformThreads
+/// dynamic 转化为ThreadModels
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<ThreadModel>> transformThreads(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
+  }
+  List<ThreadModel> result =
+      data.map<ThreadModel>((t) => ThreadModel.fromMap(maps: t)).toList();
+  return Future.value(result);
+}
+
+///
+/// transformUsers
+/// dynamic 转化为UserModels
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<UserModel>> transformUsers(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
+  }
+  final List<UserModel> reulst = data
+      .where((inc) => inc['type'] == 'users')
+      .map((p) => UserModel.fromMap(maps: p['attributes']))
+      .toList();
+  return Future.value(reulst);
+}
+
+///
+/// transformAttachments
+/// dynamic 转化为 AttachmentsModel
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<AttachmentsModel>> transformAttachments(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
+  }
+  final List<AttachmentsModel> reulst = data
+      .where((inc) => inc['type'] == 'attachments')
+      .map((p) => AttachmentsModel.fromMap(maps: p))
+      .toList();
+  return Future.value(reulst);
+}
+
+///
+/// transformThreadVideoModel
+/// dynamic 转化为 ThreadVideoModel
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<ThreadVideoModel>> transformThreadVideos(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
+  }
+  final List<ThreadVideoModel> reulst = data
+      .where((inc) => inc['type'] == 'thread-video')
+      .map((p) => ThreadVideoModel.fromMap(maps: p))
+      .toList();
+  return Future.value(reulst);
+}
+
+///
+/// transformPosts
+/// dynamic 转化为PostModels
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<PostModel>> transformPosts(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
+  }
+  final List<PostModel> reulst = data
+      .where((inc) => inc['type'] == 'posts')
+      .map((p) => PostModel.fromMap(maps: p))
+      .toList();
+  return Future.value(reulst);
+}
 
 class _ThreadBaseCacher {
   ///
@@ -63,6 +143,54 @@ class _ThreadBaseCacher {
     if (_videos == value) return;
 
     _videos.addAll(value);
+  }
+
+  ///
+  /// 使用隔离的内存，自动运算模型转换
+  /// 将响应中的模型数据自动转换为UI模型
+  /// threads需为数组
+  Future<void> computeThreads({@required List<dynamic> threads}) async {
+    List<ThreadModel> threadsResult = await compute(transformThreads, threads);
+    _threads.addAll(threadsResult);
+  }
+
+  ///
+  /// 使用隔离的内存，自动运算模型转换
+  /// 将响应中的模型数据自动转换为UI模型
+  /// users需为数组
+  Future<void> computeUsers({@required List<dynamic> include}) async {
+    List<UserModel> usersResult = await compute(transformUsers, include);
+    _users.addAll(usersResult);
+  }
+
+  ///
+  /// 使用隔离的内存，自动运算模型转换
+  /// 将响应中的模型数据自动转换为UI模型
+  /// posts需为数组
+  Future<void> computePosts({@required List<dynamic> include}) async {
+    List<PostModel> postsResult = await compute(transformPosts, include);
+    _posts.addAll(postsResult);
+  }
+
+  ///
+  /// 使用隔离的内存，自动运算模型转换
+  /// 将响应中的模型数据自动转换为UI模型
+  /// posts需为数组
+  Future<void> computeAttachements({@required List<dynamic> include}) async {
+    List<AttachmentsModel> attachmentResult =
+        await compute(transformAttachments, include);
+    _attachments.addAll(attachmentResult);
+  }
+
+  ///
+  /// 使用隔离的内存，自动运算模型转换
+  /// 将响应中的模型数据自动转换为UI模型
+  /// posts需为数组
+  Future<void> computeThreadVideos(
+      {@required List<dynamic> include}) async {
+    List<ThreadVideoModel> videosResult =
+        await compute(transformThreadVideos, include);
+    _videos.addAll(videosResult);
   }
 
   ///
