@@ -6,7 +6,6 @@ class DiscuzAppLogo extends StatelessWidget {
   final double height;
   final double circular;
   final double bottom;
-  final Color color;
   final bool dark;
 
   const DiscuzAppLogo(
@@ -14,7 +13,6 @@ class DiscuzAppLogo extends StatelessWidget {
       this.height = 50,
       this.bottom = 10,
       this.dark = false,
-      this.color = const Color(0xFFFFFFFF),
       this.circular = 15});
   @override
   Widget build(BuildContext context) => SizedBox(
