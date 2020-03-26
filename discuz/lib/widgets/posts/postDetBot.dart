@@ -1,4 +1,5 @@
 import 'package:discuzq/widgets/common/discuzLink.dart';
+import 'package:discuzq/widgets/share/shareNative.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -29,7 +30,7 @@ class PostDetBot extends StatelessWidget {
             children: <Widget>[
               DiscuzLink(
                 label: '分享',
-                onTap: () => null,
+                onTap: () => ShareNative.shareThread(thread: thread),
               ),
               DiscuzLink(
                 label: thread.attributes.isFavorite ? '已收藏' : '收藏',

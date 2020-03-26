@@ -260,7 +260,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                   ))
               .toList(),
 
-          /// 显示帖子 评论 等
+          /// 显示帖子 评论 收藏 分享等 
           PostDetBot(
             thread: widget.thread,
           )

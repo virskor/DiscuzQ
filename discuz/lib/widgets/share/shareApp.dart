@@ -1,7 +1,7 @@
-import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
@@ -9,7 +9,7 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/models/userModel.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/widgets/common/discuzAvatar.dart';
 
 class ShareApp {
   static Future<bool> show(
