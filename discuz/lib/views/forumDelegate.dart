@@ -73,10 +73,7 @@ class _ForumDelegateState extends State<ForumDelegate>
                   ? DiscuzAppBar(
                       elevation: 0,
                       centerTitle: true,
-                      title: const Center(
-                          child: const DiscuzAppLogo(
-                        color: Colors.transparent,
-                      )),
+                      title: const Center(child: const DiscuzAppLogo()),
                       leading: IconButton(
                         icon: DiscuzIcon(
                           SFSymbols.search,
@@ -94,6 +91,7 @@ class _ForumDelegateState extends State<ForumDelegate>
               floatingActionButton: _showAppbar || state.user == null
                   ? null
                   : FloatingActionButton(
+                      elevation: 0,
                       backgroundColor: DiscuzApp.themeOf(context).primaryColor,
                       child: const ForumAddButton(
                         awalysDark: true,

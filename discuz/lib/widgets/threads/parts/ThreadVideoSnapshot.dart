@@ -6,6 +6,7 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/utils/global.dart';
+
 ///
 /// 显示视频缩略图的组件
 class ThreadVideoSnapshot extends StatelessWidget {
@@ -48,8 +49,10 @@ class ThreadVideoSnapshot extends StatelessWidget {
     }
 
     return Material(
-      child: _videoContainer(context: context, video: videos[0]),
-      color: Colors.black,
+      color: Colors.transparent,
+      child: Container(
+          margin: const EdgeInsets.only(top: 10),
+          child: _videoContainer(context: context, video: videos[0])),
     );
   }
 

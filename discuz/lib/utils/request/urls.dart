@@ -62,4 +62,9 @@ class Urls {
   /// 关注
   /// 创建关注接口
   static const String follow = "$_apiPath/follow";
+
+  /// -----------------------------------
+  /// 评论
+  /// 评论接口
+  static const String posts = "$_apiPath/posts";
 }

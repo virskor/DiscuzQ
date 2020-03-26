@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -49,14 +50,14 @@ class Request {
     _dio.interceptors
 
       /// logger
-      // ..add(PrettyDioLogger(
-      //     requestHeader: true,
-      //     requestBody: true,
-      //     responseBody: true,
-      //     responseHeader: false,
-      //     error: true,
-      //     compact: true,
-      //     maxWidth: 90))
+      ..add(PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: false,
+          error: true,
+          compact: true,
+          maxWidth: 90))
 
       /// 请求时携带cookies
       ..add(CookieManager(CookieJar()))
@@ -85,7 +86,7 @@ class Request {
         return response;
       }, onError: (DioError e) async {
         // todo: this method should be removed after DIO fixed bugs some how
-        e.response.data = _temporaryTransformer(e.response.data);
+        e.response.data = await _temporaryTransformer(e.response.data);
 
         if (e.type == DioErrorType.DEFAULT) {
           DiscuzToast.failed(context: context, message: "连接失败，请检查互联网");
@@ -256,7 +257,7 @@ class Request {
     }
 
     // todo: this method should be removed after DIO fixed bugs some how
-    resp.data = _temporaryTransformer(resp.data);
+    resp.data = await _temporaryTransformer(resp.data);
 
     return Future.value(resp);
   }
@@ -280,7 +281,7 @@ class Request {
           onReceiveProgress: onReceiveProgress,
           onSendProgress: onSendProgress);
       // todo: this method should be removed after DIO fixed bugs some how
-      resp.data = _temporaryTransformer(resp.data);
+      resp.data = await _temporaryTransformer(resp.data);
     } catch (e) {
       return Future.value(null);
     }
@@ -308,7 +309,35 @@ class Request {
         cancelToken: cancelToken,
       );
       // todo: this method should be removed after DIO fixed bugs some how
-      resp.data = _temporaryTransformer(resp.data);
+      resp.data = await _temporaryTransformer(resp.data);
+    } catch (e) {
+      return Future.value(null);
+    }
+
+    return Future.value(resp);
+  }
+
+  ///
+  /// PATCH
+  ///
+  Future<Response> patch({
+    @required String url,
+    dynamic data,
+    dynamic queryParameters,
+    CancelToken cancelToken,
+  }) async {
+    Response resp;
+
+    try {
+      resp = await _dio.patch(
+        url,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(contentType: Headers.jsonContentType),
+        cancelToken: cancelToken,
+      );
+      // todo: this method should be removed after DIO fixed bugs some how
+      resp.data = await _temporaryTransformer(resp.data);
     } catch (e) {
       return Future.value(null);
     }
@@ -352,19 +381,28 @@ class Request {
   /// 原因是因为DIO仅对 application/json生效，并且是写死的！但是DZ的是 application/vnd.api+json
   /// 所以这个方法用来重新decodejson， 后续将被移除
   /// todo: remove
-  dynamic _temporaryTransformer(dynamic data) {
+  Future<dynamic> _temporaryTransformer(dynamic data) async {
     if (data.runtimeType == dynamic) {
-      return data;
+      return Future.value(data);
     }
 
     if (data == null) {
-      return null;
+      Future.value(null);
     }
 
     if (data.runtimeType == String) {
-      return jsonDecode(data);
+      return await compute(decodeData, data);
     }
 
-    return null;
+    return Future.value(null);
   }
+}
+
+///
+/// 将json转化为dynamic
+/// 事实上dio会自动转换，application/json
+/// 但是由于dzq不是 application/json 的相应，DIO有不能自定义,所以暂时要自己转,这个蛮坑的
+///
+dynamic decodeData(dynamic data) {
+  return json.decode(data);
 }
