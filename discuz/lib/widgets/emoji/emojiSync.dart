@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -9,7 +10,19 @@ import 'package:discuzq/models/emojiModel.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/localstorage.dart';
 
-class GetEmoji {
+/// transformEmojis
+/// 将相应的Emoji列转化为emoji模型
+///
+Future<List<EmojiModel>> transformEmojis(dynamic responseData) async {
+  return null;
+}
+
+///
+/// 将服务端的Emoji 同步到本地
+class EmojiSync {
+  ///
+  /// localstorage key
+  ///
   static const String _localStorageKey = 'emoji';
 
   ///
@@ -18,11 +31,10 @@ class GetEmoji {
   /// doNotGetFromLocal 默认false 即有缓存则取缓存
   static Future<List<EmojiModel>> getEmojis(
       {BuildContext context, bool doNotGetFromLocal = false}) async {
-    
     ///
     /// 如果本地缓存了数据，则会从本地取出减少接口请求
     /// 如果doNotGetFromLocal则强制从接口获取
-    /// 
+    ///
     if (!doNotGetFromLocal) {
       //// 先从本地缓存读取
       final String localEmojis =
