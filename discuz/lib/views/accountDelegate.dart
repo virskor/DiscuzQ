@@ -1,5 +1,3 @@
-import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
-import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -24,7 +22,7 @@ import 'package:discuzq/views/users/profileDelegate.dart';
 import 'package:discuzq/views/users/walletDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
 import 'package:discuzq/views/users/follows/followingDelegate.dart';
-import 'package:discuzq/views/users/blackListDelegate.dart';
+import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 
@@ -228,10 +226,6 @@ class _MyAccountCard extends StatelessWidget {
               ),
 
               /// todo: 增加bio显示，待接口反馈
-              subtitle: DiscuzText(
-                '现在还没有BIO支持',
-                color: DiscuzApp.themeOf(context).greyTextColor,
-              ),
               onTap: () => DiscuzRoute.open(
                   context: context,
                   shouldLogin: true,
