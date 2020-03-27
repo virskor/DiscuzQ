@@ -1,14 +1,15 @@
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/models/forumModel.dart';
 
 class AppState extends StateModel {
   ///
   /// forum 站点信息
   ///
-  dynamic _forum;
+  ForumModel _forum;
   get forum => _forum;
-  void updateForum(dynamic forum) {
+  void updateForum(ForumModel forum) {
     _forum = forum;
     notifyListeners();
   }

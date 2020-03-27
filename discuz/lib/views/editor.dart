@@ -1,10 +1,10 @@
-import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/widgets/appbar/appbar.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 class Editor extends StatefulWidget {
   const Editor();

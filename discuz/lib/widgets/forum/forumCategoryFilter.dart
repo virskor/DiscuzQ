@@ -82,6 +82,7 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Container(
+        height: 40,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.only(
               left: 10,

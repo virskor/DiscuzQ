@@ -8,10 +8,7 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/utils/StringHelper.dart';
-import 'package:discuzq/utils/localstorage.dart';
-
-const String _localForumStorageKey = 'forum';
+import 'package:discuzq/models/forumModel.dart';
 
 class BootstrapForum {
   final BuildContext context;
@@ -32,19 +29,7 @@ class BootstrapForum {
 
     try {
       final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
-
-      final String localForumData =
-          await DiscuzLocalStorage.getString(_localForumStorageKey);
-      if (!StringHelper.isEmpty(string: localForumData)) {
-        state.updateForum(jsonDecode(localForumData));
-        closeLoading();
-      }
-
-      /// 减少重复的请求，如果状态已经有数据，直接返回好了
-      if (!force && state.forum != null) {
-        return Future.value(true);
-      }
+          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
 
       resp = await Request(context: context).getUrl(url: Urls.forum);
       closeLoading();
@@ -52,10 +37,14 @@ class BootstrapForum {
         return Future.value(false);
       }
 
-      /// 更新状态
-      state.updateForum(resp.data['data']['attributes']);
-      DiscuzLocalStorage.setString(
-          _localForumStorageKey, jsonEncode(resp.data['data']['attributes']));
+      try {
+        final ForumModel forum = ForumModel.fromMap(maps: resp.data['data']);
+
+        /// 更新状态
+        state.updateForum(forum);
+      } catch (e) {
+        print(e);
+      }
 
       /// 返回成功
       return Future.value(true);

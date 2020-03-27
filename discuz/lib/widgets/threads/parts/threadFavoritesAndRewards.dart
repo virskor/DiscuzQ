@@ -116,7 +116,6 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.only(bottom: 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
