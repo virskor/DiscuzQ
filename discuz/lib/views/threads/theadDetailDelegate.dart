@@ -260,9 +260,11 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                   ))
               .toList(),
 
-          /// 显示帖子 评论 收藏 分享等 
+          /// 显示帖子 评论 收藏 分享等
           PostDetBot(
-            thread: widget.thread,
+            thread: _threadsCacher.threads[0],
+
+            ///注意： 要传入的thread 不应该是widget.thread，而是接口请求详情获取的主题
           )
         ],
       ),
@@ -315,13 +317,13 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
         child: ThreadExtendBottomBar(
           thread: widget.thread,
           firstPost: _firstPost,
-          onLikeTap: (bool liked){
+          onLikeTap: (bool liked) {
             print(liked);
+
             /// 如果我本次是点赞，那么就在用户列表增加我的名字
             ///
             /// 本次操作的是取消点赞那么就在点赞列表中移除我，
-            /// 
-            
+            ///
           },
         ),
       );
