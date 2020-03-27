@@ -7,7 +7,7 @@ import 'package:discuzq/states/scopedState.dart';
 
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/views/accountDelegate.dart';
 import 'package:discuzq/views/forumDelegate.dart';
 import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';

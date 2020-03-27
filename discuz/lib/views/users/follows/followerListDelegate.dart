@@ -1,12 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/models/userFollowModel.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/ui/ui.dart';
-import 'package:discuzq/widgets/search/searchAppbar.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/widgets/appbar/searchAppbar.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
@@ -19,6 +18,7 @@ import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/users/userFollowListTile.dart';
+import 'package:discuzq/models/userFollowModel.dart';
 
 class FollowerListDelegate extends StatefulWidget {
   ///

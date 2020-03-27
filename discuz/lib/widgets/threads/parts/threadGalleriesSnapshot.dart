@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';

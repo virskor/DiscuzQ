@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/appbar/videoAppbar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,16 +22,16 @@ import 'package:discuzq/widgets/gallery/discuzGallery.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/posts/postDetBot.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
-import 'package:discuzq/widgets/threads/parts/ThreadFavoritesAndRewards.dart';
-import 'package:discuzq/widgets/threads/parts/ThreadHeaderCard.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
+import 'package:discuzq/widgets/threads/parts/threadFavoritesAndRewards.dart';
+import 'package:discuzq/widgets/threads/parts/threadHeaderCard.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/posts/postFloorCard.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/threads/parts/ThreadExtendBottomBar.dart';
+import 'package:discuzq/widgets/threads/parts/threadExtendBottomBar.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///
@@ -126,9 +127,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '详情',
-            ),
+            appBar: appbar(),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: Stack(
               children: <Widget>[
@@ -176,6 +175,21 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
               ],
             ),
           ));
+
+  ///
+  /// appbar
+  /// 如果主题有视频，
+  ///
+  PreferredSizeWidget appbar() =>
+      widget.thread.relationships.threadVideo != null
+
+          /// ? VideoAppbar()
+          ? DiscuzAppBar(
+              title: '详情',
+            )
+          : DiscuzAppBar(
+              title: '详情',
+            );
 
   ///
   /// 渲染内容

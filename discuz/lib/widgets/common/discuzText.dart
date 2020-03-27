@@ -1,4 +1,4 @@
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class DiscuzText extends StatelessWidget {

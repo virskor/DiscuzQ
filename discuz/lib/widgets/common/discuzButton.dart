@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 class DiscuzButton extends StatelessWidget {
   final Function onPressed;

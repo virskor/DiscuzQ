@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/models/postModel.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';

@@ -6,7 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/nightModeSwitcher.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
@@ -62,12 +62,12 @@ class _AccountDelegateState extends State<AccountDelegate> {
         icon: SFSymbols.lasso,
         showDivider: false,
         child: const FollowingDelegate()),
-    const _AccountMenuItem(
-        label: '黑名单',
-        icon: SFSymbols.captions_bubble_fill,
-        showDivider: false,
-        separate: true,
-        child: const BlackListDelegate()),
+    // const _AccountMenuItem(
+    //     label: '黑名单',
+    //     icon: SFSymbols.captions_bubble_fill,
+    //     showDivider: false,
+    //     separate: true,
+    //     child: const BlackListDelegate()),
 
     /// 请求退出账户
     _AccountMenuItem(

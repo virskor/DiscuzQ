@@ -5,7 +5,7 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/share/shareNative.dart';
@@ -113,7 +113,6 @@ class _PostDetBotState extends State<PostDetBot> {
       },
       "relationships": {"category": widget.thread.relationships.category}
     };
-    print(data);
 
     final Function close = DiscuzToast.loading(context: context);
     Response resp = await Request(context: context)

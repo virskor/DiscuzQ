@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/widgets/posts/postLikeButton.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/utils/dateUtil.dart';
 import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
@@ -11,7 +12,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
 
 class PostFloorCard extends StatelessWidget {
@@ -173,6 +174,14 @@ class PostFloorCard extends StatelessWidget {
               /// pop menu
             ),
           ),
+
+          ///
+          /// 显示点赞按钮
+          ///
+          PostLikeButton(
+            post: post,
+            size: 20,
+          )
         ],
       );
 }

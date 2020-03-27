@@ -14,8 +14,8 @@ import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncluedes.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/threads/ThreadCard.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/widgets/threads/threadCard.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 

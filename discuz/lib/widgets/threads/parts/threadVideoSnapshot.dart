@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/utils/global.dart';
 
 ///

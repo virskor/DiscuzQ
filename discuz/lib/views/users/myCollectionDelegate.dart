@@ -4,7 +4,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
@@ -13,9 +13,9 @@ import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncluedes.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/models/threadModel.dart';
-import 'package:discuzq/widgets/threads/ThreadCard.dart';
+import 'package:discuzq/widgets/threads/threadCard.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 

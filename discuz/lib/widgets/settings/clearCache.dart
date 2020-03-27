@@ -6,7 +6,7 @@ import 'package:discuzq/widgets/common/gradientText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 class ClearCacheDialog {
   static Future<bool> build({BuildContext context}) {
