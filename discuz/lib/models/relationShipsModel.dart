@@ -79,6 +79,11 @@ class RelationshipsModel {
   /// 关注我的人
   final dynamic fromUser;
 
+  ///
+  /// category
+  /// 关联的分类
+  final dynamic category;
+
   const RelationshipsModel(
       {this.user,
       this.firstPost,
@@ -86,6 +91,7 @@ class RelationshipsModel {
       this.replyUser,
       this.toUser,
       this.fromUser,
+      this.category,
       this.images = const [],
       this.likedUsers = const [],
       this.rewardedUsers = const [],
@@ -113,6 +119,7 @@ class RelationshipsModel {
         user: data['user'] ?? null,
         toUser: data['toUser'] ?? null,
         fromUser: data['fromUser'] ?? null,
+        category: data['category'] ?? null,
         firstPost: data['firstPost'] ?? null,
         replyUser: data['replyUser'] ?? null,
         likedUsers:
