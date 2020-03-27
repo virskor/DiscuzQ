@@ -11,7 +11,7 @@ import 'package:discuzq/widgets/forum/bootstrapForum.dart';
 import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/views/totalSearchDelegate.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';

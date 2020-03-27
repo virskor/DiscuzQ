@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/models/threadModel.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/popmenu/popmenu.dart';
 

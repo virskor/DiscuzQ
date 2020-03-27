@@ -1,12 +1,12 @@
-import 'package:discuzq/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/search/searchAppbar.dart';
+import 'package:discuzq/widgets/appbar/searchAppbar.dart';
 import 'package:discuzq/widgets/search/searchHistoryList.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 class TotalSearchDelegate extends StatefulWidget {
   final Function onRequested;

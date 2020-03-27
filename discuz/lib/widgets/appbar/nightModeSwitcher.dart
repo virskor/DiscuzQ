@@ -5,7 +5,7 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 class NightModeSwitcher extends StatelessWidget {
   final Color color;

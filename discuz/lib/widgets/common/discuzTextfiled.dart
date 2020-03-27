@@ -2,7 +2,7 @@ import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 class DiscuzTextfiled extends StatelessWidget {

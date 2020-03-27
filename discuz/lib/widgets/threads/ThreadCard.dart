@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/models/postModel.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
 import 'package:discuzq/widgets/threads/parts/threadHeaderCard.dart';

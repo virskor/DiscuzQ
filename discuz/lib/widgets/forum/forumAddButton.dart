@@ -4,7 +4,7 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/views/editor.dart';
 import 'package:discuzq/widgets/common/blurBackground.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';

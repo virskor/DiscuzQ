@@ -1,20 +1,16 @@
-import 'package:dio/dio.dart';
-import 'package:discuzq/models/threadModel.dart';
-import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/utils/device.dart';
-import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/posts/postLikeButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:like_button/like_button.dart';
 
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/utils/request/urls.dart';
+import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 const int _tapReplayButton = 1;
 const int _tapFavoriteButton = 2;
@@ -49,10 +45,6 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
   ///
   /// states
   ///
-  /// 我刚才是否点击了赞的按钮
-  /// 注意： 初始化时不要赋值，如果不为null,所有的按钮状态都会被这个参数决定
-  /// 用户点击了点赞按钮，呈现的将是由这个状态决定的按钮渲染结果
-  bool _tappedLike;
 
   @override
   void setState(fn) {
@@ -91,9 +83,8 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             ///
             /// 点赞
             _ThreadExtendBottomBarItem(
-                attributes: LikeButton(
-                  isLiked: _iLikedIt(state: state),
-                  onTap: _onLikeButtonTapped,
+                attributes: PostLikeButton(
+                  post: widget.firstPost,
                 ),
                 caption: '点赞',
                 uniqueId: _tapFavoriteButton),
@@ -111,7 +102,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             padding:
                 const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
             decoration: BoxDecoration(
-              border: Border(top: Global.border),
+                border: Border(top: Global.border),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: SafeArea(
               top: false,
@@ -137,67 +128,6 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             ),
           );
         });
-  }
-
-  ///
-  /// 我是否历史点赞过
-  ///
-  bool _iLikedIt({AppState state}) {
-    ///
-    /// 没有登录，也就不存在点赞的可能
-    if (state.user == null) {
-      return false;
-    }
-
-    if (widget.firstPost.relationships == null ||
-        widget.firstPost.relationships.likedUsers.length == 0) {
-      return false;
-    }
-
-    final List<dynamic> users = widget.firstPost.relationships.likedUsers
-        .where((u) => state.user.id == int.tryParse(u['id']))
-        .toList();
-    return users == null || users.length == 0 ? false : true;
-  }
-
-  ///
-  /// 用户点赞
-  Future<bool> _onLikeButtonTapped(isLike) async {
-    /// 震动
-    Device.emitVibration();
-
-    final dynamic data = {
-      "data": {
-        "type": "posts",
-        "attributes": {
-          "isLiked": !isLike,
-        }
-      }
-    };
-
-    /// 先假装反馈结果到UI
-    setState(() {
-      _tappedLike = !isLike;
-    });
-
-    Response resp = await Request(context: context).patch(
-        url: "${Urls.posts}/${widget.firstPost.id.toString()}", data: data);
-    if (resp == null) {
-      /// 失败了，撤回点赞结果反馈
-      setState(() {
-        _tappedLike = isLike;
-      });
-
-      return Future.value(isLike);
-    }
-
-    if (widget.onLikeTap != null) {
-      widget.onLikeTap(!isLike);
-
-      /// 回调点赞状态
-    }
-
-    return Future.value(!isLike);
   }
 
   ///

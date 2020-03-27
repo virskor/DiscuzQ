@@ -8,7 +8,7 @@ import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/router/route.dart';

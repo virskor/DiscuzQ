@@ -5,7 +5,7 @@ import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/ui/ui.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
