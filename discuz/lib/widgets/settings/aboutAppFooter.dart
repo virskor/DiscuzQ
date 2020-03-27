@@ -21,7 +21,13 @@ class AboutAppFooter extends StatelessWidget {
           children: <Widget>[
             _company(context: context),
             DiscuzText(
-              'Copyright © 2019-2027 ${Global.domain} All Rights Reserved',
+              Global.domain,
+              color: DiscuzApp.themeOf(context).greyTextColor,
+              fontSize: DiscuzApp.themeOf(context).miniTextSize,
+              overflow: TextOverflow.ellipsis,
+            ),
+            DiscuzText(
+              'Copyright © 2019-2027 All Rights Reserved',
               color: DiscuzApp.themeOf(context).greyTextColor,
               fontSize: DiscuzApp.themeOf(context).miniTextSize,
               overflow: TextOverflow.ellipsis,

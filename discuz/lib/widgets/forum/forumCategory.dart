@@ -98,6 +98,19 @@ class _ForumCategoryState extends State<ForumCategory> {
   }
 
   @override
+  void didUpdateWidget(ForumCategory oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    
+    ///
+    /// 如果 filter 发生变化，和上次filter不同那么就是发生变化
+    /// 这时候刷新请求变化
+    if(oldWidget.filter != widget.filter){
+      Future.delayed(Duration(milliseconds: 450))
+        .then((_) async => await _requestData(pageNumber: 1));
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
 

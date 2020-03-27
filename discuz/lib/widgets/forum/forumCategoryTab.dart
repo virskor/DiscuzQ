@@ -108,7 +108,6 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               return;
             }
 
-            print(item.filter.toString());
             setState(() {
               _filterItem = item;
             });
