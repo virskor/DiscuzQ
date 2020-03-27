@@ -1,4 +1,4 @@
-package discuzq.clodra.com.discuzq;
+package com.clodra.discuzq;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;

@@ -66,8 +66,7 @@ class _ThreadCardState extends State<ThreadCard> {
   @override
   Widget build(BuildContext context) => RepaintBoundary(
         child: Container(
-          padding:
-              const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+          padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
           decoration: BoxDecoration(
             color: DiscuzApp.themeOf(context).backgroundColor,
           ),
@@ -75,8 +74,11 @@ class _ThreadCardState extends State<ThreadCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              const DiscuzDivider(padding: 0,),
+              const DiscuzDivider(
+                padding: 0,
+              ),
               const SizedBox(height: 10),
+
               ///
               /// 主题顶部的用户信息
               ThreadHeaderCard(
@@ -95,17 +97,18 @@ class _ThreadCardState extends State<ThreadCard> {
 
                     /// 主题的内容
                     GestureDetector(
-                      onTap: () => DiscuzRoute.open(
-                          context: context,
-                          shouldLogin: true,
-                          widget: ThreadDetailDelegate(
-                            author: _author,
-                            thread: widget.thread,
-                          )),
-                      child: HtmlRender(
-                        html: _firstPost.attributes.contentHtml,
-                      ),
-                    ),
+                        onTap: () => DiscuzRoute.open(
+                            context: context,
+                            shouldLogin: true,
+                            widget: ThreadDetailDelegate(
+                              author: _author,
+                              thread: widget.thread,
+                            )),
+                        child: Container(
+                          child: HtmlRender(
+                            html: _firstPost.attributes.contentHtml,
+                          ),
+                        )),
 
                     /// 渲染九宫格图片
                     ///

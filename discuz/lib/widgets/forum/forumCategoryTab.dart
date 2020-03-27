@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/localstorage.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
@@ -220,7 +219,6 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     setState(() {
       _loading = true;
       _isEmptyCategories = false;
-
       /// 仅需要复原 _initTabController会再次处理
     });
 
@@ -228,29 +226,28 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     /// 先从本地取得供APP快速启动，接口请求的数据供下次使用
     final String localCategoriesData =
         await DiscuzLocalStorage.getString(_localCategoriesStorageKey);
-    if (!StringHelper.isEmpty(string: localCategoriesData)) {
-      ///
-      /// 从本地取得上次缓存的数据
-      ///
-      final List<dynamic> decodeLocalCategoriesData =
-          jsonDecode(localCategoriesData);
-      if (decodeLocalCategoriesData == null) {
-        final bool result = await _requestCategories(state);
-        return Future.value(result);
-      }
-
-      /// 增加一个全部并转化所有分类到模型
-      List<CategoryModel> categories = decodeLocalCategoriesData
-          .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
-          .toList();
-      categories.insert(
-          0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
-
-      state.updateCategories(categories);
-      setState(() {
-        _loading = false;
-      });
+    if (localCategoriesData == null) {
+      final bool result = await _requestCategories(state);
+      return Future.value(result);
     }
+
+    ///
+    /// 从本地取得上次缓存的数据
+    ///
+    final List<dynamic> decodeLocalCategoriesData =
+        jsonDecode(localCategoriesData);
+    
+    /// 增加一个全部并转化所有分类到模型
+    List<CategoryModel> categories = decodeLocalCategoriesData
+        .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
+        .toList();
+    categories.insert(
+        0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
+
+    state.updateCategories(categories);
+    setState(() {
+      _loading = false;
+    });
 
     ///
     /// 异步请求，不在乎结果，因为本地有可用数据
@@ -267,12 +264,9 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     Response resp =
         await Request(context: context).getUrl(url: Urls.categories);
 
-    /// 减少UI重绘
-    if (!_loading) {
-      setState(() {
-        _loading = false;
-      });
-    }
+    setState(() {
+      _loading = false;
+    });
 
     if (resp == null) {
       return Future.value(false);
@@ -284,7 +278,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
       DiscuzLocalStorage.setString(
           _localCategoriesStorageKey, jsonEncode(originalCategories));
     }
-
+    
     /// 增加一个全部并转化所有分类到模型
     List<CategoryModel> categories = originalCategories
         .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))

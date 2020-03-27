@@ -178,7 +178,7 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
     this.actionsIconTheme,
     this.textTheme,
     this.primary = true,
-    this.shadowColor = const Color(0XFF1A1A1A1A),
+    this.shadowColor = const Color(0xFFDEDEDE),
     this.centerTitle,
     this.titleSpacing = NavigationToolbar.kMiddleSpacing,
     this.toolbarOpacity = 1.0,
