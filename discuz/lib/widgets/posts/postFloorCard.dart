@@ -12,7 +12,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
 
 class PostFloorCard extends StatelessWidget {

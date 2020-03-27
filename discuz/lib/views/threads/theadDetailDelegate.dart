@@ -22,16 +22,16 @@ import 'package:discuzq/widgets/gallery/discuzGallery.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/posts/postDetBot.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
-import 'package:discuzq/widgets/threads/ThreadsCacher.dart';
-import 'package:discuzq/widgets/threads/parts/ThreadFavoritesAndRewards.dart';
-import 'package:discuzq/widgets/threads/parts/ThreadHeaderCard.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
+import 'package:discuzq/widgets/threads/parts/threadFavoritesAndRewards.dart';
+import 'package:discuzq/widgets/threads/parts/threadHeaderCard.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/posts/postFloorCard.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/threads/parts/ThreadExtendBottomBar.dart';
+import 'package:discuzq/widgets/threads/parts/threadExtendBottomBar.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///
