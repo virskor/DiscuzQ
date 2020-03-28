@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
-import 'package:discuzq/utils/global.dart';
 
 ///
 /// 显示视频缩略图的组件
@@ -89,7 +89,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
                       width: 40,
                       height: 40,
                     ),
-                    onPressed: () => print(video.toString()),
+                    onPressed: () => DiscuzToast.failed(context: context, message: '暂不支持'),
                   )),
             ],
           ),

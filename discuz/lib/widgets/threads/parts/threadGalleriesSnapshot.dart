@@ -1,18 +1,12 @@
-import 'dart:typed_data';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzContextMenu.dart';
-import 'package:discuzq/widgets/gallery/discuzGallery.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/widgets/common/discuzImage.dart';
+import 'package:discuzq/widgets/gallery/discuzGallery.dart';
 
 ///
 /// 帖子9宫格图片预览组件
@@ -29,8 +23,12 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
   /// 第一条post
   final PostModel firstPost;
 
+  ///
+  /// 关联的主题
+  final ThreadModel thread;
+
   ThreadGalleriesSnapshot(
-      {@required this.threadsCacher, @required this.firstPost});
+      {@required this.threadsCacher, @required this.firstPost, @required this.thread });
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +77,10 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                   ? SizedBox()
                   : Padding(
                       padding: const EdgeInsets.all(2),
-                      child: _buildImage(
-                          context: context,
+                      child: DiscuzImage(
                           attachment: e,
+                          enbleShare: true,
+                          thread: thread,
                           onWantOriginalImage: (String targetUrl) {
                             /// 显示原图图集
                             /// targetUrl是用户点击到的要查看的图片
@@ -95,62 +94,6 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                           }),
                     ))
               .toList(),
-        ),
-      ),
-    );
-  }
-
-  ///
-  /// 渲染图片
-  Widget _buildImage(
-      {BuildContext context,
-      @required AttachmentsModel attachment,
-      @required Function onWantOriginalImage}) {
-    final double imageSize = (MediaQuery.of(context).size.width * .3) - 4;
-
-    return CupertinoContextMenu(
-      previewBuilder:
-          (BuildContext context, Animation<double> animation, Widget child) {
-        return FittedBox(
-          fit: BoxFit.cover,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4 * animation.value),
-            child: child,
-          ),
-        );
-      },
-      actions: <Widget>[
-        DiscuzContextMenuAction(
-          child: const Text('保存原图'),
-          trailingIcon: SFSymbols.tray_arrow_down,
-          onPressed: () async {
-            final Response response = await Dio().get(attachment.attributes.url,
-                options: Options(responseType: ResponseType.bytes));
-            final result = await ImageGallerySaver.saveImage(
-                Uint8List.fromList(response.data));
-            if (result) {
-              DiscuzToast.success(context: context, message: '保存成功');
-              Navigator.pop(context);
-              return;
-            }
-            DiscuzToast.failed(context: context, message: '保存失败');
-            Navigator.pop(context);
-          },
-        ),
-      ],
-      child: GestureDetector(
-        onTap: () => onWantOriginalImage(attachment.attributes.url),
-        child: CachedNetworkImage(
-          imageUrl: attachment.attributes.thumbUrl,
-          fit: BoxFit.cover,
-          width: imageSize,
-          height: imageSize,
-          errorWidget: (context, url, error) => Image.asset(
-            'assets/images/errimage.png',
-            width: imageSize,
-            height: imageSize,
-            fit: BoxFit.contain,
-          ),
         ),
       ),
     );

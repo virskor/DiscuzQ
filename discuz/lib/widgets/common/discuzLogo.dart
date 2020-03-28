@@ -1,5 +1,9 @@
-import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 class DiscuzAppLogo extends StatelessWidget {
   final double width;
@@ -15,7 +19,17 @@ class DiscuzAppLogo extends StatelessWidget {
       this.dark = false,
       this.circular = 15});
   @override
-  Widget build(BuildContext context) => SizedBox(
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+      rebuildOnChange: false,
+      builder: (context, child, state) =>
+          _buildLogo(context: context, state: state));
+
+  ///
+  /// 根据站点配置生成LOGO
+  ///
+  Widget _buildLogo({BuildContext context, AppState state}) {
+    if (state.forum == null || state.forum.attributes.setSite.siteLogo == '') {
+      return SizedBox(
           child: Image.asset(
         'assets/images/discuzapptitle.png',
         fit: BoxFit.contain,
@@ -23,4 +37,14 @@ class DiscuzAppLogo extends StatelessWidget {
         width: width,
         height: height,
       ));
+    }
+
+    return CachedNetworkImage(
+      imageUrl: state.forum.attributes.setSite.siteLogo,
+      fit: BoxFit.contain,
+      width: width,
+      color: state.appConf['darkTheme'] ? Colors.white70 : null,
+      height: height,
+    );
+  }
 }

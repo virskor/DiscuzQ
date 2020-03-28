@@ -1,6 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/appbar/videoAppbar.dart';
+import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +31,7 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/threads/parts/threadExtendBottomBar.dart';
+import 'package:discuzq/widgets/common/discuzImage.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///
@@ -127,7 +127,9 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
-            appBar: appbar(),
+            appBar: DiscuzAppBar(
+              title: '详情',
+            ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: Stack(
               children: <Widget>[
@@ -175,21 +177,6 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
               ],
             ),
           ));
-
-  ///
-  /// appbar
-  /// 如果主题有视频，
-  ///
-  PreferredSizeWidget appbar() =>
-      widget.thread.relationships.threadVideo != null
-
-          /// ? VideoAppbar()
-          ? DiscuzAppBar(
-              title: '详情',
-            )
-          : DiscuzAppBar(
-              title: '详情',
-            );
 
   ///
   /// 渲染内容
@@ -249,28 +236,32 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
           ...attachmentsModels
               .map((AttachmentsModel a) => Container(
                     margin: const EdgeInsets.only(top: 5),
-                    child: GestureDetector(
-                      onTap: () {
-                        ///
-                        /// 原图所有图片Url 图集
-                        final List<String> originalImageUrls = attachmentsModels
-                            .map((e) => e.attributes.url)
-                            .toList();
+                    child: DiscuzImage(
+                        attachment: a,
+                        enbleShare: true,
+                        isThumb: false,
+                        thread: widget.thread,
+                        onWantOriginalImage: (String targetUrl) {
+                          /// 显示原图图集
+                          /// targetUrl是用户点击到的要查看的图片
+                          /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                          ///
+                          /// 原图所有图片Url 图集
+                          final List<String> originalImageUrls =
+                              attachmentsModels
+                                  .map((e) => e.attributes.url)
+                                  .toList();
 
-                        /// 显示原图图集
-                        /// targetUrl是用户点击到的要查看的图片
-                        /// 调整数组，将targetUrl置于第一个，然后传入图集组件
-                        originalImageUrls.remove(a.attributes.url);
-                        originalImageUrls.insert(0, a.attributes.url);
-                        return showCupertinoDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                DiscuzGallery(gallery: originalImageUrls));
-                      },
-                      child: CachedNetworkImage(
-                        imageUrl: a.attributes.url,
-                      ),
-                    ),
+                          /// 显示原图图集
+                          /// targetUrl是用户点击到的要查看的图片
+                          /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                          originalImageUrls.remove(a.attributes.url);
+                          originalImageUrls.insert(0, a.attributes.url);
+                          return showCupertinoDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  DiscuzGallery(gallery: originalImageUrls));
+                        }),
                   ))
               .toList(),
 
@@ -294,35 +285,48 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 100),
-      padding: const EdgeInsets.only(left: 10, right: 10),
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          const SizedBox(height: 20),
+          //const SizedBox(height: 20),
 
           /// 显示点赞
-          ThreadFavoritesAndRewards(
-            firstPost: _firstPost,
-            threadsCacher: _threadsCacher,
-            thread: widget.thread,
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+            child: ThreadFavoritesAndRewards(
+              firstPost: _firstPost,
+              threadsCacher: _threadsCacher,
+              thread: widget.thread,
+            ),
           ),
 
           ///
           /// 显示评论和用户
           ///
-          ..._threadsCacher.posts
-              .map((PostModel p) => PostFloorCard(
-                    post: p,
-                    threadsCacher: _threadsCacher,
-                  ))
-              .toList()
+          _threadsCacher.posts.length == 0
+              ? const DiscuzNoMoreData()
+              : _comments()
         ],
       ),
     );
   }
+
+  ///
+  /// 渲染评论
+  Widget _comments() => Column(
+        children: _threadsCacher.posts
+            .map<Widget>((PostModel p) => Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                  child: PostFloorCard(
+                      post: p,
+                      threadsCacher: _threadsCacher,
+                      thread: widget.thread),
+                ))
+            .toList(),
+      );
 
   ///
   /// 底部工具栏

@@ -155,7 +155,7 @@ class ThreadPostSnapshot extends StatelessWidget {
                   children: <Widget>[
                     DiscuzLink(
                       padding: const EdgeInsets.only(top: 5),
-                      label: '全部${(replyCounts - 1).toString()}条回复',
+                      label: '查看全部${(replyCounts - 1).toString()}条回复',
                       onTap: () => DiscuzRoute.open(
                           context: context,
                           shouldLogin: true,

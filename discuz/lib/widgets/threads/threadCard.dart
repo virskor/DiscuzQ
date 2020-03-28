@@ -1,5 +1,3 @@
-import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
-import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -14,6 +12,8 @@ import 'package:discuzq/widgets/threads/parts/threadPostSnapshot.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/threads/theadDetailDelegate.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
+import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
+import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 
 ///
 /// 主题卡片
@@ -116,6 +116,7 @@ class _ThreadCardState extends State<ThreadCard> {
                     ThreadGalleriesSnapshot(
                       firstPost: _firstPost,
                       threadsCacher: widget.threadsCacher,
+                      thread: widget.thread,
                     ),
 
                     ///

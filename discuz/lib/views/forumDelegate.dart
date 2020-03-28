@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/search/searchColumnDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -12,8 +13,6 @@ import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/views/totalSearchDelegate.dart';
-import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 /// 论坛首页
@@ -79,13 +78,9 @@ class _ForumDelegateState extends State<ForumDelegate>
                           SFSymbols.search,
                           color: DiscuzApp.themeOf(context).textColor,
                         ),
-                        onPressed: () => DiscuzRoute.open(
-                            context: context,
-                            fullscreenDialog: true,
-                            shouldLogin: true,
-                            widget: const TotalSearchDelegate()),
+                        onPressed: () => SearchColumnDialog.show(context),
                       ),
-                      actions: _actions(context),
+                      actions: <Widget>[const ForumAddButton()],
                     )
                   : null,
 
@@ -148,17 +143,6 @@ class _ForumDelegateState extends State<ForumDelegate>
           ),
         )
       : const SizedBox();
-
-  /// forum actions
-  List<Widget> _actions(BuildContext context) => [
-        Row(
-          children: <Widget>[
-            // 搜索
-            const ForumAddButton()
-            // 弹出菜单
-          ],
-        )
-      ];
 
   /// 获取论坛启动信息
   /// force 为true时，会忽略_loaded
