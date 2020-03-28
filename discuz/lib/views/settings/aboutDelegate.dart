@@ -12,8 +12,6 @@ import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/settings/aboutAppFooter.dart';
 
-import '../../widgets/common/discuzLogo.dart';
-
 class AboutDelegate extends StatefulWidget {
   const AboutDelegate({Key key}) : super(key: key);
   @override
