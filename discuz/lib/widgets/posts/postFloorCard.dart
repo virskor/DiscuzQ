@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/widgets/posts/postLikeButton.dart';
+import 'package:discuzq/models/threadModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/userModel.dart';
@@ -14,6 +14,9 @@ import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
+import 'package:discuzq/widgets/posts/postLikeButton.dart';
+import 'package:discuzq/widgets/common/discuzImage.dart';
+import 'package:discuzq/widgets/gallery/discuzGallery.dart';
 
 class PostFloorCard extends StatelessWidget {
   ///
@@ -24,7 +27,14 @@ class PostFloorCard extends StatelessWidget {
   ///
   final ThreadsCacher threadsCacher;
 
-  const PostFloorCard({@required this.post, @required this.threadsCacher});
+  ///
+  /// 主题模型
+  final ThreadModel thread;
+
+  const PostFloorCard(
+      {@required this.post,
+      @required this.threadsCacher,
+      @required this.thread});
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +102,32 @@ class PostFloorCard extends StatelessWidget {
           ...attachmentsModels
               .map((AttachmentsModel a) => Container(
                     margin: const EdgeInsets.only(top: 5),
-                    child: CachedNetworkImage(
-                      imageUrl: a.attributes.url,
-                    ),
+                    child: DiscuzImage(
+                        attachment: a,
+                        enbleShare: true,
+                        isThumb: false,
+                        thread: thread,
+                        onWantOriginalImage: (String targetUrl) {
+                          /// 显示原图图集
+                          /// targetUrl是用户点击到的要查看的图片
+                          /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                          ///
+                          /// 原图所有图片Url 图集
+                          final List<String> originalImageUrls =
+                              attachmentsModels
+                                  .map((e) => e.attributes.url)
+                                  .toList();
+
+                          /// 显示原图图集
+                          /// targetUrl是用户点击到的要查看的图片
+                          /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                          originalImageUrls.remove(a.attributes.url);
+                          originalImageUrls.insert(0, a.attributes.url);
+                          return showCupertinoDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  DiscuzGallery(gallery: originalImageUrls));
+                        }),
                   ))
               .toList(),
 

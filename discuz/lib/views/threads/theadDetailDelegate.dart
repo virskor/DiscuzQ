@@ -322,6 +322,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
               .map((PostModel p) => PostFloorCard(
                     post: p,
                     threadsCacher: _threadsCacher,
+                    thread: widget.thread
                   ))
               .toList()
         ],
