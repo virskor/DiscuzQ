@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:discuzq/widgets/appbar/videoAppbar.dart';
+import 'package:discuzq/widgets/common/discuzImage.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -249,28 +250,32 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
           ...attachmentsModels
               .map((AttachmentsModel a) => Container(
                     margin: const EdgeInsets.only(top: 5),
-                    child: GestureDetector(
-                      onTap: () {
-                        ///
-                        /// 原图所有图片Url 图集
-                        final List<String> originalImageUrls = attachmentsModels
-                            .map((e) => e.attributes.url)
-                            .toList();
+                    child: DiscuzImage(
+                        attachment: a,
+                        enbleShare: true,
+                        isThumb: false,
+                        thread: widget.thread,
+                        onWantOriginalImage: (String targetUrl) {
+                          /// 显示原图图集
+                          /// targetUrl是用户点击到的要查看的图片
+                          /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                          ///
+                          /// 原图所有图片Url 图集
+                          final List<String> originalImageUrls =
+                              attachmentsModels
+                                  .map((e) => e.attributes.url)
+                                  .toList();
 
-                        /// 显示原图图集
-                        /// targetUrl是用户点击到的要查看的图片
-                        /// 调整数组，将targetUrl置于第一个，然后传入图集组件
-                        originalImageUrls.remove(a.attributes.url);
-                        originalImageUrls.insert(0, a.attributes.url);
-                        return showCupertinoDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                DiscuzGallery(gallery: originalImageUrls));
-                      },
-                      child: CachedNetworkImage(
-                        imageUrl: a.attributes.url,
-                      ),
-                    ),
+                          /// 显示原图图集
+                          /// targetUrl是用户点击到的要查看的图片
+                          /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                          originalImageUrls.remove(a.attributes.url);
+                          originalImageUrls.insert(0, a.attributes.url);
+                          return showCupertinoDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  DiscuzGallery(gallery: originalImageUrls));
+                        }),
                   ))
               .toList(),
 

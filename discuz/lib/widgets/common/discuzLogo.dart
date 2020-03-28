@@ -28,23 +28,23 @@ class DiscuzAppLogo extends StatelessWidget {
   /// 根据站点配置生成LOGO
   ///
   Widget _buildLogo({BuildContext context, AppState state}) {
-    if (state.forum.attributes.setSite.siteLogo != '') {
-      return CachedNetworkImage(
-        imageUrl: state.forum.attributes.setSite.siteLogo,
+    if (state.forum == null || state.forum.attributes.setSite.siteLogo == '') {
+      return SizedBox(
+          child: Image.asset(
+        'assets/images/discuzapptitle.png',
         fit: BoxFit.contain,
+        color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
         width: width,
-        color: state.appConf['darkTheme'] ? Colors.white70 : null,
         height: height,
-      );
+      ));
     }
 
-    return SizedBox(
-        child: Image.asset(
-      'assets/images/discuzapptitle.png',
+    return CachedNetworkImage(
+      imageUrl: state.forum.attributes.setSite.siteLogo,
       fit: BoxFit.contain,
-      color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
       width: width,
+      color: state.appConf['darkTheme'] ? Colors.white70 : null,
       height: height,
-    ));
+    );
   }
 }
