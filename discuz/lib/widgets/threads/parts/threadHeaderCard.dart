@@ -84,7 +84,24 @@ class ThreadHeaderCard extends StatelessWidget {
 
           /// isSticky
           thread.attributes.isSticky
-              ? const DiscuzIcon(0xe60c)
+              ? const DiscuzIcon(
+                  0xe70f,
+                  size: 20,
+                  withOpacity: true,
+                )
+              : const SizedBox(),
+
+          /// isEssence
+          thread.attributes.isEssence
+              ? const Padding(
+                  padding: const EdgeInsets.only(
+                    left: 2,
+                  ),
+                  child: const DiscuzIcon(
+                    0xe60e,
+                    size: 22,
+                    withOpacity: true,
+                  ))
               : const SizedBox(),
 
           /// popmenu

@@ -81,6 +81,8 @@ class _ForumDelegateState extends State<ForumDelegate>
                         ),
                         onPressed: () => DiscuzRoute.open(
                             context: context,
+                            fullscreenDialog: true,
+                            shouldLogin: true,
                             widget: const TotalSearchDelegate()),
                       ),
                       actions: _actions(context),

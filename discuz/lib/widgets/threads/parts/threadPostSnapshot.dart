@@ -96,7 +96,7 @@ class ThreadPostSnapshot extends StatelessWidget {
               .where((UserModel u) => u.id == post.attributes.replyUserID)
               .toList()
           : null;
-      
+
       /// 渲染回复的内容和回复的用户
       return Container(
         child: PostRender(
@@ -131,45 +131,51 @@ class ThreadPostSnapshot extends StatelessWidget {
 
     return _wrapper(
         context: context,
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              /// 点赞和打赏记录
-              ThreadFavoritesAndRewards(
-                thread: thread,
-                firstPost: firstPost,
-                threadsCacher: threadsCacher,
-              ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 5, bottom: 5),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                /// 点赞和打赏记录
+                ThreadFavoritesAndRewards(
+                  thread: thread,
+                  firstPost: firstPost,
+                  threadsCacher: threadsCacher,
+                ),
 
-              /// 渲染所有回复记录
-              ..._repliesWidgets,
+                /// 渲染所有回复记录
+                ..._repliesWidgets,
 
-              ///
-              /// 回复
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  DiscuzLink(
-                    padding: const EdgeInsets.only(top: 5),
-                    label: '全部${(replyCounts - 1).toString()}条回复',
-                    onTap: () => DiscuzRoute.open(
-                        context: context,
-                        shouldLogin: true,
-                        widget: ThreadDetailDelegate(thread: thread, author: author,)),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 5),
-                    child: const DiscuzIcon(SFSymbols.chevron_compact_right,
-                        size: 16),
-                  ),
-                ],
-              )
-            ]));
+                ///
+                /// 回复
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    DiscuzLink(
+                      padding: const EdgeInsets.only(top: 5),
+                      label: '全部${(replyCounts - 1).toString()}条回复',
+                      onTap: () => DiscuzRoute.open(
+                          context: context,
+                          shouldLogin: true,
+                          widget: ThreadDetailDelegate(
+                            thread: thread,
+                            author: author,
+                          )),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 5),
+                      child: const DiscuzIcon(SFSymbols.chevron_compact_right,
+                          size: 16),
+                    ),
+                  ],
+                )
+              ]),
+        ));
   }
 
   ///
@@ -179,8 +185,8 @@ class ThreadPostSnapshot extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: 10,
           right: 10,
-          bottom: 5,
-          top: 5,
+          //bottom: 5,
+          //top: 5,
         ),
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(5)),

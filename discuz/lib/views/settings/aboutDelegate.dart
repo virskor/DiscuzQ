@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -10,6 +11,8 @@ import 'package:discuzq/widgets/common/discuzButton.dart';
 import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/settings/aboutAppFooter.dart';
+
+import '../../widgets/common/discuzLogo.dart';
 
 class AboutDelegate extends StatefulWidget {
   const AboutDelegate({Key key}) : super(key: key);
@@ -62,12 +65,23 @@ class _AboutDelegateState extends State<AboutDelegate> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        const SizedBox(
-                            width: 200, child: const DiscuzAppLogo()),
+                        SizedBox(
+                            width: 200,
+                            child: state.forum.attributes.setSite.siteLogo == ''
+                                ? const DiscuzAppLogo()
+                                : CachedNetworkImage(
+                                    imageUrl:
+                                        state.forum.attributes.setSite.siteLogo,
+                                  )),
                         const SizedBox(
                           height: 50,
                         ),
-                        const DiscuzText(Global.appname, fontWeight: FontWeight.bold, textScaleFactor: 2,),
+                        DiscuzText(
+                          state.forum.attributes.setSite.siteName,
+                          fontWeight: FontWeight.bold,
+                          textScaleFactor: 2,
+                        ),
+
                         ///
                         /// Flutter DiscuzQ是免费的，但你需要声明使用
                         /// 如果移除版权信息，你可能面临诉讼
@@ -79,7 +93,8 @@ class _AboutDelegateState extends State<AboutDelegate> {
                           color: Colors.transparent,
                           labelColor: DiscuzApp.themeOf(context).primaryColor,
                           label: '查看更多站点信息',
-                          onPressed: () => WebviewHelper.launchUrl(url: "${Global.domain}/circle-info"),
+                          onPressed: () => WebviewHelper.launchUrl(
+                              url: "${Global.domain}/circle-info"),
                         )
                       ],
                     ),
