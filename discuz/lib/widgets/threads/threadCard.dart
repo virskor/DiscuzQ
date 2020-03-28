@@ -152,6 +152,5 @@ class _ThreadCardState extends State<ThreadCard> {
             widget.thread.attributes.title,
             fontWeight: FontWeight.bold,
           ),
-          const SizedBox(height: 5),
         ];
 }

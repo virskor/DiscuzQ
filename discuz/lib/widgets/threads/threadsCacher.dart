@@ -220,12 +220,12 @@ class ThreadsCacher extends _ThreadBaseCacher {
   /// 注意 ThreadsCacher 是一个单例，但当singleton传入为false时，则不会是一个单例，
   /// 这是为了多个Stack调用时出现数据重复
   ///
-  /// 但一般情况下，要保持这是个单例的设计
+  /// 现在由于一些优化，一般情况下不需要保证是单例了，因为我们有完整的内存释放和对Dart多线程独立内存的使用
   ///
   /// 所以如果不用了，就一定要clear
   /// 否则，在下次调用的时候数据还在，将直接导致错误的数据渲染
   ///
-  factory ThreadsCacher({bool singleton = true}) =>
+  factory ThreadsCacher({bool singleton = false}) =>
       _getInstance(singleton: singleton);
   static ThreadsCacher get instance => _getInstance();
   static ThreadsCacher _instance;
@@ -234,7 +234,7 @@ class ThreadsCacher extends _ThreadBaseCacher {
     // 初始化单例实例
   }
 
-  static ThreadsCacher _getInstance({bool singleton = true}) {
+  static ThreadsCacher _getInstance({bool singleton = false}) {
     if (_instance == null) {
       _instance = ThreadsCacher._internal();
     }
