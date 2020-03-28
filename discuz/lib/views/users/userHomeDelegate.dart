@@ -81,7 +81,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
         /// 关注或取消
         UserHomeDelegateCard(
           user: widget.user,
-          height:  _showUserDeleagetCard == true ? 200 : 0,
+          height:  _showUserDeleagetCard == true ? 180 : 0,
         ),
 
         ///

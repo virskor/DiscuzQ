@@ -26,6 +26,9 @@ import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 
+import '../widgets/common/discuzText.dart';
+import '../widgets/ui/ui.dart';
+
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
   @override
@@ -224,8 +227,13 @@ class _MyAccountCard extends StatelessWidget {
                 state.user.username ?? '',
                 fontSize: DiscuzApp.themeOf(context).largeTextSize,
               ),
+              subtitle: DiscuzText(
+                '查看个人主页',
+                fontWeight: FontWeight.w300,
+                color: DiscuzApp.themeOf(context).greyTextColor,
+              ),
 
-              /// todo: 增加bio显示，待接口反馈
+              /// todo: 增加bio显示，待��口反馈
               onTap: () => DiscuzRoute.open(
                   context: context,
                   shouldLogin: true,

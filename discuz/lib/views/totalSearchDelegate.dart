@@ -6,6 +6,7 @@ import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/appbar/searchAppbar.dart';
 import 'package:discuzq/widgets/search/searchHistoryList.dart';
+import 'package:discuzq/widgets/search/searchResultTabs.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 
 class TotalSearchDelegate extends StatefulWidget {
@@ -20,6 +21,10 @@ class _TotalSearchDelegateState extends State<TotalSearchDelegate> {
   //// state
   ///
   bool _showHistory = true;
+
+  ///
+  /// 关键子
+  String _keyword = '';
 
   @override
   void setState(fn) {
@@ -51,7 +56,16 @@ class _TotalSearchDelegateState extends State<TotalSearchDelegate> {
             body: _showHistory == true
                 ? const SearchHistoryList()
                 : Column(
-                    children: <Widget>[],
+                    children: <Widget>[
+                      Expanded(
+                        /// 
+                        /// 搜索结果页
+                        /// 
+                        child: SearchResultTabs(
+                          keyword: _keyword,
+                        ),
+                      )
+                    ],
                   ),
           ));
 
@@ -59,7 +73,7 @@ class _TotalSearchDelegateState extends State<TotalSearchDelegate> {
   /// 提交搜索
   /// 收到事件后 如果输入的文本为空，要显示历史记录
   ///
-  Future<void> _onSubmit({String keyword, bool showNotice}) async {
+  void _onSubmit({String keyword, bool showNotice}) {
     if (StringHelper.isEmpty(string: keyword)) {
       setState(() {
         _showHistory = true;
@@ -71,13 +85,11 @@ class _TotalSearchDelegateState extends State<TotalSearchDelegate> {
       return;
     }
 
-    ///
     setState(() {
       _showHistory = false;
-    });
 
-    /// 显示结果展示组件
-    /// （渲染一个listview, 将两个searchReaultview返回的listview合并，得到一个listview）
-    /// searchResultView主要构造一个listview, 可以根据 实际情况开启infinite 直接将组件复用
+      /// 为了呈现搜索结果，应该隐藏搜索历史页
+      _keyword = keyword;
+    });
   }
 }

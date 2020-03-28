@@ -125,6 +125,8 @@ class AppbarLeading extends StatelessWidget {
                   ModalRoute.of(context).isFirst == false
               ? IconButton(
                   tooltip: previousPageTitle,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   icon: Icon(
                     codePoint,
                     size: size,

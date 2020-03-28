@@ -87,6 +87,7 @@ class ThreadHeaderCard extends StatelessWidget {
               ? const DiscuzIcon(
                   0xe70f,
                   size: 20,
+                  withOpacity: true,
                 )
               : const SizedBox(),
 
@@ -99,6 +100,7 @@ class ThreadHeaderCard extends StatelessWidget {
                   child: const DiscuzIcon(
                     0xe60e,
                     size: 22,
+                    withOpacity: true,
                   ))
               : const SizedBox(),
 
