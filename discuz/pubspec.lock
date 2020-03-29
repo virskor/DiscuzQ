@@ -147,7 +147,7 @@ packages:
       name: fluro
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.1"
+    version: "1.6.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -189,14 +189,14 @@ packages:
   flutter_native_dialog:
     dependency: "direct main"
     description:
-      path: "../dependencies/flutter_native_dialog"
+      path: "../packages/flutter_native_dialog"
       relative: true
     source: path
     version: "0.1.0"
   flutter_native_loading:
     dependency: "direct main"
     description:
-      path: "../dependencies/flutter_native_loading"
+      path: "../packages/flutter_native_loading"
       relative: true
     source: path
     version: "0.0.1"
@@ -221,13 +221,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  flutter_tencentplayer:
-    dependency: "direct main"
-    description:
-      name: flutter_tencentplayer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -236,7 +229,7 @@ packages:
   flutter_user_agent:
     dependency: "direct main"
     description:
-      path: "../dependencies/flutter_user_agent"
+      path: "../packages/flutter_user_agent"
       relative: true
     source: path
     version: "1.2.1"
@@ -255,21 +248,21 @@ packages:
   flutter_widget_from_html:
     dependency: "direct main"
     description:
-      path: "../dependencies/flutter_widget_from_html"
+      path: "../packages/flutter_widget_from_html"
       relative: true
     source: path
     version: "0.3.2+2"
   flutter_widget_from_html_core:
     dependency: transitive
     description:
-      path: "../dependencies/flutter_widget_from_html/packages/core"
+      path: "../packages/flutter_widget_from_html/packages/core"
       relative: true
     source: path
     version: "0.3.2+2"
   fluttertoast:
     dependency: "direct main"
     description:
-      path: "../dependencies/flutter_toast"
+      path: "../packages/flutter_toast"
       relative: true
     source: path
     version: "3.1.3"
@@ -412,7 +405,7 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.0"
+    version: "1.8.0+1"
   permission_handler:
     dependency: "direct main"
     description:
@@ -596,7 +589,7 @@ packages:
   udid:
     dependency: "direct main"
     description:
-      path: "../dependencies/flutter_udid"
+      path: "../packages/flutter_udid"
       relative: true
     source: path
     version: "0.0.2"
@@ -649,6 +642,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.8+1"
+  video_player_header:
+    dependency: "direct main"
+    description:
+      name: video_player_header
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.2+4"
   video_player_platform_interface:
     dependency: transitive
     description:
@@ -693,4 +693,4 @@ packages:
     version: "2.2.0"
 sdks:
   dart: ">=2.7.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <1.16.0"
+  flutter: ">=1.12.13+hotfix.5 <1.17.0"

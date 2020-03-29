@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/player/discuzPlayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -89,7 +91,11 @@ class ThreadVideoSnapshot extends StatelessWidget {
                       width: 40,
                       height: 40,
                     ),
-                    onPressed: () => DiscuzToast.failed(context: context, message: '暂不支持'),
+                    onPressed: () => DiscuzRoute.open(
+                        context: context,
+                        widget: DiscuzPlayer(
+                          video: video,
+                        )),
                   )),
             ],
           ),

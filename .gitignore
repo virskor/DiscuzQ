@@ -2,3 +2,5 @@
 .DS_store
 discuz/android/key.properties
 discuz/android/android.keystore
+discuz/run
+discuz/reset

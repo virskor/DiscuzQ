@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
@@ -38,21 +39,32 @@ class _DiscuzGalleryState extends State<DiscuzGallery> {
   @override
   void initState() {
     super.initState();
+
+    ///
+    /// 移除状态栏
+    ///
+    SystemChrome.setEnabledSystemUIOverlays([]);
     _pageController.addListener(() {
       final int currentPage = _pageController.page.round() + 1;
-      if(currentPage == _indexPage){
+      if (currentPage == _indexPage) {
         return;
       }
 
       setState(() {
         _indexPage = currentPage;
       });
-     });
+    });
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+
+    ///
+    /// 恢复状态栏
+    ///
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
     super.dispose();
   }
 
