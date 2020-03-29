@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/player/discuzPlayer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/widgets/player/discuzPlayer.dart';
+import 'package:discuzq/models/postModel.dart';
 
 ///
 /// 显示视频缩略图的组件
@@ -19,9 +19,19 @@ class ThreadVideoSnapshot extends StatelessWidget {
   ///
   final ThreadsCacher threadsCacher;
 
+  ///
+  /// 主题
+  ///
   final ThreadModel thread;
 
-  ThreadVideoSnapshot({@required this.threadsCacher, @required this.thread});
+  ///
+  /// 关联的帖子或评论
+  final PostModel post;
+
+  ThreadVideoSnapshot(
+      {@required this.threadsCacher,
+      @required this.thread,
+      @required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -62,42 +72,53 @@ class ThreadVideoSnapshot extends StatelessWidget {
   /// 生成视频缩图
   ///
   Widget _videoContainer({BuildContext context, ThreadVideoModel video}) =>
-      Container(
-        alignment: Alignment.center,
-        height: 180,
-        decoration: const BoxDecoration(
-          color: Colors.black,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(5),
-          ),
-        ),
+      GestureDetector(
+        onTap: () => DiscuzRoute.open(
+            context: context,
+            fullscreenDialog: true,
+            widget: DiscuzPlayer(
+              video: video,
+              post: post,
+            )),
         child: Container(
-          child: Stack(
-            fit: StackFit.passthrough,
-            alignment: Alignment.center,
-            children: <Widget>[
-              CachedNetworkImage(
-                imageUrl: video.attributes.coverUrl,
-                fit: BoxFit.cover,
-              ),
-              Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
-                  child: IconButton(
-                    icon: Image.asset(
-                      'assets/images/play.png',
-                      width: 40,
-                      height: 40,
-                    ),
-                    onPressed: () => DiscuzRoute.open(
-                        context: context,
-                        widget: DiscuzPlayer(
-                          video: video,
-                        )),
-                  )),
-            ],
+          alignment: Alignment.center,
+          height: 180,
+          decoration: const BoxDecoration(
+            color: Colors.black,
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(5),
+            ),
+          ),
+          child: Container(
+            child: Stack(
+              fit: StackFit.passthrough,
+              alignment: Alignment.center,
+              children: <Widget>[
+                CachedNetworkImage(
+                  imageUrl: video.attributes.coverUrl,
+                  fit: BoxFit.cover,
+                ),
+                Positioned(
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: IconButton(
+                      icon: Image.asset(
+                        'assets/images/play.png',
+                        width: 40,
+                        height: 40,
+                      ),
+                      onPressed: () => DiscuzRoute.open(
+                          context: context,
+                          fullscreenDialog: true,
+                          widget: DiscuzPlayer(
+                            video: video,
+                            post: post,
+                          )),
+                    )),
+              ],
+            ),
           ),
         ),
       );

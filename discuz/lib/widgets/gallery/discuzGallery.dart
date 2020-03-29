@@ -40,10 +40,11 @@ class _DiscuzGalleryState extends State<DiscuzGallery> {
   void initState() {
     super.initState();
 
-    ///
-    /// 移除状态栏
-    ///
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.dark,
+    );
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+
     _pageController.addListener(() {
       final int currentPage = _pageController.page.round() + 1;
       if (currentPage == _indexPage) {
@@ -58,13 +59,12 @@ class _DiscuzGalleryState extends State<DiscuzGallery> {
 
   @override
   void dispose() {
-    _pageController.dispose();
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+      statusBarBrightness: Brightness.light,
+    );
+     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 
-    ///
-    /// 恢复状态栏
-    ///
-    SystemChrome.setEnabledSystemUIOverlays(
-        [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    _pageController.dispose();
     super.dispose();
   }
 

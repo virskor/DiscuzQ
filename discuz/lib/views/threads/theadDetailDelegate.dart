@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +31,8 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/threads/parts/threadExtendBottomBar.dart';
 import 'package:discuzq/widgets/common/discuzImage.dart';
+import 'package:discuzq/widgets/common/discuzNomoreData.dart';
+import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///
@@ -264,6 +265,17 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                         }),
                   ))
               .toList(),
+
+          ///
+          /// 用于渲染小视频
+          ///
+          widget.thread.relationships.threadVideo == null
+              ? const SizedBox()
+              : ThreadVideoSnapshot(
+                  threadsCacher: _threadsCacher,
+                  thread: widget.thread,
+                  post: _firstPost,
+                ),
 
           /// 显示帖子 评论 收藏 分享等
           PostDetBot(

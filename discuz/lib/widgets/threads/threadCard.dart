@@ -127,6 +127,7 @@ class _ThreadCardState extends State<ThreadCard> {
                         : ThreadVideoSnapshot(
                             threadsCacher: widget.threadsCacher,
                             thread: widget.thread,
+                            post: _firstPost,
                           )
                   ],
                 ),
