@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/utils/permissionHepler.dart';
 import 'package:discuzq/widgets/common/discuzContextMenu.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/share/shareNative.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class DiscuzImage extends StatefulWidget {
   ///
@@ -82,6 +84,12 @@ class _DiscuzImageState extends State<DiscuzImage> {
           child: const Text('保存原图'),
           trailingIcon: SFSymbols.tray_arrow_down,
           onPressed: () async {
+            final bool havePermission =
+                await PermissionHelper.checkWithNotice(PermissionGroup.photos);
+            if (havePermission == false) {
+              return;
+            }
+
             final Response response = await Dio().get(attachment.attributes.url,
                 options: Options(responseType: ResponseType.bytes));
             final result = await ImageGallerySaver.saveImage(
