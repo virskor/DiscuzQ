@@ -1,0 +1,18 @@
+name: udid
+description: Flutter plugin get device udid.
+author: Lewis <once10301@gmail.com>
+homepage: https://github.com/once10301/udid
+version: 0.0.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    androidPackage: com.ly.udid
+    pluginClass: UdidPlugin
+
+environment:
+  sdk: ">=2.0.0-dev.28.0 <3.0.0"
+  flutter: ">=0.1.4 <2.0.0"
