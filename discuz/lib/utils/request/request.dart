@@ -257,13 +257,13 @@ class Request {
   }
 
   ///
-  /// GET 获��
+  /// GET
   ///
   Future<Response> getUrl(
       {@required String url, dynamic queryParameters}) async {
     Response resp;
     try {
-      resp = await _dio.get(url, queryParameters: queryParameters);
+      resp = await _dio.get(url, queryParameters: queryParameters,);
     } catch (e) {
       return Future.value(null);
     }
