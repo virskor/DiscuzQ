@@ -1,4 +1,6 @@
 PODS:
+  - assets_audio_player (0.0.1):
+    - Flutter
   - clipboard_manager (0.0.3):
     - Flutter
   - device_info (0.0.1):
@@ -90,6 +92,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - clipboard_manager (from `.symlinks/plugins/clipboard_manager/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - Flutter (from `Flutter`)
@@ -134,6 +137,8 @@ SPEC REPOS:
     - TXLiteAVSDK_Player
 
 EXTERNAL SOURCES:
+  assets_audio_player:
+    :path: ".symlinks/plugins/assets_audio_player/ios"
   clipboard_manager:
     :path: ".symlinks/plugins/clipboard_manager/ios"
   device_info:
@@ -198,6 +203,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  assets_audio_player: 828c5761d1e51c569f40e622db3a2cbfd61ecb7d
   clipboard_manager: f4800834e62cc26b1cc4e0a92a35cd452dd8b827
   device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec

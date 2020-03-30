@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';

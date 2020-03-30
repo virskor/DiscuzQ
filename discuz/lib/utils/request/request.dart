@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
-/// import 'package:dio_http2_adapter/dio_http2_adapter.dart';
+import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'package:discuzq/utils/StringHelper.dart';
@@ -51,9 +52,9 @@ class Request {
 
       /// logger
       ..add(PrettyDioLogger(
-          requestHeader: true,
-          requestBody: true,
-          responseBody: true,
+          requestHeader: false,
+          requestBody: false,
+          responseBody: false,
           responseHeader: false,
           error: true,
           compact: true,
@@ -76,6 +77,7 @@ class Request {
         options.receiveTimeout = (1000 * 20);
         options.headers['User-Agent'] = userAgent;
         options.headers['Client-Type'] = 'app';
+        options.headers['referer'] = Global.domain;
         options.headers['User-Device'] = deviceAgent.split(';')[0];
         if (authorization != null && autoAuthorization) {
           options.headers['Authorization'] = "Bearer $authorization";
@@ -89,7 +91,7 @@ class Request {
         e.response.data = await _temporaryTransformer(e.response.data);
 
         if (e.type == DioErrorType.DEFAULT) {
-          DiscuzToast.failed(context: context, message: "连接失败，请检查互联网");
+          DiscuzToast.failed(context: context, message: "网络故障");
           return Future.value(e);
         }
 
@@ -106,73 +108,83 @@ class Request {
         ///
         /// 处理http status code非正常错误
         ///
-        if (e.response != null && e.response.data != null) {
-          if (e.response.data['errors'][0]['code'] == 401) {
-            ///
-            /// todo:
-            /// 401的时候先校验错误信息是不是token过期，因为有时候站点关闭也是401。。。。
-            ///
-            ///
-            /// 尝试自动刷新token，如果刷新token成功，继续上次请求
-            debugPrint("------------Token 自动刷新开始-----------");
-            try {
-              final bool refreshResult = await _refreshToken();
-              if (refreshResult == true) {
-                /// 继续上次请求 Get
-                if (e.request.method == "GET") {
-                  return await getUrl(
-                      url: e.request.uri.toString(),
-                      queryParameters: e.request.queryParameters);
-                }
-
-                /// 继续上次请求 Post Json
-                if (e.request.method == "POST" &&
-                    e.request.contentType == Headers.jsonContentType) {
-                  return await postJson(
-                      url: e.request.uri.toString(),
-                      data: e.request.data,
-                      queryParameters: e.request.queryParameters);
-                }
-
-                /// 继续上次文件上传
-                if (e.request.method == "POST" &&
-                    e.request.contentType == _contentFormData) {
-                  return await uploadFile(
-                      url: e.request.uri.toString(),
-                      data: e.request.data,
-                      queryParameters: e.request.queryParameters);
-                }
-
-                debugPrint("------------Token 自动刷新继续请求完成----------");
-                return Future.value(e);
+        if (e.response.statusCode == 401) {
+          ///
+          /// todo:
+          /// 401的时候先校验错误信息是不是token过期，因为有时候站点关闭也是401。。。。
+          ///
+          ///
+          /// 尝试自动刷新token，如果刷新token成功，继续上次请求
+          debugPrint("------------Token 自动刷新开始-----------");
+          try {
+            final bool refreshResult = await _refreshToken();
+            if (refreshResult == true) {
+              /// 继续上次请求 Get
+              if (e.request.method == "GET") {
+                return await getUrl(
+                    url: e.request.uri.toString(),
+                    queryParameters: e.request.queryParameters);
               }
 
-              debugPrint("------------Token 自动刷新失败----------");
-            } catch (e) {
-              debugPrint(e);
+              /// 继续上次请求 Get
+              if (e.request.method == "PATCH") {
+                return await patch(
+                    url: e.request.uri.toString(),
+                    queryParameters: e.request.queryParameters);
+              }
+
+              ///
+              if (e.request.method == "DELETE") {
+                return await delete(
+                    url: e.request.uri.toString(),
+                    queryParameters: e.request.queryParameters);
+              }
+
+              /// 继续上次请求 Post Json
+              if (e.request.method == "POST" &&
+                  e.request.contentType == Headers.jsonContentType) {
+                return await postJson(
+                    url: e.request.uri.toString(),
+                    data: e.request.data,
+                    queryParameters: e.request.queryParameters);
+              }
+
+              /// 继续上次文件上传
+              if (e.request.method == "POST" &&
+                  e.request.contentType == _contentFormData) {
+                return await uploadFile(
+                    url: e.request.uri.toString(),
+                    data: e.request.data,
+                    queryParameters: e.request.queryParameters);
+              }
+
+              debugPrint("------------Token 自动刷新继续请求完成----------");
+              return Future.value(e);
             }
 
-            /// 弹出登录
-            _popLogin();
-
-            DiscuzToast.failed(context: context, message: '登录过期，请重新登录');
-            return Future.value(e);
+            debugPrint("------------Token 自动刷新失败----------");
+          } catch (e) {
+            debugPrint(e);
           }
 
-          ///
-          /// 提示用户接口返回的错误信息
-          ///
-          String errMessage = e.response.data['errors'] == null
-              ? '未知错误'
-              : RequestErrors.mapError(e.response.data['errors'][0]['code']);
+          /// 弹出登录
+          _popLogin();
 
-          ///
-          /// 没有传入context,使用原生的toast组件进行提示
-          ///
-          DiscuzToast.failed(context: context, message: errMessage);
+          DiscuzToast.failed(context: context, message: '登录过期，请重新登录');
           return Future.value(e);
         }
 
+        ///
+        /// 提示用户接口返回的错误信息
+        ///
+        String errMessage = e.response.data['errors'] == null
+            ? '未知错误'
+            : RequestErrors.mapError(e.response.data['errors'][0]['code']);
+
+        ///
+        /// 没有传入context,使用原生的toast组件进行提示
+        ///
+        DiscuzToast.failed(context: context, message: errMessage);
         return Future.value(e);
       }));
   }

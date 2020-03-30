@@ -297,6 +297,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 100),
+      padding: const EdgeInsets.only(bottom: 10),
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
       child: Column(
@@ -317,8 +318,10 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
           ///
           /// 显示评论和用户
+          /// 为什么 length= 1 的时候显示 DiscuzNoMoreData？
+          /// 因为每个thread至少包含一个post，也就是首贴
           ///
-          _threadsCacher.posts.length == 0
+          _threadsCacher.posts.length == 1
               ? const DiscuzNoMoreData()
               : _comments()
         ],

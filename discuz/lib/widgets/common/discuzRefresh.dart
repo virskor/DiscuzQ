@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/sounds.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -57,15 +58,18 @@ class DiscuzRefresh extends StatelessWidget {
           enablePullUp: enablePullUp,
           header: const WaterDropHeader(),
           scrollController: scrollController,
+
           /// 允许乡下加载
           // header: WaterDropHeader(),
           controller: controller,
           onRefresh: () {
             Device.emitVibration();
+            Sounds.play(Sounds.refresh);
             onRefresh();
           },
           onLoading: () {
             Device.emitVibration();
+            Sounds.play(Sounds.refresh);
             onLoading();
           },
           child: child,
