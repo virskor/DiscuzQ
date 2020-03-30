@@ -18,6 +18,7 @@ import 'package:discuzq/widgets/threads/threadCard.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 ///
 /// 注意：
@@ -29,9 +30,13 @@ import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 ///
 ///
 
-class ForumCategory extends StatefulWidget {
+class ThreadsList extends StatefulWidget {
   /// 要显示的分类
   final CategoryModel category;
+
+  /// 要关联查询的关键子
+  /// filter[q]=
+  final String keyword;
 
   ///
   /// onAppbarState
@@ -40,15 +45,19 @@ class ForumCategory extends StatefulWidget {
   /// 用户查询的筛选条件
   final ForumCategoryFilterItem filter;
 
-  ForumCategory(this.category,
-      {Key key, this.onAppbarState, @required this.filter})
+  ThreadsList(
+      {Key key,
+      this.category,
+      this.onAppbarState,
+      @required this.filter,
+      this.keyword})
       : super(key: key);
 
   @override
   _ForumCategoryState createState() => _ForumCategoryState();
 }
 
-class _ForumCategoryState extends State<ForumCategory> {
+class _ForumCategoryState extends State<ThreadsList> {
   ///
   /// _controller refresh
   ///
@@ -98,15 +107,22 @@ class _ForumCategoryState extends State<ForumCategory> {
   }
 
   @override
-  void didUpdateWidget(ForumCategory oldWidget) {
+  void didUpdateWidget(ThreadsList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     ///
     /// 如果 filter 发生变化，和上次filter不同那么就是发生变化
     /// 这时候刷新请求变化
-    if(oldWidget.filter != widget.filter){
+    if (oldWidget.filter != widget.filter) {
       Future.delayed(Duration(milliseconds: 450))
-        .then((_) async => await _requestData(pageNumber: 1));
+          .then((_) async => await _requestData(pageNumber: 1));
+    }
+
+    ///
+    /// 如果keyword 证明用户重新输入了关键字，那么久执行重新请求
+    if (widget.keyword != null && oldWidget.keyword != widget.keyword) {
+      Future.delayed(Duration(milliseconds: 450))
+          .then((_) async => await _requestData(pageNumber: 1));
     }
   }
 
@@ -118,8 +134,13 @@ class _ForumCategoryState extends State<ForumCategory> {
     /// 绑定列表移动时间观察
     this._watchScrollOffset();
 
-    Future.delayed(Duration(milliseconds: 450))
-        .then((_) async => await _requestData(pageNumber: 1));
+    ///
+    /// 如果没有提供绑定的分类，可能是意图调用查询生成列表
+    /// 那么不需要自动加载数据
+    if (widget.category != null) {
+      Future.delayed(Duration(milliseconds: 450))
+          .then((_) async => await _requestData(pageNumber: 1));
+    }
   }
 
   @override
@@ -196,6 +217,15 @@ class _ForumCategoryState extends State<ForumCategory> {
     /// 骨架屏仅在初始化时加载
     ///
     if (!_continueToRead && _loading) {
+      /// 有一种情况，如果没有提供category,且keyword为空的时候,不要默认加载骨架屏
+      /// 因为这种时候，用户其实在调用搜索来渲染组件
+      if (widget.category == null &&
+          (widget.keyword == null || widget.keyword == "")) {
+        return const Center(
+          child: const DiscuzText('输入关键字来搜索'),
+        );
+      }
+
       return const DiscuzSkeleton(
         isCircularImage: false,
         length: Global.requestPageLimit,
@@ -265,11 +295,21 @@ class _ForumCategoryState extends State<ForumCategory> {
       "page[limit]": Global.requestPageLimit,
       "page[number]": pageNumber ?? _pageNumber,
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
-      "filter[categoryId]": widget.category.id,
 
       /// ext filters
       ...filters
     };
+
+    /// 有的时候widget.category并不会传入，如查询帖子列表的时候
+    /// 这种时候不需要提供categoryId
+    if (widget.category != null) {
+      data.addAll({"filter[categoryId]": widget.category.id});
+    }
+
+    /// 查询列表的时候，有时候用户会提供keyword来查询，这个时候要增加filter查询条件
+    if (widget.keyword != null && widget.keyword != '') {
+      data.addAll({"filter[q]": widget.keyword});
+    }
 
     Response resp = await Request(context: context)
         .getUrl(url: Urls.threads, queryParameters: data);
