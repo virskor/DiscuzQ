@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/search/searchThreadDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -14,6 +15,9 @@ class SearchTypeItemsColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
+        ///
+        /// 打开用户搜索
+        /// 
         GestureDetector(
           onTap: () => DiscuzRoute.open(
               context: context,
@@ -26,8 +30,15 @@ class SearchTypeItemsColumn extends StatelessWidget {
             icon: SFSymbols.person_crop_circle_badge_plus,
           ),
         ),
+        ///
+        /// 打开帖子搜索
+        /// 
         GestureDetector(
-          onTap: () => DiscuzToast.failed(context: context, message: '暂不支持'),
+          onTap: () => DiscuzRoute.open(
+              context: context,
+              shouldLogin: true,
+              fullscreenDialog: true,
+              widget: const SearchThreadDelegate()),
           child: const _SearchTypeItem(
             label: '搜索主题',
             colors: <Color>[Color(0xff444444), Color(0xff888888)],

@@ -1,9 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/utils/localstorage.dart';
-import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -13,10 +10,13 @@ import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/widgets/forum/forumCategory.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/models/categoryModel.dart';
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/utils/localstorage.dart';
+import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
+import 'package:discuzq/widgets/threads/theadsList.dart';
 
 const String _localCategoriesStorageKey = 'categories';
 
@@ -121,8 +121,8 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
             controller: _tabController,
             children: state.categories.map<Widget>((CategoryModel cat) {
               //创建3个Tab页
-              return ForumCategory(
-                cat,
+              return ThreadsList(
+                category: cat,
                 onAppbarState: widget.onAppbarState,
 
                 /// 初始化的时候，用户没有选择，则默认使用第一个筛选条件
