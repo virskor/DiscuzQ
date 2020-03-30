@@ -92,6 +92,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
   void dispose() {
     _controller.dispose();
     _users.clear();
+    _userFollows.clear();
     super.dispose();
   }
 
@@ -213,7 +214,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
     final dynamic data = {
       "filter[type]": widget.isToUser ? 1 : 2,
       "page[limit]": Global.requestPageLimit,
-      "page[number]": _pageNumber,
+      "page[number]": pageNumber ?? _pageNumber,
       "filter[username]": _username,
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
     };
