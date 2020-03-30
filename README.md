@@ -21,7 +21,8 @@ If you have any question about this project, follow and post an issue. I will co
 ### 开发提示
 现在，我们的仓库每日都有新的commit，这样一来代码变动都是很大的，并且很多功能都没有完成，你可能跑步起来或者跑起来了还有很多问题。我们将在基础功能完成后，进行很大的Code Review工作和测试工作，现在请不要将代码用于生产环境的构建。  
 
-详细关注Release Tags
+详细关注Release Tags  
+后续我们会给出一个Release文档，在代码Review后，我们会做一些改变和文档，让你知道如何复用组件，以及继续开发自己想要的功能。  
 
 ## 最近UI截屏
 <p> 
@@ -88,7 +89,8 @@ void dispose() {
 }
 ```
 
-### 启动调试
+## 启动调试
+### 调试前请了解
 首先，要确认你的Flutter版本
 ```yaml
 environment:
@@ -96,13 +98,29 @@ environment:
 ```
 你可以使用命令行开启调试，如果你使用android studio，你可以直接运行。  
 不过在此之前值得说明的是，如果你的网络不能正常快速访问一些技术类网站，建议你使用pub国内源，你可以搜索找到配置的方式。  
+现阶段的调试，至少要beta以上版本，或者dev。因为我们采用了最新的Flutter特性，以便后续不用调整一些代码。即Flutter v1.15 +
 ```sh
+flutter channel beta
 cd ./discuz
 flutter run
 ```
-项目中的 ./dependencies 本地化了一些依赖，这些依赖有改动所以没有直接使用pub.dev中的进行安装。  
+项目中的 ./packages 本地化了一些依赖，这些依赖有改动所以没有直接使用pub.dev中的进行安装。  
+
+### Android Release or debug
 我们推荐使用IOS模拟器开始你的调试，如果你Build Android版本，首先你需要生成一个keystore文件，存储到 ./discuz/android/目录下，并命名为android.keystore   
 接下来，将同目录下的 key.properties.example 文件修改为 key.properties 并更新里面的签名配置内容。切记不要将其提交到Git，这些签名文件是涉及安全的。其次你还可以根据需要修改gradle文件，我们默认下使用了国内的源。
+
+### IOS Release or debug
+需要修改Xcode 中的Team, 这样来完成签名，之后，不用做太多你便可以Build。 如果你Pod无法执行install，请使用国内源或者代理(推荐)。 其次
+```sh
+cd ./discuz
+flutter clean
+flutter pub get
+cd /ios
+sudo rm -rf Podfile.lock
+pod install #手动安装IOS相关依赖
+```
+
 
 ## 如何自定义主体颜色，字体大小
 App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.dart修改对应的参数，在lib/utils/global.dart中修改对应的参数完整定制。  
