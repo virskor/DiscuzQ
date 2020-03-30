@@ -141,7 +141,7 @@ class _ForumCategoryState extends State<ForumCategory> {
     bool showAppbar = true;
 
     _scrollController.addListener(() {
-      final bool wantHide = _scrollController.offset > 300 ? false : true;
+      final bool wantHide = _scrollController.offset >= 300 ? false : true;
 
       if (widget.onAppbarState != null && wantHide != showAppbar) {
         widget.onAppbarState(wantHide);

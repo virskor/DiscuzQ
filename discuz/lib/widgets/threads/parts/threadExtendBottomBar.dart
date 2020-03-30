@@ -92,10 +92,10 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             ///
             /// 打赏
             ///
-            const _ThreadExtendBottomBarItem(
-                attributes: SFSymbols.money_yen_circle,
-                caption: '打赏',
-                uniqueId: _tapRewardButton),
+            // const _ThreadExtendBottomBarItem(
+            //     attributes: SFSymbols.money_yen_circle,
+            //     caption: '打赏',
+            //     uniqueId: _tapRewardButton),
           ];
           return Container(
             width: MediaQuery.of(context).size.width,

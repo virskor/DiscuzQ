@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.2"
+  assets_audio_player:
+    dependency: "direct main"
+    description:
+      path: "../packages/flutter_assetsAudioPlayer"
+      relative: true
+    source: path
+    version: "1.2.4"
   async:
     dependency: transitive
     description:
@@ -476,6 +483,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.23.1"
   share:
     dependency: "direct main"
     description:

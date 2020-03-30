@@ -4,6 +4,8 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/widgets/search/searchUserDelegate.dart';
 
 class SearchTypeItemsColumn extends StatelessWidget {
   const SearchTypeItemsColumn();
@@ -13,7 +15,11 @@ class SearchTypeItemsColumn extends StatelessWidget {
     return Column(
       children: <Widget>[
         GestureDetector(
-          onTap: () => DiscuzToast.failed(context: context, message: '暂不支持'),
+          onTap: () => DiscuzRoute.open(
+              context: context,
+              shouldLogin: true,
+              fullscreenDialog: true,
+              widget: const SearchUserDelegate()),
           child: const _SearchTypeItem(
             label: '搜索用户',
             colors: <Color>[Color(0xff0c6ae4), Color(0xff0f57b5)],
