@@ -1,11 +1,11 @@
-# DiscuzQ Flutter Application
-该项目的诞生，离不开他们的贡献
-<p>
+<p align="center">
 <img width="200px" src="./snapshots/logo.png"/> 
+<img width="160px" src="./snapshots/tencentCloud.png"/> 
 </p> 
-<p>
-<img width="200px"  src="./snapshots/tencentCloud.png"/>  
-</p> 
+<p align="center">该项目的诞生，离不开Discuz DNSPod TencentCloud 的贡献</p>
+
+## About DiscuzQ Flutter  
+这是一个基于DiscuzQ 第三方开发的Flutter跨平台APP，要知道使用这些代码是免费的。但基于你取得DiscuzQ的授权。
 
 ### 实现目标
 基本上和官方版本是保持一致的，只是会增加黑暗模式，主题颜色，字体大小等设置罢了。
