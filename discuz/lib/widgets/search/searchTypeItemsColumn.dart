@@ -1,12 +1,11 @@
-import 'package:discuzq/widgets/search/searchThreadDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/views/search/searchThreadDelegate.dart';
+import 'package:discuzq/views/search/searchUserDelegate.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/widgets/search/searchUserDelegate.dart';
 
 class SearchTypeItemsColumn extends StatelessWidget {
   const SearchTypeItemsColumn();
@@ -17,7 +16,7 @@ class SearchTypeItemsColumn extends StatelessWidget {
       children: <Widget>[
         ///
         /// 打开用户搜索
-        /// 
+        ///
         GestureDetector(
           onTap: () => DiscuzRoute.open(
               context: context,
@@ -30,9 +29,10 @@ class SearchTypeItemsColumn extends StatelessWidget {
             icon: SFSymbols.person_crop_circle_badge_plus,
           ),
         ),
+
         ///
         /// 打开帖子搜索
-        /// 
+        ///
         GestureDetector(
           onTap: () => DiscuzRoute.open(
               context: context,

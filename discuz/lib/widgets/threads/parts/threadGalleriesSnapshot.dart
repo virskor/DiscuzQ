@@ -6,7 +6,7 @@ import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/widgets/common/discuzImage.dart';
-import 'package:discuzq/widgets/gallery/discuzGallery.dart';
+import 'package:discuzq/views/gallery/discuzGalleryDelegate.dart';
 
 ///
 /// 帖子9宫格图片预览组件
@@ -90,7 +90,7 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                             return showCupertinoDialog(
                                 context: context,
                                 builder: (BuildContext context) =>
-                                    DiscuzGallery(gallery: originalImageUrls));
+                                    DiscuzGalleryDelegate(gallery: originalImageUrls));
                           }),
                     ))
               .toList(),

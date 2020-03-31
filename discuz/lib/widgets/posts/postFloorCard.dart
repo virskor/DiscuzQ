@@ -16,7 +16,7 @@ import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
 import 'package:discuzq/widgets/posts/postLikeButton.dart';
 import 'package:discuzq/widgets/common/discuzImage.dart';
-import 'package:discuzq/widgets/gallery/discuzGallery.dart';
+import 'package:discuzq/views/gallery/discuzGalleryDelegate.dart';
 
 class PostFloorCard extends StatelessWidget {
   ///
@@ -126,7 +126,7 @@ class PostFloorCard extends StatelessWidget {
                           return showCupertinoDialog(
                               context: context,
                               builder: (BuildContext context) =>
-                                  DiscuzGallery(gallery: originalImageUrls));
+                                  DiscuzGalleryDelegate(gallery: originalImageUrls));
                         }),
                   ))
               .toList(),

@@ -85,6 +85,11 @@ class NotificationAttributesModel {
   final String postContent;
 
   ///
+  /// post_content
+  /// 回复的内容(模板)
+  final String content;
+
+  ///
   /// post_id
   /// 关联的PostID
   final int postID;
@@ -98,6 +103,11 @@ class NotificationAttributesModel {
   /// thread_title
   /// 关联的主题标题
   final String threadTitle;
+
+  ///
+  /// title
+  /// 通知标题
+  final String title;
 
   ///
   /// user_avatar
@@ -117,7 +127,9 @@ class NotificationAttributesModel {
       this.createdAt = '',
       this.readAt = '',
       this.threadTitle = '',
+      this.title = '',
       this.username = '',
+      this.content = '',
       this.userAvatar = '',
       this.postContent = ''});
 
@@ -163,7 +175,9 @@ class NotificationAttributesModel {
       username: data['user_name'] ?? '',
       createdAt: data['created_at'] ?? '',
       readAt: data['read_at'] ?? '',
+      title: data['title'] ?? '',
       postContent: data['post_content'] ?? '',
+      content: data['content'] ?? '',
       postID: data['post_id'] == null
           ? 0
           : data['post_id'].runtimeType == String

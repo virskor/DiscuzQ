@@ -7,15 +7,15 @@ import 'package:photo_view/photo_view_gallery.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 
-class DiscuzGallery extends StatefulWidget {
+class DiscuzGalleryDelegate extends StatefulWidget {
   final List<String> gallery;
 
-  const DiscuzGallery({this.gallery});
+  const DiscuzGalleryDelegate({this.gallery});
   @override
   _DiscuzGalleryState createState() => _DiscuzGalleryState();
 }
 
-class _DiscuzGalleryState extends State<DiscuzGallery> {
+class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
   final UniqueKey _uniqueKey = UniqueKey();
 
   ///
