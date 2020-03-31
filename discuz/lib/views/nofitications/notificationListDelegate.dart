@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -20,6 +19,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 ///
 /// 消息通知列表页面
@@ -265,8 +265,6 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     } catch (e) {
       print(e);
     }
-
-    print({_notifications.length, resp.data['data'].length});
 
     setState(() {
       _loading = false;

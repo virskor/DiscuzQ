@@ -15,6 +15,11 @@ class Urls {
   /// 站点基本信息接口
   static const String siteinfo = "$_apiPath/siteinfo";
 
+  /// 拼接站点Logo
+  /// 注意这个logo是站点默认的logo文件
+  /// 当站点没有设置logo的时候,discuzAppLogo 组件将尝试缓存该图片作为app logo
+  static const String siteLogo = "$_apiPath/static/images/logo.png";
+
   /// -----------------------------------
   /// 用户
   ///
@@ -54,6 +59,7 @@ class Urls {
   /// 主题
   /// 主题相关的接口
   static const String threads = "$_apiPath/threads";
+
   ///
   /// 收藏
   static const String threadsFavorites = "$_apiPath/favorites";
@@ -72,4 +78,62 @@ class Urls {
   /// 通知
   /// 通知接口
   static const String notifications = "$_apiPath/notification";
+
+  /// -----------------------------------
+  /// 附件
+  /// 附件相关
+  /// 附件上传
+  static const String attachments = "$_apiPath/attachments";
+
+  /// -----------------------------------
+  /// 视频上传
+  /// 视频上传相关的接口
+  ///
+  /// 取得签名
+  /// 上传前，先取得签名其次在上传到腾讯云点播
+  ///
+  static const String videoSignature = "$_apiPath/signature";
+
+  /// 申请上传
+  /// 腾讯云点播，请求UGC
+  /// 所需参数
+  /// signature:
+  /// videoName:
+  /// videoSize:
+  /// videoType:
+  /// 请求成功后，将返回用于上传的节点信息，包含存储区域等以及COS临时上传的签名 以及vodSessionKey
+  /// 分片上传
+  static const String videoApplyUGC =
+      "https://vod2.qcloud.com/v3/index.php?Action=ApplyUploadUGC";
+
+  /// 确认上传
+  /// CommmitUGC
+  /// CommitUGC接口将返回文件真实的地址
+  /// 和用于创建媒体关联的fileId
+  static const String videoCommitUGC =
+      "https://vod2.qcloud.com/v3/index.php?Action=CommitUploadUGC";
+
+  /// 瞎猜的用途
+  /// 上传结果汇报
+  /// 上传成功后，使用 videoApplyUGC，和上传文件的相关参数进行确认汇报
+  /// 
+  /// 示例参数
+  /// appId: 1400331686
+  /// cosRegion: "ap-chongqing"
+  /// device: "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1"
+  /// errCode: 0
+  /// fileId: "5285890800442595308"
+  /// fileName: "0bb56cc026804d1a91d6dbc47460bed2_2000_h264_1872_aac_128.mp4"
+  /// fileSize: 13784875
+  /// fileType: "video/mp4"
+  /// platform: 3000
+  /// reportId: ""
+  /// reqKey: "01e61afd-8e5d-46df-bcb0-c2cd5231fc5a"
+  /// reqTime: 1585645384120
+  /// reqTimeCost: 6312
+  /// reqType: 40001
+  /// version: "1.4.8"
+  /// vodSessionKey:
+  static const String videoUGCUploadNew =
+      "https://vodreport.qcloud.com/ugcupload_new";
 }
