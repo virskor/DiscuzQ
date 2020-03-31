@@ -67,4 +67,9 @@ class Urls {
   /// 评论
   /// 评论接口
   static const String posts = "$_apiPath/posts";
+
+  /// -----------------------------------
+  /// 通知
+  /// 通知接口
+  static const String notifications = "$_apiPath/notification";
 }

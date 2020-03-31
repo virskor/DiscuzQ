@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/search/searchColumnDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -14,6 +13,7 @@ import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/search/searchColumnDialog.dart';
 
 /// 论坛首页
 class ForumDelegate extends StatefulWidget {

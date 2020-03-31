@@ -67,10 +67,10 @@ packages:
   clipboard_manager:
     dependency: "direct main"
     description:
-      name: clipboard_manager
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.4"
+      path: "../packages/flutter_clipboardManager"
+      relative: true
+    source: path
+    version: "0.0.3"
   collection:
     dependency: transitive
     description:

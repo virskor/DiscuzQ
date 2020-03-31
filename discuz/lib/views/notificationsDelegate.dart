@@ -1,3 +1,4 @@
+import 'package:discuzq/views/nofitications/notificationListDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:badges/badges.dart';
@@ -6,7 +7,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/utils/authHelper.dart';
@@ -85,23 +85,27 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                     item: _NotificationMenuItem(
                         label: '回复我的',
                         icon: SFSymbols.bubble_left_bubble_right,
+                        child: const NotificationListDelegate(type: NotificationTypes.replies),
                         badges: _typeUnreadNotifications.replied),
                   ),
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '打赏我的',
                         icon: SFSymbols.money_yen_circle,
+                        child: const NotificationListDelegate(type: NotificationTypes.rewarded),
                         badges: _typeUnreadNotifications.rewarded),
                   ),
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '点赞我的',
                         icon: SFSymbols.heart,
+                        child: const NotificationListDelegate(type: NotificationTypes.liked),
                         badges: _typeUnreadNotifications.liked),
                   ),
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '系统通知',
+                        child: const NotificationListDelegate(type: NotificationTypes.system),
                         icon: SFSymbols.bell,
                         badges: _typeUnreadNotifications.system),
                   )
@@ -172,7 +176,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       DiscuzToast.failed(context: context, message: '刷新失败');
       return;
     }
-    
+
     _refreshStateOnly(state: state);
   }
 
@@ -229,6 +233,10 @@ class _NotificationMenuItem {
   /// icon
   final IconData icon;
 
-  const _NotificationMenuItem(
-      {@required this.label, this.badges, this.icon, this.child});
+  const _NotificationMenuItem({
+    @required this.label,
+    this.badges,
+    this.icon,
+    this.child,
+  });
 }

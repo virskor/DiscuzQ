@@ -16,7 +16,7 @@ import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/gallery/discuzGallery.dart';
+import 'package:discuzq/views/gallery/discuzGalleryDelegate.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/posts/postDetBot.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
@@ -261,7 +261,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                           return showCupertinoDialog(
                               context: context,
                               builder: (BuildContext context) =>
-                                  DiscuzGallery(gallery: originalImageUrls));
+                                  DiscuzGalleryDelegate(gallery: originalImageUrls));
                         }),
                   ))
               .toList(),

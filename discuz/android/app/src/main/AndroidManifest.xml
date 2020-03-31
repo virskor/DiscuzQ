@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.zhangxiaogou.zhangxiaogou">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
@@ -23,6 +24,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
+        tools:replace="icon, label"
         android:name="io.flutter.app.FlutterApplication"
         android:label="discuzq"
         android:usesCleartextTraffic="true"
