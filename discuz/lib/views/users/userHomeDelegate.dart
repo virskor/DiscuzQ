@@ -66,10 +66,10 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   ///
   /// Title
   String _getTitle() =>
-      widget.user.username == '' ? '这个人去火星了' : '${widget.user.username}的个人主页';
+      widget.user.attributes.username == '' ? '这个人去火星了' : '${widget.user.attributes.username}的个人主页';
 
   Widget _buildBody({BuildContext context}) {
-    if (widget.user.username == "") {
+    if (widget.user.attributes.username == "") {
       return const Center(
         child: const DiscuzNoMoreData(),
       );

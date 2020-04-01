@@ -31,7 +31,7 @@ Future<List<UserModel>> transformUsers(List<dynamic> data) {
   }
   final List<UserModel> reulst = data
       .where((inc) => inc['type'] == 'users')
-      .map((p) => UserModel.fromMap(maps: p['attributes']))
+      .map((u) => UserModel.fromMap(maps: u))
       .toList();
   return Future.value(reulst);
 }

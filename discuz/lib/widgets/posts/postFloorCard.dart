@@ -156,7 +156,7 @@ class PostFloorCard extends StatelessWidget {
                 )),
             child: DiscuzAvatar(
               size: 35,
-              url: user.avatarUrl,
+              url: user.attributes.avatarUrl,
             ),
           ),
 
@@ -172,7 +172,7 @@ class PostFloorCard extends StatelessWidget {
                 children: <Widget>[
                   Row(children: <Widget>[
                     DiscuzText(
-                      user.username,
+                      user.attributes.username,
                       fontWeight: FontWeight.bold,
                     ),
 

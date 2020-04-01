@@ -160,7 +160,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
     /// 视图请求 接口的最新数据
     ///
     ///
-    final String userWalletUrl = "${Urls.usersWallerData}/${state.user.id}";
+    final String userWalletUrl = "${Urls.usersWallerData}/${state.user.attributes.id}";
     Response resp = await Request(context: context).getUrl(url: userWalletUrl);
 
     if (resp == null) {

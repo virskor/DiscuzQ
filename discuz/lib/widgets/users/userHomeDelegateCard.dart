@@ -76,12 +76,12 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                     leading: Hero(
                       tag: 'heroAvatar',
                       child: DiscuzAvatar(
-                        url: widget.user.avatarUrl,
+                        url: widget.user.attributes.avatarUrl,
                         size: 45,
                       ),
                     ),
                     title: DiscuzText(
-                      widget.user.username,
+                      widget.user.attributes.username,
                       fontSize: DiscuzApp.themeOf(context).mediumTextSize,
                       fontWeight: FontWeight.bold,
                     ),
@@ -100,7 +100,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                       Column(
                         children: <Widget>[
                           DiscuzText(
-                            widget.user.threadCount.toString(),
+                            widget.user.attributes.threadCount.toString(),
                             fontWeight: FontWeight.bold,
                           ),
                           DiscuzText(
@@ -112,7 +112,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                       Column(
                         children: <Widget>[
                           DiscuzText(
-                            widget.user.followCount.toString(),
+                            widget.user.attributes.followCount.toString(),
                             fontWeight: FontWeight.bold,
                           ),
                           DiscuzText(
@@ -124,7 +124,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                       Column(
                         children: <Widget>[
                           DiscuzText(
-                            _user.fansCount.toString(),
+                            _user.attributes.fansCount.toString(),
                             fontWeight: FontWeight.bold,
                           ),
                           DiscuzText(

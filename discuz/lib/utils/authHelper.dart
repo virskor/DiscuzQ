@@ -75,14 +75,14 @@ class AuthHelper {
       return Future.value(true);
     }
 
-    final String urlDataUrl = "${Urls.users}/${state.user.id}";
+    final String urlDataUrl = "${Urls.users}/${state.user.attributes.id}";
     Response resp = await Request(context: context).getUrl(url: urlDataUrl);
 
     if (resp == null) {
       return Future.value(false);
     }
 
-    state.updateUser(UserModel.fromMap(maps: resp.data['data']['attributes']));
+    state.updateUser(UserModel.fromMap(maps: resp.data['data']));
     return Future.value(true);
   }
 
@@ -145,13 +145,13 @@ class AuthHelper {
 
     /// 保存token
     await AuthorizationHelper()
-        .save(data: jsonEncode(user['attributes']), key: AuthorizationHelper.userKey);
+        .save(data: jsonEncode(user), key: AuthorizationHelper.userKey);
     await AuthorizationHelper()
         .save(data: accessToken, key: AuthorizationHelper.authorizationKey);
     await AuthorizationHelper()
         .save(data: refreshToken, key: AuthorizationHelper.refreshTokenKey);
 
     /// 更新用户状态
-    state.updateUser(UserModel.fromMap(maps: user['attributes']));
+    state.updateUser(UserModel.fromMap(maps: user));
   }
 }

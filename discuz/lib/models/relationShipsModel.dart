@@ -84,6 +84,14 @@ class RelationshipsModel {
   /// 关联的分类
   final dynamic category;
 
+  ///
+  /// groups
+  /// 用户组
+  /// [
+  ///  { "type":"groups", "id":"1" }
+  /// ]
+  final List<dynamic> groups;
+
   const RelationshipsModel(
       {this.user,
       this.firstPost,
@@ -93,6 +101,7 @@ class RelationshipsModel {
       this.fromUser,
       this.category,
       this.images = const [],
+      this.groups = const [],
       this.likedUsers = const [],
       this.rewardedUsers = const [],
       this.lastThreePosts = const []});
@@ -122,6 +131,8 @@ class RelationshipsModel {
         category: data['category'] ?? null,
         firstPost: data['firstPost'] ?? null,
         replyUser: data['replyUser'] ?? null,
+        groups:
+            data['groups'] == null ? [] : data['groups']['data'] ?? [],
         likedUsers:
             data['likedUsers'] == null ? [] : data['likedUsers']['data'] ?? [],
         images: data['images'] == null ? [] : data['images']['data'] ?? [],

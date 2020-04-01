@@ -48,7 +48,7 @@ class ThreadHeaderCard extends StatelessWidget {
                 )),
             child: DiscuzAvatar(
               size: 35,
-              url: author.avatarUrl,
+              url: author.attributes.avatarUrl,
             ),
           ),
 
@@ -63,7 +63,7 @@ class ThreadHeaderCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   DiscuzText(
-                    author.username,
+                    author.attributes.username,
                     fontWeight: FontWeight.bold,
                   ),
                   DiscuzText(

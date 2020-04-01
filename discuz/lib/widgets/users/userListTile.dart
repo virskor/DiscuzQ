@@ -27,11 +27,11 @@ class UserListTile extends StatelessWidget {
         children: <Widget>[
           DiscuzListTile(
             leading: DiscuzAvatar(
-              url: user.avatarUrl,
+              url: user.attributes.avatarUrl,
               size: 40,
             ),
             title: DiscuzText(
-              user.username,
+              user.attributes.username,
               fontWeight: FontWeight.bold,
             ),
             onTap: () => DiscuzRoute.open(

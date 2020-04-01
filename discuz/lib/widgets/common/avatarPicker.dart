@@ -170,7 +170,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
         File compressedFile = await compressAndGetFile(
             imageFile, appDocDir.path + path.basename(imageFile.path));
         Response resp = await Request(context: context).uploadFile(
-            url: "${Urls.users}/${state.user.id.toString()}/avatar",
+            url: "${Urls.users}/${state.user.attributes.id.toString()}/avatar",
             name: 'avatar',
 
             /// 上传头像
