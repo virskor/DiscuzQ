@@ -4,23 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
-import 'package:discuzq/widgets/common/discuzLink.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/users/userFollowRequest.dart';
+import 'package:discuzq/widgets/common/discuzButton.dart';
 
 ///
 /// 关注用户
 ///
 class UserFollow extends StatefulWidget {
-  ///要关注的用户
+  /// 要关注的用户
   final UserModel user;
 
-  const UserFollow({this.user});
+  /// 要关注的用户数据发生变化的回调
+  ///
+  final Function onUserChanged;
+
+  const UserFollow({this.user, this.onUserChanged});
 
   @override
   _UserFollowState createState() => _UserFollowState();
@@ -76,45 +78,19 @@ class _UserFollowState extends State<UserFollow> {
       return DiscuzIndicator();
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: state.user == null
-          ? <Widget>[]
+    return state.user.id == widget.user.id
+        ? const SizedBox()
+        : SizedBox(
+            width: 90,
+            height: 35,
+            child: DiscuzButton(
+              label: _followButtonLabel(),
 
-          /// 用户未登录 不显示组件
-
-          /// 查看的是自己 的账户，不显示关注按钮
-          : <Widget>[
-              DiscuzText(
-                '关注：${widget.user.followCount.toString()}',
-                color: DiscuzApp.themeOf(context).greyTextColor,
-              ),
-              const SizedBox(width: 10),
-              DiscuzText(
-                '|',
-                color: Colors.grey,
-              ),
-              const SizedBox(width: 10),
-              DiscuzText(
-                '被关注：${_user.fansCount.toString()}',
-                color: DiscuzApp.themeOf(context).greyTextColor,
-              ),
-              state.user.id == widget.user.id
-                  ? const SizedBox()
-                  : Row(
-                      children: <Widget>[
-                        const SizedBox(width: 10),
-                        DiscuzLink(
-                          label: _followButtonLabel(),
-
-                          /// 动态文案
-                          onTap: _requestFollow,
-                        )
-                      ],
-                    )
-            ],
-    );
+              /// 动态文案
+              onPressed: () => _requestFollow(context: context),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+            ),
+          );
   }
 
   ///
@@ -168,5 +144,9 @@ class _UserFollowState extends State<UserFollow> {
           fansCount:
               _user.follow == 0 ? _user.fansCount + 1 : _user.fansCount - 1);
     });
+
+    if (widget.onUserChanged != null) {
+      widget.onUserChanged(_user);
+    }
   }
 }

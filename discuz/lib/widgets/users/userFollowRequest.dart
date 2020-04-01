@@ -60,7 +60,7 @@ class UserFollowRequest {
       DiscuzToast.failed(context: context, message: '操作失败');
       return Future.value(false);
     }
-    DiscuzToast.success(context: context, message: '操作成功');
+    DiscuzToast.success(context: context, message: '已关注');
     return Future.value(true);
   }
 }

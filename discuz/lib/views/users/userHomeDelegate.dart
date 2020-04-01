@@ -9,6 +9,8 @@ import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/users/userRecentThreads.dart';
 
+const double _userHomeDelagateCardHeight = 140;
+
 class UserHomeDelegate extends StatefulWidget {
   final UserModel user;
 
@@ -81,7 +83,8 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
         /// 关注或取消
         UserHomeDelegateCard(
           user: widget.user,
-          height:  _showUserDeleagetCard == true ? 180 : 0,
+          height:
+              _showUserDeleagetCard == true ? _userHomeDelagateCardHeight : 0,
         ),
 
         ///
