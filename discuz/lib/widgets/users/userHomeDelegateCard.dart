@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/users/userFollow.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -7,6 +6,8 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/widgets/common/discuzListTile.dart';
+import 'package:discuzq/widgets/users/userFollow.dart';
 
 ///
 /// 用户主页顶部卡片
@@ -28,6 +29,31 @@ class UserHomeDelegateCard extends StatefulWidget {
 }
 
 class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
+  ///
+  /// state
+  /// 关注组件传入的新的用户模型
+  UserModel _user = UserModel();
+
+  @override
+  void setState(fn) {
+    if (!mounted) {
+      return;
+    }
+    super.setState(fn);
+  }
+
+  @override
+  void initState() {
+    /// 这个操作要在 super.setState 前，否则不会作用到UI
+    _user = widget.user;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
@@ -37,6 +63,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                 color: DiscuzApp.themeOf(context).backgroundColor),
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             height: widget.height,
+            width: MediaQuery.of(context).size.width,
 
             ///
             /// 要防止overflow哦
@@ -45,39 +72,71 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  ///
-                  /// avatar
-                  Center(
-                    child: Hero(
+                  DiscuzListTile(
+                    leading: Hero(
                       tag: 'heroAvatar',
                       child: DiscuzAvatar(
                         url: widget.user.avatarUrl,
+                        size: 45,
                       ),
                     ),
+                    title: DiscuzText(
+                      widget.user.username,
+                      fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    trailing: UserFollow(
+                      user: widget.user,
+                      onUserChanged: (UserModel user) => setState(() {
+                        _user = user;
+                      }),
+                    ),
                   ),
-
-                  ///
-                  /// username
-                  const SizedBox(height: 10),
-                  DiscuzText(
-                    widget.user.username,
-                    fontSize: DiscuzApp.themeOf(context).mediumTextSize,
-                    fontWeight: FontWeight.bold,
-                  ),
-
-                  _buildFollowsTag(state),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          DiscuzText(
+                            widget.user.threadCount.toString(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          DiscuzText(
+                            '主题',
+                            color: DiscuzApp.themeOf(context).greyTextColor,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          DiscuzText(
+                            widget.user.followCount.toString(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          DiscuzText(
+                            '关注',
+                            color: DiscuzApp.themeOf(context).greyTextColor,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          DiscuzText(
+                            _user.fansCount.toString(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          DiscuzText(
+                            '被关注',
+                            color: DiscuzApp.themeOf(context).greyTextColor,
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
           ));
-
-  ///
-  /// 生成描述关注情况的概览
-  ///
-  Widget _buildFollowsTag(AppState state) => Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: UserFollow(
-          user: widget.user,
-        ),
-      );
 }
