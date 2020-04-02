@@ -148,6 +148,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  extended_text_field:
+    dependency: "direct main"
+    description:
+      name: extended_text_field
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
+  extended_text_library:
+    dependency: transitive
+    description:
+      name: extended_text_library
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3"
   fluro:
     dependency: "direct main"
     description:
