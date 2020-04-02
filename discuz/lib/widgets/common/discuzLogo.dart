@@ -33,7 +33,7 @@ class DiscuzAppLogo extends StatelessWidget {
           child: Image.asset(
         'assets/images/discuzapptitle.png',
         fit: BoxFit.contain,
-        color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
+        color: dark ? Colors.white : null,
         width: width,
         height: height,
       ));
