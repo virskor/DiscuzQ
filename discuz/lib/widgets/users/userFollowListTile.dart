@@ -124,10 +124,10 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
         children: <Widget>[
           DiscuzListTile(
             leading: DiscuzAvatar(
-              url: _user.avatarUrl,
+              url: _user.attributes.avatarUrl,
               size: 40,
             ),
-            title: DiscuzText(_user.username),
+            title: DiscuzText(_user.attributes.username),
             trailing: FlatButton(
               child: _buildFollowButtonLable(),
               onPressed: () async {
@@ -145,10 +145,10 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
                 }
 
                 setState(() {
-                  _followed = resetUser.follow == 1 ? false : true;
+                  _followed = resetUser.attributes.follow == 1 ? false : true;
                   _user = UserModel.copyWith(
                       userModel: resetUser,
-                      follow: resetUser.follow == 1 ? 0 : 1);
+                      follow: resetUser.attributes.follow == 1 ? 0 : 1);
                 });
               },
             ),

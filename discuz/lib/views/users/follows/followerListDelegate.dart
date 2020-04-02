@@ -228,7 +228,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
     try {
       _users = usersData
           .where((u) => u['type'] == 'users')
-          .map((p) => UserModel.fromMap(maps: p['attributes']))
+          .map((p) => UserModel.fromMap(maps: p))
           .toList();
       _userFollows = userFollowsData
           .where((uf) => uf['type'] == 'user_follow')

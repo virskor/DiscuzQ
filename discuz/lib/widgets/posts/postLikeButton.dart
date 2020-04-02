@@ -79,7 +79,7 @@ class _PostLikeButtonState extends State<PostLikeButton> {
     }
 
     final List<dynamic> users = widget.post.relationships.likedUsers
-        .where((u) => state.user.id == int.tryParse(u['id']))
+        .where((u) => state.user.attributes.id == int.tryParse(u['id']))
         .toList();
     return users == null || users.length == 0 ? false : true;
   }

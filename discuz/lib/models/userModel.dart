@@ -1,8 +1,101 @@
 import 'dart:convert';
-import 'package:discuzq/models/typeUnreadNotificationsModel.dart';
 import 'package:flutter/material.dart';
 
+import 'package:discuzq/models/typeUnreadNotificationsModel.dart';
+import 'package:discuzq/models/relationShipsModel.dart';
+
+///
+/// 评论模型
 class UserModel {
+  ///
+  /// id
+  ///
+  final int id;
+
+  ///
+  /// 主题类型
+  ///
+  final int type;
+
+  ///
+  /// attributes
+  /// 评论数据
+  final UserAttributesModelModel attributes;
+
+  ///
+  /// relationships
+  /// 关联数据
+  final RelationshipsModel relationships;
+
+  const UserModel(
+      {this.id = 0, this.type = 0, this.attributes, this.relationships});
+
+  ///
+  /// fromMap
+  /// 转换模型
+  ///
+  static UserModel fromMap({@required dynamic maps}) {
+    ///
+    /// 返回一个空的模型，如果为空的话
+    ///
+    if (maps == null) {
+      return const UserModel();
+    }
+
+    dynamic data = maps;
+
+    /// 数据来自json
+    if (maps.runtimeType == String) {
+      data = jsonDecode(data);
+    }
+
+    ///
+    /// 返回转化的分类模型
+    return UserModel(
+        id: data['id'] == null
+            ? 0
+            : data['id'].runtimeType == String
+                ? int.tryParse(data['id'])
+                : data['id'],
+        type: data['type'] == null
+            ? 0
+            : data['type'].runtimeType == String
+                ? int.tryParse(data['type'])
+                : data['type'],
+        relationships: data['relationships'] == null
+            ? const RelationshipsModel()
+            : RelationshipsModel.fromMap(maps: data['relationships']),
+        attributes: data['attributes'] == null
+            ? const UserAttributesModelModel()
+            : UserAttributesModelModel.fromMap(maps: data['attributes']));
+  }
+
+  static UserModel copyWith({
+    @required UserModel userModel,
+    String username,
+    int follow,
+    int fansCount,
+    String mobile,
+    String avatarUrl,
+  }) {
+    final UserAttributesModelModel attributes =
+        UserAttributesModelModel.copyWith(
+            attributes: userModel.attributes,
+            username: username,
+            follow: follow,
+            mobile: mobile, 
+            avatarUrl: avatarUrl,
+            fansCount: fansCount);
+    return UserModel(
+        id: userModel.id, type: userModel.type, attributes: attributes);
+  }
+}
+
+///
+/// 值得提醒，UserModel 并不包含完整的用户信息，如分组，等
+/// 如果需要使用那些 数据的时候 应该使用 UserFullModel,他将包含更多信息和一个userModel
+/// 但通常情况下直接用UserModel就可以了
+class UserAttributesModelModel {
   ///
   /// id
   /// 用户的id
@@ -182,7 +275,7 @@ class UserModel {
 
   ///
   /// 用户信息模型
-  const UserModel(
+  const UserAttributesModelModel(
       {this.id,
       this.username,
       this.mobile,
@@ -217,49 +310,50 @@ class UserModel {
   ///
   /// 使用一个已经存在的User，浅拷贝复制部分属性，活得一个新的用户对象
   ///为了安全起见，不是所有的属性都能这样操作
-  static UserModel copyWith({
-    @required UserModel userModel,
+  static UserAttributesModelModel copyWith({
+    @required UserAttributesModelModel attributes,
     String username,
     int follow,
     int fansCount,
     String mobile,
     String avatarUrl,
   }) {
-    assert(userModel != null);
-    if (userModel == const UserModel()) return const UserModel();
+    assert(attributes != null);
+    if (attributes == const UserAttributesModelModel())
+      return const UserAttributesModelModel();
 
-    return UserModel(
-      id: userModel.id,
-      username: username ?? userModel.username,
-      follow: follow ?? userModel.follow,
-      mobile: mobile ?? userModel.mobile,
+    return UserAttributesModelModel(
+      id: attributes.id,
+      username: username ?? attributes.username,
+      follow: follow ?? attributes.follow,
+      mobile: mobile ?? attributes.mobile,
 
       /// todo: 脱敏mobile
-      canDelete: userModel.canDelete,
-      registerReason: userModel.registerReason,
-      avatarUrl: avatarUrl ?? userModel.avatarUrl,
-      originalMobile: mobile ?? userModel.mobile,
-      loginAt: userModel.loginAt,
-      banReason: userModel.banReason,
-      expiredAt: userModel.expiredAt,
-      joinedAt: userModel.joinedAt,
-      identity: userModel.identity,
-      fansCount: fansCount ?? userModel.fansCount,
-      registerIp: userModel.registerIp,
-      followCount: userModel.followCount,
-      lastLoginIp: userModel.lastLoginIp,
-      walletBalance: userModel.walletBalance,
-      canEdit: userModel.canEdit,
-      paid: userModel.paid,
-      payTime: userModel.payTime,
-      canWalletPay: userModel.canWalletPay,
-      createdAt: userModel.createdAt,
-      threadCount: userModel.threadCount,
-      status: userModel.status,
-      typeUnreadNotifications: userModel.typeUnreadNotifications,
-      unreadNotifications: userModel.unreadNotifications,
-      mobileConfirmed: userModel.mobileConfirmed,
-      realname: userModel.realname,
+      canDelete: attributes.canDelete,
+      registerReason: attributes.registerReason,
+      avatarUrl: avatarUrl ?? attributes.avatarUrl,
+      originalMobile: mobile ?? attributes.mobile,
+      loginAt: attributes.loginAt,
+      banReason: attributes.banReason,
+      expiredAt: attributes.expiredAt,
+      joinedAt: attributes.joinedAt,
+      identity: attributes.identity,
+      fansCount: fansCount ?? attributes.fansCount,
+      registerIp: attributes.registerIp,
+      followCount: attributes.followCount,
+      lastLoginIp: attributes.lastLoginIp,
+      walletBalance: attributes.walletBalance,
+      canEdit: attributes.canEdit,
+      paid: attributes.paid,
+      payTime: attributes.payTime,
+      canWalletPay: attributes.canWalletPay,
+      createdAt: attributes.createdAt,
+      threadCount: attributes.threadCount,
+      status: attributes.status,
+      typeUnreadNotifications: attributes.typeUnreadNotifications,
+      unreadNotifications: attributes.unreadNotifications,
+      mobileConfirmed: attributes.mobileConfirmed,
+      realname: attributes.realname,
     );
   }
 
@@ -267,22 +361,22 @@ class UserModel {
   /// fromMap
   /// 转换模型
   ///
-  static UserModel fromMap({@required dynamic maps}) {
+  static UserAttributesModelModel fromMap({@required dynamic maps}) {
     ///
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return const UserModel();
+      return const UserAttributesModelModel();
     }
 
     dynamic data = maps;
 
-    /// 数据来自json
+    /// 数���来自json
     if (maps.runtimeType == String) {
       data = jsonDecode(data);
     }
 
-    return UserModel(
+    return UserAttributesModelModel(
         id: data['id'] == null
             ? 0
             : data['id'].runtimeType == String

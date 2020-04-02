@@ -198,7 +198,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
       /// 当底部的setState触发UI更新时，实际上 _users会重新渲染UI，所以这里不必要SetState 否则就脱裤子放屁了
       userModels = users
           .where((u) => u['type'] == 'users')
-          .map((p) => UserModel.fromMap(maps: p['attributes']))
+          .map((p) => UserModel.fromMap(maps: p))
           .toList();
     } catch (e) {
       print(e);

@@ -196,12 +196,12 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 刷新列表
     /// 数据为空则不要继续
     ///
-    if (state.user.typeUnreadNotifications == null) {
+    if (state.user.attributes.typeUnreadNotifications == null) {
       return;
     }
 
     final TypeUnreadNotificationsModel notifications =
-        state.user.typeUnreadNotifications;
+        state.user.attributes.typeUnreadNotifications;
     if (notifications == null) {
       return;
     }
@@ -213,7 +213,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 就是那么懒
     /// todo:增加消息查看组件
     setState(() {
-      _typeUnreadNotifications = state.user.typeUnreadNotifications;
+      _typeUnreadNotifications = state.user.attributes.typeUnreadNotifications;
     });
   }
 }

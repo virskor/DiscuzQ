@@ -41,7 +41,7 @@ class _UserFollowState extends State<UserFollow> {
   /// 关注按钮的文案
   /// 根据实际情况来显示关注按钮的文案，如果已经关注了，则显示取消否则关注
   ///
-  String _followButtonLabel() => _user.follow == 1 ? "取消关注" : "关注TA";
+  String _followButtonLabel() => _user.attributes.follow == 1 ? "取消关注" : "关注TA";
 
   @override
   void setState(fn) {
@@ -78,7 +78,7 @@ class _UserFollowState extends State<UserFollow> {
       return DiscuzIndicator();
     }
 
-    return state.user.id == widget.user.id
+    return state.user.attributes.id == widget.user.id
         ? const SizedBox()
         : SizedBox(
             width: 90,
@@ -118,7 +118,7 @@ class _UserFollowState extends State<UserFollow> {
     /// 更新查看的用户信息
     setState(() {
       _loading = false;
-      _user = UserModel.fromMap(maps: resp.data['data']['attributes']);
+      _user = UserModel.fromMap(maps: resp.data['data']);
     });
   }
 
@@ -140,9 +140,9 @@ class _UserFollowState extends State<UserFollow> {
       /// 更新当前查看的用户信息
       _user = UserModel.copyWith(
           userModel: _user,
-          follow: _user.follow == 0 ? 1 : 0,
+          follow: _user.attributes.follow == 0 ? 1 : 0,
           fansCount:
-              _user.follow == 0 ? _user.fansCount + 1 : _user.fansCount - 1);
+              _user.attributes.follow == 0 ? _user.attributes.fansCount + 1 : _user.attributes.fansCount - 1);
     });
 
     if (widget.onUserChanged != null) {

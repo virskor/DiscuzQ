@@ -31,7 +31,7 @@ class UserFollowRequest {
 
     final Function closeLoading = DiscuzToast.loading(context: context);
 
-    if (user.follow == 1) {
+    if (user.attributes.follow == 1) {
       /// 取消关注
       /// 取消关注时，会返回204，DIO会默认处理成错误，所以要自己在处理下
       /// 如果后续DZ接口调整，也要直接返回
