@@ -13,6 +13,7 @@ class DiscuzRoute {
     /// 是否以对话框方式弹出
     bool fullscreenDialog = false,
 
+
     ///
     /// maintainState
     /// maintainState 去除后，会防止widget tree重构，但既然不重构，那么一些页面的状态也将丢失，所以慎用

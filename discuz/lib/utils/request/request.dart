@@ -172,7 +172,7 @@ class Request {
             _popLogin();
           }
 
-          DiscuzToast.failed(context: context, message: '登录过期，请重新登录');
+          DiscuzToast.failed(context: context, message: e.response.data['errors'][0]['code']);
           return Future.value(e);
         }
 

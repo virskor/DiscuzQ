@@ -31,7 +31,7 @@ class BootstrapForum {
       final AppState state =
           ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
 
-      resp = await Request(context: context).getUrl(url: Urls.forum);
+      resp = await Request(context: context, autoAuthorization: false).getUrl(url: Urls.forum);
       closeLoading();
       if (resp == null) {
         return Future.value(false);
