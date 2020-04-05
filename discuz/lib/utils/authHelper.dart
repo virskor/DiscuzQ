@@ -10,13 +10,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/router/routeBuilder.dart';
 import 'package:discuzq/views/users/loginDelegate.dart';
 
 class AuthHelper {
   /// pop login delegate
   static login({BuildContext context}) =>
-      Navigator.of(context).push(DiscuzCupertinoPageRoute(
+      Navigator.of(context).push(CupertinoPageRoute(
           fullscreenDialog: true,
           builder: (_) {
             return const LoginDelegate();

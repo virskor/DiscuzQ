@@ -168,7 +168,9 @@ class Request {
           }
 
           /// 弹出登录
-          _popLogin();
+          if(autoAuthorization){
+            _popLogin();
+          }
 
           DiscuzToast.failed(context: context, message: '登录过期，请重新登录');
           return Future.value(e);

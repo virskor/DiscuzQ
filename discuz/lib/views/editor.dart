@@ -1,4 +1,5 @@
 import 'package:discuzq/widgets/appbar/appbarSaveButton.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/appState.dart';
@@ -69,15 +70,15 @@ class _EditorState extends State<Editor> {
   Widget _buildSaveButton() {
     if (widget.type == DiscuzEditorInputTypes.reply) {
       return AppbarSaveButton(
-        onTap: () => null,
+        onTap: () => DiscuzToast.failed(context: context, message: '暂不开放'),
         label: '回复',
       );
     }
 
     return AppbarSaveButton(
-        onTap: () => null,
-        label: '发布',
-      );
+      onTap: () => DiscuzToast.failed(context: context, message: '暂不开放'),
+      label: '发布',
+    );
   }
 
   Widget _buildEditor() {
@@ -87,7 +88,17 @@ class _EditorState extends State<Editor> {
     }
 
     ///
+    /// 回复模式不允许上传附件
+    ///
+    if (widget.type == DiscuzEditorInputTypes.reply) {
+      return DiscuzEditor(
+        enableUploadAttachment: false,
+      );
+    }
+
+    ///
     /// 主题和视频的，都使用一般的编辑器就可以了
+    /// 默认允许表情，上传图片，上传附件
     return DiscuzEditor();
   }
 }

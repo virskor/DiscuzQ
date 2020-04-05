@@ -1,9 +1,8 @@
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/authHelper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:discuzq/router/routeBuilder.dart';
 
 class DiscuzRoute {
   static Future<bool> open({
@@ -42,7 +41,7 @@ class DiscuzRoute {
       }
     }
 
-    return Navigator.of(context).push(DiscuzCupertinoPageRoute(
+    return Navigator.of(context).push(CupertinoPageRoute(
         maintainState: maintainState,
         fullscreenDialog: fullscreenDialog,
         builder: (_) => widget));
