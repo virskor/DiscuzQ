@@ -68,7 +68,12 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
 
             ///
             /// child
-            widget.child ?? const SizedBox()
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: DiscuzApp.themeOf(context).backgroundColor),
+              child: widget.child ?? const SizedBox(),
+            )
           ],
         ),
       ),
