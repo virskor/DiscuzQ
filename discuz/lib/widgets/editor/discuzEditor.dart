@@ -1,3 +1,5 @@
+import 'package:discuzq/models/emojiModel.dart';
+import 'package:discuzq/widgets/emoji/emojiSwiper.dart';
 import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +37,15 @@ class DiscuzEditor extends StatefulWidget {
 }
 
 class _DiscuzEditorState extends State<DiscuzEditor> {
+  ///
+  /// text controller
+  ///
   final TextEditingController _controller = TextEditingController();
+
+  ///
+  /// states
+  ///
+  String _toolbarEvt;
 
   @override
   void setState(fn) {
@@ -63,7 +73,18 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         _buildEditor(),
         Positioned(
           bottom: 0,
-          child: DiscuzEditorToolbar(),
+          child: DiscuzEditorToolbar(
+            child: _buildToolbarChild(),
+            onTap: (String toolbarEvt) {
+              ///
+              /// 处理图片选择器
+              /// 附件选择器
+              /// 表情选择器等显示
+              setState(() {
+                _toolbarEvt = toolbarEvt;
+              });
+            },
+          ),
         )
       ],
     );
@@ -91,6 +112,26 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
             color: DiscuzApp.themeOf(context).textColor),
       ),
     );
+  }
+
+  ///
+  /// 当用户点击了toolbar的时候，生成不同的组件
+  /// 如表情选择，图片选择等
+  Widget _buildToolbarChild() {
+    if (_toolbarEvt == null) {
+      return SizedBox();
+    }
+
+    ///
+    /// 用户选择了插入表情
+    ///
+    if (_toolbarEvt == 'emoji') {
+      return EmojiSwiper(
+        onInsert: (EmojiModel emoji) {},
+      );
+    }
+
+    return Container();
   }
 
   ///
