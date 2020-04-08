@@ -43,6 +43,7 @@ If you have any question about this project, follow and post an issue. I will co
 <img width="200px" src="./snapshots/snapshot_create.png"/>  
 <img width="200px" src="./snapshots/snapshot_detail.png">
 <img width="200px" src="./snapshots/snapshot_android.png">
+<img width="200px" src="./snapshots/snapshot_editor.png">
 </p> 
 
 ### 一起开发
