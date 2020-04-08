@@ -1,10 +1,12 @@
-//import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/editor/discuzEditorToolbar.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/models/emojiModel.dart';
 import 'package:discuzq/widgets/emoji/emojiSwiper.dart';
+import 'package:discuzq/models/categoryModel.dart';
+import 'package:discuzq/widgets/editor/uploaders/discuzEditorAttachementUploader.dart';
+import 'package:discuzq/widgets/editor/uploaders/discuzEditorImageUploader.dart';
 
 class DiscuzEditor extends StatefulWidget {
   ///
@@ -23,6 +25,12 @@ class DiscuzEditor extends StatefulWidget {
   final bool enableUploadAttachment;
 
   ///
+  /// 传入默认关联的分类
+  /// 如果不传入，那么右下角的切换分类菜单将不会显示
+  /// 发布，编辑时需要传入，回复的时候不需要传入的
+  final CategoryModel bindCategory;
+
+  ///
   /// 编辑器数据发生变化
   ///
   final Function onChanged;
@@ -31,6 +39,7 @@ class DiscuzEditor extends StatefulWidget {
       {this.enableEmoji = true,
       this.enableUploadImage = true,
       this.onChanged,
+      this.bindCategory,
       this.enableUploadAttachment = true});
   @override
   _DiscuzEditorState createState() => _DiscuzEditorState();
@@ -82,6 +91,9 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         Positioned(
           bottom: 0,
           child: DiscuzEditorToolbar(
+            enableEmoji: widget.enableEmoji,
+            enableUploadAttachment: widget.enableUploadAttachment,
+            enableUploadImage: widget.enableUploadImage,
             child: _buildToolbarChild(),
             onTap: (String toolbarEvt) {
               ///
@@ -139,7 +151,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   /// 如表情选择，图片选择等
   Widget _buildToolbarChild() {
     if (_toolbarEvt == null || _neverShowToolbarChild) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     ///
@@ -156,7 +168,19 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
       );
     }
 
-    return Container();
+    ///
+    /// 用户选择了图片上传
+    if (_toolbarEvt == 'image') {
+      return DiscuzEditorImageUploader();
+    }
+
+    ///
+    /// 用户选择了上传附件
+    if (_toolbarEvt == 'attachment') {
+      return DiscuzEditorAttachementUploader();
+    }
+
+    return const SizedBox();
   }
 
   ///

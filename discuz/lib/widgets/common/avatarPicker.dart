@@ -2,9 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/authHelper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,11 +13,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:discuzq/utils/permissionHepler.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/widgets/common/discuzButton.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/utils/authHelper.dart';
 
 class AvatarPicker extends StatefulWidget {
   final Widget avatar;

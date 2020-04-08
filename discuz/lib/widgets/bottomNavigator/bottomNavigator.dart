@@ -1,13 +1,12 @@
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/authHelper.dart';
-import 'package:discuzq/widgets/common/frost.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 class DiscuzBottomNavigator extends StatefulWidget {
   final ValueChanged<int> onItemSelected;

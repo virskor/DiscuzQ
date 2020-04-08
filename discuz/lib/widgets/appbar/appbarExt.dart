@@ -380,6 +380,8 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
     assert(theme.platform != null);
     switch (theme.platform) {
       case TargetPlatform.android:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
       case TargetPlatform.fuchsia:
         return false;
       case TargetPlatform.iOS:
@@ -473,6 +475,8 @@ class _AppBarExtState extends State<AppBarExt> {
       switch (theme.platform) {
         case TargetPlatform.android:
         case TargetPlatform.fuchsia:
+        case TargetPlatform.linux:
+        case TargetPlatform.windows:
           namesRoute = true;
           break;
         case TargetPlatform.iOS:

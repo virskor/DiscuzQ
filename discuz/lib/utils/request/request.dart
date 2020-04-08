@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
-import 'package:dio_http2_adapter/dio_http2_adapter.dart';
+//import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'package:discuzq/utils/StringHelper.dart';

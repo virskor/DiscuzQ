@@ -126,6 +126,7 @@ cd /ios
 sudo rm -rf Podfile.lock
 pod install #手动安装IOS相关依赖
 ```
+推荐直接打开discuz目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看discuz目录下的PROBLEMS
 
 
 ## 如何自定义主体颜色，字体大小

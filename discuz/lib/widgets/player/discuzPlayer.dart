@@ -8,7 +8,6 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/player/tencentPlayerBottomNav.dart';
 import 'package:discuzq/widgets/player/tencentPlayerLoading.dart';
-import 'package:discuzq/widgets/player/discuzPlayerRightSider.dart';
 
 
 class DiscuzPlayer extends StatefulWidget {
