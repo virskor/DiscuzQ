@@ -14,7 +14,7 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 
 const int _tapReplayButton = 1;
 const int _tapFavoriteButton = 2;
-const int _tapRewardButton = 3;
+// const int _tapRewardButton = 3;
 
 ///
 /// 梯子详情底部工具栏

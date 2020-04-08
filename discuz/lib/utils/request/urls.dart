@@ -53,7 +53,7 @@ class Urls {
   /// -----------------------------------
   /// 表情
   /// 拉取表情列表
-  static const String emoji = "$_apiPath/api/emoji";
+  static const String emoji = "$_apiPath/emoji";
 
   /// -----------------------------------
   /// 主题

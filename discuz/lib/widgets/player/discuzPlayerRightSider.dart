@@ -1,9 +1,7 @@
 import 'package:discuzq/widgets/posts/postLikeButton.dart';
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/models/postModel.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
 
 class DiscuzPlayerRightSider extends StatefulWidget {
   ///

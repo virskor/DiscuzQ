@@ -14,6 +14,12 @@ A new Flutter application for DiscuzQ. This Application is still under developin
 
 If you have any question about this project, follow and post an issue. I will consit to write this application.
 
+## 限制
+现在的版本还有一些限制，并且这些限制需要后续的版本中逐渐更新来解决，不意味着不会被解决。这是因为APP上架策略，或者现有的SDK暂时不能支持，需要自行封装等。  
+不支持付费模式的站点  
+不支持开启腾讯云防水墙的站点发帖  
+不支持打赏，钱包等金融相关的功能  
+
 ## 版权说明
 第三方APP，不代表Discuz团队，仅做个人学习使用。该Flutter APP将不考虑支持Web。  
 该APP现在处于开发阶段，暂时不推荐clone并编译，后续编排改动都很大，直到release前暂不要使用这些代码。  
@@ -120,6 +126,7 @@ cd /ios
 sudo rm -rf Podfile.lock
 pod install #手动安装IOS相关依赖
 ```
+推荐直接打开discuz目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看discuz目录下的PROBLEMS
 
 
 ## 如何自定义主体颜色，字体大小

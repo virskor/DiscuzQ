@@ -8,6 +8,7 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/views/editor.dart';
 import 'package:discuzq/widgets/common/blurBackground.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 
 class ForumAddButton extends StatefulWidget {
   ///
@@ -70,11 +71,18 @@ class _ForumCreateThreadDialog extends StatelessWidget {
     const _ForumCreateThreadDialogItem(
         caption: '发布主题',
         subTitle: '一些简单的想法',
+        type: DiscuzEditorInputTypes.text,
         icon: SFSymbols.pencil_ellipsis_rectangle),
-    const _ForumCreateThreadDialogItem(
-        caption: '发布长文', subTitle: '发布我的文章', icon: SFSymbols.pencil_outline),
-    const _ForumCreateThreadDialogItem(
-        caption: '发布视频', subTitle: '发布我的小视频', icon: SFSymbols.videocam_fill),
+    // const _ForumCreateThreadDialogItem(
+    //     type: DiscuzEditorInputTypes.markdown,
+    //     caption: '发布长文',
+    //     subTitle: '发布我的文章',
+    //     icon: SFSymbols.pencil_outline),
+    // const _ForumCreateThreadDialogItem(
+    //     type: DiscuzEditorInputTypes.video,
+    //     caption: '发布视频',
+    //     subTitle: '发布我的小视频',
+    //     icon: SFSymbols.videocam_fill),
   ];
 
   @override
@@ -87,7 +95,7 @@ class _ForumCreateThreadDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: _menus
               .map((e) => GestureDetector(
-                    onTap: () => _showEditor(context: context),
+                    onTap: () => _showEditor(context: context, type: e.type),
                     child: Container(
                       margin: const EdgeInsets.only(top: 10),
                       padding: const EdgeInsets.all(10),
@@ -136,13 +144,13 @@ class _ForumCreateThreadDialog extends StatelessWidget {
   ///
   /// 打开编辑器
   ///
-  Future<bool> _showEditor({BuildContext context}) {
+  Future<bool> _showEditor({BuildContext context, DiscuzEditorInputType type}) {
     if (Navigator.of(context).canPop()) {
       Navigator.pop(context);
     }
 
     return DiscuzRoute.open(
-        context: context, fullscreenDialog: true, widget: const Editor());
+        context: context, fullscreenDialog: true, widget: Editor(type: type));
   }
 }
 
@@ -161,5 +169,8 @@ class _ForumCreateThreadDialogItem {
   /// 图标
   final IconData icon;
 
-  const _ForumCreateThreadDialogItem({this.caption, this.subTitle, this.icon});
+  final DiscuzEditorInputType type;
+
+  const _ForumCreateThreadDialogItem(
+      {this.caption, this.subTitle, this.icon, this.type});
 }

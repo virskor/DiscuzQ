@@ -320,7 +320,7 @@ class _TencentLinearProgressIndicatorState extends State<TencentLinearProgressIn
   }
 
 
-  /**
+  /*
    * 通过assets路径，获取资源图片
    */
   Future<ui.Image> _loadImage(String assets) async {

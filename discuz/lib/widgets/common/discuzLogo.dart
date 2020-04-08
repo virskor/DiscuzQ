@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 
 class DiscuzAppLogo extends StatelessWidget {
   final double width;
