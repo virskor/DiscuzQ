@@ -28,6 +28,24 @@ class DiscuzEditorImageUploader extends StatefulWidget {
 
 class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
   @override
+  void setState(fn) {
+    if (!mounted) {
+      return;
+    }
+    super.setState(fn);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScopedStateModelDescendant<EditorState>(
         rebuildOnChange: true,
@@ -87,12 +105,15 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
 
     final File imageFile =
         await ImagePicker.pickImage(source: ImageSource.gallery);
+    
     if (imageFile != null) {
+      final Function close = DiscuzToast.loading(context: context);
       ///
       /// 执行上传过程
       /// todo: 增加该文件正在上传的状态
       final dynamic attachment =
           await _uploadImage(file: imageFile, state: state);
+      close();
       if (attachment != null && attachment.runtimeType == AttachmentsModel) {
         ///
         /// 图片上传成功,state新增
@@ -220,8 +241,8 @@ class _DiscuzEditorImageUploaderAddIcon extends StatelessWidget {
     return Container(
       width: _imageSize,
       height: _imageSize,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10))),
       child: Center(
         child: DiscuzIcon(Icons.add),
       ),

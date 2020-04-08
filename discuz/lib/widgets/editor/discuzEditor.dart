@@ -87,32 +87,34 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedStateModel<EditorState>(
-      model: EditorState(),
-      child: Stack(
-        children: <Widget>[
-          _buildEditor(),
-          Positioned(
-            bottom: 0,
-            child: DiscuzEditorToolbar(
-              enableEmoji: widget.enableEmoji,
-              enableUploadAttachment: widget.enableUploadAttachment,
-              enableUploadImage: widget.enableUploadImage,
-              child: _buildToolbarChild(),
-              onTap: (String toolbarEvt) {
-                ///
-                /// 处理图片选择器
-                /// 附件选择器
-                /// 表情选择器等显示
-                setState(() {
-                  _toolbarEvt = toolbarEvt;
-                  _neverShowToolbarChild = false;
-                });
-              },
-            ),
-          )
-        ],
-      ),
+    return ScopedStateModelDescendant<EditorState>(
+      rebuildOnChange: false,
+      builder: (BuildContext context, child, state) {
+        return Stack(
+          children: <Widget>[
+            _buildEditor(),
+            Positioned(
+              bottom: 0,
+              child: DiscuzEditorToolbar(
+                enableEmoji: widget.enableEmoji,
+                enableUploadAttachment: widget.enableUploadAttachment,
+                enableUploadImage: widget.enableUploadImage,
+                child: _buildToolbarChild(),
+                onTap: (String toolbarEvt) {
+                  ///
+                  /// 处理图片选择器
+                  /// 附件选择器
+                  /// 表情选择器等显示
+                  setState(() {
+                    _toolbarEvt = toolbarEvt;
+                    _neverShowToolbarChild = false;
+                  });
+                },
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -175,12 +177,14 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
 
     ///
     /// 用户选择了图片上传
+    /// 上传的图片数据直接从editorState中取得
     if (_toolbarEvt == 'image') {
       return DiscuzEditorImageUploader();
     }
 
     ///
     /// 用户选择了上传附件
+    /// 上传的附件数据直接从editorState中取得
     if (_toolbarEvt == 'attachment') {
       return DiscuzEditorAttachementUploader();
     }

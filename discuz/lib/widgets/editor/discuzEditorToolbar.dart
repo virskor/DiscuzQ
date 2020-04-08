@@ -1,3 +1,7 @@
+import 'package:badges/badges.dart';
+import 'package:discuzq/states/editorState.dart';
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
@@ -40,79 +44,98 @@ class DiscuzEditorToolbar extends StatefulWidget {
 class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      decoration:
-          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
-      child: SafeArea(
-        bottom: true,
-        top: false,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const DiscuzDivider(
-              padding: 0,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  ///
-                  /// 选择表情的按钮
-                  ///
-                  widget.enableEmoji
-                      ? GestureDetector(
-                          onTap: () => _callbackInput(toolbarEvt: 'emoji'),
-                          child: const _ToolbarIconButton(
-                            icon: Icons.face,
-                          ),
-                        )
-                      : const SizedBox(),
-
-                  ///
-                  /// 选择图片
-                  ///
-
-                  widget.enableUploadImage
-                      ? GestureDetector(
-                          onTap: () => _callbackInput(toolbarEvt: 'image'),
-                          child: const _ToolbarIconButton(
-                            icon: Icons.image,
-                          ),
-                        )
-                      : const SizedBox(),
-
-                  ///
-                  /// 附件
-                  ///
-                  widget.enableUploadAttachment
-                      ? GestureDetector(
-                          onTap: () => _callbackInput(toolbarEvt: 'attachment'),
-                          child: const _ToolbarIconButton(
-                            icon: Icons.attach_file,
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
+    return ScopedStateModelDescendant<EditorState>(
+      rebuildOnChange: true,
+      builder: (context, child, state) => Container(
+        width: MediaQuery.of(context).size.width,
+        decoration:
+            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+        child: SafeArea(
+          bottom: true,
+          top: false,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const DiscuzDivider(
+                padding: 0,
               ),
-            ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    ///
+                    /// 选择表情的按钮
+                    ///
+                    widget.enableEmoji
+                        ? GestureDetector(
+                            onTap: () => _callbackInput(toolbarEvt: 'emoji'),
+                            child: const _ToolbarIconButton(
+                              icon: Icons.face,
+                            ),
+                          )
+                        : const SizedBox(),
 
-            const DiscuzDivider(
-              padding: 0,
-            ),
+                    ///
+                    /// 选择图片
+                    ///
 
-            ///
-            /// child
-            Container(
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                  color: DiscuzApp.themeOf(context).backgroundColor),
-              child: widget.child ?? const SizedBox(),
-            )
-          ],
+                    widget.enableUploadImage
+                        ? Badge(
+                            badgeContent: DiscuzText(
+                              state.attachements.length.toString(),
+                              color: Colors.white,
+                            ),
+                            padding: const EdgeInsets.all(3),
+                            animationType: BadgeAnimationType.fade,
+                            elevation: 0,
+                            position: BadgePosition(top: 2,right: 0),
+                            showBadge: state.attachements == null ||
+                                    state.attachements.length == 0
+                                ? false
+                                : true,
+                            child: GestureDetector(
+                              onTap: () => _callbackInput(toolbarEvt: 'image'),
+                              child: const _ToolbarIconButton(
+                                icon: Icons.image,
+                              ),
+                            ),
+                            
+                          )
+                        : const SizedBox(),
+
+                    ///
+                    /// 附件
+                    ///
+                    // widget.enableUploadAttachment
+                    //     ? GestureDetector(
+                    //         onTap: () =>
+                    //             _callbackInput(toolbarEvt: 'attachment'),
+                    //         child: const _ToolbarIconButton(
+                    //           icon: Icons.attach_file,
+                    //         ),
+                    //       )
+                    //     : const SizedBox(),
+                  ],
+                ),
+              ),
+
+              const DiscuzDivider(
+                padding: 0,
+              ),
+
+              ///
+              /// child
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: DiscuzApp.themeOf(context).backgroundColor),
+                child: widget.child ?? const SizedBox(),
+              )
+            ],
+          ),
         ),
       ),
     );

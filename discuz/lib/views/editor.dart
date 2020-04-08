@@ -1,8 +1,8 @@
+import 'package:discuzq/states/editorState.dart';
 import 'package:discuzq/widgets/appbar/appbarSaveButton.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
@@ -45,10 +45,9 @@ class _EditorState extends State<Editor> {
   final UniqueKey uniqueKey = UniqueKey();
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) {
-        return Scaffold(
+  Widget build(BuildContext context) => ScopedStateModel<EditorState>(
+        model: EditorState(),
+        child: Scaffold(
           key: uniqueKey,
           appBar: DiscuzAppBar(
             title: '发布${widget.type.name}',
@@ -62,8 +61,8 @@ class _EditorState extends State<Editor> {
               Expanded(child: _buildEditor()),
             ],
           ),
-        );
-      });
+        ),
+      );
 
   ///
   /// 生成保存按钮的
