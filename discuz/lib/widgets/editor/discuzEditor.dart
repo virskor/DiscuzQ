@@ -7,6 +7,8 @@ import 'package:discuzq/widgets/emoji/emojiSwiper.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/editor/uploaders/discuzEditorAttachementUploader.dart';
 import 'package:discuzq/widgets/editor/uploaders/discuzEditorImageUploader.dart';
+import 'package:discuzq/states/editorState.dart';
+import 'package:discuzq/states/scopedState.dart';
 
 class DiscuzEditor extends StatefulWidget {
   ///
@@ -85,29 +87,32 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        _buildEditor(),
-        Positioned(
-          bottom: 0,
-          child: DiscuzEditorToolbar(
-            enableEmoji: widget.enableEmoji,
-            enableUploadAttachment: widget.enableUploadAttachment,
-            enableUploadImage: widget.enableUploadImage,
-            child: _buildToolbarChild(),
-            onTap: (String toolbarEvt) {
-              ///
-              /// 处理图片选择器
-              /// 附件选择器
-              /// 表情选择器等显示
-              setState(() {
-                _toolbarEvt = toolbarEvt;
-                _neverShowToolbarChild = false;
-              });
-            },
-          ),
-        )
-      ],
+    return ScopedStateModel<EditorState>(
+      model: EditorState(),
+      child: Stack(
+        children: <Widget>[
+          _buildEditor(),
+          Positioned(
+            bottom: 0,
+            child: DiscuzEditorToolbar(
+              enableEmoji: widget.enableEmoji,
+              enableUploadAttachment: widget.enableUploadAttachment,
+              enableUploadImage: widget.enableUploadImage,
+              child: _buildToolbarChild(),
+              onTap: (String toolbarEvt) {
+                ///
+                /// 处理图片选择器
+                /// 附件选择器
+                /// 表情选择器等显示
+                setState(() {
+                  _toolbarEvt = toolbarEvt;
+                  _neverShowToolbarChild = false;
+                });
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -162,7 +167,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         onInsert: (EmojiModel emoji) {
           ///
           /// 编辑器植入表情
-          final String text = "${_controller.text} ${emoji.attributes.code} ";
+          final String text = "${_controller.text} ${emoji.attributes.code}  ";
           _controller.value = TextEditingValue(text: text);
         },
       );

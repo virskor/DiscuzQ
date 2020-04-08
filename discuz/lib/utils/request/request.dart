@@ -168,11 +168,14 @@ class Request {
           }
 
           /// 弹出登录
-          if(autoAuthorization){
+          if (autoAuthorization) {
             _popLogin();
           }
 
-          DiscuzToast.failed(context: context, message: e.response.data['errors'][0]['code']);
+          ///
+          /// 401时，提醒用户错误信息
+          DiscuzToast.failed(
+              context: context, message: e.response.data['errors'][0]['code']);
           return Future.value(e);
         }
 
@@ -186,7 +189,7 @@ class Request {
         ///
         /// 没有传入context,使用原生的toast组件进行提示
         ///
-        DiscuzToast.failed(context: context, message: errMessage);
+        DiscuzToast.show(context: context, message: errMessage);
         return Future.value(e);
       }));
   }
@@ -265,7 +268,10 @@ class Request {
       {@required String url, dynamic queryParameters}) async {
     Response resp;
     try {
-      resp = await _dio.get(url, queryParameters: queryParameters,);
+      resp = await _dio.get(
+        url,
+        queryParameters: queryParameters,
+      );
     } catch (e) {
       return Future.value(null);
     }
@@ -374,11 +380,11 @@ class Request {
       Function onSendProgress}) async {
     Response resp;
 
-    final FormData formData = FormData.fromMap({name: file});
+    final FormData formData = FormData.fromMap({name: file, ...data});
 
     try {
       resp = await _dio.post(url,
-          data: data ?? formData,
+          data: formData,
           options: Options(contentType: _contentFormData),
           queryParameters: queryParameters,
           onReceiveProgress: onReceiveProgress,
@@ -387,6 +393,8 @@ class Request {
       print(e);
       return Future.value(null);
     }
+    
+    resp.data = await _temporaryTransformer(resp.data);
 
     return Future.value(resp);
   }
