@@ -1,6 +1,7 @@
 import 'package:discuzq/states/editorState.dart';
 import 'package:discuzq/widgets/appbar/appbarSaveButton.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -92,12 +93,19 @@ class _EditorState extends State<Editor> {
     if (widget.type == DiscuzEditorInputTypes.reply) {
       return DiscuzEditor(
         enableUploadAttachment: false,
+        onChanged: (DiscuzEditorData data) {
+          print({'-----------------------', data.attributes.content});
+        },
       );
     }
 
     ///
     /// 主题和视频的，都使用一般的编辑器就可以了
     /// 默认允许表情，上传图片，上传附件
-    return DiscuzEditor();
+    return DiscuzEditor(
+      onChanged: (DiscuzEditorData data) {
+        print({'-----------------------', data.attributes.content});
+      },
+    );
   }
 }

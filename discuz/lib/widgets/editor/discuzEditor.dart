@@ -9,6 +9,7 @@ import 'package:discuzq/widgets/editor/uploaders/discuzEditorAttachementUploader
 import 'package:discuzq/widgets/editor/uploaders/discuzEditorImageUploader.dart';
 import 'package:discuzq/states/editorState.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 
 class DiscuzEditor extends StatefulWidget {
   ///
@@ -65,6 +66,11 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   /// 这么做是为了保证足够的输入空间
   ///
   bool _neverShowToolbarChild = false;
+
+  ///
+  /// 编辑器数据
+  ///
+  DiscuzEditorData _discuzEditorData;
 
   @override
   void setState(fn) {
@@ -138,7 +144,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         },
         keyboardAppearance: DiscuzApp.themeOf(context).brightness,
         controller: _controller,
-        onSubmitted: (String data) => _formatSubmitData(data: data),
+        onChanged: (String data) => _onChanged(data: data),
         maxLines: 20,
         decoration: InputDecoration(
             border: InputBorder.none,
@@ -194,12 +200,37 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
 
   ///
   /// 数据转化，用于最终提交
-  Future<void> _formatSubmitData({String data}) async {
+  Future<void> _onChanged({String data}) async {
     if (widget.onChanged == null) {
       return;
     }
+    
+    ///
+    /// 先执行一次转化为editorData的操作，确保编辑器回调的数据为最终的数据
+    /// 更新编辑器Data的时候 切记不要调用setState
+    _updateEditorData();
 
     ///
-    /// 转化数据，为纯文本数据，用于提交服务器
+    /// 将编辑器的_discuzEditorData传到调用编辑器的组件，
+    /// 然后让其调用formter转化为最终的用户用于提交的数据进行提交
+    widget.onChanged(_discuzEditorData);
+  }
+
+  ///
+  /// 更新编辑器数据
+  /// 更新编辑器Data的时候 切记不要调用setState
+  /// 有几个地方会触发编辑器数据更新
+  /// 用户输入或编辑器数据发生变化的时候
+  /// 用户选择表情的时候
+  /// 用户上传图片成功的时候
+  /// 用户上传附件的时候
+  void _updateEditorData(){
+    ///
+    /// 更新编辑器用户编辑的内容
+    
+    ///
+    /// 更新用户所选分类
+    
+    /// 更新用户上传的附件信息
   }
 }
