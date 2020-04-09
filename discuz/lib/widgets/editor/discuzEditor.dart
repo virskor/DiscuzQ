@@ -70,7 +70,11 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   ///
   /// 编辑器数据
   ///
-  DiscuzEditorData _discuzEditorData;
+  DiscuzEditorData _discuzEditorData = DiscuzEditorData();
+
+  ///
+  /// 关联的分类
+  CategoryModel _category;
 
   @override
   void setState(fn) {
@@ -98,14 +102,14 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
       builder: (BuildContext context, child, state) {
         return Stack(
           children: <Widget>[
-            _buildEditor(),
+            _buildEditor(state: state),
             Positioned(
               bottom: 0,
               child: DiscuzEditorToolbar(
                 enableEmoji: widget.enableEmoji,
                 enableUploadAttachment: widget.enableUploadAttachment,
                 enableUploadImage: widget.enableUploadImage,
-                child: _buildToolbarChild(),
+                child: _buildToolbarChild(state: state),
                 onTap: (String toolbarEvt) {
                   ///
                   /// 处理图片选择器
@@ -126,7 +130,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
 
   ///
   /// 生成编辑器
-  Widget _buildEditor() {
+  Widget _buildEditor({@required EditorState state}) {
     return Container(
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
@@ -144,8 +148,9 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         },
         keyboardAppearance: DiscuzApp.themeOf(context).brightness,
         controller: _controller,
-        onChanged: (String data) => _onChanged(data: data),
+        onChanged: (String data) => _onChanged(data: data, state: state),
         maxLines: 20,
+        autocorrect: false,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: '点击以输入内容',
@@ -162,7 +167,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   ///
   /// 当用户点击了toolbar的时候，生成不同的组件
   /// 如表情选择，图片选择等
-  Widget _buildToolbarChild() {
+  Widget _buildToolbarChild({@required EditorState state}) {
     if (_toolbarEvt == null || _neverShowToolbarChild) {
       return const SizedBox();
     }
@@ -175,8 +180,10 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         onInsert: (EmojiModel emoji) {
           ///
           /// 编辑器植入表情
+          /// 插入表情时，触发 _onChanged 即可
           final String text = "${_controller.text} ${emoji.attributes.code}  ";
           _controller.value = TextEditingValue(text: text);
+          _onChanged(state: state);
         },
       );
     }
@@ -185,14 +192,26 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
     /// 用户选择了图片上传
     /// 上传的图片数据直接从editorState中取得
     if (_toolbarEvt == 'image') {
-      return DiscuzEditorImageUploader();
+      return DiscuzEditorImageUploader(
+        onUploaded: () {
+          _onChanged(state: state);
+
+          /// 用户上传了图片，触发编辑器数据更新
+        },
+      );
     }
 
     ///
     /// 用户选择了上传附件
     /// 上传的附件数据直接从editorState中取得
     if (_toolbarEvt == 'attachment') {
-      return DiscuzEditorAttachementUploader();
+      return DiscuzEditorAttachementUploader(
+        onUploaded: () {
+          _onChanged(state: state);
+
+          /// 用户上传了附件，触发编辑器数据更新
+        },
+      );
     }
 
     return const SizedBox();
@@ -200,15 +219,16 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
 
   ///
   /// 数据转化，用于最终提交
-  Future<void> _onChanged({String data}) async {
+  /// data 暂时可以忽略
+  Future<void> _onChanged({String data, @required EditorState state}) async {
     if (widget.onChanged == null) {
       return;
     }
-    
+
     ///
     /// 先执行一次转化为editorData的操作，确保编辑器回调的数据为最终的数据
     /// 更新编辑器Data的时候 切记不要调用setState
-    _updateEditorData();
+    _updateEditorData(state: state);
 
     ///
     /// 将编辑器的_discuzEditorData传到调用编辑器的组件，
@@ -224,13 +244,21 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   /// 用户选择表情的时候
   /// 用户上传图片成功的时候
   /// 用户上传附件的时候
-  void _updateEditorData(){
+  ///
+  /// 注意：仅_onChanged调用这个方法，请不要再其他地方，调用这个方法，以便更新逻辑过于混乱
+  void _updateEditorData({@required EditorState state}) {
+    DiscuzEditorData d = _discuzEditorData;
+
     ///
     /// 更新编辑器用户编辑的内容
-    
+    d = DiscuzEditorData.fromDiscuzEditorData(d,
+        content: _controller.text,
+        cat: _category,
+        attachments: state.attachements);
+
     ///
-    /// 更新用户所选分类
-    
-    /// 更新用户上传的附件信息
+    /// 更新状态，但不影响UI
+    /// 不要setState
+    _discuzEditorData = d;
   }
 }

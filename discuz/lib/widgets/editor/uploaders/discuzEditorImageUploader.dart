@@ -21,6 +21,11 @@ import 'package:discuzq/utils/permissionHepler.dart';
 const double _imageSize = 50;
 
 class DiscuzEditorImageUploader extends StatefulWidget {
+
+  final Function onUploaded;
+  const DiscuzEditorImageUploader({this.onUploaded});
+
+
   @override
   _DiscuzEditorImageUploaderState createState() =>
       _DiscuzEditorImageUploaderState();
@@ -118,6 +123,9 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
         ///
         /// 图片上传成功,state新增
         state.addAttachment(attachment);
+        if(widget.onUploaded != null){
+          widget.onUploaded();
+        }
         return;
       }
 

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DiscuzEditorAttachementUploader extends StatefulWidget {
+  final Function onUploaded;
+  const DiscuzEditorAttachementUploader({this.onUploaded});
+
   @override
   _DiscuzEditorAttachementUploaderState createState() =>
       _DiscuzEditorAttachementUploaderState();

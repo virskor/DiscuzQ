@@ -1,7 +1,3 @@
-import 'package:discuzq/states/editorState.dart';
-import 'package:discuzq/widgets/appbar/appbarSaveButton.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -10,6 +6,10 @@ import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/editor/discuzEditor.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:discuzq/widgets/editor/discuzMarkdownEditor.dart';
+import 'package:discuzq/states/editorState.dart';
+import 'package:discuzq/widgets/appbar/appbarSaveButton.dart';
+import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
+import 'package:discuzq/models/postModel.dart';
 
 ///
 /// 发帖编辑器
@@ -32,9 +32,18 @@ import 'package:discuzq/widgets/editor/discuzMarkdownEditor.dart';
 ///
 ///
 class Editor extends StatefulWidget {
+  ///
+  /// 调用编辑器的模式
   final DiscuzEditorInputType type;
 
-  Editor({@required this.type});
+  ///
+  /// 关联的Post type == DiscuzEditorInputTypes.reply 则需要传入post
+  /// 如果不传入，那么也不会成功的换为回复模式
+  ///
+  /// 如果为编辑post时，type则不能是 DiscuzEditorInputTypes.reply
+  final PostModel post;
+
+  Editor({@required this.type, this.post});
 
   @override
   _EditorState createState() => _EditorState();
@@ -44,6 +53,12 @@ class _EditorState extends State<Editor> {
   ///
   /// uniqueKey
   final UniqueKey uniqueKey = UniqueKey();
+
+  ///
+  /// 编辑器数据
+  /// 默认为null
+  /// todo: 处理reply的时候数据来源
+  DiscuzEditorData _discuzEditorData;
 
   @override
   Widget build(BuildContext context) => ScopedStateModel<EditorState>(
@@ -66,19 +81,46 @@ class _EditorState extends State<Editor> {
       );
 
   ///
+  /// 编辑器是否调用为回复模式
+  bool _isReply() =>
+      widget.type == DiscuzEditorInputTypes.reply && widget.post != null;
+
+  ///
   /// 生成保存按钮的
   Widget _buildSaveButton() {
-    if (widget.type == DiscuzEditorInputTypes.reply) {
+    ///
+    /// 回复帖子
+    if (_isReply()) {
       return AppbarSaveButton(
-        onTap: () => DiscuzToast.failed(context: context, message: '暂不开放'),
+        onTap: _post,
         label: '回复',
       );
     }
 
+    ///
+    /// 编辑帖子
+    if (widget.post != null) {
+      return AppbarSaveButton(
+        onTap: _post,
+        label: '更新',
+      );
+    }
+
+    ///
+    /// 发布帖子
     return AppbarSaveButton(
-      onTap: () => DiscuzToast.failed(context: context, message: '暂不开放'),
+      onTap: _post,
       label: '发布',
     );
+  }
+
+  ///
+  /// 发布内容，
+  /// 将自动处理数据转化，并根据模式，调用reply，或者创建主题的接口
+  Future<void> _post() async {
+    print(_discuzEditorData.category);
+    print(_discuzEditorData.attributes.content);
+    print(_discuzEditorData.relationships.attachments);
   }
 
   Widget _buildEditor() {
@@ -94,7 +136,9 @@ class _EditorState extends State<Editor> {
       return DiscuzEditor(
         enableUploadAttachment: false,
         onChanged: (DiscuzEditorData data) {
-          print({'-----------------------', data.attributes.content});
+          ///
+          /// 切勿setState,否则UI将loop
+          _discuzEditorData = data;
         },
       );
     }
@@ -104,7 +148,9 @@ class _EditorState extends State<Editor> {
     /// 默认允许表情，上传图片，上传附件
     return DiscuzEditor(
       onChanged: (DiscuzEditorData data) {
-        print({'-----------------------', data.attributes.content});
+        ///
+        /// 切勿setState,否则UI将loop
+        _discuzEditorData = data;
       },
     );
   }

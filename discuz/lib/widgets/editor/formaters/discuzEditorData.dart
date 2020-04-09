@@ -4,6 +4,12 @@ import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/categoryModel.dart';
 
 class DiscuzEditorData {
+  ///
+  /// 类型，默认不用传入
+  final String type;
+
+  ///
+  /// 关联的分类
   final CategoryModel category;
 
   ///
@@ -14,20 +20,29 @@ class DiscuzEditorData {
   /// 用户编辑的数据
   final DiscuzEditorDataAttributes attributes;
 
-  DiscuzEditorData({this.category, this.relationships, this.attributes});
+  DiscuzEditorData(
+      {this.type = 'threads',
+      this.category,
+      this.relationships,
+      this.attributes});
 
   ///
-  /// 统一管理 relationships 更新
-  /// 注意更新 attachments 和 category 时
-  /// attachments 为null 更新为 const []
-  /// category 为 null 则不更新(这种情况肯定是存在BUG) 提交数据时 category 是必选项
-  set relationships(DiscuzEditorDataRelationships re) {
-  }
-
-  ///
-  /// 统一管理 attributes 更新
-  /// attributes 中，仅content受到用户的操作影响，其他数据不得由用户更新
-  set attributes(DiscuzEditorDataAttributes attr) {}
+  /// 更新
+  static DiscuzEditorData fromDiscuzEditorData(DiscuzEditorData data,
+          {String captchaRandSTR,
+          captchaTicket,
+          content,
+          @required CategoryModel cat,
+          List<AttachmentsModel> attachments = const []}) =>
+      DiscuzEditorData(
+          category: data.category,
+          type: data.type,
+          relationships: DiscuzEditorDataRelationships(
+              category: cat, attachments: attachments ?? const []),
+          attributes: DiscuzEditorDataAttributes(
+              captchaRandSTR: captchaRandSTR ?? '',
+              captchaTicket: captchaTicket ?? '',
+              content: content ?? ''));
 }
 
 ///
