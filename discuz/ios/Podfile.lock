@@ -5,6 +5,8 @@ PODS:
     - Flutter
   - device_info (0.0.1):
     - Flutter
+  - file_picker (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_des (0.0.1):
     - Flutter
@@ -95,6 +97,7 @@ DEPENDENCIES:
   - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - clipboard_manager (from `.symlinks/plugins/clipboard_manager/ios`)
   - device_info (from `.symlinks/plugins/device_info/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
   - flutter_des (from `.symlinks/plugins/flutter_des/ios`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
@@ -143,6 +146,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/clipboard_manager/ios"
   device_info:
     :path: ".symlinks/plugins/device_info/ios"
+  file_picker:
+    :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
   flutter_des:
@@ -206,6 +211,7 @@ SPEC CHECKSUMS:
   assets_audio_player: 828c5761d1e51c569f40e622db3a2cbfd61ecb7d
   clipboard_manager: f4800834e62cc26b1cc4e0a92a35cd452dd8b827
   device_info: cbf09d2ec12aa7110e0b09fabe54b5bd6c8efe74
+  file_picker: 408623be2125b79a4539cf703be3d4b3abe5e245
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_des: af0bb83f27f1468ad652d907958b1d42d5644544
   flutter_image_compress: 082f8daaf6c1b0c9fe798251c750ef0ecd98d7ae
