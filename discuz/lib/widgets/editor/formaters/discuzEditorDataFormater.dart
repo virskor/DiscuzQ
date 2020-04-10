@@ -13,17 +13,27 @@ class DiscuzEditorDataFormater {
   /// 数据处理时，会对应提交的格式转化
   static Future<dynamic> toJSON(DiscuzEditorData data) async {
     /// 未选择分类
-    if(data.relationships.category == null){
+    if (data.relationships.category.id == 0) {
       return;
     }
 
     List<dynamic> attachments = const [];
 
-    if (data.relationships.attachments.length > 0) {
-      attachments =
-          data.relationships.attachments.map<dynamic>((it) => {
-            /// ... attachment model to dynamic
-          }).toList();
+    if (data.relationships != null &&
+        data.relationships.attachments.length > 0) {
+      attachments = data.relationships.attachments
+          .map<dynamic>((it){
+            return {
+                /// ... attachment model to dynamic
+                /// {
+                ///     "type":"attachments",
+                ///     "id":"1367"
+                /// }
+                "type": "attachments",
+                "id": it.id.toString(),
+              };
+          })
+          .toList();
     }
 
     dynamic rebuild = {
@@ -37,14 +47,14 @@ class DiscuzEditorDataFormater {
       "relationships": {
         "category": {
           "data": {
-            "id": data.relationships.category.id,
+            "id": data.relationships.category.id.toString(),
             "type": data.relationships.category.type
           }
         },
         "attachments": {"data": attachments}
       }
     };
-    
+
     return jsonEncode({"data": rebuild});
   }
 

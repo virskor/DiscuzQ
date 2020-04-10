@@ -8,7 +8,7 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/request/requestIncluedes.dart';
+import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';

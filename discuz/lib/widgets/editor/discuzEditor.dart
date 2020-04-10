@@ -85,10 +85,6 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   DiscuzEditorData _discuzEditorData = DiscuzEditorData();
 
   ///
-  /// 关联的分类
-  CategoryModel _category;
-
-  ///
   /// 是否显示收起键盘
   bool _showHideKeyboardButton = false;
 
@@ -110,7 +106,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
     _editorFocusNode.addListener(() {
       ///
       /// 要避免重复的UI更新
-      if(_editorFocusNode.hasFocus == _showHideKeyboardButton){
+      if (_editorFocusNode.hasFocus == _showHideKeyboardButton) {
         return;
       }
       setState(() {
@@ -142,6 +138,9 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                 enableUploadImage: widget.enableUploadImage,
                 showHideKeyboardButton: _showHideKeyboardButton,
                 defaultCategory: widget.defaultCategory,
+                onRequestUpdate: () {
+                  _onChanged(state: state);
+                },
                 onTap: (String toolbarEvt) {
                   ///
                   /// 处理图片选择器
@@ -278,6 +277,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   /// 用户选择表情的时候
   /// 用户上传图片成功的时候
   /// 用户上传附件的时候
+  /// 用户选择分类的时候
   ///
   /// 注意：仅_onChanged调用这个方法，请不要再其他地方，调用这个方法，以便更新逻辑过于混乱
   void _updateEditorData({@required EditorState state}) {
@@ -287,7 +287,13 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
     /// 更新编辑器用户编辑的内容
     d = DiscuzEditorData.fromDiscuzEditorData(d,
         content: _controller.text,
-        cat: _category,
+
+        ///
+        /// 值得注意，更新编辑器数据的时候，分类的数据，一定要用editorState里的数据
+        /// 因为进入的时候传入的分类，并不代表用户最终选择的分类
+        /// 而用户选择的分类，则是保存在editorState里的
+        /// 所以，一定要用 editorState 里的选中分类数据
+        cat: state.category,
         attachments: state.attachements);
 
     ///

@@ -43,12 +43,19 @@ class DiscuzEditorToolbar extends StatefulWidget {
   /// defaultCategory
   final CategoryModel defaultCategory;
 
+  ///
+  /// onRequestUpdate
+  /// 如果toolbar中的项目会影响编辑器数据的时候
+  /// 如用户选择了分类，那么要通知编辑更新数据，即执行编辑器中的 _onChanged
+  final Function onRequestUpdate;
+
   DiscuzEditorToolbar(
       {this.onTap,
       this.child,
       this.enableUploadAttachment,
       this.enableEmoji,
       this.defaultCategory,
+      this.onRequestUpdate,
       this.showHideKeyboardButton = false,
       this.enableUploadImage});
 
@@ -137,7 +144,12 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                             /// 选择分类
                             /// 用户选择了新的分类，那么就更新editor state
                             DiscuzEditorCategorySelector(
-                              onChanged: (CategoryModel category) {},
+                              onChanged: (CategoryModel category) {
+                                state.updateCategory(category);
+                                if (widget.onRequestUpdate != null) {
+                                  widget.onRequestUpdate();
+                                }
+                              },
                               defaultCategory: widget.defaultCategory,
                             ),
 
@@ -199,17 +211,17 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             widget.enableUploadImage
                 ? Badge(
                     badgeContent: DiscuzText(
-                      state.attachements.length.toString(),
+                      state.galleries.length.toString(),
                       color: Colors.white,
                     ),
                     padding: const EdgeInsets.all(3),
                     animationType: BadgeAnimationType.fade,
                     elevation: 0,
                     position: BadgePosition(top: 2, right: 0),
-                    showBadge: state.attachements == null ||
-                            state.attachements.length == 0
-                        ? false
-                        : true,
+                    showBadge:
+                        state.galleries == null || state.galleries.length == 0
+                            ? false
+                            : true,
                     child: GestureDetector(
                       onTap: () => _callbackInput(toolbarEvt: 'image'),
                       child: const _ToolbarIconButton(
@@ -224,8 +236,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             ///
             // widget.enableUploadAttachment
             //     ? GestureDetector(
-            //         onTap: () =>
-            //             _callbackInput(toolbarEvt: 'attachment'),
+            //         onTap: () => _callbackInput(toolbarEvt: 'attachment'),
             //         child: const _ToolbarIconButton(
             //           icon: Icons.attach_file,
             //         ),
@@ -282,8 +293,7 @@ class _ToolbarExt extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
       decoration: const BoxDecoration(
-        color: Colors.white12,
-          border: const Border(left: Global.border)),
+          color: Colors.black12, border: const Border(left: Global.border)),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: child,

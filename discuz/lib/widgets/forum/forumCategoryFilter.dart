@@ -7,7 +7,7 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/utils/request/requestIncluedes.dart';
+import 'package:discuzq/utils/request/requestIncludes.dart';
 
 /// 筛选组件
 class ForumCategoryFilter extends StatefulWidget {

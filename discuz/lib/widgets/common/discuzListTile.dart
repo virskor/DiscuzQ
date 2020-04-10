@@ -976,14 +976,14 @@ class _DiscuzListTileElement extends RenderObjectElement {
     slotToChild.values.forEach(visitor);
   }
 
-  @override
-  void forgetChild(Element child) {
-    assert(slotToChild.values.contains(child));
-    assert(childToSlot.keys.contains(child));
-    final _DiscuzListTileSlot slot = childToSlot[child];
-    childToSlot.remove(child);
-    slotToChild.remove(slot);
-  }
+  // @override
+  // void forgetChild(Element child) {
+  //   assert(slotToChild.values.contains(child));
+  //   assert(childToSlot.keys.contains(child));
+  //   final _DiscuzListTileSlot slot = childToSlot[child];
+  //   childToSlot.remove(child);
+  //   slotToChild.remove(slot);
+  // }
 
   void _mountChild(Widget widget, _DiscuzListTileSlot slot) {
     final Element oldChild = slotToChild[slot];

@@ -80,7 +80,26 @@ class _DiscuzEditorCategorySelectorState
     await _getCategories();
     if (widget.defaultCategory != null) {
       _selectedCategory = widget.defaultCategory;
+      if (widget.onChanged != null) {
+        ///
+        /// 一定要过滤无效数据
+        /// 省得待会又把 全部 这个分类传入了，然后又传到了后端，这尼玛就坑大了
+        if (widget.defaultCategory.id == 0) {
+          return;
+        }
+
+        ///
+        /// 回调，这样编辑器会更新state中的 category状态数据
+        widget.onChanged(widget.defaultCategory);
+        return;
+      }
     }
+
+    ///
+    /// 没有传入默认选中的分类
+    /// 那么自动选中第一个
+    _selectedCategory = _categories[0];
+    widget.onChanged(_selectedCategory);
   }
 
   ///
@@ -91,12 +110,20 @@ class _DiscuzEditorCategorySelectorState
         splashColor: Colors.transparent,
         padding: const EdgeInsets.all(0),
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        child: _selectedCategory == null
-            ? DiscuzText('请选择分类')
-            : DiscuzText(
-                _selectedCategory.attributes.name,
-                color: DiscuzApp.themeOf(context).primaryColor,
-              ),
+        child: Row(
+          children: [
+            _selectedCategory == null
+                ? const DiscuzText('请选择分类')
+                : DiscuzText(
+                    _selectedCategory.attributes.name,
+                    color: DiscuzApp.themeOf(context).primaryColor,
+                  ),
+
+            ///
+            /// 下拉图标
+            DiscuzIcon(Icons.arrow_drop_down),
+          ],
+        ),
         onPressed: () => showModalBottomSheet(
             context: context,
             backgroundColor: Colors.transparent,
@@ -127,9 +154,10 @@ class _DiscuzEditorCategorySelectorState
                         children: _categories
                             .map((c) => DiscuzListTile(
                                   title: DiscuzText(c.attributes.name),
+
                                   ///
                                   /// 选中的分类，图标和未选中的有所差异，这样用户可以得到反馈
-                                  /// 
+                                  ///
                                   trailing: _selectedCategory != null &&
                                           _selectedCategory.id == c.id
                                       ? const DiscuzIcon(
