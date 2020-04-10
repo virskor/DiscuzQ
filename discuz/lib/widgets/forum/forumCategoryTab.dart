@@ -11,7 +11,7 @@ import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/threads/theadsList.dart';
-import 'package:discuzq/widgets/categories/discuzCaytegories.dart';
+import 'package:discuzq/widgets/categories/discuzCategories.dart';
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
@@ -56,7 +56,11 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
     /// 延迟加载
     Future.delayed(Duration(milliseconds: 400))
-        .then((_) => this._initTabController());
+        .then((_) => this._initTabController())
+
+        /// 监听用户滑动的分类
+        /// 切勿在这个方法中进行setState的操作，这样会很影响性能
+        .then((_) => _tabControllerListener());
   }
 
   @override
@@ -69,6 +73,23 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => _buildForumCategoryTabTab(state));
+
+  ///
+  /// 监听用户滑到了哪个分类
+  ///
+  void _tabControllerListener() {
+    _tabController.addListener(() {
+      try {
+        final AppState state =
+            ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
+        final CategoryModel cat = state.categories[_tabController.index];
+
+        state.updateFocusedCategories(cat);
+      } catch (e) {
+        print(e);
+      }
+    });
+  }
 
   /// 构造tabbar
   Widget _buildForumCategoryTabTab(AppState state) {

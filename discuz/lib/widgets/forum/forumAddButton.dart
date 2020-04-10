@@ -1,3 +1,5 @@
+import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/states/scopedState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -9,6 +11,7 @@ import 'package:discuzq/views/editor.dart';
 import 'package:discuzq/widgets/common/blurBackground.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
+import 'package:discuzq/models/categoryModel.dart';
 
 class ForumAddButton extends StatefulWidget {
   ///
@@ -87,70 +90,92 @@ class _ForumCreateThreadDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: _menus
-              .map((e) => GestureDetector(
-                    onTap: () => _showEditor(context: context, type: e.type),
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 10),
-                      padding: const EdgeInsets.all(10),
-                      width: MediaQuery.of(context).size.width / 2,
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
-                          color: DiscuzApp.themeOf(context).backgroundColor),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          const SizedBox(width: 20),
-                          DiscuzIcon(e.icon),
+    return ScopedStateModelDescendant<AppState>(
+        rebuildOnChange: true,
+        builder: (context, child, state) => SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: _menus
+                      .map((e) => GestureDetector(
+                            onTap: () =>
+                                _showEditor(context: context, type: e.type, category: state.focusedCategory),
+                            child: Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              padding: const EdgeInsets.all(10),
+                              width: MediaQuery.of(context).size.width / 2,
+                              decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(10)),
+                                  color: DiscuzApp.themeOf(context)
+                                      .backgroundColor),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  const SizedBox(width: 20),
+                                  DiscuzIcon(e.icon),
 
-                          ///
-                          /// 制造间距
-                          const SizedBox(width: 20),
+                                  ///
+                                  /// 制造间距
+                                  const SizedBox(width: 20),
 
-                          /// 制造间距
-                          ///
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              DiscuzText(
-                                e.caption,
-                                fontWeight: FontWeight.bold,
+                                  /// 制造间距
+                                  ///
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      DiscuzText(
+                                        e.caption,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      DiscuzText(
+                                        e.subTitle,
+                                        color: DiscuzApp.themeOf(context)
+                                            .greyTextColor,
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
-                              DiscuzText(
-                                e.subTitle,
-                                color: DiscuzApp.themeOf(context).greyTextColor,
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ))
-              .toList(),
-        ),
-      ),
-    );
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+            ));
   }
 
   ///
   /// 打开编辑器
   ///
-  Future<bool> _showEditor({BuildContext context, DiscuzEditorInputType type}) {
+  Future<bool> _showEditor(
+      {BuildContext context,
+      DiscuzEditorInputType type,
+      CategoryModel category}) {
     if (Navigator.of(context).canPop()) {
       Navigator.pop(context);
     }
 
     return DiscuzRoute.open(
-        context: context, fullscreenDialog: true, widget: Editor(type: type));
+        context: context,
+        fullscreenDialog: true,
+
+        ///
+        /// 若用户停留的分类是全部，那么一样不需要传入全部
+        /// 其实传不传无所谓的，反正传了全部，也不会被自动选择全部这个分类，因为接口里并不存在呀
+        widget: category == null || category.attributes.name == '全部'
+            ? Editor(
+                type: type,
+              )
+            : Editor(
+                type: type,
+                defaultCategory: category,
+              ));
   }
 }
 

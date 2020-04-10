@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/categoryModel.dart';
-import 'package:discuzq/widgets/categories/discuzCaytegories.dart';
+import 'package:discuzq/widgets/categories/discuzCategories.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
@@ -52,7 +52,9 @@ class _DiscuzEditorCategorySelectorState
 
   @override
   void initState() {
-    _prepare(); /// 记得在supe.initState前执行，否则UI将无法完成默认选中的绑定
+    _prepare();
+
+    /// 记得在supe.initState前执行，否则UI将无法完成默认选中的绑定
     super.initState();
   }
 
@@ -73,14 +75,13 @@ class _DiscuzEditorCategorySelectorState
 
   ///
   /// 初始化时，完成自动选择
-  /// 
-  void _prepare() async{
+  ///
+  void _prepare() async {
     await _getCategories();
-    if(widget.defaultCategory != null){
+    if (widget.defaultCategory != null) {
       _selectedCategory = widget.defaultCategory;
     }
   }
-
 
   ///
   /// 创建选择器组件
@@ -126,7 +127,11 @@ class _DiscuzEditorCategorySelectorState
                         children: _categories
                             .map((c) => DiscuzListTile(
                                   title: DiscuzText(c.attributes.name),
-                                  trailing: _selectedCategory == c
+                                  ///
+                                  /// 选中的分类，图标和未选中的有所差异，这样用户可以得到反馈
+                                  /// 
+                                  trailing: _selectedCategory != null &&
+                                          _selectedCategory.id == c.id
                                       ? const DiscuzIcon(
                                           SFSymbols.checkmark_circle_fill)
                                       : const DiscuzListTileTrailing(),

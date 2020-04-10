@@ -38,11 +38,17 @@ class DiscuzEditorToolbar extends StatefulWidget {
   /// showHideKeyboardButton
   final bool showHideKeyboardButton;
 
+  ///
+  /// 分类模型
+  /// defaultCategory
+  final CategoryModel defaultCategory;
+
   DiscuzEditorToolbar(
       {this.onTap,
       this.child,
       this.enableUploadAttachment,
       this.enableEmoji,
+      this.defaultCategory,
       this.showHideKeyboardButton = false,
       this.enableUploadImage});
 
@@ -132,6 +138,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                             /// 用户选择了新的分类，那么就更新editor state
                             DiscuzEditorCategorySelector(
                               onChanged: (CategoryModel category) {},
+                              defaultCategory: widget.defaultCategory,
                             ),
 
                             /// 收键盘
@@ -275,6 +282,7 @@ class _ToolbarExt extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
       decoration: const BoxDecoration(
+        color: Colors.white12,
           border: const Border(left: Global.border)),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

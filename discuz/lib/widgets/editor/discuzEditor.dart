@@ -38,7 +38,7 @@ class DiscuzEditor extends StatefulWidget {
   /// 传入默认关联的分类
   /// 如果不传入，那么右下角的切换分类菜单将不会显示
   /// 发布，编辑时需要传入，回复的时候不需要传入的
-  final CategoryModel bindCategory;
+  final CategoryModel defaultCategory;
 
   ///
   /// 编辑器数据发生变化
@@ -49,7 +49,7 @@ class DiscuzEditor extends StatefulWidget {
       {this.enableEmoji = true,
       this.enableUploadImage = true,
       this.onChanged,
-      this.bindCategory,
+      this.defaultCategory,
       this.data,
       this.enableUploadAttachment = true});
   @override
@@ -141,6 +141,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                 enableUploadAttachment: widget.enableUploadAttachment,
                 enableUploadImage: widget.enableUploadImage,
                 showHideKeyboardButton: _showHideKeyboardButton,
+                defaultCategory: widget.defaultCategory,
                 onTap: (String toolbarEvt) {
                   ///
                   /// 处理图片选择器

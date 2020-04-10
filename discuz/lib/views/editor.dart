@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -13,6 +12,7 @@ import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorDataFormater.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 ///
 /// 发帖编辑器
@@ -50,9 +50,9 @@ class Editor extends StatefulWidget {
   /// 传入默认关联的分类
   /// 如果不传入，那么右下角的切换分类菜单将不会显示
   /// 发布，编辑时需要传入，回复的时候不需要传入的
-  final CategoryModel bindCategory;
+  final CategoryModel defaultCategory;
 
-  Editor({@required this.type, this.post, this.bindCategory});
+  Editor({@required this.type, this.post, this.defaultCategory});
 
   @override
   _EditorState createState() => _EditorState();
@@ -148,7 +148,7 @@ class _EditorState extends State<Editor> {
     if (widget.type == DiscuzEditorInputTypes.reply) {
       return DiscuzEditor(
         enableUploadAttachment: false,
-        bindCategory: widget.bindCategory,
+        defaultCategory: widget.defaultCategory,
         onChanged: (DiscuzEditorData data) {
           ///
           /// 切勿setState,否则UI将loop
@@ -161,7 +161,7 @@ class _EditorState extends State<Editor> {
     /// 主题和视频的，都使用一般的编辑器就可以了
     /// 默认允许表情，上传图片，上传附件
     return DiscuzEditor(
-      bindCategory: widget.bindCategory,
+      defaultCategory: widget.defaultCategory,
       onChanged: (DiscuzEditorData data) {
         ///
         /// 切勿setState,否则UI将loop
