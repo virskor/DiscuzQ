@@ -150,10 +150,6 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                 ),
               ),
 
-              const DiscuzDivider(
-                padding: 0,
-              ),
-
               ///
               /// child
               Container(

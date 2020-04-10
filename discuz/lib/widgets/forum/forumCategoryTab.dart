@@ -1,24 +1,17 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/utils/localstorage.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/threads/theadsList.dart';
-
-const String _localCategoriesStorageKey = 'categories';
+import 'package:discuzq/widgets/categories/discuzCaytegories.dart';
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
@@ -218,28 +211,13 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     setState(() {
       _loading = true;
       _isEmptyCategories = false;
+
       /// 仅需要复原 _initTabController会再次处理
     });
 
-    ///
-    /// 先从本地取得供APP快速启动，接口请求的数据供下次使用
-    final String localCategoriesData =
-        await DiscuzLocalStorage.getString(_localCategoriesStorageKey);
-    if (localCategoriesData == null) {
-      final bool result = await _requestCategories(state);
-      return Future.value(result);
-    }
+    List<CategoryModel> categories =
+        await DiscuzCategories(context: context).getCategories();
 
-    ///
-    /// 从本地取得上次缓存的数据
-    ///
-    final List<dynamic> decodeLocalCategoriesData =
-        jsonDecode(localCategoriesData);
-    
-    /// 增加一个全部并转化所有分类到模型
-    List<CategoryModel> categories = decodeLocalCategoriesData
-        .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
-        .toList();
     categories.insert(
         0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
 
@@ -260,28 +238,13 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   Future<bool> _requestCategories(
     AppState state,
   ) async {
-    Response resp =
-        await Request(context: context).getUrl(url: Urls.categories);
+    List<CategoryModel> categories =
+        await DiscuzCategories(context: context).requestCategories();
 
     setState(() {
       _loading = false;
     });
 
-    if (resp == null) {
-      return Future.value(false);
-    }
-
-    List<dynamic> originalCategories = resp.data['data'] ?? [];
-    if (originalCategories.length > 0) {
-      /// 存储分类到本地供下次使用
-      DiscuzLocalStorage.setString(
-          _localCategoriesStorageKey, jsonEncode(originalCategories));
-    }
-    
-    /// 增加一个全部并转化所有分类到模型
-    List<CategoryModel> categories = originalCategories
-        .map<CategoryModel>((it) => CategoryModel.fromMap(maps: it))
-        .toList();
     categories.insert(
         0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
 
