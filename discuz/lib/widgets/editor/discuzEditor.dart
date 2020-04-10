@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/widgets/editor/discuzEditorToolbar.dart';
+import 'package:discuzq/widgets/editor/toolbar/discuzEditorToolbar.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/models/emojiModel.dart';
 import 'package:discuzq/widgets/emoji/emojiSwiper.dart';
@@ -63,6 +63,10 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   final TextEditingController _controller = TextEditingController();
 
   ///
+  /// editor focus node
+  final FocusNode _editorFocusNode = FocusNode();
+
+  ///
   /// states
   ///
   String _toolbarEvt;
@@ -84,6 +88,10 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   /// 关联的分类
   CategoryModel _category;
 
+  ///
+  /// 是否显示收起键盘
+  bool _showHideKeyboardButton = false;
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -95,11 +103,26 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   @override
   void initState() {
     super.initState();
+
+    ///
+    /// 处理编辑器焦点，从而显示收起键盘的按钮
+    ///
+    _editorFocusNode.addListener(() {
+      ///
+      /// 要避免重复的UI更新
+      if(_editorFocusNode.hasFocus == _showHideKeyboardButton){
+        return;
+      }
+      setState(() {
+        _showHideKeyboardButton = _editorFocusNode.hasFocus;
+      });
+    });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _editorFocusNode.dispose();
     super.dispose();
   }
 
@@ -117,7 +140,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                 enableEmoji: widget.enableEmoji,
                 enableUploadAttachment: widget.enableUploadAttachment,
                 enableUploadImage: widget.enableUploadImage,
-                child: _buildToolbarChild(state: state),
+                showHideKeyboardButton: _showHideKeyboardButton,
                 onTap: (String toolbarEvt) {
                   ///
                   /// 处理图片选择器
@@ -128,6 +151,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                     _neverShowToolbarChild = false;
                   });
                 },
+                child: _buildToolbarChild(state: state),
               ),
             )
           ],
@@ -159,6 +183,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         onChanged: (String data) => _onChanged(data: data, state: state),
         maxLines: 20,
         autocorrect: false,
+        focusNode: _editorFocusNode,
         decoration: InputDecoration(
             border: InputBorder.none,
             hintText: '点击以输入内容',

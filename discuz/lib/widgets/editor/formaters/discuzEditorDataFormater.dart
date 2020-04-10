@@ -44,6 +44,7 @@ class DiscuzEditorDataFormater {
         "attachments": {"data": attachments}
       }
     };
+    
     return jsonEncode({"data": rebuild});
   }
 

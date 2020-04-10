@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -127,7 +128,12 @@ class _EditorState extends State<Editor> {
   Future<void> _post() async {
     final dynamic data =
         await DiscuzEditorDataFormater.toJSON(_discuzEditorData);
-    print(data);
+    if(data == null){
+      ///
+      /// data == null 这种情况，无非是缺少必要的参数category，提醒用户进行选择
+      DiscuzToast.failed(context: context, message: '请选分类');
+      return;
+    }
   }
 
   Widget _buildEditor() {
