@@ -3,6 +3,10 @@
 * Thread Render
 * Vedio Player
 
+2020-04-09
+新增发帖(主题功能的编辑器)
+Markdown编辑器(自测)
+
 2020-04-01
 个人中心顶部UI调整
 用户模型定义 !important 由于过去封装用户模型的时候，有失误只封装了attributes， 所以这将导致本地缓存无法转化为新的模型。

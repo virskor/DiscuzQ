@@ -32,6 +32,8 @@ class Global {
   /// 允许钱包功能
   /// 值得注意，当您设置为False时，请记得根据后续文档中的提示，编译时将Payment相关的SDK排出
   /// 如果不移除payment相关的SDK将导致你的应用无法上架
+  /// todo: 现在金融相关功能暂时没有支持
+  /// 具体描述查看readme
   static const bool enablePayment = true;
 
   ///
