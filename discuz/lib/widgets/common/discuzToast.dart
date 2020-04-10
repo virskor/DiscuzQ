@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_wechat_toast/flutter_wechat_toast.dart';
 import 'package:flutter_native_loading/flutter_native_loading.dart';
@@ -27,7 +28,8 @@ class DiscuzToast {
     /// 报错的时候在Request中，我们为了不每次请求都携带context,使用原生的toast进行提示。
     /// 但在UI操作的过程中，依旧保留使用Flutter相关toast组件
     if (context != null) {
-      await WechatToast(context: context, mask: mask).failed(message: message);
+      await WechatToast(context: context, mask: mask).failed(
+          message: message, icon: Icon(SFSymbols.multiply_circle_fill, color: Colors.white, size: 35));
       return Future.value(true);
     }
 

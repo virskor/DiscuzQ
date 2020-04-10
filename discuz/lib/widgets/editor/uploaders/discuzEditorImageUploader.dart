@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:async';
-import 'package:path/path.dart' as path;
 
 import 'package:dio/dio.dart';
 import 'package:discuzq/utils/request/request.dart';
@@ -62,7 +61,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
 
           ///
           /// 生成已经上传的图片
-          widgets = state.attachements
+          widgets = state.galleries
               .map<Widget>((AttachmentsModel a) => SizedBox(
                     width: _imageSize,
                     height: _imageSize,
@@ -152,7 +151,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
           "isGallery": 1,
 
           /// 上传图集，而不是普通附件
-          "order": state.attachements == null ? 0 : state.attachements.length,
+          "order": state.galleries == null ? 0 : state.galleries.length,
         },
 
         /// 上传头像

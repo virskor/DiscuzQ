@@ -12,7 +12,7 @@ import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/utils/request/requestIncluedes.dart';
+import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';

@@ -15,7 +15,16 @@ class AppState extends StateModel {
   }
 
   ///
-  /// categories 分类
+  /// 用户当前悬停的分类
+  CategoryModel _focusedCategory;
+  get focusedCategory => _focusedCategory;
+  void updateFocusedCategories(CategoryModel cat) {
+    _focusedCategory = cat;
+    notifyListeners();
+  }
+
+  ///
+  /// categories 分类列表状态
   ///
   List<CategoryModel> _categories;
   get categories => _categories;

@@ -43,8 +43,9 @@ class HtmlRender extends StatelessWidget {
       textStyle: TextStyle(
           color: DiscuzApp.themeOf(context).textColor,
           fontSize: DiscuzApp.themeOf(context).normalTextSize),
-      onTapUrl: (url) async =>
-          await WebviewHelper.launchUrl(url: url),
+
+      /// todo: 需要完成Uri parse的过程，如果是站内连接直接调用app组件呈现
+      onTapUrl: (url) async => await WebviewHelper.launchUrl(url: url),
 
       /// 处理表情渲染
       builderCallback: (meta, e) {

@@ -1,4 +1,4 @@
-import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/utils/StringHelper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -13,6 +13,7 @@ import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorDataFormater.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 ///
 /// 发帖编辑器
@@ -50,9 +51,9 @@ class Editor extends StatefulWidget {
   /// 传入默认关联的分类
   /// 如果不传入，那么右下角的切换分类菜单将不会显示
   /// 发布，编辑时需要传入，回复的时候不需要传入的
-  final CategoryModel bindCategory;
+  final CategoryModel defaultCategory;
 
-  Editor({@required this.type, this.post, this.bindCategory});
+  Editor({@required this.type, this.post, this.defaultCategory});
 
   @override
   _EditorState createState() => _EditorState();
@@ -126,14 +127,26 @@ class _EditorState extends State<Editor> {
   /// 发布内容，
   /// 将自动处理数据转化，并根据模式，调用reply，或者创建主题的接口
   Future<void> _post() async {
-    final dynamic data =
-        await DiscuzEditorDataFormater.toJSON(_discuzEditorData);
-    if(data == null){
+    if (_discuzEditorData.relationships.category.id == 0) {
       ///
       /// data == null 这种情况，无非是缺少必要的参数category，提醒用户进行选择
       DiscuzToast.failed(context: context, message: '请选分类');
       return;
     }
+
+    ///
+    /// 小样，没有输入内容就想发布
+    if (StringHelper.isEmpty(string: _discuzEditorData.attributes.content)) {
+      DiscuzToast.failed(context: context, message: '请输入内容');
+      return;
+    }
+
+    final dynamic data =
+        await DiscuzEditorDataFormater.toJSON(_discuzEditorData);
+
+    print(data);
+    DiscuzToast.show(
+        context: context, message: "出于安全考虑暂不开放发帖，以下是调试数据\r\n $data");
   }
 
   Widget _buildEditor() {
@@ -148,7 +161,7 @@ class _EditorState extends State<Editor> {
     if (widget.type == DiscuzEditorInputTypes.reply) {
       return DiscuzEditor(
         enableUploadAttachment: false,
-        bindCategory: widget.bindCategory,
+        defaultCategory: widget.defaultCategory,
         onChanged: (DiscuzEditorData data) {
           ///
           /// 切勿setState,否则UI将loop
@@ -161,7 +174,7 @@ class _EditorState extends State<Editor> {
     /// 主题和视频的，都使用一般的编辑器就可以了
     /// 默认允许表情，上传图片，上传附件
     return DiscuzEditor(
-      bindCategory: widget.bindCategory,
+      defaultCategory: widget.defaultCategory,
       onChanged: (DiscuzEditorData data) {
         ///
         /// 切勿setState,否则UI将loop

@@ -11,7 +11,8 @@ class Global {
   /// domain
   /// 服务端域名
   /// 注意： 不要在域名后面加 / 路径符
-  /// 注意：不要填写301或者302的域名
+  /// 注意：不要填写被301或者302的域名
+  /// 注意：用http是不推荐的
   ///
   static const String domain = 'https://www.bushcraftcn.com';
 

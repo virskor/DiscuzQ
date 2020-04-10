@@ -36,6 +36,8 @@ class _EmojiSwiperState extends State<EmojiSwiper> {
         context: context,
       );
 
+      ///
+      /// 其实一般情况下都会有emoji的，只不怕一万就怕万一
       if (emojis.length > 0) {
         setState(() {
           _emojis = emojis;
@@ -58,7 +60,7 @@ class _EmojiSwiperState extends State<EmojiSwiper> {
           child: SingleChildScrollView(
             child: Wrap(
               children: _emojis
-                  .map((e) => IconButton(
+                  .map<Widget>((e) => IconButton(
                         icon: CachedNetworkImage(
                           imageUrl: e.attributes.url,
                         ),
