@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/models/emojiModel.dart';
-import 'package:discuzq/widgets/emoji/emojiSync.dart';
 import 'package:flutter/material.dart';
 
+import 'package:discuzq/models/emojiModel.dart';
+import 'package:discuzq/widgets/emoji/emojiSync.dart';
 class EmojiSwiper extends StatefulWidget {
   ///
   /// 请求插入表情
