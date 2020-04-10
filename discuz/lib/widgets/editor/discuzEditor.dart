@@ -28,6 +28,13 @@ class DiscuzEditor extends StatefulWidget {
   final bool enableUploadAttachment;
 
   ///
+  /// 关联的Post type == DiscuzEditorInputTypes.reply 则需要传入post
+  /// 如果不传入，那么也不会成功的换为回复模式
+  ///
+  /// 如果为编辑post时，type则不能是 DiscuzEditorInputTypes.reply
+  final DiscuzEditorData data;
+
+  ///
   /// 传入默认关联的分类
   /// 如果不传入，那么右下角的切换分类菜单将不会显示
   /// 发布，编辑时需要传入，回复的时候不需要传入的
@@ -43,6 +50,7 @@ class DiscuzEditor extends StatefulWidget {
       this.enableUploadImage = true,
       this.onChanged,
       this.bindCategory,
+      this.data,
       this.enableUploadAttachment = true});
   @override
   _DiscuzEditorState createState() => _DiscuzEditorState();
@@ -181,7 +189,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
           ///
           /// 编辑器植入表情
           /// 插入表情时，触发 _onChanged 即可
-          final String text = "${_controller.text} ${emoji.attributes.code}  ";
+          final String text = "${_controller.text} ${emoji.attributes.code} ";
           _controller.value = TextEditingValue(text: text);
           _onChanged(state: state);
         },

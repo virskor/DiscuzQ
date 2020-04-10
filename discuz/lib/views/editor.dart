@@ -10,6 +10,8 @@ import 'package:discuzq/states/editorState.dart';
 import 'package:discuzq/widgets/appbar/appbarSaveButton.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:discuzq/models/postModel.dart';
+import 'package:discuzq/models/categoryModel.dart';
+import 'package:discuzq/widgets/editor/formaters/discuzEditorDataFormater.dart';
 
 ///
 /// 发帖编辑器
@@ -43,7 +45,13 @@ class Editor extends StatefulWidget {
   /// 如果为编辑post时，type则不能是 DiscuzEditorInputTypes.reply
   final PostModel post;
 
-  Editor({@required this.type, this.post});
+  ///
+  /// 传入默认关联的分类
+  /// 如果不传入，那么右下角的切换分类菜单将不会显示
+  /// 发布，编辑时需要传入，回复的时候不需要传入的
+  final CategoryModel bindCategory;
+
+  Editor({@required this.type, this.post, this.bindCategory});
 
   @override
   _EditorState createState() => _EditorState();
@@ -56,8 +64,7 @@ class _EditorState extends State<Editor> {
 
   ///
   /// 编辑器数据
-  /// 默认为null
-  /// todo: 处理reply的时候数据来源
+  /// 默认为nul
   DiscuzEditorData _discuzEditorData;
 
   @override
@@ -118,9 +125,9 @@ class _EditorState extends State<Editor> {
   /// 发布内容，
   /// 将自动处理数据转化，并根据模式，调用reply，或者创建主题的接口
   Future<void> _post() async {
-    print(_discuzEditorData.category);
-    print(_discuzEditorData.attributes.content);
-    print(_discuzEditorData.relationships.attachments);
+    final dynamic data =
+        await DiscuzEditorDataFormater.toJSON(_discuzEditorData);
+    print(data);
   }
 
   Widget _buildEditor() {
@@ -135,6 +142,7 @@ class _EditorState extends State<Editor> {
     if (widget.type == DiscuzEditorInputTypes.reply) {
       return DiscuzEditor(
         enableUploadAttachment: false,
+        bindCategory: widget.bindCategory,
         onChanged: (DiscuzEditorData data) {
           ///
           /// 切勿setState,否则UI将loop
@@ -147,6 +155,7 @@ class _EditorState extends State<Editor> {
     /// 主题和视频的，都使用一般的编辑器就可以了
     /// 默认允许表情，上传图片，上传附件
     return DiscuzEditor(
+      bindCategory: widget.bindCategory,
       onChanged: (DiscuzEditorData data) {
         ///
         /// 切勿setState,否则UI将loop
