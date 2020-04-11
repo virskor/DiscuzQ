@@ -8,6 +8,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/users/userFollow.dart';
+import 'package:discuzq/models/userGroupModel.dart';
 
 ///
 /// 用户主页顶部卡片
@@ -18,10 +19,15 @@ class UserHomeDelegateCard extends StatefulWidget {
   final UserModel user;
 
   ///
+  /// 指定要显示的用户组信息
+  final UserGroupModel userGroup;
+
+  ///
   /// 高度
   final double height;
 
-  UserHomeDelegateCard({Key key, @required this.user, this.height})
+  UserHomeDelegateCard(
+      {Key key, @required this.user, @required this.userGroup, this.height})
       : super(key: key);
 
   @override
@@ -85,6 +91,10 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                       fontSize: DiscuzApp.themeOf(context).mediumTextSize,
                       fontWeight: FontWeight.bold,
                     ),
+                    subtitle: DiscuzText(
+                      _userGroupLabel(),
+                      color: DiscuzApp.themeOf(context).greyTextColor,
+                    ),
                     trailing: UserFollow(
                       user: widget.user,
                       onUserChanged: (UserModel user) => setState(() {
@@ -139,4 +149,10 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
               ),
             ),
           ));
+
+  /// 
+  /// 用户组标签
+  String _userGroupLabel() => widget.userGroup.attributes.name == ''
+      ? '获取中'
+      : widget.userGroup.attributes.name;
 }

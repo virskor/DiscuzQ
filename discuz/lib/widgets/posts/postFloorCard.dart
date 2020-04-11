@@ -196,7 +196,7 @@ class PostFloorCard extends StatelessWidget {
                     ///
                     /// 格式化时间
                     DateUtil.formatDate(
-                        DateTime.parse(post.attributes.createdAt),
+                        DateTime.parse(post.attributes.createdAt).toLocal(),
                         format: "yyyy-MM-dd HH:mm"),
                     color: DiscuzApp.themeOf(context).greyTextColor,
                     fontSize: DiscuzApp.themeOf(context).smallTextSize,

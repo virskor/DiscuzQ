@@ -1,0 +1,99 @@
+#=================================================
+# https://github.com/naizhao/Build-Discuz-Q-Flutter
+# Description: Build Discuz! Q Flutter APP using GitHub Actions
+# Lisence: MIT
+# Author: @naizhao
+# Blog: https://吴.中国
+#=================================================
+
+name: Build Discuz-Q-APP
+
+on:
+  release:
+    types: published
+  push:
+    branches:
+      - master
+#    paths:
+#      - '.config'
+#  schedule:
+#    - cron: 0 8 * * 5
+#     watch:
+#       types: started
+
+env:
+  REPO_URL: https://github.com/virskor/DiscuzQ
+  REPO_BRANCH: master
+  SSH_ACTIONS: false
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Initialization Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '14.x'
+
+    - name: Initialization Flutter
+      uses: subosito/flutter-action@v1.2.0
+      with:
+        channel: 'dev'
+
+    - name: Clone source code
+      run: |
+        git clone $REPO_URL -b $REPO_BRANCH Discuz-Q-APP
+    - name: Setup build environment
+      run: |
+        echo "current path: "`pwd`
+        cd Discuz-Q-APP/discuz
+        echo "::set-env name=DISCUZ_HOME::$PWD"
+        cat >> android/key.properties <<EOF
+        storePassword=naizhao
+        keyPassword=naizhao
+        keyAlias=key
+        storeFile=../android.keystore
+        EOF
+        echo "current path: "`pwd`
+        cat android/key.properties
+        keytool -genkey -v -alias key -keystore android/android.keystore -keypass naizhao -storepass naizhao -keyalg RSA -keysize 4096 -validity 3650 -dname "CN=Discuz Q, OU=DNSPod, O=Tencent Cloud, L=ShenZhen, ST=GuangDong, C=CN"
+    - name: Build Android version
+      run: |
+        df -lh
+        echo "current path: "`pwd`
+        cd Discuz-Q-APP/discuz
+        echo "current path: "`pwd`
+        flutter pub get
+        flutter build apk
+        df -lh
+        ls -lha
+        ls -lha build
+    # - name: Build iOS version
+    #   run: |
+    #     df -lh
+    #     echo "current path: "`pwd`
+    #     cd Discuz-Q-APP/discuz
+    #     flutter clean
+    #     flutter pub get
+    #     cd ios
+    #     rm -rf Podfile.lock
+    #     pod install
+    #     cd ..
+    #     flutter build ios
+
+    - name: Assemble artifact
+      run: |
+        rm -rf ./artifact/
+        mkdir -p ./artifact/
+        mv ./Discuz-Q-APP/discuz/build/app/outputs/apk/release/app-release.apk ./artifact/
+        ls ./artifact/
+    - name: Upload packages to directory
+      uses: actions/upload-artifact@master
+      with:
+        name: Discuz-Q-APP
+        path: ./artifact/

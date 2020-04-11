@@ -116,6 +116,11 @@ class RequestIncludes {
   static const String fromUser = 'fromUser';
 
   ///
+  /// groups
+  /// 指定获取用户组信息
+  static const String groups = 'groups';
+
+  ///
   /// fromIncludes
   /// 使用RequestIncludes包含的可用于查询关联信息的数据构造用于请求的 queryParams
   ///

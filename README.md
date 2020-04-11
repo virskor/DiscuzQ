@@ -24,6 +24,12 @@ If you have any question about this project, follow and post an issue. I will co
 第三方APP，不代表Discuz团队，仅做个人学习使用。该Flutter APP将不考虑支持Web。  
 该APP现在处于开发阶段，暂时不推荐clone并编译，后续编排改动都很大，直到release前暂不要使用这些代码。  
 
+### 贡献
+他们参与了这个项目，并为此做出贡献，排名不分先后  
+[Naizhao 提供字自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
+
+
+
 ### 开发提示
 现在，我们的仓库每日都有新的commit，这样一来代码变动都是很大的，并且很多功能都没有完成，你可能跑步起来或者跑起来了还有很多问题。我们将在基础功能完成后，进行很大的Code Review工作和测试工作，现在请不要将代码用于生产环境的构建。  
 

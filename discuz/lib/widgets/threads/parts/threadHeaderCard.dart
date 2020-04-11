@@ -70,7 +70,7 @@ class ThreadHeaderCard extends StatelessWidget {
                     ///
                     /// 格式化时间
                     DateUtil.formatDate(
-                        DateTime.parse(thread.attributes.createdAt),
+                        DateTime.parse(thread.attributes.updatedAt).toLocal(),
                         format: "yyyy-MM-dd HH:mm"),
                     color: DiscuzApp.themeOf(context).greyTextColor,
                     fontSize: DiscuzApp.themeOf(context).smallTextSize,
