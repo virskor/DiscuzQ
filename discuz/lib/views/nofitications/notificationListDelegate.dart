@@ -177,7 +177,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                               ),
                               subtitle: DiscuzText(
                                 DateUtil.formatDate(
-                                    DateTime.parse(n.attributes.createdAt),
+                                    DateTime.parse(n.attributes.createdAt).toLocal(),
                                     format: "yyyy-MM-dd HH:mm"),
                                 fontSize: 14,
                                 color: DiscuzApp.themeOf(context).greyTextColor,
@@ -200,7 +200,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                         ? const SizedBox()
                         : DiscuzText(
                             DateUtil.formatDate(
-                                DateTime.parse(n.attributes.createdAt),
+                                DateTime.parse(n.attributes.createdAt).toLocal(),
                                 format: "yyyy-MM-dd HH:mm"),
                             fontSize: 14,
                             color: DiscuzApp.themeOf(context).greyTextColor,
