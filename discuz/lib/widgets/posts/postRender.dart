@@ -18,24 +18,21 @@ class PostRender extends StatelessWidget {
   const PostRender({@required this.content, this.prefixsChild = const []});
 
   @override
-  Widget build(BuildContext context) {
-    ////
-    /// 将内容渲染为richText, 渲染表情等
-    /// todo，评论自动换行优化处理
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      textBaseline: TextBaseline.alphabetic,
-      children: <Widget>[
-        ...prefixsChild,
-        Flexible(
-          flex: 12,
-          child: HtmlRender(
-            html: content,
-            prefixsChild: prefixsChild,
-          ),
-        )
-      ],
-    );
-  }
+  ////
+  /// 将内容渲染为richText, 渲染表情等
+  /// todo，评论自动换行优化处理
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        mainAxisAlignment: MainAxisAlignment.start,
+        textBaseline: TextBaseline.alphabetic,
+        children: <Widget>[
+          ...prefixsChild,
+          Flexible(
+            flex:12,
+            child: HtmlRender(
+              html: content,
+            ),
+          )
+        ],
+      );
 }

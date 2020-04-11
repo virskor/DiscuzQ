@@ -252,7 +252,7 @@ class _MyAccountCard extends StatelessWidget {
                   children: [
                     DiscuzText(
                       '个人主页',
-                      fontWeight: FontWeight.w300,
+                      fontWeight: FontWeight.w400,
                       color: DiscuzApp.themeOf(context).greyTextColor,
                     ),
                     const DiscuzListTileTrailing()
@@ -287,7 +287,7 @@ class _SimpleUserFollowDescribe extends StatelessWidget {
               children: [
                 DiscuzText(
                   '关注',
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w400,
                   color: DiscuzApp.themeOf(context).greyTextColor,
                 ),
                 SizedBox(
@@ -302,7 +302,7 @@ class _SimpleUserFollowDescribe extends StatelessWidget {
                 ),
                 DiscuzText(
                   '粉丝',
-                  fontWeight: FontWeight.w300,
+                  fontWeight: FontWeight.w400,
                   color: DiscuzApp.themeOf(context).greyTextColor,
                 ),
                 SizedBox(

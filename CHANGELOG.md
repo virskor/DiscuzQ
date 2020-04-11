@@ -3,6 +3,9 @@
 * Thread Render
 * Vedio Player
 
+2020-04-12
+图片无法正常显示的BUG
+
 2020-04-11
 新增用户组模型，显示用户组信息
 时间未正确toLocal format的错误

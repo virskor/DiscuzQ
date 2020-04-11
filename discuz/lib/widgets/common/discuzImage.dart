@@ -1,9 +1,12 @@
 import 'dart:typed_data';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/permissionHepler.dart';
 import 'package:discuzq/widgets/common/discuzContextMenu.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
@@ -11,8 +14,6 @@ import 'package:discuzq/widgets/share/shareNative.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class DiscuzImage extends StatefulWidget {
   ///
@@ -96,7 +97,7 @@ class _DiscuzImageState extends State<DiscuzImage> {
                 Uint8List.fromList(response.data));
             if (result) {
               DiscuzToast.success(context: context, message: '保存成功');
-              Navigator.pop(context);
+              //Navigator.pop(context); /// 暂时不为用户关闭
               return;
             }
             DiscuzToast.failed(context: context, message: '保存失败');
@@ -120,6 +121,9 @@ class _DiscuzImageState extends State<DiscuzImage> {
           imageUrl: widget.isThumb
               ? attachment.attributes.thumbUrl
               : attachment.attributes.url,
+          ///
+          /// 请求图片时要带Referer
+          httpHeaders: {"Referer": Global.domain},
           fit: BoxFit.cover,
           width: widget.isThumb ? imageSize : null,
           height: widget.isThumb ? imageSize : null,

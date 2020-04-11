@@ -13,10 +13,6 @@ class HtmlRender extends StatelessWidget {
   final String html;
 
   ///
-  /// 至于渲染的HTML内容之前的Widgets
-  final List<Widget> prefixsChild;
-
-  ///
   /// 处理表情渲染
   final emojiOp = BuildOp(
     onPieces: (meta, pieces) {
@@ -30,7 +26,7 @@ class HtmlRender extends StatelessWidget {
     },
   );
 
-  HtmlRender({@required this.html, this.prefixsChild});
+  HtmlRender({@required this.html});
 
   @override
   Widget build(BuildContext context) => HtmlWidget(html,

@@ -34,7 +34,7 @@ class ThreadCardQuickActions extends StatelessWidget {
           ///
           /// 点赞按钮
           Padding(
-            padding: const EdgeInsets.only(top: 3),
+            padding: const EdgeInsets.only(top: 3, right: 4),
             child: PostLikeButton(
               size: _iconsize,
               post: firstPost,

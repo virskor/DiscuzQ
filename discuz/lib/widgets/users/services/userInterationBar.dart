@@ -32,7 +32,7 @@ class _UserServicesState extends State<UserInterationBar> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _UserInterationBarItem(
-                  icon: SFSymbols.camera,
+                  icon: 0xe8b1,
                   label: '发布主题',
                   onPressed: () => DiscuzRoute.open(
                       context: context,
@@ -56,7 +56,7 @@ class _UserServicesState extends State<UserInterationBar> {
 class _UserInterationBarItem extends StatelessWidget {
   ///
   /// 图标
-  final IconData icon;
+  final dynamic icon;
 
   ///
   /// 按钮的标题
@@ -79,7 +79,7 @@ class _UserInterationBarItem extends StatelessWidget {
               children: [
                 DiscuzIcon(
                   icon,
-                  size: 20,
+                  size: 22,
                   color: DiscuzApp.themeOf(context).textColor,
                 ),
                 const SizedBox(

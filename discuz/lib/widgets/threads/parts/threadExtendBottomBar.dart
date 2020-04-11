@@ -116,7 +116,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
                           child: Row(
                             children: <Widget>[
                               el.attributes.runtimeType == IconData
-                                  ? DiscuzIcon(el.attributes)
+                                  ? DiscuzIcon(el.attributes, color: DiscuzApp.themeOf(context).textColor,)
                                   : el.attributes,
                               const SizedBox(width: 5),
                               DiscuzText(el.caption),
