@@ -8,7 +8,7 @@ class AppState extends StateModel {
   /// forum 站点信息
   ///
   ForumModel _forum;
-  get forum => _forum;
+  ForumModel get forum => _forum;
   void updateForum(ForumModel forum) {
     _forum = forum;
     notifyListeners();
@@ -17,7 +17,7 @@ class AppState extends StateModel {
   ///
   /// 用户当前悬停的分类
   CategoryModel _focusedCategory;
-  get focusedCategory => _focusedCategory;
+  CategoryModel get focusedCategory => _focusedCategory;
   void updateFocusedCategories(CategoryModel cat) {
     _focusedCategory = cat;
     notifyListeners();
@@ -37,7 +37,7 @@ class AppState extends StateModel {
   /// 已经登录的用户
   ///
   UserModel _user;
-  get user => _user;
+  UserModel get user => _user;
   void updateUser(UserModel user) {
     _user = user;
     notifyListeners();

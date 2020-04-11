@@ -14,7 +14,7 @@ class Global {
   /// 注意：不要填写被301或者302的域名
   /// 注意：用http是不推荐的
   ///
-  static const String domain = 'https://www.bushcraftcn.com';
+  static const String domain = 'https://discuz.chat';
 
   ///
   /// 隐私政策和用户协议常规不需要设置

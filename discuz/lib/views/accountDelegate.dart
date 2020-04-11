@@ -22,12 +22,9 @@ import 'package:discuzq/views/users/profileDelegate.dart';
 import 'package:discuzq/views/users/walletDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
 import 'package:discuzq/views/users/follows/followingDelegate.dart';
-import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
-
-import '../widgets/common/discuzText.dart';
-import '../widgets/ui/ui.dart';
+import 'package:discuzq/widgets/users/services/userInterationBar.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -39,12 +36,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
   final RefreshController _controller = RefreshController();
 
   final List<_AccountMenuItem> _menus = [
-    const _AccountMenuItem(
-        label: '偏好设置',
-        icon: SFSymbols.gear,
-        separate: true,
-        showDivider: false,
-        child: const PreferencesDelegate()),
     const _AccountMenuItem(
         label: '我的资料',
         icon: SFSymbols.wand_stars,
@@ -81,13 +72,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
                 message: '是否退出登录？',
                 onConfirm: () => AuthHelper.logout(state: state)),
         icon: SFSymbols.arrow_right_square),
-    _AccountMenuItem(
-        label: '邀请朋友',
-        icon: SFSymbols.square_arrow_up,
-        method: (AppState state, {BuildContext context}) =>
-            ShareApp.show(context: context, user: state.user),
-        showDivider: false,
-        separate: true),
   ];
 
   @override
@@ -116,7 +100,10 @@ class _AccountDelegateState extends State<AccountDelegate> {
             appBar: DiscuzAppBar(
               title: '个人中心',
               elevation: 0,
-              actions: <Widget>[const NightModeSwitcher()],
+              actions: <Widget>[
+                const NightModeSwitcher(),
+                const _SettingButton()
+              ],
             ),
             body: state.user == null
                 ? const YetNotLogon()
@@ -133,11 +120,20 @@ class _AccountDelegateState extends State<AccountDelegate> {
                         /// 构造登录信息页
                         const _MyAccountCard(),
 
+                        ///
+                        /// 用户交互组件
+                        /// 包含发布信息的按钮和邀请按钮
+                        const UserInterationBar(),
+
                         /// 菜单构造
                         Container(
-                          margin: EdgeInsets.only(top: 5),
-                          child: Column(
-                            children: _buildMenus(state),
+                          margin: const EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            child: Column(
+                              children: _buildMenus(state),
+                            ),
                           ),
                         )
                       ],
@@ -174,6 +170,22 @@ class _AccountDelegateState extends State<AccountDelegate> {
             ),
           ))
       .toList();
+}
+
+///
+/// 设置按钮
+class _SettingButton extends StatelessWidget {
+  const _SettingButton();
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+        icon: DiscuzIcon(
+          SFSymbols.gear_alt_fill,
+          color: DiscuzApp.themeOf(context).textColor,
+        ),
+        onPressed: () => DiscuzRoute.open(
+            context: context, widget: const PreferencesDelegate()),
+      );
 }
 
 /// 菜单列表
@@ -213,8 +225,10 @@ class _MyAccountCard extends StatelessWidget {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: true,
       builder: (context, child, state) => Container(
+            margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.only(top: 15, bottom: 15),
             decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: DiscuzListTile(
               leading: Hero(
@@ -226,20 +240,79 @@ class _MyAccountCard extends StatelessWidget {
               title: DiscuzText(
                 state.user.attributes.username ?? '',
                 fontSize: DiscuzApp.themeOf(context).largeTextSize,
-              ),
-              subtitle: DiscuzText(
-                '查看个人主页',
-                fontWeight: FontWeight.w300,
-                color: DiscuzApp.themeOf(context).greyTextColor,
+                fontWeight: FontWeight.bold,
               ),
 
-              /// todo: 增加bio显示，待��口反馈
+              subtitle: const _SimpleUserFollowDescribe(),
+              trailing: SizedBox(
+                width: 100,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    DiscuzText(
+                      '个人主页',
+                      fontWeight: FontWeight.w300,
+                      color: DiscuzApp.themeOf(context).greyTextColor,
+                    ),
+                    const DiscuzListTileTrailing()
+                  ],
+                ),
+              ),
+
+              /// todo: 增加bio显示，待接口口反馈
               onTap: () => DiscuzRoute.open(
                   context: context,
                   shouldLogin: true,
                   widget: UserHomeDelegate(
                     user: state.user,
                   )),
+            ),
+          ));
+}
+
+///
+/// 用户粉丝，和关注信息简单描述
+///
+class _SimpleUserFollowDescribe extends StatelessWidget {
+  const _SimpleUserFollowDescribe();
+
+  @override
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+      rebuildOnChange: true,
+      builder: (context, child, state) => Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                DiscuzText(
+                  '关注',
+                  fontWeight: FontWeight.w300,
+                  color: DiscuzApp.themeOf(context).greyTextColor,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                DiscuzText(
+                  state.user.attributes.followCount.toString(),
+                  fontFamily: 'Roboto Condensed',
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                DiscuzText(
+                  '粉丝',
+                  fontWeight: FontWeight.w300,
+                  color: DiscuzApp.themeOf(context).greyTextColor,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                DiscuzText(
+                  state.user.attributes.fansCount.toString(),
+                  fontFamily: 'Roboto Condensed',
+                )
+              ],
             ),
           ));
 }

@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:discuzq/models/userModel.dart';
-import 'package:discuzq/utils/StringHelper.dart';
-import 'package:discuzq/utils/authorizationHelper.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/request/urls.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/views/users/loginDelegate.dart';
+import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/utils/StringHelper.dart';
+import 'package:discuzq/utils/authorizationHelper.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/request/urls.dart';
 
 class AuthHelper {
   /// pop login delegate

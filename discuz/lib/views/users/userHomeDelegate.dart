@@ -1,7 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/request/requestIncludes.dart';
-import 'package:discuzq/utils/request/urls.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -13,6 +10,9 @@ import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/users/userRecentThreads.dart';
 import 'package:discuzq/models/userGroupModel.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/request/requestIncludes.dart';
+import 'package:discuzq/utils/request/urls.dart';
 
 const double _userHomeDelagateCardHeight = 180;
 

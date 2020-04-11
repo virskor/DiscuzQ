@@ -164,7 +164,7 @@ class _ForumCreateThreadDialog extends StatelessWidget {
     return DiscuzRoute.open(
         context: context,
         fullscreenDialog: true,
-
+        shouldLogin: true,
         ///
         /// 若用户停留的分类是全部，那么一样不需要传入全部
         /// 其实传不传无所谓的，反正传了全部，也不会被自动选择全部这个分类，因为接口里并不存在呀

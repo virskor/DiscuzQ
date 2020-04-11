@@ -138,7 +138,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                             fontWeight: FontWeight.bold,
                           ),
                           DiscuzText(
-                            '被关注',
+                            '粉丝',
                             color: DiscuzApp.themeOf(context).greyTextColor,
                           ),
                         ],

@@ -19,7 +19,7 @@ class NightModeSwitcher extends StatelessWidget {
           return IconButton(
             icon: DiscuzIcon(
               state.appConf['darkTheme'] == false
-                  ? SFSymbols.sun_min_fill
+                  ? SFSymbols.sun_max_fill
                   : SFSymbols.moon_fill,
               color: color ?? DiscuzApp.themeOf(context).textColor,
             ),
