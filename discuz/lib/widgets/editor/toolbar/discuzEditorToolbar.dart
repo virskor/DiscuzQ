@@ -290,13 +290,16 @@ class _ToolbarExt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 5, right: 5),
-      decoration: const BoxDecoration(
-          color: Colors.black12, border: const Border(left: Global.border)),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: child,
+    return Material(
+      elevation: 10,
+      child: Container(
+        padding: const EdgeInsets.only(left: 5, right: 5),
+        decoration:
+            const BoxDecoration(border: const Border(left: Global.border)),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: child,
+        ),
       ),
     );
   }

@@ -5,6 +5,8 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 
 class PrivaciesDelegate extends StatefulWidget {
+  ///
+  /// isPrivacy == true 打开的将是隐私政策 否则 是用户条款
   final bool isPrivacy;
 
   const PrivaciesDelegate({Key key, this.isPrivacy = true}) : super(key: key);

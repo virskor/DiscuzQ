@@ -1,5 +1,3 @@
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/settings/aboutDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -11,6 +9,8 @@ import 'package:discuzq/widgets/settings/settingToolkit.dart';
 import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
 import 'package:discuzq/widgets/settings/clearCache.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/settings/aboutDelegate.dart';
 
 class PreferencesDelegate extends StatefulWidget {
   const PreferencesDelegate({Key key}) : super(key: key);
