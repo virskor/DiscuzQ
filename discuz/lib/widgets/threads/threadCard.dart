@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -132,6 +133,16 @@ class _ThreadCardState extends State<ThreadCard> {
                   ],
                 ),
               ),
+              
+              ///
+              /// 梯子快捷操作工具栏
+              ThreadCardQuickActions(
+                firstPost: _firstPost,
+                thread: widget.thread,
+              ),
+
+
+              /// 楼层评论
               ThreadPostSnapshot(
                 replyCounts: widget.thread.attributes.postCount,
                 lastThreePosts: widget.thread.relationships.lastThreePosts,

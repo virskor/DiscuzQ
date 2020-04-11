@@ -76,7 +76,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             ///
             /// 回复
             const _ThreadExtendBottomBarItem(
-                attributes: SFSymbols.bubble_middle_bottom,
+                attributes: SFSymbols.bubble_left_bubble_right,
                 caption: '回复',
                 uniqueId: _tapReplayButton),
 
