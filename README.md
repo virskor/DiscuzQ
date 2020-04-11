@@ -27,7 +27,7 @@ If you have any question about this project, follow and post an issue. I will co
 
 ### 贡献
 他们参与了这个项目，并为此做出贡献，排名不分先后  
-[Naizhao 提供字自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
+[奶罩大佬 提供了自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
 
 
 

@@ -10,6 +10,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorCategorySelector.dart';
 import 'package:discuzq/models/categoryModel.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 class DiscuzEditorToolbar extends StatefulWidget {
   final Function onTap;
@@ -158,7 +159,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                                 ? GestureDetector(
                                     onTap: _closeKeyboard,
                                     child: const _ToolbarIconButton(
-                                        icon: Icons.keyboard_hide),
+                                        icon: SFSymbols.keyboard_chevron_compact_down),
                                   )
                                 : const SizedBox(),
                           ],
@@ -199,7 +200,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                 ? GestureDetector(
                     onTap: () => _callbackInput(toolbarEvt: 'emoji'),
                     child: const _ToolbarIconButton(
-                      icon: Icons.face,
+                      icon: SFSymbols.smiley,
                     ),
                   )
                 : const SizedBox(),
@@ -225,7 +226,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                     child: GestureDetector(
                       onTap: () => _callbackInput(toolbarEvt: 'image'),
                       child: const _ToolbarIconButton(
-                        icon: Icons.image,
+                        icon: SFSymbols.camera,
                       ),
                     ),
                   )

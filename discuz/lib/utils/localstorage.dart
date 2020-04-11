@@ -1,5 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:discuzq/utils/global.dart';
 
+
+///
+/// 注意，为了保证缓存不因为域名冲突， key前需要关联global domain
+/// "${Global.domain}_$key"
+/// 
 class DiscuzLocalStorage {
   static Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
@@ -12,7 +18,7 @@ class DiscuzLocalStorage {
    */
   static Future<bool> setString(String key, String val) async {
     SharedPreferences prefs = await _prefs;
-    return prefs.setString(key, val);
+    return prefs.setString("${Global.domain}_$key", val);
   }
 
   /*
@@ -24,7 +30,7 @@ class DiscuzLocalStorage {
    */
   static Future<bool> romove(String key) async {
     SharedPreferences prefs = await _prefs;
-    return prefs.remove(key);
+    return prefs.remove("${Global.domain}_$key");
   }
 
   /*
@@ -48,7 +54,7 @@ class DiscuzLocalStorage {
    */
   static Future<bool> setInt(String key, int val) async {
     SharedPreferences prefs = await _prefs;
-    return prefs.setInt(key, val);
+    return prefs.setInt("${Global.domain}_$key", val);
   }
 
   /*
@@ -60,7 +66,7 @@ class DiscuzLocalStorage {
    */
   static Future<String> getString(String key) async {
     SharedPreferences prefs = await _prefs;
-    String strValue = prefs.getString(key);
+    String strValue = prefs.getString("${Global.domain}_$key");
     return Future.value(strValue);
   }
 
@@ -73,7 +79,7 @@ class DiscuzLocalStorage {
    */
   static Future<int> getInt(String key) async {
     SharedPreferences prefs = await _prefs;
-    int intValue = prefs.getInt(key);
+    int intValue = prefs.getInt("${Global.domain}_$key");
     return Future.value(intValue);
   }
 }
