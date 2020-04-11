@@ -5,6 +5,7 @@
 <p align="center">该项目的诞生，离不开Discuz DNSPod TencentCloud 的贡献</p>
 
 ## About DiscuzQ Flutter  
+![Build Discuz-Q-APP](https://github.com/virskor/DiscuzQ/workflows/Build%20Discuz-Q-APP/badge.svg)  
 这是一个基于DiscuzQ 第三方开发的Flutter跨平台APP，要知道使用这些代码是免费的。但基于你取得DiscuzQ的授权。
 
 ### 实现目标
@@ -134,6 +135,20 @@ sudo rm -rf Podfile.lock
 pod install #手动安装IOS相关依赖
 ```
 推荐直接打开discuz目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看discuz目录下的PROBLEMS
+
+### 源相关
+如果你无法Build，那么你可能需要更改Gradle 源 pub源，关于Pub源，建议搜索 flutter China相关内容。 gradle源，则需要注意下面的信息。  
+我们使用了默认的源配置，但是我们也增加了国内源，建议根据情况修改 ./discuz/andorid/build.gradle 。 你可能需要重复尝试很多次，才能正常build，这取决于你的网络情况。
+```gradle
+repositories {
+    // maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    // maven{ url 'http://maven.aliyun.com/nexus/content/repositories/google'}
+    // maven{ url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+    google() // 使用国内源，解除上面的注释
+    jcenter()
+}
+```
+
 
 ## 性能相关
 可能有的开发者刚开始接触Flutter按照上面的指引运行起来APP后顿时感觉卡顿，实际上flutter run是运行的Debug模式，Debug下性能表现和Release是有很大差异的。如果体验用于生产的，应该使用下面的命令。
