@@ -2,8 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class MetaModel {
+  ///
+  /// 主题个数
   final int threadCount;
 
+  ///
+  /// 页面总数
   final int pageCount;
 
   MetaModel({this.threadCount = 0, this.pageCount = 0});
