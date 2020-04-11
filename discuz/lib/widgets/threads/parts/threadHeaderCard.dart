@@ -1,4 +1,3 @@
-import 'package:discuzq/utils/dateUtil.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
@@ -9,7 +8,7 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/threads/parts/threadPopmenu.dart';
+import 'package:discuzq/utils/dateUtil.dart';
 
 ///
 /// ThreadHeaderCard
@@ -102,13 +101,6 @@ class ThreadHeaderCard extends StatelessWidget {
                     size: 22,
                     withOpacity: true,
                   ))
-              : const SizedBox(),
-
-          /// popmenu
-          showOperations == true
-              ? ThreadPopMenu(
-                  thread: thread,
-                )
               : const SizedBox(),
         ],
       ),

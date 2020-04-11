@@ -33,6 +33,7 @@ class _PostLikeButtonState extends State<PostLikeButton> {
       rebuildOnChange: false,
       builder: (context, child, state) {
         return LikeButton(
+          padding: const EdgeInsets.all(0),
           isLiked: _iLikedIt(state: state),
           onTap: _onLikeButtonTapped,
           size: widget.size
