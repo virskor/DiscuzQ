@@ -5,6 +5,7 @@
 <p align="center">该项目的诞生，离不开Discuz DNSPod TencentCloud 的贡献</p>
 
 ## About DiscuzQ Flutter  
+![Build Discuz-Q-APP](https://github.com/virskor/DiscuzQ/workflows/Build%20Discuz-Q-APP/badge.svg)  
 这是一个基于DiscuzQ 第三方开发的Flutter跨平台APP，要知道使用这些代码是免费的。但基于你取得DiscuzQ的授权。
 
 ### 实现目标

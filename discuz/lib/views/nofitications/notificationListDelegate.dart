@@ -20,6 +20,7 @@ import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
 
 ///
 /// 消息通知列表页面
@@ -177,17 +178,33 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                               ),
                               subtitle: DiscuzText(
                                 DateUtil.formatDate(
-                                    DateTime.parse(n.attributes.createdAt).toLocal(),
+                                    DateTime.parse(n.attributes.createdAt)
+                                        .toLocal(),
                                     format: "yyyy-MM-dd HH:mm"),
                                 fontSize: 14,
                                 color: DiscuzApp.themeOf(context).greyTextColor,
                               ),
                               trailing: DiscuzLink(
                                 label: '删除',
-                                onTap: () => DiscuzToast.failed(context: context, message: '暂不支持'),
+                                onTap: () async {
+                                  final bool deleted =
+                                      await _deleteNotification(id: n.id);
+                                  if (deleted) {
+                                    setState(() {
+                                      ///
+                                      /// 用户进行了删除， 隐藏当前选项
+                                      /// 只需要删除通知列表中的数据就可以了
+                                      /// 没有必要重新请求接口的
+                                      _notifications = _notifications
+                                          .where((it) => it.id != n.id)
+                                          .toList();
+                                    });
+                                  }
+                                },
                               ),
                             ),
                           ),
+
                     /// 仅系统通知显示标题
                     widget.type != NotificationTypes.system
                         ? const SizedBox()
@@ -195,16 +212,19 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                             n.attributes.title,
                             fontWeight: FontWeight.bold,
                           ),
+
                     /// 仅系统通知显示时间
                     widget.type != NotificationTypes.system
                         ? const SizedBox()
                         : DiscuzText(
                             DateUtil.formatDate(
-                                DateTime.parse(n.attributes.createdAt).toLocal(),
+                                DateTime.parse(n.attributes.createdAt)
+                                    .toLocal(),
                                 format: "yyyy-MM-dd HH:mm"),
                             fontSize: 14,
                             color: DiscuzApp.themeOf(context).greyTextColor,
                           ),
+
                     /// 渲染消息内容
                     /// todo: 点击到关联的帖子
                     HtmlRender(
@@ -217,6 +237,40 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
               )))
           .toList(),
     );
+  }
+
+  ///
+  /// 删除单个通知
+  /// id 是要删除通知的id
+  /// 需要回调删除结果，这样UI来决定是否需要删除当前选中的数据，而重新渲染UI
+  Future<bool> _deleteNotification({int id}) async {
+    ///
+    /// 该请求忽略响应状态
+    /// todo: 更新Request Error Exception
+    final Function process = () async {
+      final Function close = DiscuzToast.loading(context: context);
+
+      Response _ = await Request(context: context)
+          .delete(url: "${Urls.notifications}/${id.toString()}");
+      close();
+      DiscuzToast.success(context: context, message: '删除成功');
+    };
+
+    /// 是否确认删除
+    bool deleted = false;
+
+    ///
+    /// 删除前，先询问
+    /// 如果删除成功，还需要隐藏当前请求删除的项目
+    await DiscuzDialog.confirm(
+        context: context,
+        title: '提示',
+        message: '确定删除吗？',
+        onConfirm: () {
+          process();
+          deleted = true;
+        });
+    return Future.value(deleted);
   }
 
   ///
