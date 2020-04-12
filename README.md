@@ -57,26 +57,6 @@ If you have any question about this project, follow and post an issue. I will co
 了解开发进度，或者有疑问，可以加我微信奥
 <p><img width="200px" src="./snapshots/wechat.jpeg"/> </p>
 
-## 一些隐藏的功能
-有的时候因为不同需要，有的功能可能开发了，但是并没有直接启用，因为这些功能取决于你的后端情况或者偏好。
-### HTTP2的支持
-默认情况下APP没有开启HTTP2请求，如果你的站点开启了HTTP2，那么你可以使用这个特性。在./utils/request/Request.dart中找到下面的代码进行注释解除。   
-```dart
-/// import 'package:dio_http2_adapter/dio_http2_adapter.dart';
-
-    /// http2支持，如果你开启了HTTP2，那么移除注释，默认情况下是不启用的
-    // _dio.httpClientAdapter = Http2Adapter(
-    //   ConnectionManager(
-    //     idleTimeout: 10000,
-
-    //     /// Ignore bad certificate
-    //     onClientCreate: (_, clientSetting) =>
-    //         clientSetting.onBadCertificate = (_) => true,
-    //   ),
-    // );
-
-```
-
 ## 注意
 This application dose not have released any version. checkout dev branch to get latest version or contribute it. Thanks.  
 This is an third party software.  
@@ -137,6 +117,29 @@ production:
   appname: DiscuzQ
   ## DO NOT ENABLE THIS ITEM WHEN YOU ARE BUILD AN APPLICATION FOR YOUR USERS
   enablePerformanceOverlay: false
+```
+### HTTP2的支持
+build.yaml 中有可选参数，默认情况下HTTP2将不被开启，需要更改build.yaml中的设置，例:
+```yaml
+production:
+  # 开启HTTP2 有链接复用、头部压缩、二进制传输、服务端推送等重多特性
+  # 暂时不建议开启，因Flutter HTTP2实测下来PUT 或者一些情况下，根本无法完成请求
+  # 你可能会获得 flutter: HTTP/2 error: Stream error: Stream was terminated by peer (errorCode: 1). 的错误
+  enableHttp2: false
+  # 证书无法校验时，是否继续请求(忽略非法的证书)
+  # 注意 onBadCertificate 即便没有开启 HTTP2 的支援，也会作用的
+  onBadCertificate: true 
+  # 当请求完成时，连接默认继续保持15000 ms(15秒)，通过idleTimeout来自定义保持时间
+  http2idleTimeout: 15000
+```
+### 金融相关的功能
+实际上，现在我们还不支援这些特性，不过预先设计您可以在Build时，抹去这些功能和您实际情况所相符。  
+现在不建议开启financial。
+
+```yaml
+production:
+  # 钱包，等金融数字等功能都会被隐藏
+  financial: false 
 ```
 
 ### Android Release or debug

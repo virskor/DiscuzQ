@@ -40,7 +40,10 @@ class Global {
   /// 如果不移除payment相关的SDK将导致你的应用无法上架
   /// todo: 现在金融相关功能暂时没有支持
   /// 具体描述查看readme
-  static const bool enablePayment = true;
+  /// ----------------
+  /// 修改请到build.yaml中进行
+  ///
+  static bool get financial => BuildInfo().info()?.financial;
 
   ///
   /// theme

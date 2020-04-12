@@ -16,9 +16,30 @@ class BuildInfoModel {
   /// 是否显示performance Overlay
   final bool enablePerformanceOverlay;
 
+  ///
+  /// 是否显示performance Overlay
+  final bool enableHttp2;
+
+  ///
+  /// 无法校验的证书，是否继续请求
+  final bool onBadCertificate;
+
+  ///
+  /// 金融功能
+  final bool financial;
+
+  ///
+  /// http2 idleTimeout
+  /// idleTimeout
+  final int idleTimeout;
+
   const BuildInfoModel(
       {this.domain = 'https://discuz.chat',
       this.appname = 'DiscuzQ',
+      this.enableHttp2 = false,
+      this.onBadCertificate = true,
+      this.financial = false,
+      this.idleTimeout = 15000,
       this.enablePerformanceOverlay = false});
 
   ///
@@ -44,6 +65,10 @@ class BuildInfoModel {
     return BuildInfoModel(
         domain: data['domain'] ?? '',
         appname: data['appname'] ?? '',
+        enableHttp2: data['enableHttp2'] ?? false,
+        onBadCertificate: data['onBadCertificate'] ?? true,
+        idleTimeout: data['idleTimeout'] ?? 15000,
+        financial: data['financial'] ?? false,
         enablePerformanceOverlay: data['enablePerformanceOverlay'] ?? false);
   }
 }

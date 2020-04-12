@@ -1,13 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/global.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
-
-//import 'package:dio_http2_adapter/dio_http2_adapter.dart';
+import 'package:dio_http2_adapter/dio_http2_adapter.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'package:discuzq/utils/StringHelper.dart';
@@ -19,6 +19,8 @@ import 'package:discuzq/utils/request/RequestCacheInterceptor.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/utils/request/requestErrors.dart';
 import 'package:discuzq/utils/request/requestFormer.dart';
+import 'package:discuzq/utils/buildInfo.dart';
+import 'package:discuzq/utils/global.dart';
 
 const _contentFormData = "multipart/form-data";
 
@@ -30,16 +32,32 @@ class Request {
   final bool autoAuthorization;
 
   Request({this.context, this.autoAuthorization = true}) {
-    /// http2支持，如果你开启了HTTP2，那么移除注释，默认情况下是不启用的
-    // _dio.httpClientAdapter = Http2Adapter(
-    //   ConnectionManager(
-    //     idleTimeout: 10000,
+    ///
+    /// HTTP Default ConnectionManager
+    /// Verify Cert
+    ///
+    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) =>
+              BuildInfo().info().onBadCertificate;
+    };
 
-    //     /// Ignore bad certificate
-    //     onClientCreate: (_, clientSetting) =>
-    //         clientSetting.onBadCertificate = (_) => true,
-    //   ),
-    // );
+    ///
+    /// HTTP2支持
+    /// 请在在build.yaml中进行相关的配置
+    ///
+    if (BuildInfo().info().enableHttp2) {
+      _dio.httpClientAdapter = Http2Adapter(
+        ConnectionManager(
+          idleTimeout: BuildInfo().info().idleTimeout,
+
+          /// Ignore bad certificate
+          onClientCreate: (_, clientSetting) => clientSetting.onBadCertificate =
+              (_) => BuildInfo().info().onBadCertificate,
+        ),
+      );
+    }
 
     ///
     /// automatically decode json to dynamic
@@ -49,16 +67,6 @@ class Request {
     /// dio interceptors ext
     ///
     _dio.interceptors
-
-      /// logger
-      ..add(PrettyDioLogger(
-          requestHeader: false,
-          requestBody: false,
-          responseBody: false,
-          responseHeader: false,
-          error: true,
-          compact: true,
-          maxWidth: 90))
 
       /// 请求时携带cookies
       ..add(CookieManager(CookieJar()))
@@ -75,13 +83,31 @@ class Request {
         // more devices
         options.connectTimeout = (1000 * 20);
         options.receiveTimeout = (1000 * 20);
-        options.headers['User-Agent'] = userAgent;
-        options.headers['Client-Type'] = 'app';
+        options.headers['user-agent'] = userAgent;
+        options.headers['client-type'] = 'app'; // not important
         options.headers['referer'] = Global.domain;
-        options.headers['User-Device'] = deviceAgent.split(';')[0];
+        options.headers['user-device'] =
+            deviceAgent.split(';')[0]; // not important
+
         if (authorization != null && autoAuthorization) {
-          options.headers['Authorization'] = "Bearer $authorization";
+          options.headers['authorization'] = "Bearer $authorization";
         }
+
+        options.responseType = ResponseType.json;
+        options.contentType = Headers.jsonContentType;
+
+        ///
+        /// http2 开启的时候，要将header中包含大写字符的Key 更改为小写
+        /// 这是Flutter的BUG
+        /// 否则 将收到错误
+        /// onError: DioError [DioErrorType.DEFAULT]:
+        /// HTTP/2 error: Stream error: Stream was terminated by peer (errorCode: 1).
+        /// todo: 跟踪BUG
+        // options.headers = options.headers
+        //     .map((k, v) => MapEntry<String, dynamic>(k.toLowerCase(), v));
+
+        ///
+        ///
         return options;
       }, onResponse: (Response response) {
         /// on dio response
@@ -142,7 +168,7 @@ class Request {
 
               /// 继续上次请求 Post Json
               if (e.request.method == "POST" &&
-                  e.request.contentType == Headers.jsonContentType) {
+                  e.request.contentType == ContentType.json.toString()) {
                 return await postJson(
                     url: e.request.uri.toString(),
                     data: e.request.data,
@@ -191,7 +217,17 @@ class Request {
         ///
         DiscuzToast.show(context: context, message: errMessage);
         return Future.value(e);
-      }));
+      }))
+
+      /// logger
+      ..add(PrettyDioLogger(
+          requestHeader: false,
+          requestBody: false,
+          responseBody: false,
+          responseHeader: false,
+          error: true,
+          compact: true,
+          maxWidth: 90));
   }
 
   ///
@@ -297,7 +333,6 @@ class Request {
       resp = await _dio.post(url,
           data: data,
           queryParameters: queryParameters,
-          options: Options(contentType: Headers.jsonContentType),
           onReceiveProgress: onReceiveProgress,
           onSendProgress: onSendProgress);
       // todo: this method should be removed after DIO fixed bugs some how
@@ -325,7 +360,6 @@ class Request {
         url,
         data: data,
         queryParameters: queryParameters,
-        options: Options(contentType: Headers.jsonContentType),
         cancelToken: cancelToken,
       );
       // todo: this method should be removed after DIO fixed bugs some how
@@ -353,7 +387,6 @@ class Request {
         url,
         data: data,
         queryParameters: queryParameters,
-        options: Options(contentType: Headers.jsonContentType),
         cancelToken: cancelToken,
       );
       // todo: this method should be removed after DIO fixed bugs some how
@@ -385,7 +418,6 @@ class Request {
     try {
       resp = await _dio.post(url,
           data: formData,
-          options: Options(contentType: _contentFormData),
           queryParameters: queryParameters,
           onReceiveProgress: onReceiveProgress,
           onSendProgress: onSendProgress);
@@ -393,7 +425,7 @@ class Request {
       print(e);
       return Future.value(null);
     }
-    
+
     resp.data = await _temporaryTransformer(resp.data);
 
     return Future.value(resp);

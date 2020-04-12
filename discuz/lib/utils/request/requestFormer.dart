@@ -18,10 +18,10 @@ class RequestFormer extends DefaultTransformer {
 }
 
 // Must be top-level function
-_parseAndDecode(String response) {
+parseAndDecode(String response) {
   return jsonDecode(response);
 }
 
 _parseJson(String text) {
-  return compute(_parseAndDecode, text);
+  return compute(parseAndDecode, text);
 }
