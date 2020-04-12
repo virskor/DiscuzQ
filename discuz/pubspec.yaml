@@ -45,6 +45,7 @@ dependencies:
   share: ^0.6.3+6
   extended_text_field: ^0.5.0
   flutter_picker: ^1.1.3
+  yaml: ^2.2.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -136,6 +137,7 @@ flutter:
     - assets/images/
     - assets/sounds/
     - assets/policies/
+    - build.yaml
   fonts:
     - family: sficonsets
       fonts:

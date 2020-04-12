@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/buildInfo.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -21,10 +22,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ScopedStateModel<AppState>(
       model: appState,
-      child: ScopedStateModelDescendant<AppState>(builder: (context, child, state) {
+      child: ScopedStateModelDescendant<AppState>(
+          builder: (context, child, state) {
         return AppWrapper(
           onDispose: () {},
-          onInit: () async{
+          onInit: () async {
+            /// 初始化buildInfo
+            /// 这个非常重要的！
+            /// 一定要在最开始
+            await BuildInfo().init();
+
             // 加载配置文件
             await this.initAppSettings();
 
