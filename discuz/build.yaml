@@ -23,7 +23,7 @@ development:
   # PLEASE DO NOT SET THIS ITEM INTO TRUE
   # Cause Flutter Http2 contains many problems
   # We would tell you when this feature is possible for production on readme doc
-  enableHttp2: true
+  enableHttp2: false
   # Certificate
   # Verify certificate is an optional handler for unverifiable certificates, set TRUE continue to request for bad certificates.
   # works for HTTP1.0 and HTTP2
