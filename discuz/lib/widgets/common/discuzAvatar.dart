@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -49,6 +50,7 @@ class DiscuzAvatar extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(circularRate)),
       child: CachedNetworkImage(
         imageUrl: avatarUrl,
+        httpHeaders: {"Referer": Global.domain},
         width: size,
         height: size,
         fit: BoxFit.cover,

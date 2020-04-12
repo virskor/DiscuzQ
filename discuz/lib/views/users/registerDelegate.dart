@@ -79,7 +79,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
                 textScaleFactor: 1.8,
                 fontWeight: FontWeight.bold,
               ),
-              const DiscuzText(
+              DiscuzText(
                 '注册一个${Global.appname}账号',
               ),
               const SizedBox(height: 20),

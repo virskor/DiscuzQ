@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/buildInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -56,11 +57,17 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                       icon: SFSymbols.moon,
                       label: '黑暗模式',
                     ),
-                    const SettingSwitcher(
-                      settinKey: 'showPerformanceOverlay',
-                      icon: SFSymbols.graph_circle,
-                      label: '性能调试工具',
-                    )
+
+                    ///
+                    /// 仅在用户允许使用的时候才开启
+                    /// build.yaml中进行开关
+                    BuildInfo().info().enablePerformanceOverlay
+                        ? const SettingSwitcher(
+                            settinKey: 'showPerformanceOverlay',
+                            icon: SFSymbols.graph_circle,
+                            label: '性能调试工具',
+                          )
+                        : const SizedBox()
                   ],
                 ),
                 SettingGroupWrapper(

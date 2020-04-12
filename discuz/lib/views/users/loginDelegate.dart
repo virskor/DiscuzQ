@@ -89,7 +89,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
                 textScaleFactor: 1.8,
                 fontWeight: FontWeight.bold,
               ),
-              const DiscuzText(
+              DiscuzText(
                 '现在登录${Global.appname}分享瞬间吧',
               ),
               const SizedBox(height: 20),

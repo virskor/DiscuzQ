@@ -2,9 +2,6 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/request/urls.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -16,14 +13,15 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/utils/permissionHepler.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/request/urls.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 const double _imageSize = 50;
 
 class DiscuzEditorImageUploader extends StatefulWidget {
-
   final Function onUploaded;
   const DiscuzEditorImageUploader({this.onUploaded});
-
 
   @override
   _DiscuzEditorImageUploaderState createState() =>
@@ -109,9 +107,10 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
 
     final File imageFile =
         await ImagePicker.pickImage(source: ImageSource.gallery);
-    
+
     if (imageFile != null) {
       final Function close = DiscuzToast.loading(context: context);
+
       ///
       /// 执行上传过程
       /// todo: 增加该文件正在上传的状态
@@ -122,7 +121,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
         ///
         /// 图片上传成功,state新增
         state.addAttachment(attachment);
-        if(widget.onUploaded != null){
+        if (widget.onUploaded != null) {
           widget.onUploaded();
         }
         return;
@@ -201,6 +200,7 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
                       attachment.attributes.thumbUrl,
                       width: _imageSize,
                       height: _imageSize,
+                      headers: {"Referer": Global.domain},
                       fit: BoxFit.cover,
                     ),
                   ),

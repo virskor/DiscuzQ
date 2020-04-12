@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/buildInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -49,7 +50,11 @@ class _DiscuzState extends State<Discuz> {
             child: MaterialApp(
               title: Global.appname,
               debugShowCheckedModeBanner: false,
-              showPerformanceOverlay: state.appConf['showPerformanceOverlay'],
+              /// 如果用户在Build.yaml禁止了这项，这直接不要允许开启
+              showPerformanceOverlay:
+                  BuildInfo().info().enablePerformanceOverlay
+                      ? state.appConf['showPerformanceOverlay']
+                      : false,
               home: Builder(
 
                   /// 不在 MaterialApp 使用theme属性

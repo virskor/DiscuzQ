@@ -293,6 +293,7 @@ class _ToolbarExt extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       elevation: 10,
+      color: DiscuzApp.themeOf(context).backgroundColor,
       child: Container(
         padding: const EdgeInsets.only(left: 5, right: 5),
         decoration:

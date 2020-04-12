@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
@@ -62,7 +63,7 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
       statusBarBrightness: Brightness.light,
     );
-     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
 
     _pageController.dispose();
     super.dispose();
@@ -114,7 +115,10 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
         child: PhotoViewGallery.builder(
       scrollPhysics: const BouncingScrollPhysics(),
       builder: (BuildContext context, int index) => PhotoViewGalleryPageOptions(
-        imageProvider: CachedNetworkImageProvider(widget.gallery[index]),
+        imageProvider: CachedNetworkImageProvider(
+          widget.gallery[index],
+          headers: {"Referer": Global.domain},
+        ),
         initialScale: PhotoViewComputedScale.contained * 0.8,
         heroAttributes: PhotoViewHeroAttributes(tag: index),
       ),

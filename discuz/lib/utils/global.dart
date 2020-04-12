@@ -1,11 +1,14 @@
+import 'package:discuzq/utils/buildInfo.dart';
 import 'package:flutter/material.dart';
 
 class Global {
   ///
   /// appname
   /// 应用程式名称
+  /// --------------
+  /// 修改请到build.yaml中进行
   ///
-  static const String appname = 'DiscuzQ';
+  static String get appname => BuildInfo().info()?.appname;
 
   ///
   /// domain
@@ -13,8 +16,10 @@ class Global {
   /// 注意： 不要在域名后面加 / 路径符
   /// 注意：不要填写被301或者302的域名
   /// 注意：用http是不推荐的
+  /// ----------------
+  /// 修改请到build.yaml中进行
   ///
-  static const String domain = 'https://discuz.chat';
+  static String get domain => BuildInfo().info()?.domain;
 
   ///
   /// 隐私政策和用户协议常规不需要设置

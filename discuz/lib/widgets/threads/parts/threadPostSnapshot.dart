@@ -98,6 +98,20 @@ class ThreadPostSnapshot extends StatelessWidget {
           : null;
 
       /// 渲染回复的内容和回复的用户
+      ///
+      final List<Widget> userReplyTo =
+          userReplyPosts == null || userReplyPosts.length == 0
+              ? const []
+              : [
+                  DiscuzText(
+                    '回复',
+                    color: DiscuzApp.themeOf(context).greyTextColor,
+                  ),
+                  UserLink(
+                    user: userReplyPosts[0],
+                  )
+                ];
+
       return Container(
         child: PostRender(
           content: post.attributes.contentHtml,
@@ -109,21 +123,9 @@ class ThreadPostSnapshot extends StatelessWidget {
 
             ///
             /// 有的可能是多次回复 也就是 某某 回复 某某的
-            userReplyPosts == null || userReplyPosts.length == 0
-                ? const SizedBox()
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      DiscuzText(
-                        '回复',
-                        color: DiscuzApp.themeOf(context).greyTextColor,
-                      ),
-                      UserLink(
-                        user: userReplyPosts[0],
-                      )
-                    ],
-                  ),
+            Row(
+              children: userReplyTo,
+            )
           ],
         ),
       );

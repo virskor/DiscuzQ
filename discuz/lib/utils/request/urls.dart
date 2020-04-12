@@ -4,86 +4,86 @@ class Urls {
   /// -----------------------------------
   /// 统一配置
   ///
-  static const String _apiPath = '${Global.domain}/api';
+  static String _apiPath = '${Global.domain}/api';
 
   /// -----------------------------------
   /// 站点
   ///
   /// 站点信息
-  static const String forum = "$_apiPath/forum";
+  static String forum = "$_apiPath/forum";
 
   /// 站点基本信息接口
-  static const String siteinfo = "$_apiPath/siteinfo";
+  static String siteinfo = "$_apiPath/siteinfo";
 
   /// 拼接站点Logo
   /// 注意这个logo是站点默认的logo文件
   /// 当站点没有设置logo的时候,discuzAppLogo 组件将尝试缓存该图片作为app logo
-  static const String siteLogo = "$_apiPath/static/images/logo.png";
+  static String siteLogo = "$_apiPath/static/images/logo.png";
 
   /// -----------------------------------
   /// 用户
   ///
 
   /// 用户资料展示
-  static const String users = "$_apiPath/users";
+  static String users = "$_apiPath/users";
 
   /// 上传头像接口
   /// 该接口存在拼接，在avatarPicker
-  /// static const String usersAvatar = "$_apiPath/users/{id}/avatar";
+  /// static String usersAvatar = "$_apiPath/users/{id}/avatar";
 
   /// 刷新Token
-  static const String usersRefreshToken = "$_apiPath/refresh-token";
+  static String usersRefreshToken = "$_apiPath/refresh-token";
 
   /// 用户注册
-  static const String usersRegister = "$_apiPath/register";
+  static String usersRegister = "$_apiPath/register";
 
   /// 用户登录
-  static const String usersLogin = "$_apiPath/login";
+  static String usersLogin = "$_apiPath/login";
 
   /// -----------------------------------
   /// 分类
   /// 查询所有分类
-  static const String categories = "$_apiPath/categories";
+  static String categories = "$_apiPath/categories";
 
   /// -----------------------------------
   /// 金融钱包等
   /// 金融钱包相关接口
-  static const String usersWallerData = "$_apiPath/wallet/user";
+  static String usersWallerData = "$_apiPath/wallet/user";
 
   /// -----------------------------------
   /// 表情
   /// 拉取表情列表
-  static const String emoji = "$_apiPath/emoji";
+  static String emoji = "$_apiPath/emoji";
 
   /// -----------------------------------
   /// 主题
   /// 主题相关的接口
-  static const String threads = "$_apiPath/threads";
+  static String threads = "$_apiPath/threads";
 
   ///
   /// 收藏
-  static const String threadsFavorites = "$_apiPath/favorites";
+  static String threadsFavorites = "$_apiPath/favorites";
 
   /// -----------------------------------
   /// 关注
   /// 创建关注接口
-  static const String follow = "$_apiPath/follow";
+  static String follow = "$_apiPath/follow";
 
   /// -----------------------------------
   /// 评论
   /// 评论接口
-  static const String posts = "$_apiPath/posts";
+  static String posts = "$_apiPath/posts";
 
   /// -----------------------------------
   /// 通知
   /// 通知接口
-  static const String notifications = "$_apiPath/notification";
+  static String notifications = "$_apiPath/notification";
 
   /// -----------------------------------
   /// 附件
   /// 附件相关
   /// 附件上传
-  static const String attachments = "$_apiPath/attachments";
+  static String attachments = "$_apiPath/attachments";
 
   /// -----------------------------------
   /// 视频上传
@@ -92,7 +92,7 @@ class Urls {
   /// 取得签名
   /// 上传前，先取得签名其次在上传到腾讯云点播
   ///
-  static const String videoSignature = "$_apiPath/signature";
+  static String videoSignature = "$_apiPath/signature";
 
   /// 申请上传
   /// 腾讯云点播，请求UGC
@@ -103,14 +103,14 @@ class Urls {
   /// videoType:
   /// 请求成功后，将返回用于上传的节点信息，包含存储区域等以及COS临时上传的签名 以及vodSessionKey
   /// 分片上传
-  static const String videoApplyUGC =
+  static String videoApplyUGC =
       "https://vod2.qcloud.com/v3/index.php?Action=ApplyUploadUGC";
 
   /// 确认上传
   /// CommmitUGC
   /// CommitUGC接口将返回文件真实的地址
   /// 和用于创建媒体关联的fileId
-  static const String videoCommitUGC =
+  static String videoCommitUGC =
       "https://vod2.qcloud.com/v3/index.php?Action=CommitUploadUGC";
 
   /// 瞎猜的用途
@@ -134,6 +134,6 @@ class Urls {
   /// reqType: 40001
   /// version: "1.4.8"
   /// vodSessionKey:
-  static const String videoUGCUploadNew =
+  static String videoUGCUploadNew =
       "https://vodreport.qcloud.com/ugcupload_new";
 }
