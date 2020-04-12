@@ -15,7 +15,7 @@ development:
   # You are not gonna get a health application when you add a domain like https://google.com redirected into https://www.google.com
   #
   # YOUR DOMAIN SHOULD NEVER ENDED WITH PATH SEPARATOR LIKE : https://www.example.com/
-  domain: https://www.dehong.ren
+  domain: https://www.bushcraftcn.com
   appname: DiscuzQ
   # Allow and show performance overlay setting
   enablePerformanceOverlay: true
