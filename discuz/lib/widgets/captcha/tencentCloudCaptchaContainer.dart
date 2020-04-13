@@ -84,9 +84,9 @@ class _TencentCloudCaptchaContainerState
   Widget _buildWebview() => Builder(
         builder: (context) {
           return WebView(
-            initialUrl: 'file:///assets/captcha/index.html',
+            //initialUrl: 'file:///assets/captcha/index.html',
             javascriptMode: JavascriptMode.unrestricted,
-            onWebViewCreated: (WebViewController webViewController) async {
+            onWebViewCreated: (WebViewController webViewController) {
               /// webViewController.evaluateJavascript(_evaluateJS);
               _loadHtmlFromAssets(webViewController);
             },

@@ -24,11 +24,11 @@
 <body>
     <script type="text/javascript">
         window.onload = function () {
-            var captcha1 = new TencentCaptcha('{{APPID_REPLACEMENT}}', function (res) {
+            var captcha = new TencentCaptcha('{{APPID_REPLACEMENT}}', function (res) {
                 /* callback */
                 discuzCaptchaChannel.postMessage(JSON.stringify(res));
             });
-            captcha1.show();
+            captcha.show();
         }
     </script>
 </body>
