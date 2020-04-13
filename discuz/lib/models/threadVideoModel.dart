@@ -96,7 +96,7 @@ class ThreadVideoAttributeModel {
   ///
   /// media_url
   /// 文件地址
-  final String mediaUrl;
+  /// final String mediaUrl;
 
   ///
   /// cover_url
@@ -122,7 +122,7 @@ class ThreadVideoAttributeModel {
       this.status = 0,
       this.reason = '',
       this.fileID = '',
-      this.mediaUrl = '',
+      // this.mediaUrl = '',
       this.coverUrl = '',
       this.createdAt = '',
       this.updatedAt = '',
@@ -170,7 +170,7 @@ class ThreadVideoAttributeModel {
               : data['status'],
       reason: data['reason'] ?? '',
       fileID: data['file_id'] ?? '',
-      mediaUrl: data['media_url'] ?? '',
+      //mediaUrl: data['media_url'] ?? '',
       coverUrl: data['cover_url'] ?? '',
       createdAt: data['create_at'] ?? '',
       updatedAt: data['updated_at'] ?? '',

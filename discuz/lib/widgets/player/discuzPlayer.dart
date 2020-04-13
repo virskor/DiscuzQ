@@ -49,12 +49,15 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
       statusBarBrightness: Brightness.dark,
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-
+    print(widget.video.attributes.fileID);
     _controller = TencentPlayerController.network(
-        widget.video.attributes.mediaUrl,
+        '',
         playerConfig: PlayerConfig(
           headers: {
             "Referer": Global.domain,
+            "Accept-Encoding": "identity;q=1, *;q=0",
+            "DNT": "1",
+            "Range": "bytes=0-"
           },
           autoPlay: true,
           supportBackground: false,
