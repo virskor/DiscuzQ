@@ -136,4 +136,11 @@ class Urls {
   /// vodSessionKey:
   static String videoUGCUploadNew =
       "https://vodreport.qcloud.com/ugcupload_new";
+
+  ///
+  /// 获取视频播放文件信息
+  /// 使用form 配置中的 qcloud_vod_sub_app_id
+  /// 和 视频模型的 fileID 拼接URL 获取播放文件信息
+  /// videoFileInfo/qcloud_vod_sub_app_id/fileID
+  static String videoFileInfo = "https://playvideo.qcloud.com/getplayinfo/v2/";
 }

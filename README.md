@@ -174,8 +174,9 @@ repositories {
 
 ## 性能相关
 可能有的开发者刚开始接触Flutter按照上面的指引运行起来APP后顿时感觉卡顿，实际上flutter run是运行的Debug模式，Debug下性能表现和Release是有很大差异的。如果体验用于生产的，应该使用下面的命令。
+R8 是谷歌推出的最新代码压缩器，当你打包 release 版本的 APK 或者 AAB 时会默认开启。要关闭 R8，请向 flutter build apk 或 flutter build appbundle 传 --no-shrink 标志。
 ```
-flutter run --release
+flutter build apk --release --no-shrink
 ```
 
 ## 如何自定义主体颜色，字体大小
