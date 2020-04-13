@@ -18,7 +18,6 @@ If you have any question about this project, follow and post an issue. I will co
 ## 限制
 现在的版本还有一些限制，并且这些限制需要后续的版本中逐渐更新来解决，不意味着不会被解决。这是因为APP上架策略，或者现有的SDK暂时不能支持，需要自行封装等。  
 不支持付费模式的站点  
-不支持开启腾讯云防水墙的站点发帖  
 不支持打赏，钱包等金融相关的功能  
 
 ## 版权说明
@@ -90,6 +89,11 @@ void dispose() {
 environment:
   sdk: ">=2.6.0 <3.0.0"
 ```
+
+```
+minSdkVersion 20
+targetSdkVersion 29
+```
 你可以使用命令行开启调试，如果你使用android studio，你可以直接运行。  
 不过在此之前值得说明的是，如果你的网络不能正常快速访问一些技术类网站，建议你使用pub国内源，你可以搜索找到配置的方式。  
 现阶段的调试，至少要beta以上版本，或者dev。因为我们采用了最新的Flutter特性，以便后续不用调整一些代码。即Flutter v1.15 +
@@ -103,7 +107,8 @@ flutter run
 ### 使用不同的信息来作用在开发和生产环境
 在生产或者开发时你可能需要访问不同的业务后端域名。现在你可以更改或者输入下面的信息到 ./discuz/build.yaml。但在这之前请先打开 ./discuz/build.yaml中的文件描述，来确定这些设置的作用或者关于风险的描述。   
 每个项目都不可以缺少下面的配置信息，其他的信息可以忽略，或者在后面不断开发的过程中你可以自定义。  
-实际上build的过程中，你可以在build script构建过程中重新生成一个build.yaml完成快速构建，这个build.yaml在生产时仅需要包含production 下配置描述，或者只选其中一个选项来覆盖APP默认BuildInfo模型的数据。
+实际上build的过程中，你可以在build script构建过程中重新生成一个build.yaml完成快速构建，这个build.yaml在生产时仅需要包含production 下配置描述，或者只选其中一个选项来覆盖APP默认BuildInfo模型的数据。  
+https://self-signed.badssl.com/
 ```yaml
 development:
   domain: https://example.chat

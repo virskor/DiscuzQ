@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:discuzq/models/captchaModel.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 
 ///
@@ -11,7 +12,9 @@ class DiscuzEditorDataFormater {
   /// 转化数据
   /// 将 DiscuzEditorData转化为json用于提交
   /// 数据处理时，会对应提交的格式转化
-  static Future<dynamic> toJSON(DiscuzEditorData data) async {
+  /// CaptchaModel 是可选的，只有用户站点开启了云端验证码才可用
+  static Future<dynamic> toJSON(DiscuzEditorData data,
+      {CaptchaModel captcha}) async {
     /// 未选择分类
     if (data.relationships.category.id == 0) {
       return;
@@ -21,27 +24,30 @@ class DiscuzEditorDataFormater {
 
     if (data.relationships != null &&
         data.relationships.attachments.length > 0) {
-      attachments = data.relationships.attachments
-          .map<dynamic>((it){
-            return {
-                /// ... attachment model to dynamic
-                /// {
-                ///     "type":"attachments",
-                ///     "id":"1367"
-                /// }
-                "type": "attachments",
-                "id": it.id.toString(),
-              };
-          })
-          .toList();
+      attachments = data.relationships.attachments.map<dynamic>((it) {
+        return {
+          /// ... attachment model to dynamic
+          /// {
+          ///     "type":"attachments",
+          ///     "id":"1367"
+          /// }
+          "type": "attachments",
+          "id": it.id.toString(),
+        };
+      }).toList();
     }
 
     dynamic rebuild = {
       "type": data.type,
       "attributes": {
         "content": data.attributes.content,
-        "captcha_rand_str": data.attributes.captchaRandSTR,
-        "captcha_ticket": data.attributes.captchaTicket,
+        ///
+        /// 验证码仅在用户开启了验证码功能后进行覆盖编辑器的值
+        /// 
+        "captcha_rand_str":
+            captcha == null ? data.attributes.captchaRandSTR : captcha.randSTR,
+        "captcha_ticket":
+            captcha == null ? data.attributes.captchaTicket : captcha.ticket,
         "type": data.attributes.type,
       },
       "relationships": {

@@ -1,4 +1,3 @@
-import 'package:discuzq/utils/StringHelper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -14,6 +13,10 @@ import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorDataFormater.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/utils/StringHelper.dart';
+import 'package:discuzq/widgets/captcha/tencentCloudCaptcha.dart';
+import 'package:discuzq/models/captchaModel.dart';
+import 'package:discuzq/states/appState.dart';
 
 ///
 /// 发帖编辑器
@@ -141,9 +144,42 @@ class _EditorState extends State<Editor> {
       return;
     }
 
-    final dynamic data =
-        await DiscuzEditorDataFormater.toJSON(_discuzEditorData);
+    ///
+    /// 启用腾讯云验证码
+    /// 初始化时 null
+    CaptchaModel captchaCallbackData;
+    try {
+      final AppState state =
+          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
 
+      ///
+      /// 仅支持 开启腾讯云验证码的用户调用
+      ///
+      if (state.forum.attributes.qcloud.qCloudCaptcha) {
+        captchaCallbackData = await TencentCloudCaptcha.show(
+            context: context,
+
+            ///
+            /// 传入appID 进行替换，否则无法正常完成验证
+            appID: state.forum.attributes.qcloud.qCloudCaptchaAppID);
+        if (captchaCallbackData == null) {
+          DiscuzToast.failed(context: context, message: '验证失败');
+          return;
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    ///
+    /// 将编辑器模型数据，转化为JSON进行提交
+    /// 
+    final dynamic data = await DiscuzEditorDataFormater.toJSON(
+        _discuzEditorData,
+        captcha: captchaCallbackData);
+
+    ///
+    /// 开始提交数据
     print(data);
     DiscuzToast.show(
         context: context, message: "出于安全考虑暂不开放发帖，以下是调试数据\r\n $data");
