@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/search/searchTypeItemsColumn.dart';
 
+///
+/// 显示搜索选项的对话框
+/// 
 class SearchColumnDialog {
   static Future<void> show(BuildContext context) async {
     return showModalBottomSheet(

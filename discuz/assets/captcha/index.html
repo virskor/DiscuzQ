@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>腾讯云验证码</title>
+    <meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name=apple-mobile-web-app-capable content=yes>
+    <meta name=renderer content=webkit|ie-stand>
+    <meta http-equiv=X-UA-Compatible content="IE=11,Edge">
+    <script src="//imgcache.qq.com/qcloud/main/scripts/release/common/vendors/babel/polyfill.6.26.min.js"></script>
+    <script src=https://ssl.captcha.qq.com/TCaptcha.js></script>
+    <style>
+        body{
+            background: rgb(229, 229, 229);
+            padding: 0;
+            margin: 0;
+        }
+        .t-mask {
+            background: rgb(229, 229, 229) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="text/javascript">
+        window.onload = function () {
+            var captcha1 = new TencentCaptcha('{{APPID_REPLACEMENT}}', function (res) {
+                /* callback */
+                discuzCaptchaChannel.postMessage(JSON.stringify(res));
+            });
+            captcha1.show();
+        }
+    </script>
+</body>
+
+</html>
