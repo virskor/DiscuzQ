@@ -1,8 +1,9 @@
-import 'package:discuzq/models/captchaModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/captcha/tencentCloudCaptchaContainer.dart';
+import 'package:discuzq/models/captchaModel.dart';
+
 
 ///
 /// 腾讯云 天御验证码Flutter组件封装
