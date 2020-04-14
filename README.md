@@ -162,22 +162,7 @@ sudo rm -rf Podfile.lock
 pod install #手动安装IOS相关依赖
 ```
 推荐直接打开discuz目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看discuz目录下的PROBLEMS
-
-### 源相关
-如果你无法Build，那么你可能需要更改Gradle 源 pub源，关于Pub源，建议搜索 flutter China相关内容。 gradle源，则需要注意下面的信息。  
-我们使用了默认的源配置，但是我们也增加了国内源，建议根据情况修改 ./discuz/andorid/build.gradle 。 你可能需要重复尝试很多次，才能正常build，这取决于你的网络情况。
-```gradle
-repositories {
-    // maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
-    // maven{ url 'http://maven.aliyun.com/nexus/content/repositories/google'}
-    // maven{ url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
-    google() // 使用国内源，解除上面的注释
-    jcenter()
-}
-```
-
-
-## 性能相关
+## 生成发布
 可能有的开发者刚开始接触Flutter按照上面的指引运行起来APP后顿时感觉卡顿，实际上flutter run是运行的Debug模式，Debug下性能表现和Release是有很大差异的。如果体验用于生产的，应该使用下面的命令。
 R8 是谷歌推出的最新代码压缩器，当你打包 release 版本的 APK 或者 AAB 时会默认开启。要关闭 R8，请向 flutter build apk 或 flutter build appbundle 传 --no-shrink 标志。
 ```
@@ -230,6 +215,18 @@ flutter build apk --release --no-shrink
     path: ios/build
 ```
 
+### 源相关
+如果你无法Build，那么你可能需要更改Gradle 源 pub源，关于Pub源，建议搜索 flutter China相关内容。 gradle源，则需要注意下面的信息。  
+我们使用了默认的源配置，但是我们也增加了国内源，建议根据情况修改 ./discuz/andorid/build.gradle 。 你可能需要重复尝试很多次，才能正常build，这取决于你的网络情况。
+```gradle
+repositories {
+    // maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
+    // maven{ url 'http://maven.aliyun.com/nexus/content/repositories/google'}
+    // maven{ url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
+    google() // 使用国内源，解除上面的注释
+    jcenter()
+}
+```
 
 ## 如何自定义主体颜色，字体大小
 App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.dart修改对应的参数，在lib/utils/global.dart中修改对应的参数完整定制。  
