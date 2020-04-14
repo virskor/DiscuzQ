@@ -1,4 +1,3 @@
-import 'package:discuzq/utils/buildInfo.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -8,14 +7,19 @@ import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/appWrapper.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
+import 'package:discuzq/utils/buildInfo.dart';
 
+///
+/// 执行
 void main() {
+  ///
+  /// ensureInitialized is very important
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MyApp());
+  runApp(DiscuzQ());
 }
 
-class MyApp extends StatelessWidget {
+class DiscuzQ extends StatelessWidget {
   final AppState appState = AppState();
 
   // This widget is the root of your application.

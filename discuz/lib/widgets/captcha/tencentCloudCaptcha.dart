@@ -28,8 +28,9 @@ class TencentCloudCaptcha {
     /// 打开验证码用户操作组件
     await showCupertinoModalPopup(
         context: context,
-        // useRootNavigator: true,
-        //backgroundColor: Colors.transparent,
+        /// useRootNavigator: true,
+        /// backgroundColor: Colors.transparent,
+        /// TencentCloudCaptchaContainer wrapped by a Material widget so that you can use cupertino rendering
         builder: (BuildContext context) => TencentCloudCaptchaContainer(
               appID: appID,
               callback: (CaptchaModel data) {

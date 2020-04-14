@@ -1,6 +1,6 @@
 # The following defines the domain and requestUrl for your application
-# These items will be packaged into your application for different enviroment
-# Recommended to specify your application configrations for production or enviroment
+# These items will be packaged into your application for different environment
+# Recommended to specify your application configrations for production or development
 # Nitification for cases:
 # Build configrations works on debug and release mode
 

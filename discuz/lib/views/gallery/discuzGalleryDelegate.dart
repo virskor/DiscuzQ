@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
@@ -7,6 +6,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/utils/global.dart';
 
 class DiscuzGalleryDelegate extends StatefulWidget {
   final List<String> gallery;

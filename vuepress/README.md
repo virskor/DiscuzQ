@@ -1,0 +1,3 @@
+# DiscuzQ Flutter Application
+欢迎使用DiscuzQ Flutter Application，这是免费的APP。在这里我们
+在这里为您提供完整的编译或二次开发教程。使用腾讯云创建后端服务后，提供接口地址给APP即快速为您的站点编译原生的APP应用，这将作用于IOS与Android操作系统。拭目以待吧！
