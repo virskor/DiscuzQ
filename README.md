@@ -184,6 +184,53 @@ R8 是谷歌推出的最新代码压缩器，当你打包 release 版本的 APK 
 flutter build apk --release --no-shrink
 ```
 
+而IOS 你需要参考自动化构建所需要的
+```yaml
+- run:
+    command: bundle install
+    working_directory: ios
+- run:
+    name: Install CocoaPods Version
+    command: sudo gem install cocoapods
+- run:
+    working_directory: ios
+    command: pod setup
+- run:
+    name: Run pod install
+    working_directory: ios
+    command: pod install
+- run:
+    name: Update CocoaPods
+    working_directory: ios
+    command: pod update
+- save_cache:
+    key: bundle-v2-{{ checksum "ios/Gemfile" }}-{{ arch }}
+    paths:
+      - vendor/bundle
+- run:
+    name: Fastlane Match (certificates and provisioning profiles)
+    working_directory: ios
+    command: bundle exec fastlane setup_match_prod
+- run:
+    command: flutter clean
+- run:
+    command: flutter build ios --release --flavor production --no-codesign --verbose
+    no_output_timeout: 20m
+- run:
+    name: Create archive
+    working_directory: ios
+    command: xcodebuild -workspace ./Runner.xcworkspace -configuration Release-production -scheme production -destination 'generic/platform=iOS' -archivePath build/ios/iphoneos/Runner.xcarchive archive -allowProvisioningUpdates
+    no_output_timeout: 20m
+- run:
+    name: Create IPA
+    working_directory: ios
+    command: xcodebuild -exportArchive -archivePath build/ios/iphoneos/Runner.xcarchive -exportPath build/ios/iphoneos -exportOptionsPlist exportOptions-prod.plist
+    no_output_timeout: 20m
+- store_artifacts:
+    path: ios/build
+```
+
+
 ## 如何自定义主体颜色，字体大小
 App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.dart修改对应的参数，在lib/utils/global.dart中修改对应的参数完整定制。  
 使用命令行一键生成APP的图标和启动图(todo)。
