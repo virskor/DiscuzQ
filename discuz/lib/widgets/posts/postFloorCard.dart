@@ -1,6 +1,6 @@
-import 'package:discuzq/models/threadModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/router/route.dart';
@@ -17,6 +17,11 @@ import 'package:discuzq/widgets/users/userLink.dart';
 import 'package:discuzq/widgets/posts/postLikeButton.dart';
 import 'package:discuzq/widgets/common/discuzImage.dart';
 import 'package:discuzq/views/gallery/discuzGalleryDelegate.dart';
+import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/posts/postsAPIManager.dart';
 
 class PostFloorCard extends StatelessWidget {
   ///
@@ -31,10 +36,16 @@ class PostFloorCard extends StatelessWidget {
   /// 主题模型
   final ThreadModel thread;
 
+  ///
+  /// 被删除
+  ///
+  final Function onDelete;
+
   const PostFloorCard(
       {@required this.post,
       @required this.threadsCacher,
-      @required this.thread});
+      @required this.thread,
+      this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +137,8 @@ class PostFloorCard extends StatelessWidget {
                           return showCupertinoDialog(
                               context: context,
                               builder: (BuildContext context) =>
-                                  DiscuzGalleryDelegate(gallery: originalImageUrls));
+                                  DiscuzGalleryDelegate(
+                                      gallery: originalImageUrls));
                         }),
                   ))
               .toList(),
@@ -146,6 +158,8 @@ class PostFloorCard extends StatelessWidget {
           @required UserModel user,
           UserModel replyUser}) =>
       Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           GestureDetector(
             onTap: () => DiscuzRoute.open(
@@ -168,7 +182,7 @@ class PostFloorCard extends StatelessWidget {
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Row(children: <Widget>[
                     DiscuzText(
@@ -208,13 +222,40 @@ class PostFloorCard extends StatelessWidget {
             ),
           ),
 
+          /// 是否有删除不编辑权限
+          post.attributes.canEdit
+              ? IconButton(
+                  padding: const EdgeInsets.only(top: 2),
+                  icon: DiscuzIcon(
+                    SFSymbols.trash,
+                    size: 20,
+                  ),
+                  onPressed: () => DiscuzDialog.confirm(
+                      context: context,
+                      title: '提示',
+                      message: '是否删除评论？',
+                      onConfirm: () async {
+                        final Function close =
+                            DiscuzToast.loading(context: context);
+                        final bool result =
+                            await PostsAPIManager(context: context)
+                                .delete(postID: post.id);
+                        close();
+                        if (result && onDelete != null) {
+                          /// 删除成功，隐藏该项目
+                          onDelete();
+                        }
+                      }),
+                )
+              : const SizedBox(),
+
           ///
           /// 显示点赞按钮
           ///
           PostLikeButton(
             post: post,
             size: 20,
-          )
+          ),
         ],
       );
 }

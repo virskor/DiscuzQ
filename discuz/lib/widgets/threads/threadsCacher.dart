@@ -89,7 +89,7 @@ class _ThreadBaseCacher {
   /// 话题
   ///
   List<ThreadModel> _threads = [];
-  get threads => _threads;
+  List<ThreadModel> get threads => _threads;
   set threads(List<ThreadModel> value) {
     assert(value != null);
     if (_threads == value) return;
@@ -101,7 +101,7 @@ class _ThreadBaseCacher {
   /// 评论
   ///
   List<PostModel> _posts = [];
-  get posts => _posts;
+  List<PostModel> get posts => _posts;
   set posts(List<PostModel> value) {
     assert(value != null);
     if (_posts == value) return;
@@ -110,10 +110,17 @@ class _ThreadBaseCacher {
   }
 
   ///
+  /// 移除评论数据
+  /// 通常要在请求接口删除评论成功后再调用这个方法，setState后便可直接重构UI
+  void removePost({@required int postID}) {
+    _posts = _posts.where((it) => it.id != postID).toList();
+  }
+
+  ///
   /// 用户
   ///
   List<UserModel> _users = [];
-  get users => _users;
+  List<UserModel> get users => _users;
   set users(List<UserModel> value) {
     assert(value != null);
     if (_users == value) return;
@@ -125,7 +132,7 @@ class _ThreadBaseCacher {
   /// 附件列表
   ///
   List<AttachmentsModel> _attachments = [];
-  get attachments => _attachments;
+  List<AttachmentsModel> get attachments => _attachments;
   set attachments(List<AttachmentsModel> value) {
     assert(value != null);
     if (_attachments == value) return;
@@ -137,7 +144,7 @@ class _ThreadBaseCacher {
   /// 视频列表
   ///
   List<ThreadVideoModel> _videos = [];
-  get videos => _videos;
+  List<ThreadVideoModel> get videos => _videos;
   set videos(List<ThreadVideoModel> value) {
     assert(value != null);
     if (_videos == value) return;
@@ -186,8 +193,7 @@ class _ThreadBaseCacher {
   /// 使用隔离的内存，自动运算模型转换
   /// 将响应中的模型数据自动转换为UI模型
   /// posts需为数组
-  Future<void> computeThreadVideos(
-      {@required List<dynamic> include}) async {
+  Future<void> computeThreadVideos({@required List<dynamic> include}) async {
     List<ThreadVideoModel> videosResult =
         await compute(transformThreadVideos, include);
     _videos.addAll(videosResult);

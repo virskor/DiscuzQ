@@ -261,7 +261,8 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                           return showCupertinoDialog(
                               context: context,
                               builder: (BuildContext context) =>
-                                  DiscuzGalleryDelegate(gallery: originalImageUrls));
+                                  DiscuzGalleryDelegate(
+                                      gallery: originalImageUrls));
                         }),
                   ))
               .toList(),
@@ -331,6 +332,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
   ///
   /// 渲染评论
+  ///
   Widget _comments() => Column(
         children: _threadsCacher.posts
             .map<Widget>((PostModel p) => Padding(
@@ -338,7 +340,12 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                   child: PostFloorCard(
                       post: p,
                       threadsCacher: _threadsCacher,
-                      thread: widget.thread),
+                      thread: widget.thread,
+                      onDelete: () {
+                        setState(() {
+                          _threadsCacher.removePost(postID: p.id);
+                        });
+                      }),
                 ))
             .toList(),
       );
@@ -456,6 +463,9 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       _loading = false;
       _continueToRead = true;
       _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+
+      ///
+      /// 选出首贴
       _firstPost = _threadsCacher.posts
               .where((PostModel it) =>
                   it.id ==

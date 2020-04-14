@@ -1,5 +1,3 @@
-import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/states/scopedState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -12,6 +10,8 @@ import 'package:discuzq/widgets/common/blurBackground.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:discuzq/models/categoryModel.dart';
+import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/states/scopedState.dart';
 
 class ForumAddButton extends StatefulWidget {
   ///

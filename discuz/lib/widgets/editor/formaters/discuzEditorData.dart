@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/categoryModel.dart';
+import 'package:discuzq/models/postModel.dart';
+import 'package:discuzq/models/threadModel.dart';
 
 class DiscuzEditorData {
   ///
   /// 类型，默认不用传入
   final String type;
-
-  ///
-  /// 关联的分类
-  final CategoryModel category;
 
   ///
   /// 关联的数据
@@ -22,7 +20,8 @@ class DiscuzEditorData {
 
   DiscuzEditorData(
       {this.type = 'threads',
-      this.category,
+
+      /// 默认发帖
       this.relationships,
       this.attributes});
 
@@ -32,16 +31,22 @@ class DiscuzEditorData {
           {String captchaRandSTR,
           captchaTicket,
           content,
+          ThreadModel thread,
+          PostModel post,
           @required CategoryModel cat,
           List<AttachmentsModel> attachments = const []}) =>
       DiscuzEditorData(
-          category: data.category,
-          type: data.type,
+
+          /// 发帖，还是评论？
+          type: post == null ? 'threads' : 'posts',
           relationships: DiscuzEditorDataRelationships(
-              category: cat, attachments: attachments ?? const []),
+              thread: thread,
+              category: cat,
+              attachments: attachments ?? const []),
           attributes: DiscuzEditorDataAttributes(
               captchaRandSTR: captchaRandSTR ?? '',
               captchaTicket: captchaTicket ?? '',
+              replyId: post == null ? 0 : post.id,
               content: content ?? ''));
 }
 
@@ -62,8 +67,13 @@ class DiscuzEditorDataRelationships {
   /// data: []
   final List<AttachmentsModel> attachments;
 
+  ///
+  /// 回复时会关联帖子thread主题的信息
+  /// 没有thread则会变成发帖
+  final ThreadModel thread;
+
   const DiscuzEditorDataRelationships(
-      {@required this.category, this.attachments = const []});
+      {this.category, this.attachments = const [], this.thread});
 }
 
 ///
@@ -85,9 +95,15 @@ class DiscuzEditorDataAttributes {
   /// 类型
   final int type;
 
+  ///
+  /// 关联的回复ID
+  /// 当回复模式的时候，要提供replyId 即目标Post的ID
+  final int replyId;
+
   const DiscuzEditorDataAttributes(
       {this.captchaRandSTR = '',
       this.captchaTicket = '',
       this.content = '',
+      this.replyId = 0,
       this.type = 0});
 }

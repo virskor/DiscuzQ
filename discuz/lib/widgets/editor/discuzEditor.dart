@@ -10,6 +10,9 @@ import 'package:discuzq/widgets/editor/uploaders/discuzEditorImageUploader.dart'
 import 'package:discuzq/states/editorState.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
+import 'package:discuzq/models/postModel.dart';
+import 'package:discuzq/models/threadModel.dart';
+import 'package:flutter/services.dart';
 
 class DiscuzEditor extends StatefulWidget {
   ///
@@ -45,12 +48,22 @@ class DiscuzEditor extends StatefulWidget {
   ///
   final Function onChanged;
 
+  ///
+  /// 关联的评论
+  final PostModel post;
+
+  ///
+  /// 关联的主题
+  final ThreadModel thread;
+
   DiscuzEditor(
       {this.enableEmoji = true,
       this.enableUploadImage = true,
       this.onChanged,
       this.defaultCategory,
       this.data,
+      this.post,
+      this.thread,
       this.enableUploadAttachment = true});
   @override
   _DiscuzEditorState createState() => _DiscuzEditorState();
@@ -82,7 +95,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   ///
   /// 编辑器数据
   ///
-  DiscuzEditorData _discuzEditorData = DiscuzEditorData();
+  DiscuzEditorData _discuzEditorData;
 
   ///
   /// 是否显示收起键盘
@@ -141,6 +154,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                 onRequestUpdate: () {
                   _onChanged(state: state);
                 },
+                hideCategorySelector: widget.post != null,
                 onTap: (String toolbarEvt) {
                   ///
                   /// 处理图片选择器
@@ -287,7 +301,10 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
     /// 更新编辑器用户编辑的内容
     d = DiscuzEditorData.fromDiscuzEditorData(d,
         content: _controller.text,
+        thread: widget.thread,
+        post: widget.post,
 
+        /// 回复的时候，是posts
         ///
         /// 值得注意，更新编辑器数据的时候，分类的数据，一定要用editorState里的数据
         /// 因为进入的时候传入的分类，并不代表用户最终选择的分类

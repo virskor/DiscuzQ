@@ -50,6 +50,12 @@ class DiscuzEditorToolbar extends StatefulWidget {
   /// 如用户选择了分类，那么要通知编辑更新数据，即执行编辑器中的 _onChanged
   final Function onRequestUpdate;
 
+  ///
+  /// 隐藏分类选择器
+  /// 回复时，无需显示
+  ///
+  final bool hideCategorySelector;
+
   DiscuzEditorToolbar(
       {this.onTap,
       this.child,
@@ -57,6 +63,7 @@ class DiscuzEditorToolbar extends StatefulWidget {
       this.enableEmoji,
       this.defaultCategory,
       this.onRequestUpdate,
+      this.hideCategorySelector = false,
       this.showHideKeyboardButton = false,
       this.enableUploadImage});
 
@@ -144,22 +151,25 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                             ///
                             /// 选择分类
                             /// 用户选择了新的分类，那么就更新editor state
-                            DiscuzEditorCategorySelector(
-                              onChanged: (CategoryModel category) {
-                                state.updateCategory(category);
-                                if (widget.onRequestUpdate != null) {
-                                  widget.onRequestUpdate();
-                                }
-                              },
-                              defaultCategory: widget.defaultCategory,
-                            ),
+                            widget.hideCategorySelector
+                                ? const SizedBox()
+                                : DiscuzEditorCategorySelector(
+                                    onChanged: (CategoryModel category) {
+                                      state.updateCategory(category);
+                                      if (widget.onRequestUpdate != null) {
+                                        widget.onRequestUpdate();
+                                      }
+                                    },
+                                    defaultCategory: widget.defaultCategory,
+                                  ),
 
                             /// 收键盘
                             _showHideKeyboardButton
                                 ? GestureDetector(
                                     onTap: _closeKeyboard,
                                     child: const _ToolbarIconButton(
-                                        icon: SFSymbols.keyboard_chevron_compact_down),
+                                        icon: SFSymbols
+                                            .keyboard_chevron_compact_down),
                                   )
                                 : const SizedBox(),
                           ],
