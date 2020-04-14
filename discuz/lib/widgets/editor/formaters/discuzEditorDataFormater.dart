@@ -13,13 +13,13 @@ class DiscuzEditorDataFormater {
   /// 将 DiscuzEditorData转化为json用于提交
   /// 数据处理时，会对应提交的格式转化
   /// CaptchaModel 是可选的，只有用户站点开启了云端验证码才可用
+  ///
+  /// isBuildForCreatingPost 是可选项目，默认为False
+  /// 当 isBuildForCreatingPost 为false时，会过滤掉 非回复下必填的字段
+  /// 当 isBuildForCreatingPost 为true时 会过滤掉 非发帖下必填的字段
+  ///
   static Future<dynamic> toJSON(DiscuzEditorData data,
-      {CaptchaModel captcha}) async {
-    /// 未选择分类
-    if (data.relationships.category.id == 0) {
-      return;
-    }
-
+      {CaptchaModel captcha, bool isBuildForCreatingPost = false}) async {
     List<dynamic> attachments = const [];
 
     if (data.relationships != null &&
@@ -37,31 +37,85 @@ class DiscuzEditorDataFormater {
       }).toList();
     }
 
-    dynamic rebuild = {
-      "type": data.type,
-      "attributes": {
-        "content": data.attributes.content,
-        ///
-        /// 验证码仅在用户开启了验证码功能后进行覆盖编辑器的值
-        /// 
-        "captcha_rand_str":
-            captcha == null ? data.attributes.captchaRandSTR : captcha.randSTR,
-        "captcha_ticket":
-            captcha == null ? data.attributes.captchaTicket : captcha.ticket,
-        "type": data.attributes.type,
-      },
-      "relationships": {
-        "category": {
-          "data": {
-            "id": data.relationships.category.id.toString(),
-            "type": data.relationships.category.type
-          }
-        },
-        "attachments": {"data": attachments}
-      }
+    Map<String, dynamic> relationships = {
+      "attachments": {"data": attachments},
     };
 
-    return jsonEncode({"data": rebuild});
+    ///
+    /// 回复模式的时候，是没有分类的奥
+    /// 如果用户选择了分类，其实说明就不是回复，那么就给他补上
+    if (isBuildForCreatingPost == false) {
+      relationships.addAll({
+        "category": data.relationships.category == null
+            ? null
+            : {
+                "data": {
+                  "id": data.relationships.category.id.toString(),
+                  "type": data.relationships.category.type
+                }
+              },
+      });
+    }
+
+    ///
+    /// 回复模式时，需要补全的数据
+    /// 发布则不需要生成
+    ///
+    if (isBuildForCreatingPost == true) {
+      relationships.addAll({
+        "thread": data.relationships.thread == null
+            ? null
+            : {
+                "data": {
+                  "id": data.relationships.thread.id.toString(),
+                  "type": "threads"
+                }
+              },
+      });
+    }
+
+    Map<String, dynamic> attributes = {
+      "content": data.attributes.content,
+
+      ///
+      /// 验证码仅在用户开启了验证码功能后进行覆盖编辑器的值
+      ///
+      "captcha_rand_str":
+          captcha == null ? data.attributes.captchaRandSTR : captcha.randSTR,
+      "captcha_ticket":
+          captcha == null ? data.attributes.captchaTicket : captcha.ticket,
+    };
+
+    ///
+    /// 发布的时候会带入该数据
+    ///
+    if (isBuildForCreatingPost == false) {
+      attributes.addAll({
+        "type": data.attributes.type,
+      });
+    }
+
+    ///
+    /// 回复模式时需要关联PostID
+    ///
+    if (isBuildForCreatingPost == true) {
+      attributes.addAll({"replyId": data.attributes.replyId.toString()});
+    }
+
+    ///
+    /// 生成用于提交的数据
+    /// todo: 优化整个生成数据的过程
+    ///
+    Map<String, dynamic> mapEditorData = {
+      ///
+      ///发布的时候是thread 回复的时候是post
+      ///
+      "type": data.type,
+      "attributes": attributes,
+      "relationships": relationships
+    };
+
+    return jsonEncode({"data": mapEditorData});
   }
 
   ///

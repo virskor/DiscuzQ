@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/editor/discuzEditorReplyHelper.dart';
 import 'package:discuzq/widgets/posts/postLikeButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -12,7 +13,7 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 
-const int _tapReplayButton = 1;
+const int _tapReplyButton = 1;
 const int _tapFavoriteButton = 2;
 // const int _tapRewardButton = 3;
 
@@ -78,7 +79,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             const _ThreadExtendBottomBarItem(
                 attributes: SFSymbols.bubble_left_bubble_right,
                 caption: '回复',
-                uniqueId: _tapReplayButton),
+                uniqueId: _tapReplyButton),
 
             ///
             /// 点赞
@@ -116,7 +117,11 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
                           child: Row(
                             children: <Widget>[
                               el.attributes.runtimeType == IconData
-                                  ? DiscuzIcon(el.attributes, color: DiscuzApp.themeOf(context).textColor,)
+                                  ? DiscuzIcon(
+                                      el.attributes,
+                                      color:
+                                          DiscuzApp.themeOf(context).textColor,
+                                    )
                                   : el.attributes,
                               const SizedBox(width: 5),
                               DiscuzText(el.caption),
@@ -136,6 +141,14 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
     ///
     /// 点赞按钮事件不用处理
     if (uniqueId == _tapFavoriteButton) {
+      return;
+    }
+
+    ///
+    /// 处理用户点击回复
+    if (uniqueId == _tapReplyButton) {
+      DiscuzEditorReplyHelper(context: context)
+          .reply(post: widget.firstPost, thread: widget.thread);
       return;
     }
     DiscuzToast.failed(context: context, message: '暂不支持');

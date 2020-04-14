@@ -17,6 +17,7 @@ import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/captcha/tencentCloudCaptcha.dart';
 import 'package:discuzq/models/captchaModel.dart';
 import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/models/threadModel.dart';
 
 ///
 /// 发帖编辑器
@@ -56,7 +57,12 @@ class Editor extends StatefulWidget {
   /// 发布，编辑时需要传入，回复的时候不需要传入的
   final CategoryModel defaultCategory;
 
-  Editor({@required this.type, this.post, this.defaultCategory});
+  ///
+  /// 关联帖子
+  /// 回复的时候，需要关联帖子数据，是不能少的
+  final ThreadModel thread;
+
+  Editor({@required this.type, this.post, this.defaultCategory, this.thread});
 
   @override
   _EditorState createState() => _EditorState();
@@ -130,7 +136,21 @@ class _EditorState extends State<Editor> {
   /// 发布内容，
   /// 将自动处理数据转化，并根据模式，调用reply，或者创建主题的接口
   Future<void> _post() async {
-    if (_discuzEditorData.relationships.category.id == 0) {
+    ///
+    /// relationships 不可能为null
+    ///
+    if (_discuzEditorData.relationships == null) {
+      ///
+      /// data == null 这种情况，无非是缺少必要的参数category，提醒用户进行选择
+      DiscuzToast.failed(context: context, message: '编辑器异常');
+      return;
+    }
+
+    ///
+    /// 回复的时候，不需要选择分类哈
+    ///
+    if (_discuzEditorData.relationships.category == null &&
+        widget.type != DiscuzEditorInputTypes.reply) {
       ///
       /// data == null 这种情况，无非是缺少必要的参数category，提醒用户进行选择
       DiscuzToast.failed(context: context, message: '请选分类');
@@ -173,10 +193,13 @@ class _EditorState extends State<Editor> {
 
     ///
     /// 将编辑器模型数据，转化为JSON进行提交
-    /// 
-    final dynamic data = await DiscuzEditorDataFormater.toJSON(
-        _discuzEditorData,
-        captcha: captchaCallbackData);
+    ///
+    final dynamic data =
+        await DiscuzEditorDataFormater.toJSON(_discuzEditorData,
+            isBuildForCreatingPost: widget.post != null,
+
+            /// 如果是回复，则该选项为true，这样会过滤掉发帖时非必要对的参数
+            captcha: captchaCallbackData);
 
     ///
     /// 开始提交数据
@@ -198,6 +221,8 @@ class _EditorState extends State<Editor> {
       return DiscuzEditor(
         enableUploadAttachment: false,
         defaultCategory: widget.defaultCategory,
+        post: widget.post,
+        thread: widget.thread,
         onChanged: (DiscuzEditorData data) {
           ///
           /// 切勿setState,否则UI将loop

@@ -6,6 +6,7 @@ import 'package:discuzq/utils/request/urls.dart';
 
 ///
 /// 帖子相关API请求方法
+/// 由于该API会在不同组件复用，所以单独抽出
 ///
 class PostsAPIManager {
   ///

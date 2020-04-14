@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/editor/discuzEditorReplyHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -60,8 +61,8 @@ class ThreadCardQuickActions extends StatelessWidget {
               size: _iconsize,
               color: DiscuzApp.themeOf(context).textColor,
             ),
-            onPressed: () =>
-                DiscuzToast.failed(context: context, message: '即将支持'),
+            onPressed: () => DiscuzEditorReplyHelper(context: context)
+                .reply(post: firstPost, thread: thread),
           )
         ],
       ),
