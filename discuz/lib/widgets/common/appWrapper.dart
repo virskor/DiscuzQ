@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 
 class AppWrapper extends StatefulWidget {
+  ///
+  /// 初始化钩子
+  /// 
   final Function onInit;
+
+  ///
+  /// app销毁的钩子
+  /// 
   final Function onDispose;
+
+  ///
+  /// child
+  /// APP
   final Widget child;
+
   AppWrapper(
       {@required this.onInit, @required this.child, @required this.onDispose});
   @override

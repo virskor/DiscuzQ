@@ -52,7 +52,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.backgroundColor})
       : super(key: key);
 
-  final Size preferredSize = const Size.fromHeight(kToolbarHeight - 10);
+  final Size preferredSize = const Size.fromHeight(kToolbarHeight - 5);
 
   Widget _title() => title.runtimeType == String
       ? DiscuzText(

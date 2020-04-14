@@ -1,0 +1,11 @@
+{
+  "name": "discuzq",
+  "version": "1.0.0",
+  "description": "discuzQ document",
+  "scripts": {
+    "dev": "vuepress dev",
+    "build": "vuepress build"
+  },
+  "author": "virs",
+  "license": "BSD-2-Clause"
+}

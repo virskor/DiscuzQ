@@ -83,7 +83,7 @@ class _AboutDelegateState extends State<AboutDelegate> {
                         ///
                         /// Flutter DiscuzQ是免费的，但你需要声明使用
                         /// 如果移除版权信息，你可能面临诉讼
-                        const DiscuzText('基于DiscuzQ和Flutter for discuzQ'),
+                        const DiscuzText('基于DiscuzQ和Flutter for DiscuzQ'),
                         const SizedBox(
                           height: 20,
                         ),

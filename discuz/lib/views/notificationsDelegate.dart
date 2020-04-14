@@ -1,4 +1,3 @@
-import 'package:discuzq/views/nofitications/notificationListDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:badges/badges.dart';
@@ -16,6 +15,8 @@ import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/models/typeUnreadNotificationsModel.dart';
+import 'package:discuzq/utils/buildInfo.dart';
+import 'package:discuzq/views/nofitications/notificationListDelegate.dart';
 
 class NotificationsDelegate extends StatefulWidget {
   const NotificationsDelegate({Key key}) : super(key: key);
@@ -81,31 +82,51 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
               },
               child: Column(
                 children: <Widget>[
+                  ///
+                  /// 回复我的
+                  /// 
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '回复我的',
                         icon: SFSymbols.bubble_left_bubble_right,
-                        child: const NotificationListDelegate(type: NotificationTypes.replies),
+                        child: const NotificationListDelegate(
+                            type: NotificationTypes.replies),
                         badges: _typeUnreadNotifications.replied),
                   ),
-                  _notificationsSelection(
-                    item: _NotificationMenuItem(
-                        label: '打赏我的',
-                        icon: SFSymbols.money_yen_circle,
-                        child: const NotificationListDelegate(type: NotificationTypes.rewarded),
-                        badges: _typeUnreadNotifications.rewarded),
-                  ),
+
+                  ///
+                  /// 金融相关功能
+                  /// 打赏通知
+                  ///
+                  BuildInfo().info().financial
+                      ? _notificationsSelection(
+                          item: _NotificationMenuItem(
+                              label: '打赏我的',
+                              icon: SFSymbols.money_yen_circle,
+                              child: const NotificationListDelegate(
+                                  type: NotificationTypes.rewarded),
+                              badges: _typeUnreadNotifications.rewarded),
+                        )
+                      : const SizedBox(),
+                  
+                  ///
+                  /// 点赞我的
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '点赞我的',
                         icon: SFSymbols.heart,
-                        child: const NotificationListDelegate(type: NotificationTypes.liked),
+                        child: const NotificationListDelegate(
+                            type: NotificationTypes.liked),
                         badges: _typeUnreadNotifications.liked),
                   ),
+
+                  ///
+                  /// 系统通知
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '系统通知',
-                        child: const NotificationListDelegate(type: NotificationTypes.system),
+                        child: const NotificationListDelegate(
+                            type: NotificationTypes.system),
                         icon: SFSymbols.bell,
                         badges: _typeUnreadNotifications.system),
                   )

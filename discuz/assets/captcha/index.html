@@ -18,16 +18,25 @@
         .t-mask {
             background: rgb(229, 229, 229) !important;
         }
+        .notice{
+            text-align: center;
+            height: auto;
+        }
     </style>
 </head>
 
 <body>
+    <div id="notice" class="notice">
+        请稍等，正在加载验证码
+    </div>
     <script type="text/javascript">
         window.onload = function () {
             var captcha = new TencentCaptcha('{{APPID_REPLACEMENT}}', function (res) {
                 /* callback */
                 discuzCaptchaChannel.postMessage(JSON.stringify(res));
             });
+            var notice = document.getElementById('notice');
+            notice.style.display = 'none';
             captcha.show();
         }
     </script>
