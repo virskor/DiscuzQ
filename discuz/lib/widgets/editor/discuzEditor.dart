@@ -122,6 +122,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
       if (_editorFocusNode.hasFocus == _showHideKeyboardButton) {
         return;
       }
+      /// 失去焦点的时候，就不显示收齐键盘的按钮
       setState(() {
         _showHideKeyboardButton = _editorFocusNode.hasFocus;
       });

@@ -54,6 +54,8 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final Size preferredSize = const Size.fromHeight(kToolbarHeight - 5);
 
+  ///
+  /// 创建 APPbar 标题
   Widget _title() => title.runtimeType == String
       ? DiscuzText(
           title,

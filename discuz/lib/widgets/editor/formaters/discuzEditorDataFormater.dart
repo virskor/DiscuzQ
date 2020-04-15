@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:discuzq/models/captchaModel.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 
@@ -18,7 +16,7 @@ class DiscuzEditorDataFormater {
   /// 当 isBuildForCreatingPost 为false时，会过滤掉 非回复下必填的字段
   /// 当 isBuildForCreatingPost 为true时 会过滤掉 非发帖下必填的字段
   ///
-  static Future<dynamic> toJSON(DiscuzEditorData data,
+  static Future<dynamic> toDynamic(DiscuzEditorData data,
       {CaptchaModel captcha, bool isBuildForCreatingPost = false}) async {
     List<dynamic> attachments = const [];
 
@@ -44,7 +42,7 @@ class DiscuzEditorDataFormater {
     ///
     /// 回复模式的时候，是没有分类的奥
     /// 如果用户选择了分类，其实说明就不是回复，那么就给他补上
-    if (isBuildForCreatingPost == false) {
+    if (!isBuildForCreatingPost) {
       relationships.addAll({
         "category": data.relationships.category == null
             ? null
@@ -61,7 +59,7 @@ class DiscuzEditorDataFormater {
     /// 回复模式时，需要补全的数据
     /// 发布则不需要生成
     ///
-    if (isBuildForCreatingPost == true) {
+    if (isBuildForCreatingPost) {
       relationships.addAll({
         "thread": data.relationships.thread == null
             ? null
@@ -80,16 +78,23 @@ class DiscuzEditorDataFormater {
       ///
       /// 验证码仅在用户开启了验证码功能后进行覆盖编辑器的值
       ///
-      "captcha_rand_str":
-          captcha == null ? data.attributes.captchaRandSTR : captcha.randSTR,
-      "captcha_ticket":
-          captcha == null ? data.attributes.captchaTicket : captcha.ticket,
     };
+
+    ///
+    /// 补全验证码信息
+    if (captcha != null) {
+      attributes.addAll({
+        "captcha_rand_str":
+            captcha == null ? data.attributes.captchaRandSTR : captcha.randSTR,
+        "captcha_ticket":
+            captcha == null ? data.attributes.captchaTicket : captcha.ticket,
+      });
+    }
 
     ///
     /// 发布的时候会带入该数据
     ///
-    if (isBuildForCreatingPost == false) {
+    if (!isBuildForCreatingPost) {
       attributes.addAll({
         "type": data.attributes.type,
       });
@@ -97,8 +102,10 @@ class DiscuzEditorDataFormater {
 
     ///
     /// 回复模式时需要关联PostID
+    /// 但是注意：
+    /// 回复主题的时候，是不需要要的！
     ///
-    if (isBuildForCreatingPost == true) {
+    if (isBuildForCreatingPost) {
       attributes.addAll({"replyId": data.attributes.replyId.toString()});
     }
 
@@ -106,16 +113,17 @@ class DiscuzEditorDataFormater {
     /// 生成用于提交的数据
     /// todo: 优化整个生成数据的过程
     ///
-    Map<String, dynamic> mapEditorData = {
-      ///
-      ///发布的时候是thread 回复的时候是post
-      ///
-      "type": data.type,
-      "attributes": attributes,
-      "relationships": relationships
-    };
 
-    return jsonEncode({"data": mapEditorData});
+    return {
+      "data": {
+        ///
+        ///发布的时候是thread 回复的时候是post
+        ///
+        "type": data.type,
+        "attributes": attributes,
+        "relationships": relationships
+      }
+    };
   }
 
   ///

@@ -1,5 +1,5 @@
-import 'package:discuzq/widgets/editor/discuzEditorReplyHelper.dart';
-import 'package:discuzq/widgets/posts/postLikeButton.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -12,6 +12,8 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
+import 'package:discuzq/widgets/posts/postLikeButton.dart';
 
 const int _tapReplyButton = 1;
 const int _tapFavoriteButton = 2;
@@ -35,8 +37,16 @@ class ThreadExtendBottomBar extends StatefulWidget {
   /// }
   final Function onLikeTap;
 
+  ///
+  /// 帖子缓存器
+  ///
+  final ThreadsCacher threadsCacher;
+
   ThreadExtendBottomBar(
-      {@required this.thread, this.onLikeTap, @required this.firstPost});
+      {@required this.thread,
+      this.onLikeTap,
+      @required this.threadsCacher,
+      @required this.firstPost});
 
   @override
   _ThreadExtendBottomBarState createState() => _ThreadExtendBottomBarState();
@@ -137,7 +147,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
 
   ///
   /// 用户点击了底部按钮的选项
-  void _onItemTapped({@required int uniqueId}) {
+  void _onItemTapped({@required int uniqueId}) async {
     ///
     /// 点赞按钮事件不用处理
     if (uniqueId == _tapFavoriteButton) {
@@ -147,10 +157,19 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
     ///
     /// 处理用户点击回复
     if (uniqueId == _tapReplyButton) {
-      DiscuzEditorReplyHelper(context: context)
-          .reply(post: widget.firstPost, thread: widget.thread);
+      final DiscuzEditorRequestResult res =
+          await DiscuzEditorHelper(context: context)
+              .reply(post: widget.firstPost, thread: widget.thread);
+      if (res != null) {
+        widget.threadsCacher.posts = [res.post];
+        widget.threadsCacher.users = res.users;
+        DiscuzToast.success(context: context, message: '回复成功');
+      }
       return;
     }
+
+    ///
+    /// 有的选项暂不支持，比如打赏
     DiscuzToast.failed(context: context, message: '暂不支持');
   }
 }

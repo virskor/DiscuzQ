@@ -343,7 +343,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                       thread: widget.thread,
                       onDelete: () {
                         setState(() {
-                          _threadsCacher.removePost(postID: p.id);
+                          _threadsCacher.removePostByID(postID: p.id);
                         });
                       }),
                 ))
@@ -357,6 +357,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
         child: ThreadExtendBottomBar(
           thread: widget.thread,
           firstPost: _firstPost,
+          threadsCacher: _threadsCacher,
           onLikeTap: (bool liked) {
             print(liked);
 
