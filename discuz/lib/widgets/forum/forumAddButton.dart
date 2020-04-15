@@ -1,4 +1,5 @@
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -160,15 +161,19 @@ class _ForumCreateThreadDialog extends StatelessWidget {
       {BuildContext context,
       DiscuzEditorInputType type,
       CategoryModel category}) async {
-        /// 先关闭对话框
+    /// 先关闭对话框
     if (Navigator.of(context).canPop()) {
       Navigator.pop(context);
     }
 
-    category == null || category.id == 0
+    final DiscuzEditorRequestResult res = category == null || category.id == 0
         ? await DiscuzEditorHelper(context: context).createThread(type: type)
         : await DiscuzEditorHelper(context: context)
             .createThread(type: type, category: category);
+    if(res != null){
+      ///
+      /// 刷新列表
+    }
   }
 }
 

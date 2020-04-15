@@ -1,3 +1,5 @@
+import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -60,8 +62,16 @@ class ThreadCardQuickActions extends StatelessWidget {
               size: _iconsize,
               color: DiscuzApp.themeOf(context).textColor,
             ),
-            onPressed: () => DiscuzEditorHelper(context: context)
-                .reply(post: firstPost, thread: thread),
+            onPressed: () async {
+              final DiscuzEditorRequestResult res =
+                  await DiscuzEditorHelper(context: context)
+                      .reply(post: firstPost, thread: thread);
+              if (res != null) {
+                ////
+                /// 这种时候，用户是在卡片操作回复的，仅提示回复成功即可
+                DiscuzToast.success(context: context, message: '回复成功');
+              }
+            },
           )
         ],
       ),

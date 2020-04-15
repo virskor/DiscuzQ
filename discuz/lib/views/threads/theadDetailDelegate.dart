@@ -357,6 +357,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
         child: ThreadExtendBottomBar(
           thread: widget.thread,
           firstPost: _firstPost,
+          threadsCacher: _threadsCacher,
           onLikeTap: (bool liked) {
             print(liked);
 

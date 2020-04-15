@@ -108,6 +108,12 @@ class Request {
 
         ///
         ///
+        
+        /// RestFul APi 处理错误
+        options.validateStatus = (int status) {
+          return status >= 200 && status < 300 || status == 304;
+        };
+
         return options;
       }, onResponse: (Response response) {
         /// on dio response

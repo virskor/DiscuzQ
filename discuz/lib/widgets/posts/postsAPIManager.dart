@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/utils/request/request.dart';
@@ -7,6 +6,7 @@ import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 ///
 /// 帖子相关API请求方法
@@ -26,10 +26,10 @@ class PostsAPIManager {
   Future<DiscuzEditorRequestResult> create({@required dynamic data}) async {
     final Function close = DiscuzToast.loading(context: context);
 
-
+    /// 开始请求
     Response resp =
         await Request(context: context).postJson(url: Urls.posts, data: data);
-        
+
     close();
 
     /// 数据提交后，如果成功，会获取到一个Post模型数据
