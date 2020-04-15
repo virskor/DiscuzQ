@@ -7,65 +7,45 @@ import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/models/userModel.dart';
 
 ///
-/// transformThreads
-/// dynamic 转化为ThreadModels
-/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+/// 一个用与缓存主题信息的类
+/// 一个页面在加载完所有主题数据，包括评论，用户等，都会被分类存储到这里
+/// 在这里提取要用于渲染的主题列表和其他信息。
+/// 当页面销毁的时候，直接将 ThreadsCacher 销毁，完成内存的释放，
+/// ThreadsCacher 设计的目的就是为了托管所有用来渲染主题列表相关页面的数据
+/// 这个类将作为单例被调用，多个页面只能共享一个 ThreadsCacher
+/// dispose将清空所有的数据
 ///
-Future<List<ThreadModel>> transformThreads(List<dynamic> data) {
-  if (data == null || data.length == 0) {
-    return Future.value(const []);
-  }
-  List<ThreadModel> result =
-      data.map<ThreadModel>((t) => ThreadModel.fromMap(maps: t)).toList();
-  return Future.value(result);
-}
+/// ThreadsCacher 包含的getter， 他们可以获取这些数据，
+/// 但是更新这些数据只能由统一的方式进行，以便于去除重复的数据
+class ThreadsCacher extends _ThreadBaseCacher {
+  ///
+  /// 注意 ThreadsCacher 是一个单例，但当singleton传入为false时，则不会是一个单例，
+  /// 这是为了多个Stack调用时出现数据重复
+  ///
+  /// 现在由于一些优化，一般情况下不需要保证是单例了，因为我们有完整的内存释放和对Dart多线程独立内存的使用
+  ///
+  /// 所以如果不用了，就一定要clear
+  /// 否则，在下次调用的时候数据还在，将直接导致错误的数据渲染
+  ///
+  factory ThreadsCacher({bool singleton = false}) =>
+      _getInstance(singleton: singleton);
+  static ThreadsCacher get instance => _getInstance();
+  static ThreadsCacher _instance;
 
-///
-/// transformUsers
-/// dynamic 转化为UserModels
-/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
-///
-Future<List<UserModel>> transformUsers(List<dynamic> data) {
-  if (data == null || data.length == 0) {
-    return Future.value(const []);
+  ThreadsCacher._internal() {
+    // 初始化单例实例
   }
-  final List<UserModel> reulst = data
-      .where((inc) => inc['type'] == 'users')
-      .map((u) => UserModel.fromMap(maps: u))
-      .toList();
-  return Future.value(reulst);
-}
 
-///
-/// transformAttachments
-/// dynamic 转化为 AttachmentsModel
-/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
-///
-Future<List<AttachmentsModel>> transformAttachments(List<dynamic> data) {
-  if (data == null || data.length == 0) {
-    return Future.value(const []);
-  }
-  final List<AttachmentsModel> reulst = data
-      .where((inc) => inc['type'] == 'attachments')
-      .map((p) => AttachmentsModel.fromMap(maps: p))
-      .toList();
-  return Future.value(reulst);
-}
+  static ThreadsCacher _getInstance({bool singleton = false}) {
+    if (_instance == null) {
+      _instance = ThreadsCacher._internal();
+    }
 
-///
-/// transformThreadVideoModel
-/// dynamic 转化为 ThreadVideoModel
-/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
-///
-Future<List<ThreadVideoModel>> transformThreadVideos(List<dynamic> data) {
-  if (data == null || data.length == 0) {
-    return Future.value(const []);
+    if (singleton == false) {
+      _instance = ThreadsCacher._internal();
+    }
+    return _instance;
   }
-  final List<ThreadVideoModel> reulst = data
-      .where((inc) => inc['type'] == 'thread-video')
-      .map((p) => ThreadVideoModel.fromMap(maps: p))
-      .toList();
-  return Future.value(reulst);
 }
 
 ///
@@ -90,6 +70,9 @@ class _ThreadBaseCacher {
   ///
   List<ThreadModel> _threads = [];
   List<ThreadModel> get threads => _threads;
+
+  /// 为什么不支持更新数据而只支持增加数据?
+  /// 答：APP不卡不开心吗
   set threads(List<ThreadModel> value) {
     assert(value != null);
     if (_threads == value) return;
@@ -102,6 +85,12 @@ class _ThreadBaseCacher {
   ///
   List<PostModel> _posts = [];
   List<PostModel> get posts => _posts;
+
+  ///
+  /// 注意，更新posts只会添加而不是传入数据，更新成你传入的那样
+  /// 为什么不支持更新数据而只支持增加数据?
+  /// 答：本来就不该在这里更新数据，这里只能添加，查看compute...相关方法
+  /// todo: 不要让重复的数据被添加进来
   set posts(List<PostModel> value) {
     assert(value != null);
     if (_posts == value) return;
@@ -112,7 +101,7 @@ class _ThreadBaseCacher {
   ///
   /// 移除评论数据
   /// 通常要在请求接口删除评论成功后再调用这个方法，setState后便可直接重构UI
-  void removePost({@required int postID}) {
+  void removePostByID({@required int postID}) {
     _posts = _posts.where((it) => it.id != postID).toList();
   }
 
@@ -121,6 +110,10 @@ class _ThreadBaseCacher {
   ///
   List<UserModel> _users = [];
   List<UserModel> get users => _users;
+
+  /// 为什么不支持更新数据而只支持增加数据?
+  /// 答：本来就不该在这里更新数据，这里只能添加，查看compute...相关方法
+  /// todo: 不要让重复的数据被添加进来
   set users(List<UserModel> value) {
     assert(value != null);
     if (_users == value) return;
@@ -133,6 +126,10 @@ class _ThreadBaseCacher {
   ///
   List<AttachmentsModel> _attachments = [];
   List<AttachmentsModel> get attachments => _attachments;
+
+  /// 为什么不支持更新数据而只支持增加数据?
+  /// 答：本来就不该在这里更新数据，这里只能添加，查看compute...相关方法
+  /// todo: 不要让重复的数据被添加进来
   set attachments(List<AttachmentsModel> value) {
     assert(value != null);
     if (_attachments == value) return;
@@ -145,6 +142,10 @@ class _ThreadBaseCacher {
   ///
   List<ThreadVideoModel> _videos = [];
   List<ThreadVideoModel> get videos => _videos;
+
+  /// 为什么不支持更新数据而只支持增加数据?
+  /// 答：本来就不该在这里更新数据，这里只能添加，查看compute...相关方法
+  /// todo: 不要让重复的数据被添加进来
   set videos(List<ThreadVideoModel> value) {
     assert(value != null);
     if (_videos == value) return;
@@ -211,43 +212,63 @@ class _ThreadBaseCacher {
 }
 
 ///
-/// 一个用与缓存主题信息的类
-/// 一个页面在加载完所有主题数据，包括评论，用户等，都会被分类存储到这里
-/// 在这里提取要用于渲染的主题列表和其他信息。
-/// 当页面销毁的时候，直接将 ThreadsCacher 销毁，完成内存的释放，
-/// ThreadsCacher 设计的目的就是为了托管所有用来渲染主题列表相关页面的数据
-/// 这个类将作为单例被调用，多个页面只能共享一个 ThreadsCacher
-/// dispose将清空所有的数据
+/// transformThreads
+/// dynamic 转化为ThreadModels
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
 ///
-/// ThreadsCacher 包含的getter， 他们可以获取这些数据，
-/// 但是更新这些数据只能由统一的方式进行，以便于去除重复的数据
-class ThreadsCacher extends _ThreadBaseCacher {
-  ///
-  /// 注意 ThreadsCacher 是一个单例，但当singleton传入为false时，则不会是一个单例，
-  /// 这是为了多个Stack调用时出现数据重复
-  ///
-  /// 现在由于一些优化，一般情况下不需要保证是单例了，因为我们有完整的内存释放和对Dart多线程独立内存的使用
-  ///
-  /// 所以如果不用了，就一定要clear
-  /// 否则，在下次调用的时候数据还在，将直接导致错误的数据渲染
-  ///
-  factory ThreadsCacher({bool singleton = false}) =>
-      _getInstance(singleton: singleton);
-  static ThreadsCacher get instance => _getInstance();
-  static ThreadsCacher _instance;
-
-  ThreadsCacher._internal() {
-    // 初始化单例实例
+Future<List<ThreadModel>> transformThreads(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
   }
+  List<ThreadModel> result =
+      data.map<ThreadModel>((t) => ThreadModel.fromMap(maps: t)).toList();
+  return Future.value(result);
+}
 
-  static ThreadsCacher _getInstance({bool singleton = false}) {
-    if (_instance == null) {
-      _instance = ThreadsCacher._internal();
-    }
-
-    if (singleton == false) {
-      _instance = ThreadsCacher._internal();
-    }
-    return _instance;
+///
+/// transformUsers
+/// dynamic 转化为UserModels
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<UserModel>> transformUsers(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
   }
+  final List<UserModel> reulst = data
+      .where((inc) => inc['type'] == 'users')
+      .map((u) => UserModel.fromMap(maps: u))
+      .toList();
+  return Future.value(reulst);
+}
+
+///
+/// transformAttachments
+/// dynamic 转化为 AttachmentsModel
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<AttachmentsModel>> transformAttachments(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
+  }
+  final List<AttachmentsModel> reulst = data
+      .where((inc) => inc['type'] == 'attachments')
+      .map((p) => AttachmentsModel.fromMap(maps: p))
+      .toList();
+  return Future.value(reulst);
+}
+
+///
+/// transformThreadVideoModel
+/// dynamic 转化为 ThreadVideoModel
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<ThreadVideoModel>> transformThreadVideos(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
+  }
+  final List<ThreadVideoModel> reulst = data
+      .where((inc) => inc['type'] == 'thread-video')
+      .map((p) => ThreadVideoModel.fromMap(maps: p))
+      .toList();
+  return Future.value(reulst);
 }

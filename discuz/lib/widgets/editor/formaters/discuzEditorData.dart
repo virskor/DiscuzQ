@@ -5,6 +5,22 @@ import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 
+class EditorDataPostType {
+  ///
+  /// 普通帖子
+  static const typeNormalContent = 0;
+
+  ///
+  /// 长文
+  static const typeLongContent = 1;
+
+  ///
+  /// 发布视频帖子
+  static const typeVideoContent = 2;
+
+  const EditorDataPostType();
+}
+
 class DiscuzEditorData {
   ///
   /// 类型，默认不用传入
@@ -33,6 +49,7 @@ class DiscuzEditorData {
           content,
           ThreadModel thread,
           PostModel post,
+          int type = EditorDataPostType.typeNormalContent,
           @required CategoryModel cat,
           List<AttachmentsModel> attachments = const []}) =>
       DiscuzEditorData(
@@ -46,6 +63,7 @@ class DiscuzEditorData {
           attributes: DiscuzEditorDataAttributes(
               captchaRandSTR: captchaRandSTR ?? '',
               captchaTicket: captchaTicket ?? '',
+              type: type,
               replyId: post == null ? 0 : post.id,
               content: content ?? ''));
 }
@@ -92,7 +110,10 @@ class DiscuzEditorDataAttributes {
   final String content;
 
   ///
-  /// 类型
+  /// 类型 文章类型(
+  /// 0 DiscuzEditorData.typeNormalContent 普通
+  /// 1 DiscuzEditorData.typeLongContent 长文
+  /// 2 DiscuzEditorData.typeVideoContent 视频)
   final int type;
 
   ///
@@ -105,5 +126,5 @@ class DiscuzEditorDataAttributes {
       this.captchaTicket = '',
       this.content = '',
       this.replyId = 0,
-      this.type = 0});
+      this.type = EditorDataPostType.typeNormalContent});
 }

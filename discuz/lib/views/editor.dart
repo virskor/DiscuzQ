@@ -1,4 +1,7 @@
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/widgets/posts/postsAPIManager.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -58,11 +61,24 @@ class Editor extends StatefulWidget {
   final CategoryModel defaultCategory;
 
   ///
+  /// 用户成功提交了数据时，将得到反馈
+  /// 注意，如果用户成功发布信息，将得到一个 DiscuzEditorRequestResult
+  /// DiscuzEditorRequestResult 包含了刚才用户发布信息后，接口反馈的数据
+  /// DiscuzEditorRequestResult 为null的时候则表明用户发布失败
+  /// 如果用户没有点击发布，编辑器没有尝试请求 接口，那么是不会回调该方法的
+  final Function onPostSuccess;
+
+  ///
   /// 关联帖子
   /// 回复的时候，需要关联帖子数据，是不能少的
   final ThreadModel thread;
 
-  Editor({@required this.type, this.post, this.defaultCategory, this.thread});
+  Editor(
+      {@required this.type,
+      this.post,
+      this.defaultCategory,
+      this.thread,
+      this.onPostSuccess});
 
   @override
   _EditorState createState() => _EditorState();
@@ -100,7 +116,7 @@ class _EditorState extends State<Editor> {
 
   ///
   /// 编辑器是否调用为回复模式
-  bool _isReply() =>
+  bool get _isReply =>
       widget.type == DiscuzEditorInputTypes.reply && widget.post != null;
 
   ///
@@ -108,7 +124,7 @@ class _EditorState extends State<Editor> {
   Widget _buildSaveButton() {
     ///
     /// 回复帖子
-    if (_isReply()) {
+    if (_isReply) {
       return AppbarSaveButton(
         onTap: _post,
         label: '回复',
@@ -167,15 +183,18 @@ class _EditorState extends State<Editor> {
     ///
     /// 启用腾讯云验证码
     /// 初始化时 null
+    /// 注意，回复的时候，不需要传入验证码
     CaptchaModel captchaCallbackData;
     try {
       final AppState state =
           ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
 
+      /// 回复的时候不需要验证码
+      ///
       ///
       /// 仅支持 开启腾讯云验证码的用户调用
       ///
-      if (state.forum.attributes.qcloud.qCloudCaptcha) {
+      if (state.forum.attributes.qcloud.qCloudCaptcha && !_isReply) {
         captchaCallbackData = await TencentCloudCaptcha.show(
             context: context,
 
@@ -195,19 +214,46 @@ class _EditorState extends State<Editor> {
     /// 将编辑器模型数据，转化为JSON进行提交
     ///
     final dynamic data =
-        await DiscuzEditorDataFormater.toJSON(_discuzEditorData,
-            isBuildForCreatingPost: widget.post != null,
+        await DiscuzEditorDataFormater.toDynamic(_discuzEditorData,
+            isBuildForCreatingPost: _isReply,
 
             /// 如果是回复，则该选项为true，这样会过滤掉发帖时非必要对的参数
             captcha: captchaCallbackData);
+    print({'-----------------------', data});
 
     ///
     /// 开始提交数据
-    print(data);
-    DiscuzToast.show(
-        context: context, message: "出于安全考虑暂不开放发帖，以下是调试数据\r\n $data");
+    if (widget.onPostSuccess == null) {
+      /// 请求提交
+      /// 千万要记得调用编辑器时提供 widget.onPostSuccess
+      /// 如果不提供，则不要继续，因为没有成功发信的回调处理，这本身是一个很危险的行径
+      DiscuzToast.failed(context: context, message: '无法回调');
+      return;
+    }
+
+    /// 根据类型，来处理调用回复接口，或是发帖接口
+    ///
+    /// 处理发帖
+    if (!_isReply) {
+      DiscuzToast.failed(context: context, message: '暂不支持');
+      return;
+    }
+
+    ///
+    /// 处理回复
+    /// 
+    final DiscuzEditorRequestResult requestResultresult =
+        await PostsAPIManager(context: context).create(data: data);
+    if (requestResultresult != null) {
+      widget.onPostSuccess(requestResultresult);
+    }
+
+    Navigator.pop(context);
   }
 
+  ///
+  /// 这是调用discuzEditor
+  /// 而不是整个editor走在此完成
   Widget _buildEditor() {
     if (widget.type.formatType == DiscuzEditorInputType.formatTypesMarkdown) {
       ///

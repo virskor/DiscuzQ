@@ -1,5 +1,3 @@
-import 'package:discuzq/widgets/editor/discuzEditorReplyHelper.dart';
-import 'package:discuzq/widgets/posts/postLikeButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -12,6 +10,8 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
+import 'package:discuzq/widgets/posts/postLikeButton.dart';
 
 const int _tapReplyButton = 1;
 const int _tapFavoriteButton = 2;
@@ -147,7 +147,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
     ///
     /// 处理用户点击回复
     if (uniqueId == _tapReplyButton) {
-      DiscuzEditorReplyHelper(context: context)
+      DiscuzEditorHelper(context: context)
           .reply(post: widget.firstPost, thread: widget.thread);
       return;
     }

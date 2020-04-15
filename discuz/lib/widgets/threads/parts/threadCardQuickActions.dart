@@ -1,14 +1,13 @@
-import 'package:discuzq/widgets/editor/discuzEditorReplyHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/posts/postLikeButton.dart';
 import 'package:discuzq/widgets/share/shareNative.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 
 ///
 /// 按钮图标的大小
@@ -61,7 +60,7 @@ class ThreadCardQuickActions extends StatelessWidget {
               size: _iconsize,
               color: DiscuzApp.themeOf(context).textColor,
             ),
-            onPressed: () => DiscuzEditorReplyHelper(context: context)
+            onPressed: () => DiscuzEditorHelper(context: context)
                 .reply(post: firstPost, thread: thread),
           )
         ],

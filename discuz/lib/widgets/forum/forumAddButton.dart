@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -100,8 +101,10 @@ class _ForumCreateThreadDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: _menus
                       .map((e) => GestureDetector(
-                            onTap: () =>
-                                _showEditor(context: context, type: e.type, category: state.focusedCategory),
+                            onTap: () => _showEditor(
+                                context: context,
+                                type: e.type,
+                                category: state.focusedCategory),
                             child: Container(
                               margin: const EdgeInsets.only(top: 10),
                               padding: const EdgeInsets.all(10),
@@ -153,29 +156,19 @@ class _ForumCreateThreadDialog extends StatelessWidget {
   ///
   /// 打开编辑器
   ///
-  Future<bool> _showEditor(
+  Future<void> _showEditor(
       {BuildContext context,
       DiscuzEditorInputType type,
-      CategoryModel category}) {
+      CategoryModel category}) async {
+        /// 先关闭对话框
     if (Navigator.of(context).canPop()) {
       Navigator.pop(context);
     }
 
-    return DiscuzRoute.open(
-        context: context,
-        fullscreenDialog: true,
-        shouldLogin: true,
-        ///
-        /// 若用户停留的分类是全部，那么一样不需要传入全部
-        /// 其实传不传无所谓的，反正传了全部，也不会被自动选择全部这个分类，因为接口里并不存在呀
-        widget: category == null || category.attributes.name == '全部'
-            ? Editor(
-                type: type,
-              )
-            : Editor(
-                type: type,
-                defaultCategory: category,
-              ));
+    category == null || category.id == 0
+        ? await DiscuzEditorHelper(context: context).createThread(type: type)
+        : await DiscuzEditorHelper(context: context)
+            .createThread(type: type, category: category);
   }
 }
 

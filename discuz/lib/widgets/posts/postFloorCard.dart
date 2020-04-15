@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -256,6 +257,18 @@ class PostFloorCard extends StatelessWidget {
             post: post,
             size: 20,
           ),
+
+          ///
+          /// 评论按钮
+          IconButton(
+            icon: DiscuzIcon(
+              SFSymbols.bubble_left_bubble_right,
+              size: 20,
+              color: DiscuzApp.themeOf(context).textColor,
+            ),
+            onPressed: () => DiscuzEditorHelper(context: context)
+                .reply(post: post, thread: thread),
+          )
         ],
       );
 }
