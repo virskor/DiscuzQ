@@ -47,6 +47,7 @@ class DiscuzEditorData {
           {String captchaRandSTR,
           captchaTicket,
           content,
+          title,
           ThreadModel thread,
           PostModel post,
           int type = EditorDataPostType.typeNormalContent,
@@ -64,6 +65,7 @@ class DiscuzEditorData {
               captchaRandSTR: captchaRandSTR ?? '',
               captchaTicket: captchaTicket ?? '',
               type: type,
+              title: title ?? '',
               replyId: post == null ? 0 : post.id,
               content: content ?? ''));
 }
@@ -110,6 +112,10 @@ class DiscuzEditorDataAttributes {
   final String content;
 
   ///
+  /// 标题
+  final String title;
+
+  ///
   /// 类型 文章类型(
   /// 0 DiscuzEditorData.typeNormalContent 普通
   /// 1 DiscuzEditorData.typeLongContent 长文
@@ -125,6 +131,7 @@ class DiscuzEditorDataAttributes {
       {this.captchaRandSTR = '',
       this.captchaTicket = '',
       this.content = '',
+      this.title = '',
       this.replyId = 0,
       this.type = EditorDataPostType.typeNormalContent});
 }

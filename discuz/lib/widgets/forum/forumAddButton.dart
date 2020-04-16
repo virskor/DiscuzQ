@@ -89,11 +89,11 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
         subTitle: '一些简单的想法',
         type: DiscuzEditorInputTypes.text,
         icon: SFSymbols.pencil_ellipsis_rectangle),
-    // const _ForumCreateThreadDialogItem(
-    //     type: DiscuzEditorInputTypes.markdown,
-    //     caption: '发布长文',
-    //     subTitle: '发布我的文章',
-    //     icon: SFSymbols.pencil_outline),
+    const _ForumCreateThreadDialogItem(
+        type: DiscuzEditorInputTypes.markdown,
+        caption: '发布长文',
+        subTitle: '发布我的文章',
+        icon: SFSymbols.pencil_outline),
     // const _ForumCreateThreadDialogItem(
     //     type: DiscuzEditorInputTypes.video,
     //     caption: '发布视频',

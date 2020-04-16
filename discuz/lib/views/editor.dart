@@ -175,6 +175,14 @@ class _EditorState extends State<Editor> {
     }
 
     ///
+    /// 如果长文模式，要求输入标题
+    if (StringHelper.isEmpty(string: _discuzEditorData.attributes.title) &&
+        widget.type == DiscuzEditorInputTypes.markdown) {
+      DiscuzToast.failed(context: context, message: '请输入标题');
+      return;
+    }
+
+    ///
     /// 小样，没有输入内容就想发布
     if (StringHelper.isEmpty(string: _discuzEditorData.attributes.content)) {
       DiscuzToast.failed(context: context, message: '请输入内容');
@@ -220,7 +228,7 @@ class _EditorState extends State<Editor> {
 
             /// 如果是回复，则该选项为true，这样会过滤掉发帖时非必要对的参数
             captcha: captchaCallbackData);
-    debugPrint(data.toString());
+    print(data);
 
     ///
     /// 开始提交数据
@@ -264,11 +272,6 @@ class _EditorState extends State<Editor> {
   /// 这是调用discuzEditor
   /// 而不是整个editor走在此完成
   Widget _buildEditor() {
-    if (widget.type.formatType == DiscuzEditorInputType.formatTypesMarkdown) {
-      ///
-      return DiscuzMarkdownEditor();
-    }
-
     ///
     /// 回复模式不允许上传附件
     ///
@@ -291,6 +294,8 @@ class _EditorState extends State<Editor> {
     /// 默认允许表情，上传图片，上传附件
     return DiscuzEditor(
       defaultCategory: widget.defaultCategory,
+      enableMarkdown:
+          widget.type.formatType == DiscuzEditorInputType.formatTypesMarkdown,
       onChanged: (DiscuzEditorData data) {
         ///
         /// 切勿setState,否则UI将loop

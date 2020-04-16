@@ -91,6 +91,13 @@ class DiscuzEditorDataFormater {
       });
     }
 
+    /// 补全标题
+    if (data.attributes.title != null && data.attributes.title != '') {
+      attributes.addAll({
+        "title": data.attributes.title,
+      });
+    }
+
     ///
     /// 发布的时候会带入该数据
     ///
