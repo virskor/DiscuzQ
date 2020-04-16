@@ -8,7 +8,7 @@ import 'package:discuzq/models/userModel.dart';
 class DiscuzEditorRequestResult {
   ///
   /// 所创建的评论信息
-  final PostModel post;
+  final List<PostModel> posts;
 
   ///
   /// 包含的用户信息数据
@@ -20,5 +20,5 @@ class DiscuzEditorRequestResult {
   final ThreadModel thread;
 
   const DiscuzEditorRequestResult(
-      {this.post, this.users = const [], this.thread});
+      {this.posts, this.users = const [], this.thread});
 }

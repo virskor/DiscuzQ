@@ -161,7 +161,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
           await DiscuzEditorHelper(context: context)
               .reply(post: widget.firstPost, thread: widget.thread);
       if (res != null) {
-        widget.threadsCacher.posts = [res.post];
+        widget.threadsCacher.posts = res.posts;
         widget.threadsCacher.users = res.users;
         DiscuzToast.success(context: context, message: '回复成功');
       }
