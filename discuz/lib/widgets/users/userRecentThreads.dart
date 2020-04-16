@@ -70,11 +70,6 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
   bool _loading = false;
 
   ///
-  /// _enablePullUp
-  /// 是否允许加载更多
-  bool _enablePullUp = false;
-
-  ///
   /// _continueToRead
   /// 是否是连续加载
   bool _continueToRead = false;
@@ -193,13 +188,9 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
       .toList();
 
   ///
-  /// 是否允许加载更多页面
-  ///
-  void _refreshEnablePullUp() {
-    final bool enabled =
-        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
-    _enablePullUp = enabled;
-  }
+  /// 是否允许加载更多
+  bool get _enablePullUp =>
+      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
 
   ///
   /// _requestData will get data from backend
@@ -273,7 +264,6 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
 
       /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
-      _refreshEnablePullUp();
     });
   }
 }
