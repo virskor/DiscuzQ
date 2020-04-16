@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorToolbar.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -12,7 +13,6 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
-import 'package:flutter/services.dart';
 
 class DiscuzEditor extends StatefulWidget {
   ///

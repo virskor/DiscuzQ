@@ -12,12 +12,12 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 /// 帖子相关API请求方法
 /// 由于该API会在不同组件复用，所以单独抽出
 ///
-class PostsAPIManager {
+class PostsAPI {
   ///
   /// 出入BuildContext
   final BuildContext context;
 
-  PostsAPIManager({@required this.context});
+  PostsAPI({@required this.context});
 
   ///
   /// 创建回复
@@ -44,9 +44,9 @@ class PostsAPIManager {
 
     /// 匹配用户
     List<UserModel> users = [];
-    final List<dynamic> includes = resp.data['includes'];
-    if (includes != null && includes.length > 0) {
-      includes.forEach((it) {
+    final List<dynamic> included = resp.data['included'];
+    if (included != null && included.length > 0) {
+      included.forEach((it) {
         ///
         /// 仅取用户信息
         if (it['type'] == 'users') {
@@ -57,7 +57,7 @@ class PostsAPIManager {
 
     /// 好了，将数据加入threadCacher
     return Future.value(DiscuzEditorRequestResult(
-      post: post,
+      posts: [post],
       users: users,
     ));
   }

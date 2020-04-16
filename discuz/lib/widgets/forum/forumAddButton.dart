@@ -1,19 +1,18 @@
-import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
-import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/views/editor.dart';
 import 'package:discuzq/widgets/common/blurBackground.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 
 class ForumAddButton extends StatefulWidget {
   ///
@@ -69,8 +68,20 @@ class _ForumAddButtonState extends State<ForumAddButton> {
       });
 }
 
-class _ForumCreateThreadDialog extends StatelessWidget {
-  const _ForumCreateThreadDialog();
+/// 论坛首页
+class _ForumCreateThreadDialog extends StatefulWidget {
+  const _ForumCreateThreadDialog({Key key}) : super(key: key);
+
+  @override
+  _ForumCreateThreadDialogState createState() =>
+      _ForumCreateThreadDialogState();
+}
+
+class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+  }
 
   static const List<_ForumCreateThreadDialogItem> _menus = [
     const _ForumCreateThreadDialogItem(
@@ -161,18 +172,18 @@ class _ForumCreateThreadDialog extends StatelessWidget {
       {BuildContext context,
       DiscuzEditorInputType type,
       CategoryModel category}) async {
-    /// 先关闭对话框
-    if (Navigator.of(context).canPop()) {
-      Navigator.pop(context);
+    final DiscuzEditorRequestResult res =
+        await DiscuzEditorHelper(context: context)
+            .createThread(type: type, category: category);
+    if (res != null) {
+      ///
+      /// todo: 刷新列表
+      DiscuzToast.success(context: context, message: '发布成功');
     }
 
-    final DiscuzEditorRequestResult res = category == null || category.id == 0
-        ? await DiscuzEditorHelper(context: context).createThread(type: type)
-        : await DiscuzEditorHelper(context: context)
-            .createThread(type: type, category: category);
-    if(res != null){
-      ///
-      /// 刷新列表
+    /// 对话框一定在后关闭，否则会造成widget tree unstable
+    if (Navigator.of(context).canPop()) {
+      Navigator.pop(context);
     }
   }
 }

@@ -23,7 +23,7 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/posts/postsAPIManager.dart';
+import 'package:discuzq/api/postsAPI.dart';
 
 class PostFloorCard extends StatelessWidget {
   ///
@@ -240,7 +240,7 @@ class PostFloorCard extends StatelessWidget {
                         final Function close =
                             DiscuzToast.loading(context: context);
                         final bool result =
-                            await PostsAPIManager(context: context)
+                            await PostsAPI(context: context)
                                 .delete(postID: post.id);
                         close();
                         if (result && onDelete != null) {
@@ -272,7 +272,7 @@ class PostFloorCard extends StatelessWidget {
                   await DiscuzEditorHelper(context: context)
                       .reply(post: post, thread: thread);
               if (res != null) {
-                threadsCacher.posts = [res.post];
+                threadsCacher.posts = res.posts;
                 threadsCacher.users = res.users;
                 DiscuzToast.success(context: context, message: '回复成功');
               }

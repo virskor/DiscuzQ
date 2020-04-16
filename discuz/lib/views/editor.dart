@@ -1,5 +1,6 @@
+import 'package:discuzq/api/threadsAPI.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
-import 'package:discuzq/widgets/posts/postsAPIManager.dart';
+import 'package:discuzq/api/postsAPI.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -219,7 +220,7 @@ class _EditorState extends State<Editor> {
 
             /// 如果是回复，则该选项为true，这样会过滤掉发帖时非必要对的参数
             captcha: captchaCallbackData);
-    print({'-----------------------', data});
+    debugPrint(data.toString());
 
     ///
     /// 开始提交数据
@@ -235,19 +236,27 @@ class _EditorState extends State<Editor> {
     ///
     /// 处理发帖
     if (!_isReply) {
-      DiscuzToast.failed(context: context, message: '暂不支持');
+      final DiscuzEditorRequestResult requestResultresult =
+          await ThreadsAPI(context: context).create(data: data);
+      if (requestResultresult != null) {
+        widget.onPostSuccess(requestResultresult);
+      }
+
+      /// onPostSuccess 执行后才能关闭
+      Navigator.pop(context);
       return;
     }
 
     ///
     /// 处理回复
-    /// 
+    ///
     final DiscuzEditorRequestResult requestResultresult =
-        await PostsAPIManager(context: context).create(data: data);
+        await PostsAPI(context: context).create(data: data);
     if (requestResultresult != null) {
       widget.onPostSuccess(requestResultresult);
     }
 
+    /// onPostSuccess 执行后才能关闭
     Navigator.pop(context);
   }
 
