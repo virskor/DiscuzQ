@@ -169,7 +169,7 @@ R8 是谷歌推出的最新代码压缩器，当你打包 release 版本的 APK 
 flutter build apk --release --no-shrink
 ```
 
-而IOS 你需要参考自动化构建所需要的
+因IOS为提供签名flutter build ios无法build,这时需要使用xcode来archive，而不是使用Flutter build. 而IOS 参考自动化构建所需要的。
 ```yaml
 - run:
     command: bundle install

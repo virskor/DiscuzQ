@@ -79,11 +79,6 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   bool _loading = true;
 
   ///
-  /// _enablePullUp
-  /// 是否允许加载更多
-  bool _enablePullUp = false;
-
-  ///
   /// _continueToRead
   /// 是否是连续加载
   bool _continueToRead = false;
@@ -116,13 +111,9 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   }
 
   ///
-  /// 是否允许加载更多页面
-  ///
-  void _refreshEnablePullUp() {
-    final bool enabled =
-        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
-    _enablePullUp = enabled;
-  }
+  /// 是否允许加载更多
+  bool get _enablePullUp =>
+      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
@@ -166,7 +157,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                               _buildThreadContent(),
 
                               /// 显示评论
-                              _buildComments(),
+                              _buildComments()
                             ],
                           ),
                         ),
@@ -297,7 +288,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
     }
 
     return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 100),
+      margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.only(bottom: 10),
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
@@ -476,8 +467,18 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
           PostModel();
 
       /// pageNumber 在onload传入时已经自动加1
-      _meta = MetaModel.fromMap(maps: resp.data['meta']);
-      _refreshEnablePullUp();
+      /// 注意 主题详情中的meta需要自己生成
+      ///
+      final int pageCount = ((_threadsCacher.threads[0].attributes.postCount +
+                  Global.requestPageLimit -
+                  1) /
+              Global.requestPageLimit)
+          .ceil();
+
+      _meta = MetaModel.fromMap(maps: {
+        "pageCount": pageCount,
+        "threadCount": 1,
+      });
     });
   }
 }

@@ -12,7 +12,7 @@ import 'package:discuzq/widgets/threads/parts/threadFavoritesAndRewards.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/threads/theadDetailDelegate.dart';
+import 'package:discuzq/views/threads/threadDetailDelegate.dart';
 import 'package:discuzq/widgets/posts/postRender.dart';
 
 ///

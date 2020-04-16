@@ -89,11 +89,6 @@ class _ForumCategoryState extends State<ThreadsList> {
   bool _loading = true;
 
   ///
-  /// _enablePullUp
-  /// 是否允许加载更多
-  bool _enablePullUp = false;
-
-  ///
   /// _continueToRead
   /// 是否是连续加载
   bool _continueToRead = false;
@@ -172,13 +167,9 @@ class _ForumCategoryState extends State<ThreadsList> {
   }
 
   ///
-  /// 是否允许加载更多页面
-  ///
-  void _refreshEnablePullUp() {
-    final bool enabled =
-        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
-    _enablePullUp = enabled;
-  }
+  /// 是否允许加载更多
+  bool get _enablePullUp =>
+      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
@@ -346,7 +337,6 @@ class _ForumCategoryState extends State<ThreadsList> {
 
       /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
-      _refreshEnablePullUp();
     });
   }
 }

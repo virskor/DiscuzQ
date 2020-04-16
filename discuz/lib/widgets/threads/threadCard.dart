@@ -11,7 +11,7 @@ import 'package:discuzq/widgets/threads/parts/threadHeaderCard.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/threads/parts/threadPostSnapshot.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/threads/theadDetailDelegate.dart';
+import 'package:discuzq/views/threads/threadDetailDelegate.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';

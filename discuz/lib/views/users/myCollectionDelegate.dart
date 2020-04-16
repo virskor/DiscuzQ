@@ -54,11 +54,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   bool _loading = false;
 
   ///
-  /// _enablePullUp
-  /// 是否允许加载更多
-  bool _enablePullUp = false;
-
-  ///
   /// _continueToRead
   /// 是否是联系加载
   bool _continueToRead = false;
@@ -85,13 +80,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   }
 
   ///
-  /// 是否允许加载更多页面
-  ///
-  void _refreshEnablePullUp() {
-    final bool enabled =
-        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
-    _enablePullUp = enabled;
-  }
+  /// 是否允许加载更多
+  bool get _enablePullUp =>
+      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
@@ -101,7 +92,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
             title: '我的收藏',
           ),
           backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-
           body: _body(state: state)));
 
   /// _body
@@ -121,8 +111,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     ///
     /// 如果没有更多信息则直接提示用户，没有更多信息了
-    /// 
-    if (!_loading && _threadsCacher.threads == null || _threadsCacher.threads.length == 0) {
+    ///
+    if (!_loading && _threadsCacher.threads == null ||
+        _threadsCacher.threads.length == 0) {
       return const DiscuzNoMoreData();
     }
 
@@ -237,12 +228,13 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
     setState(() {
       _loading = false;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;  /// pageNumber 在onload传入时已经自动加1
+      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+
+      /// pageNumber 在onload传入时已经自动加1
       _continueToRead = true;
+
       /// 修改
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
-
-      _refreshEnablePullUp();
     });
   }
 }

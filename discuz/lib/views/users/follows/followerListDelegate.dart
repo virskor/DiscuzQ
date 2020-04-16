@@ -53,11 +53,6 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
   bool _loading = false;
 
   ///
-  /// _enablePullUp
-  /// 是否允许加载更多
-  bool _enablePullUp = false;
-
-  ///
   /// meta
   MetaModel _meta;
 
@@ -186,13 +181,9 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
   }
 
   ///
-  /// 是否允许加载更多页面
-  ///
-  void _refreshEnablePullUp() {
-    final bool enabled =
-        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
-    _enablePullUp = enabled;
-  }
+  /// 是否允许加载更多
+  bool get _enablePullUp =>
+      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
 
   ///
   /// 查找关注我的用户
@@ -242,7 +233,6 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
       _loading = false;
       _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber; /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
-      _refreshEnablePullUp();
     });
   }
 }

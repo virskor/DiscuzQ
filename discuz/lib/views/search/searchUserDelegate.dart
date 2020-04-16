@@ -48,11 +48,6 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
   MetaModel _meta;
 
   ///
-  /// _enablePullUp
-  /// 是否允许加载更多
-  bool _enablePullUp = false;
-
-  ///
   /// loading
   /// 是否正在加载
   bool _loading = false;
@@ -103,15 +98,11 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
       body: _buildBody(context),
     );
   }
-
+  
   ///
-  /// 是否允许加载更多页面
-  ///
-  void _refreshEnablePullUp() {
-    final bool enabled =
-        _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
-    _enablePullUp = enabled;
-  }
+  /// 是否允许加载更多
+  bool get _enablePullUp =>
+      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
 
   ///
   /// 生成搜索用户的组件
@@ -213,7 +204,6 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
       _users.addAll([...userModels]);
       /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
-      _refreshEnablePullUp();
     });
   }
 }
