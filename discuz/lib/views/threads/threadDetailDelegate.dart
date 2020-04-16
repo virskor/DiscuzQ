@@ -129,7 +129,6 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                 /// 内容
                 ///
                 Container(
-                  padding: const EdgeInsets.only(bottom: 80),
                   child: !_continueToRead && _loading
 
                       /// 加载第一页时加载Loading 骨架屏
@@ -158,7 +157,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                               _buildThreadContent(),
 
                               /// 显示评论
-                              _buildComments(),
+                              _buildComments()
                             ],
                           ),
                         ),
