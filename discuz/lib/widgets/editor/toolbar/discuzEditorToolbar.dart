@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/editor/toolbar/toolbarIconButton.dart';
@@ -214,7 +215,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             ///
             widget.enableEmoji
                 ? GestureDetector(
-                    onTap: () => _callbackInput(toolbarEvt: 'emoji'),
+                    onTap: () => _callbackInput(toolbarEvt: ToolbarEvt.emoji),
                     child: const ToolbarIconButton(
                       icon: SFSymbols.smiley,
                     ),
@@ -240,7 +241,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                             ? false
                             : true,
                     child: GestureDetector(
-                      onTap: () => _callbackInput(toolbarEvt: 'image'),
+                      onTap: () => _callbackInput(toolbarEvt: ToolbarEvt.image),
                       child: const ToolbarIconButton(
                         icon: SFSymbols.camera,
                       ),
@@ -264,8 +265,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             /// 拓展 markdown工具栏
             ///
             ...DiscuzToolbarMarkdownItems.markdownOpts(
-              callbackInput: _callbackInput,
-                show: widget.enableMarkdown),
+                callbackInput: _callbackInput, show: widget.enableMarkdown),
 
             ///
             /// 防止无法滑动 多增加区域
@@ -277,15 +277,18 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
 
   ///
   /// callback to editor
-  void _callbackInput({@required String toolbarEvt}) {
-    _closeKeyboard();
+  /// toolbar 请求在编辑器内插入信息（字符串） formatValue
+  void _callbackInput({@required ToolbarEvt toolbarEvt, String formatValue}) {
+    if (formatValue == null) {
+      _closeKeyboard();
+    }
 
     ///
     if (widget.onTap == null) {
       return;
     }
 
-    widget.onTap(toolbarEvt);
+    widget.onTap(toolbarEvt, formatValue: formatValue);
   }
 
   ///
