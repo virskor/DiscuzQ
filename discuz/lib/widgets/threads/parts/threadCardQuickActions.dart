@@ -30,7 +30,7 @@ class ThreadCardQuickActions extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ///

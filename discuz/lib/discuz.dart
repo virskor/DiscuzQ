@@ -50,6 +50,7 @@ class _DiscuzState extends State<Discuz> {
             child: MaterialApp(
               title: Global.appname,
               debugShowCheckedModeBanner: false,
+
               /// 如果用户在Build.yaml禁止了这项，这直接不要允许开启
               showPerformanceOverlay:
                   BuildInfo().info().enablePerformanceOverlay
@@ -142,8 +143,8 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 底部按钮菜单
   final List<NavigatorItem> _items = [
     const NavigatorItem(icon: 0xe63e),
-    const NavigatorItem(icon: SFSymbols.bell, shouldLogin: true),
-    const NavigatorItem(icon: SFSymbols.person_alt, shouldLogin: true)
+    const NavigatorItem(icon: 0xe677, shouldLogin: true),
+    const NavigatorItem(icon: 0xe7c7, size: 23, shouldLogin: true)
   ];
 
   /// 使用global key
