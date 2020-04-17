@@ -1,5 +1,4 @@
-import 'package:discuzq/widgets/common/discuzTextfiled.dart';
-import 'package:discuzq/widgets/editor/formaters/discuzEditorDataFormater.dart';
+import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,6 +14,7 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 
 class DiscuzEditor extends StatefulWidget {
   ///
@@ -93,7 +93,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   ///
   /// states
   ///
-  String _toolbarEvt;
+  ToolbarEvt _toolbarEvt;
 
   ///
   /// 默认情况下，不要将_neverShowToolbarChild设置为true
@@ -163,13 +163,21 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                 enableEmoji: widget.enableEmoji,
                 enableUploadAttachment: widget.enableUploadAttachment,
                 enableUploadImage: widget.enableUploadImage,
+                enableMarkdown: widget.enableMarkdown,
                 showHideKeyboardButton: _showHideKeyboardButton,
                 defaultCategory: widget.defaultCategory,
                 onRequestUpdate: () {
                   _onChanged(state: state);
                 },
                 hideCategorySelector: widget.post != null,
-                onTap: (String toolbarEvt) {
+                onTap: (ToolbarEvt toolbarEvt, {String formatValue}) {
+                  ///
+                  /// 如果 formatValue 不为Null 仅为编辑器插入formatValue，但不继续运行
+                  if (formatValue != null) {
+                    _addEditorVal(formatValue, state, asNewLine: true);
+                    return;
+                  }
+
                   ///
                   /// 处理图片选择器
                   /// 附件选择器
@@ -204,6 +212,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                   removeBottomMargin: true,
                   contentPadding: const EdgeInsets.all(0),
                   controller: _titleEditController,
+                  fontSize: DiscuzApp.themeOf(context).mediumTextSize,
                   onChanged: (String data) =>
                       _onChanged(data: data, state: state),
                 ),
@@ -251,6 +260,20 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   }
 
   ///
+  /// add edit text for textfiled
+  /// 为编辑器增加用户正在编辑的数据
+  /// data 要添加的数据
+  /// state 编辑器状态
+  /// asNewLine 是否换行
+  void _addEditorVal(String data, EditorState state, {bool asNewLine = false}) {
+    final String text =
+        "${_contentEditController.text} ${asNewLine ? '\r\n' : ''} $data";
+
+    _contentEditController.value = TextEditingValue(text: text);
+    _onChanged(state: state);
+  }
+
+  ///
   /// 当用户点击了toolbar的时候，生成不同的组件
   /// 如表情选择，图片选择等
   Widget _buildToolbarChild({@required EditorState state}) {
@@ -261,16 +284,12 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
     ///
     /// 用户选择了插入表情
     ///
-    if (_toolbarEvt == 'emoji') {
+    if (_toolbarEvt == ToolbarEvt.emoji) {
       return EmojiSwiper(
         onInsert: (EmojiModel emoji) {
           ///
           /// 编辑器植入表情
-          /// 插入表情时，触发 _onChanged 即可
-          final String text =
-              "${_contentEditController.text} ${emoji.attributes.code} ";
-          _contentEditController.value = TextEditingValue(text: text);
-          _onChanged(state: state);
+          _addEditorVal(emoji.attributes.code, state);
         },
       );
     }
@@ -278,7 +297,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
     ///
     /// 用户选择了图片上传
     /// 上传的图片数据直接从editorState中取得
-    if (_toolbarEvt == 'image') {
+    if (_toolbarEvt == ToolbarEvt.image) {
       return DiscuzEditorImageUploader(
         onUploaded: () {
           _onChanged(state: state);
@@ -291,7 +310,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
     ///
     /// 用户选择了上传附件
     /// 上传的附件数据直接从editorState中取得
-    if (_toolbarEvt == 'attachment') {
+    if (_toolbarEvt == ToolbarEvt.attachment) {
       return DiscuzEditorAttachementUploader(
         onUploaded: () {
           _onChanged(state: state);
@@ -328,7 +347,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   /// 是这样的，长文，普通，视频
   int _editorDataPostType() {
     /// 长文模式
-    if(_titleEditController.text != ''){
+    if (_titleEditController.text != '') {
       return EditorDataPostType.typeLongContent;
     }
 

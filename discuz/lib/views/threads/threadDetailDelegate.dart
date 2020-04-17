@@ -199,7 +199,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       });
     }
 
-    return Container(
+    return RepaintBoundary(child: Container(
       padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
@@ -277,7 +277,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
           )
         ],
       ),
-    );
+    ));
   }
 
   ///

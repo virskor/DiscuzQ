@@ -1,7 +1,8 @@
 import 'package:badges/badges.dart';
+import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/editor/toolbar/toolbarIconButton.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/states/editorState.dart';
@@ -11,6 +12,7 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorCategorySelector.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/widgets/editor/toolbar/discuzToolbarMarkdownItems.dart';
 
 class DiscuzEditorToolbar extends StatefulWidget {
   final Function onTap;
@@ -56,6 +58,10 @@ class DiscuzEditorToolbar extends StatefulWidget {
   ///
   final bool hideCategorySelector;
 
+  ///
+  /// 是否开启markdown编辑模式
+  final bool enableMarkdown;
+
   DiscuzEditorToolbar(
       {this.onTap,
       this.child,
@@ -63,6 +69,7 @@ class DiscuzEditorToolbar extends StatefulWidget {
       this.enableEmoji,
       this.defaultCategory,
       this.onRequestUpdate,
+      this.enableMarkdown = false,
       this.hideCategorySelector = false,
       this.showHideKeyboardButton = false,
       this.enableUploadImage});
@@ -167,7 +174,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                             _showHideKeyboardButton
                                 ? GestureDetector(
                                     onTap: _closeKeyboard,
-                                    child: const _ToolbarIconButton(
+                                    child: const ToolbarIconButton(
                                         icon: SFSymbols
                                             .keyboard_chevron_compact_down),
                                   )
@@ -208,8 +215,8 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             ///
             widget.enableEmoji
                 ? GestureDetector(
-                    onTap: () => _callbackInput(toolbarEvt: 'emoji'),
-                    child: const _ToolbarIconButton(
+                    onTap: () => _callbackInput(toolbarEvt: ToolbarEvt.emoji),
+                    child: const ToolbarIconButton(
                       icon: SFSymbols.smiley,
                     ),
                   )
@@ -234,8 +241,8 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                             ? false
                             : true,
                     child: GestureDetector(
-                      onTap: () => _callbackInput(toolbarEvt: 'image'),
-                      child: const _ToolbarIconButton(
+                      onTap: () => _callbackInput(toolbarEvt: ToolbarEvt.image),
+                      child: const ToolbarIconButton(
                         icon: SFSymbols.camera,
                       ),
                     ),
@@ -248,48 +255,45 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             // widget.enableUploadAttachment
             //     ? GestureDetector(
             //         onTap: () => _callbackInput(toolbarEvt: 'attachment'),
-            //         child: const _ToolbarIconButton(
+            //         child: const ToolbarIconButton(
             //           icon: Icons.attach_file,
             //         ),
             //       )
             //     : const SizedBox(),
+
+            ///
+            /// 拓展 markdown工具栏
+            ///
+            ...DiscuzToolbarMarkdownItems.markdownOpts(
+                callbackInput: _callbackInput, show: widget.enableMarkdown),
+
+            ///
+            /// 防止无法滑动 多增加区域
+            ///
+            const SizedBox(width: 200),
           ],
         ),
       );
 
   ///
   /// callback to editor
-  void _callbackInput({@required String toolbarEvt}) {
-    _closeKeyboard();
+  /// toolbar 请求在编辑器内插入信息（字符串） formatValue
+  void _callbackInput({@required ToolbarEvt toolbarEvt, String formatValue}) {
+    if (formatValue == null) {
+      _closeKeyboard();
+    }
 
     ///
     if (widget.onTap == null) {
       return;
     }
 
-    widget.onTap(toolbarEvt);
+    widget.onTap(toolbarEvt, formatValue: formatValue);
   }
 
   ///
   /// close keyboard
   void _closeKeyboard() => FocusScope.of(context).requestFocus(FocusNode());
-}
-
-///
-/// 点击表情按钮
-///
-class _ToolbarIconButton extends StatelessWidget {
-  final IconData icon;
-
-  const _ToolbarIconButton({@required this.icon});
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(10),
-        child: DiscuzIcon(
-          icon,
-          color: DiscuzApp.themeOf(context).greyTextColor,
-        ),
-      );
 }
 
 ///

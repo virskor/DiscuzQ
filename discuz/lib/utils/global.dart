@@ -32,6 +32,7 @@ class Global {
 
   ///用户协议
   static const String policiesUri = '';
+  
 
   /// 开启支付
   /// 允许支付功能
