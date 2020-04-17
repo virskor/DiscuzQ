@@ -1,7 +1,7 @@
 module.exports = {
     dest: '../docs',
     /// base 值应当总是以斜杠开始，并以斜杠结束
-    base: '/DiscuzQ/docs/',
+    base: '/',
     ///
     title:'DiscuzQ Mobile App Doc',
     description: 'DiscuzQ App document for building your application',

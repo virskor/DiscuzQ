@@ -4,6 +4,9 @@
 </p> 
 <p align="center">该项目的诞生，离不开Discuz DNSPod TencentCloud 的贡献</p>
 
+### 文档
+https://virskor.github.io/DiscuzQ/docs/
+
 ## About DiscuzQ Flutter  
 ![Build Discuz-Q-APP](https://github.com/virskor/DiscuzQ/workflows/Build%20Discuz-Q-APP/badge.svg)  
 这是一个基于DiscuzQ 第三方开发的Flutter跨平台APP，要知道使用这些代码是免费的。但基于你取得DiscuzQ的授权。
@@ -11,8 +14,6 @@
 ### 实现目标
 基本上和官方版本是保持一致的，只是会增加黑暗模式，主题颜色，字体大小等设置罢了。
 * 考虑接入腾讯云短视频SDK
-A new Flutter application for DiscuzQ. This Application is still under developing, this is an open source software.  
-
 If you have any question about this project, follow and post an issue. I will consit to write this application.
 
 ## 限制

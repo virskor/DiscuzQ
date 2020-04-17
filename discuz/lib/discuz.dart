@@ -85,12 +85,14 @@ class _DiscuzState extends State<Discuz> {
               localizationsDelegates: [
                 // this line is important
                 RefreshLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate
+                GlobalCupertinoLocalizations.delegate,
+                DefaultCupertinoLocalizations.delegate
               ],
               supportedLocales: [
-                const Locale('en'),
-                const Locale('zh'),
+                const Locale('zh', 'CH'),
+                const Locale('en', 'US'),
               ],
               localeResolutionCallback:
                   (Locale locale, Iterable<Locale> supportedLocales) {
