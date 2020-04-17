@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/device.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -44,6 +45,9 @@ class DiscuzToast {
   }
 
   static Function loading({BuildContext context, String message}) {
+    if(Device.isWeb){
+      return () => null;
+    }
     ///
     ///  ios下使用原生组件
     ///

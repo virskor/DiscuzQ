@@ -1,5 +1,3 @@
-import 'package:discuzq/widgets/common/discuzTextfiled.dart';
-import 'package:discuzq/widgets/editor/formaters/discuzEditorDataFormater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -15,6 +13,7 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 
 class DiscuzEditor extends StatefulWidget {
   ///
@@ -163,6 +162,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                 enableEmoji: widget.enableEmoji,
                 enableUploadAttachment: widget.enableUploadAttachment,
                 enableUploadImage: widget.enableUploadImage,
+                enableMarkdown: widget.enableMarkdown,
                 showHideKeyboardButton: _showHideKeyboardButton,
                 defaultCategory: widget.defaultCategory,
                 onRequestUpdate: () {
@@ -204,6 +204,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                   removeBottomMargin: true,
                   contentPadding: const EdgeInsets.all(0),
                   controller: _titleEditController,
+                  fontSize: DiscuzApp.themeOf(context).mediumTextSize,
                   onChanged: (String data) =>
                       _onChanged(data: data, state: state),
                 ),

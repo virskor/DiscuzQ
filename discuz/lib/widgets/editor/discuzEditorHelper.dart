@@ -61,6 +61,7 @@ class DiscuzEditorHelper {
     await showCupertinoModalPopup(
         context: context,
         semanticsDismissible: false,
+        useRootNavigator: true,
         filter: ImageFilter.blur(
           sigmaX: 5,
           sigmaY: 5,

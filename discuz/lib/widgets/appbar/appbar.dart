@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:discuzq/utils/device.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -69,40 +70,43 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// 生成阴影，ios下默认不带阴影(海拔)，除非用户提供
   /// 但是安卓则需要
   double _computeElevation() {
+    if(Device.isWeb){
+      return 0;
+    }
     return elevation == 0 && Platform.isAndroid ? 10 : elevation;
   }
 
   @override
   Widget build(BuildContext context) => AppBarExt(
-        title: _title(),
-        elevation: _computeElevation(),
-        bottomOpacity: bottomOpacity,
-        automaticallyImplyLeading: automaticallyImplyLeading,
-        centerTitle: centerTitle,
-        leadingWidth: ModalRoute.of(context).canPop == true &&
-                ModalRoute.of(context).isFirst == false
-            ? leadingWidth > 0 ? leadingWidth : 100
-            : kToolbarHeight,
-        leading: leading ??
-            AppbarLeading(
-              previousPageTitle: previousPageTitle,
-              dark: dark,
-            ),
-        brightness: brightness ?? DiscuzApp.themeOf(context).brightness,
-        toolbarOpacity: toolbarOpacity,
-        backgroundColor:
-            backgroundColor ?? DiscuzApp.themeOf(context).backgroundColor,
-        textTheme: TextTheme(
-          headline6: TextStyle(
-              color: dark == true
-                  ? Colors.white
-                  : DiscuzApp.themeOf(context).textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: DiscuzApp.themeOf(context).normalTextSize),
-        ),
-        actions: actions ?? actions,
-        bottom: bottom,
-      );
+          title: _title(),
+          elevation: _computeElevation(),
+          bottomOpacity: bottomOpacity,
+          automaticallyImplyLeading: automaticallyImplyLeading,
+          centerTitle: centerTitle,
+          leadingWidth: ModalRoute.of(context).canPop == true &&
+                  ModalRoute.of(context).isFirst == false
+              ? leadingWidth > 0 ? leadingWidth : 100
+              : kToolbarHeight,
+          leading: leading ??
+              AppbarLeading(
+                previousPageTitle: previousPageTitle,
+                dark: dark,
+              ),
+          brightness: brightness ?? DiscuzApp.themeOf(context).brightness,
+          toolbarOpacity: toolbarOpacity,
+          backgroundColor:
+              backgroundColor ?? DiscuzApp.themeOf(context).backgroundColor,
+          textTheme: TextTheme(
+            headline6: TextStyle(
+                color: dark == true
+                    ? Colors.white
+                    : DiscuzApp.themeOf(context).textColor,
+                fontWeight: FontWeight.bold,
+                fontSize: DiscuzApp.themeOf(context).normalTextSize),
+          ),
+          actions: actions ?? actions,
+          bottom: bottom,
+        );
 }
 
 class AppbarLeading extends StatelessWidget {
