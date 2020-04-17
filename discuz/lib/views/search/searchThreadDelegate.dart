@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
+
 import 'package:discuzq/widgets/appbar/searchAppbar.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/widgets/threads/theadsList.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:flutter/material.dart';
 
 class SearchThreadDelegate extends StatefulWidget {
   const SearchThreadDelegate();

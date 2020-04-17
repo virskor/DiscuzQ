@@ -1,6 +1,3 @@
-import 'package:discuzq/api/threadsAPI.dart';
-import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
-import 'package:discuzq/api/postsAPI.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -9,7 +6,6 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/editor/discuzEditor.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
-import 'package:discuzq/widgets/editor/discuzMarkdownEditor.dart';
 import 'package:discuzq/states/editorState.dart';
 import 'package:discuzq/widgets/appbar/appbarSaveButton.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
@@ -22,6 +18,9 @@ import 'package:discuzq/widgets/captcha/tencentCloudCaptcha.dart';
 import 'package:discuzq/models/captchaModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/api/threadsAPI.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/api/postsAPI.dart';
 
 ///
 /// 发帖编辑器
@@ -152,7 +151,8 @@ class _EditorState extends State<Editor> {
   ///
   /// 发布内容，
   /// 将自动处理数据转化，并根据模式，调用reply，或者创建主题的接口
-  Future<void> _post() async {
+  Future<void> _post() async {    
+
     ///
     /// relationships 不可能为null
     ///
@@ -171,6 +171,14 @@ class _EditorState extends State<Editor> {
       ///
       /// data == null 这种情况，无非是缺少必要的参数category，提醒用户进行选择
       DiscuzToast.failed(context: context, message: '请选分类');
+      return;
+    }
+
+    ///
+    /// 如果长文模式，要求输入标题
+    if (StringHelper.isEmpty(string: _discuzEditorData.attributes.title) &&
+        widget.type == DiscuzEditorInputTypes.markdown) {
+      DiscuzToast.failed(context: context, message: '请输入标题');
       return;
     }
 
@@ -220,7 +228,7 @@ class _EditorState extends State<Editor> {
 
             /// 如果是回复，则该选项为true，这样会过滤掉发帖时非必要对的参数
             captcha: captchaCallbackData);
-    debugPrint(data.toString());
+    print(data);
 
     ///
     /// 开始提交数据
@@ -264,11 +272,6 @@ class _EditorState extends State<Editor> {
   /// 这是调用discuzEditor
   /// 而不是整个editor走在此完成
   Widget _buildEditor() {
-    if (widget.type.formatType == DiscuzEditorInputType.formatTypesMarkdown) {
-      ///
-      return DiscuzMarkdownEditor();
-    }
-
     ///
     /// 回复模式不允许上传附件
     ///
@@ -291,6 +294,8 @@ class _EditorState extends State<Editor> {
     /// 默认允许表情，上传图片，上传附件
     return DiscuzEditor(
       defaultCategory: widget.defaultCategory,
+      enableMarkdown:
+          widget.type.formatType == DiscuzEditorInputType.formatTypesMarkdown,
       onChanged: (DiscuzEditorData data) {
         ///
         /// 切勿setState,否则UI将loop

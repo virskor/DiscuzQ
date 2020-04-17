@@ -1,3 +1,5 @@
+import 'package:discuzq/widgets/common/discuzTextfiled.dart';
+import 'package:discuzq/widgets/editor/formaters/discuzEditorDataFormater.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -56,9 +58,14 @@ class DiscuzEditor extends StatefulWidget {
   /// 关联的主题
   final ThreadModel thread;
 
+  ///
+  /// 是否开启markdown编辑模式
+  final bool enableMarkdown;
+
   DiscuzEditor(
       {this.enableEmoji = true,
       this.enableUploadImage = true,
+      this.enableMarkdown = false,
       this.onChanged,
       this.defaultCategory,
       this.data,
@@ -73,7 +80,11 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   ///
   /// text controller
   ///
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _contentEditController = TextEditingController();
+
+  ///
+  /// title controller
+  final TextEditingController _titleEditController = TextEditingController();
 
   ///
   /// editor focus node
@@ -122,6 +133,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
       if (_editorFocusNode.hasFocus == _showHideKeyboardButton) {
         return;
       }
+
       /// 失去焦点的时候，就不显示收齐键盘的按钮
       setState(() {
         _showHideKeyboardButton = _editorFocusNode.hasFocus;
@@ -131,8 +143,9 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _contentEditController.dispose();
     _editorFocusNode.dispose();
+    _titleEditController.dispose();
     super.dispose();
   }
 
@@ -178,37 +191,62 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   ///
   /// 生成编辑器
   Widget _buildEditor({@required EditorState state}) {
-    return Container(
-      decoration:
-          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
-      child: TextField(
-        onTap: () {
-          ///
-          /// 点击时。要为用户自动隐藏toolbar child
-          /// 无需多次rebuild UI, 如果已经隐藏，return
-          if (_neverShowToolbarChild) {
-            return;
-          }
-          setState(() {
-            _neverShowToolbarChild = true;
-          });
-        },
-        keyboardAppearance: DiscuzApp.themeOf(context).brightness,
-        controller: _controller,
-        onChanged: (String data) => _onChanged(data: data, state: state),
-        maxLines: 20,
-        autocorrect: false,
-        focusNode: _editorFocusNode,
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: '点击以输入内容',
-            contentPadding: EdgeInsets.all(12.0),
-            hintStyle:
-                TextStyle(color: DiscuzApp.themeOf(context).greyTextColor)),
-        style: TextStyle(
-            fontSize: DiscuzApp.themeOf(context).normalTextSize,
-            color: DiscuzApp.themeOf(context).textColor),
-      ),
+    return Column(
+      children: [
+        ///
+        /// 输入标题
+        ///
+        widget.enableMarkdown
+            ? Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: DiscuzTextfiled(
+                  placeHolder: '请输入标题',
+                  removeBottomMargin: true,
+                  contentPadding: const EdgeInsets.all(0),
+                  controller: _titleEditController,
+                  onChanged: (String data) =>
+                      _onChanged(data: data, state: state),
+                ),
+              )
+            : const SizedBox(),
+
+        /// 内容编辑
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+                color: DiscuzApp.themeOf(context).backgroundColor),
+            child: TextField(
+              onTap: () {
+                ///
+                /// 点击时。要为用户自动隐藏toolbar child
+                /// 无需多次rebuild UI, 如果已经隐藏，return
+                if (_neverShowToolbarChild) {
+                  return;
+                }
+                setState(() {
+                  _neverShowToolbarChild = true;
+                });
+              },
+              keyboardAppearance: DiscuzApp.themeOf(context).brightness,
+              controller: _contentEditController,
+              onChanged: (String data) => _onChanged(data: data, state: state),
+              maxLines: 20,
+              autocorrect: false,
+              autofocus: true,
+              focusNode: _editorFocusNode,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: '点击以输入内容',
+                  contentPadding: EdgeInsets.all(12.0),
+                  hintStyle: TextStyle(
+                      color: DiscuzApp.themeOf(context).greyTextColor)),
+              style: TextStyle(
+                  fontSize: DiscuzApp.themeOf(context).normalTextSize,
+                  color: DiscuzApp.themeOf(context).textColor),
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -229,8 +267,9 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
           ///
           /// 编辑器植入表情
           /// 插入表情时，触发 _onChanged 即可
-          final String text = "${_controller.text} ${emoji.attributes.code} ";
-          _controller.value = TextEditingValue(text: text);
+          final String text =
+              "${_contentEditController.text} ${emoji.attributes.code} ";
+          _contentEditController.value = TextEditingValue(text: text);
           _onChanged(state: state);
         },
       );
@@ -285,6 +324,19 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   }
 
   ///
+  /// 自动计算当前提模式值
+  /// 是这样的，长文，普通，视频
+  int _editorDataPostType() {
+    /// 长文模式
+    if(_titleEditController.text != ''){
+      return EditorDataPostType.typeLongContent;
+    }
+
+    ///todo: 视频模式
+    return EditorDataPostType.typeNormalContent;
+  }
+
+  ///
   /// 更新编辑器数据
   /// 更新编辑器Data的时候 切记不要调用setState
   /// 有几个地方会触发编辑器数据更新
@@ -301,9 +353,11 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
     ///
     /// 更新编辑器用户编辑的内容
     d = DiscuzEditorData.fromDiscuzEditorData(d,
-        content: _controller.text,
+        content: _contentEditController.text,
+        title: _titleEditController.text,
         thread: widget.thread,
         post: widget.post,
+        type: _editorDataPostType(),
 
         /// 回复的时候，是posts
         ///

@@ -1,11 +1,10 @@
-import 'package:discuzq/utils/buildInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:discuzq/states/scopedState.dart';
 
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -50,6 +49,7 @@ class _DiscuzState extends State<Discuz> {
             child: MaterialApp(
               title: Global.appname,
               debugShowCheckedModeBanner: false,
+
               /// 如果用户在Build.yaml禁止了这项，这直接不要允许开启
               showPerformanceOverlay:
                   BuildInfo().info().enablePerformanceOverlay
@@ -142,8 +142,8 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 底部按钮菜单
   final List<NavigatorItem> _items = [
     const NavigatorItem(icon: 0xe63e),
-    const NavigatorItem(icon: SFSymbols.bell, shouldLogin: true),
-    const NavigatorItem(icon: SFSymbols.person_alt, shouldLogin: true)
+    const NavigatorItem(icon: 0xe677, shouldLogin: true),
+    const NavigatorItem(icon: 0xe7c7, size: 23, shouldLogin: true)
   ];
 
   /// 使用global key
