@@ -70,7 +70,7 @@ class DiscuzEditorHelper {
                 topRight: const Radius.circular(15),
                 topLeft: const Radius.circular(15)),
             child: SizedBox(
-              height: 400,
+              height: 500,
               child: Editor(
                 type: DiscuzEditorInputTypes.reply,
                 post: post,
