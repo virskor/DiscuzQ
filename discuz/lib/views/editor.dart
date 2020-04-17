@@ -1,6 +1,3 @@
-import 'package:discuzq/api/threadsAPI.dart';
-import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
-import 'package:discuzq/api/postsAPI.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
@@ -9,7 +6,6 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/editor/discuzEditor.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
-import 'package:discuzq/widgets/editor/discuzMarkdownEditor.dart';
 import 'package:discuzq/states/editorState.dart';
 import 'package:discuzq/widgets/appbar/appbarSaveButton.dart';
 import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
@@ -22,6 +18,9 @@ import 'package:discuzq/widgets/captcha/tencentCloudCaptcha.dart';
 import 'package:discuzq/models/captchaModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/models/threadModel.dart';
+import 'package:discuzq/api/threadsAPI.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/api/postsAPI.dart';
 
 ///
 /// 发帖编辑器
@@ -152,7 +151,8 @@ class _EditorState extends State<Editor> {
   ///
   /// 发布内容，
   /// 将自动处理数据转化，并根据模式，调用reply，或者创建主题的接口
-  Future<void> _post() async {
+  Future<void> _post() async {    
+
     ///
     /// relationships 不可能为null
     ///

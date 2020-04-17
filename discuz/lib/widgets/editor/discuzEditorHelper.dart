@@ -1,3 +1,7 @@
+import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/postModel.dart';
@@ -35,20 +39,35 @@ class DiscuzEditorHelper {
   Future<DiscuzEditorRequestResult> reply(
       {@required PostModel post, @required ThreadModel thread}) async {
     DiscuzEditorRequestResult result;
-    await DiscuzRoute.open(
+
+    /// 弹出前，要检测用户是否已经登录
+    try {
+      final AppState state =
+          ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
+
+      final logined =
+          await AuthHelper.requsetShouldLogin(context: context, state: state);
+      if (!logined) {
+        return Future.value(null);
+      }
+    } catch (e) {
+      print(e);
+      return Future.value(null);
+    }
+
+    await showModalBottomSheet(
         context: context,
-        fullscreenDialog: true,
-        shouldLogin: true,
-        widget: Editor(
-          type: DiscuzEditorInputTypes.reply,
-          post: post,
-          thread: thread,
-          onPostSuccess: (DiscuzEditorRequestResult res) {
-            ///
-            /// 用户成功回复，取得回复时接口反馈的数据
-            result = res;
-          },
-        ));
+        elevation: 10,
+        builder: (BuildContext context) => Editor(
+              type: DiscuzEditorInputTypes.reply,
+              post: post,
+              thread: thread,
+              onPostSuccess: (DiscuzEditorRequestResult res) {
+                ///
+                /// 用户成功回复，取得回复时接口反馈的数据
+                result = res;
+              },
+            ));
     return Future.value(result);
   }
 

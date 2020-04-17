@@ -34,17 +34,13 @@ class AuthHelper {
       return Future.value(true);
     }
 
-    final LoginDelegate authentication = LoginDelegate(
-      onRequested: (bool val) {
-        success = val;
-      },
-    );
-
     await showCupertinoModalPopup(
         context: context,
-        builder: (_) {
-          return authentication;
-        });
+        builder: (_) => LoginDelegate(
+              onRequested: (bool val) {
+                success = val;
+              },
+            ));
 
     return Future.value(success);
   }
@@ -92,7 +88,7 @@ class AuthHelper {
   static Future<void> getUserFromLocal({@required AppState state}) async {
     try {
       final dynamic user = await AuthorizationHelper().getUser();
-      if(user == null){
+      if (user == null) {
         return;
       }
       state.updateUser(UserModel.fromMap(maps: jsonDecode(user)));

@@ -91,8 +91,8 @@ class DiscuzEditorDataFormater {
       });
     }
 
-    /// 补全标题
-    if (data.attributes.title != null && data.attributes.title != '') {
+    /// 长文模式补全标题
+    if (data.attributes.type == EditorDataPostType.typeLongContent) {
       attributes.addAll({
         "title": data.attributes.title,
       });
