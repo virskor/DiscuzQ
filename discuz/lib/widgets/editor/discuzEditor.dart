@@ -232,6 +232,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
               onChanged: (String data) => _onChanged(data: data, state: state),
               maxLines: 20,
               autocorrect: false,
+              autofocus: true,
               focusNode: _editorFocusNode,
               decoration: InputDecoration(
                   border: InputBorder.none,

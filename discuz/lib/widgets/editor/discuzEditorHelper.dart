@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/postModel.dart';
@@ -55,19 +58,30 @@ class DiscuzEditorHelper {
       return Future.value(null);
     }
 
-    await showModalBottomSheet(
+    await showCupertinoModalPopup(
         context: context,
-        elevation: 10,
-        builder: (BuildContext context) => Editor(
-              type: DiscuzEditorInputTypes.reply,
-              post: post,
-              thread: thread,
-              onPostSuccess: (DiscuzEditorRequestResult res) {
-                ///
-                /// 用户成功回复，取得回复时接口反馈的数据
-                result = res;
-              },
-            ));
+        semanticsDismissible: false,
+        filter: ImageFilter.blur(
+          sigmaX: 5,
+          sigmaY: 5,
+        ),
+        builder: (BuildContext context) => ClipRRect(
+            borderRadius: const BorderRadius.only(
+                topRight: const Radius.circular(15),
+                topLeft: const Radius.circular(15)),
+            child: SizedBox(
+              height: 400,
+              child: Editor(
+                type: DiscuzEditorInputTypes.reply,
+                post: post,
+                thread: thread,
+                onPostSuccess: (DiscuzEditorRequestResult res) {
+                  ///
+                  /// 用户成功回复，取得回复时接口反馈的数据
+                  result = res;
+                },
+              ),
+            )));
     return Future.value(result);
   }
 

@@ -1,11 +1,10 @@
-import 'package:discuzq/utils/buildInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:discuzq/states/scopedState.dart';
 
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
