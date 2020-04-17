@@ -54,6 +54,16 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
     super.dispose();
   }
 
+  // Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+  //     rebuildOnChange: false,
+  //     builder: (context, child, state) => Scaffold(
+  //           appBar: DiscuzAppBar(
+  //             title: '注册',
+  //           ),
+  //           backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+  //           body: _buildRegisterForm(state),
+  //         ));
+
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
@@ -61,7 +71,13 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
               title: '注册',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: _buildRegisterForm(state),
+            body: Column(
+              children: [
+                Expanded(
+                  child: DiscuzText('APP 暂不支持注册，请到${Global.domain}注册'),
+                )
+              ],
+            ),
           ));
 
   /// 生成用于登录的表单

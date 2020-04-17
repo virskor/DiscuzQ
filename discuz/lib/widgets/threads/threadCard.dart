@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -15,6 +14,7 @@ import 'package:discuzq/views/threads/threadDetailDelegate.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
+import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
 
 ///
 /// 主题卡片
