@@ -1,6 +1,6 @@
-import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:extended_text_field/extended_text_field.dart';
 
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorToolbar.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -15,6 +15,8 @@ import 'package:discuzq/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
+import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
+import 'package:discuzq/widgets/editor/specialSpanBuilders/discuzEditorSpecialSpanBuilder.dart';
 
 class DiscuzEditor extends StatefulWidget {
   ///
@@ -224,7 +226,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
           child: Container(
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
-            child: TextField(
+            child: ExtendedTextField(
               onTap: () {
                 ///
                 /// 点击时。要为用户自动隐藏toolbar child
@@ -252,6 +254,8 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
               style: TextStyle(
                   fontSize: DiscuzApp.themeOf(context).normalTextSize,
                   color: DiscuzApp.themeOf(context).textColor),
+              specialTextSpanBuilder:
+                  DiscuzEditorSpecialTextSpanBuilder(context: context),
             ),
           ),
         )
@@ -267,7 +271,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   /// asNewLine 是否换行
   void _addEditorVal(String data, EditorState state, {bool asNewLine = false}) {
     final String text =
-        "${_contentEditController.text} ${asNewLine ? '\r\n' : ''} $data";
+        "${_contentEditController.text}${asNewLine ? '\r\n' : ''}$data";
 
     _contentEditController.value = TextEditingValue(text: text);
     _onChanged(state: state);
@@ -367,6 +371,10 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
   ///
   /// 注意：仅_onChanged调用这个方法，请不要再其他地方，调用这个方法，以便更新逻辑过于混乱
   void _updateEditorData({@required EditorState state}) {
+    ///
+    /// 仅调试开发模式下输出
+    debugPrint(_contentEditController.text);
+
     DiscuzEditorData d = _discuzEditorData;
 
     ///

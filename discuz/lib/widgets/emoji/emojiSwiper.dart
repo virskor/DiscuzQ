@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/emojiModel.dart';
 import 'package:discuzq/widgets/emoji/emojiSync.dart';
+
 class EmojiSwiper extends StatefulWidget {
   ///
   /// 请求插入表情
@@ -32,7 +33,7 @@ class _EmojiSwiperState extends State<EmojiSwiper> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero).then((_) async {
-      List<EmojiModel> emojis = await EmojiSync.getEmojis(
+      List<EmojiModel> emojis = await EmojiSync().getEmojis(
         context: context,
       );
 
@@ -65,7 +66,7 @@ class _EmojiSwiperState extends State<EmojiSwiper> {
                           imageUrl: e.attributes.url,
                         ),
                         onPressed: () {
-                          if(widget.onInsert == null){
+                          if (widget.onInsert == null) {
                             return;
                           }
 

@@ -1,5 +1,4 @@
 import 'package:badges/badges.dart';
-import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/editor/toolbar/toolbarIconButton.dart';
@@ -12,7 +11,8 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorCategorySelector.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:discuzq/widgets/editor/toolbar/discuzToolbarMarkdownItems.dart';
+import 'package:discuzq/widgets/editor/toolbar/discuzEditorToolbarMarkdownItems.dart';
+import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 
 class DiscuzEditorToolbar extends StatefulWidget {
   final Function onTap;
@@ -264,7 +264,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             ///
             /// 拓展 markdown工具栏
             ///
-            ...DiscuzToolbarMarkdownItems.markdownOpts(
+            ...DiscuzEditorToolbarMarkdownItems.markdownOpts(
                 callbackInput: _callbackInput, show: widget.enableMarkdown),
 
             ///

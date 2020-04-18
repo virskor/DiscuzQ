@@ -28,6 +28,8 @@ class ForumCategoryTab extends StatefulWidget {
 
 class _ForumCategoryTabState extends State<ForumCategoryTab>
     with SingleTickerProviderStateMixin {
+
+
   /// states
   /// tab controller
   TabController _tabController;
@@ -41,6 +43,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
   /// 筛选条件状态
   ForumCategoryFilterItem _filterItem;
+  
 
   @override
   void setState(fn) {

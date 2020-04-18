@@ -173,7 +173,7 @@ class _ThreadCardState extends State<ThreadCard> {
                   thread: widget.thread,
                 )),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 
                 DiscuzText(
