@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -15,6 +16,7 @@ import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 ///
 /// 主题卡片
@@ -97,19 +99,21 @@ class _ThreadCardState extends State<ThreadCard> {
                     ..._buildContentTitle(),
 
                     /// 主题的内容
-                    GestureDetector(
-                        onTap: () => DiscuzRoute.open(
-                            context: context,
-                            shouldLogin: true,
-                            widget: ThreadDetailDelegate(
-                              author: _author,
-                              thread: widget.thread,
+                    widget.thread.attributes.title != ''
+                        ? const SizedBox()
+                        : GestureDetector(
+                            onTap: () => DiscuzRoute.open(
+                                context: context,
+                                shouldLogin: true,
+                                widget: ThreadDetailDelegate(
+                                  author: _author,
+                                  thread: widget.thread,
+                                )),
+                            child: Container(
+                              child: HtmlRender(
+                                html: _firstPost.attributes.contentHtml,
+                              ),
                             )),
-                        child: Container(
-                          child: HtmlRender(
-                            html: _firstPost.attributes.contentHtml,
-                          ),
-                        )),
 
                     /// 渲染九宫格图片
                     ///
@@ -133,14 +137,13 @@ class _ThreadCardState extends State<ThreadCard> {
                   ],
                 ),
               ),
-              
+
               ///
               /// 梯子快捷操作工具栏
               ThreadCardQuickActions(
                 firstPost: _firstPost,
                 thread: widget.thread,
               ),
-
 
               /// 楼层评论
               ThreadPostSnapshot(
@@ -161,9 +164,25 @@ class _ThreadCardState extends State<ThreadCard> {
   List<Widget> _buildContentTitle() => widget.thread.attributes.title == ""
       ? <Widget>[]
       : <Widget>[
-          DiscuzText(
-            widget.thread.attributes.title,
-            fontWeight: FontWeight.bold,
-          ),
+          GestureDetector(
+            onTap: () => DiscuzRoute.open(
+                context: context,
+                shouldLogin: true,
+                widget: ThreadDetailDelegate(
+                  author: _author,
+                  thread: widget.thread,
+                )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                
+                DiscuzText(
+                  widget.thread.attributes.title,
+                  fontWeight: FontWeight.bold,
+                ),
+                DiscuzIcon(SFSymbols.doc_plaintext),
+              ],
+            ),
+          )
         ];
 }
