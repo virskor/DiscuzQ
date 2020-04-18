@@ -172,11 +172,13 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
                   _onChanged(state: state);
                 },
                 hideCategorySelector: widget.post != null,
-                onTap: (ToolbarEvt toolbarEvt, {String formatValue}) {
+                onTap: (ToolbarEvt toolbarEvt,
+                    {String formatValue, bool asNewLine}) {
                   ///
                   /// 如果 formatValue 不为Null 仅为编辑器插入formatValue，但不继续运行
                   if (formatValue != null) {
-                    _addEditorVal(formatValue, state, asNewLine: true);
+                    _addEditorVal(formatValue, state,
+                        asNewLine: asNewLine ?? false);
                     return;
                   }
 
@@ -224,6 +226,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         /// 内容编辑
         Expanded(
           child: Container(
+            padding: const EdgeInsets.only(bottom: 60),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: ExtendedTextField(

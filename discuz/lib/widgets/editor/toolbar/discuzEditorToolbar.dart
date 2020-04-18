@@ -277,8 +277,9 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
 
   ///
   /// callback to editor
-  /// toolbar 请求在编辑器内插入信息（字符串） formatValue
-  void _callbackInput({@required ToolbarEvt toolbarEvt, String formatValue}) {
+  /// toolbar 请求在编辑器内插入信息（字符串） formatValue asNewLine 换行
+  void _callbackInput(
+      {@required ToolbarEvt toolbarEvt, String formatValue, bool asNewLine}) {
     if (formatValue == null) {
       _closeKeyboard();
     }
@@ -288,7 +289,8 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
       return;
     }
 
-    widget.onTap(toolbarEvt, formatValue: formatValue);
+    widget.onTap(toolbarEvt,
+        formatValue: formatValue, asNewLine: asNewLine ?? false);
   }
 
   ///

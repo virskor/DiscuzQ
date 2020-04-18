@@ -12,7 +12,9 @@ class DiscuzEditorToolbarMarkdownItems {
       /// 插入粗体字
       GestureDetector(
         onTap: () => callbackInput(
-            toolbarEvt: ToolbarEvt.formatBold, formatValue: '** **'),
+            toolbarEvt: ToolbarEvt.formatBold,
+            formatValue: '** **',
+            asNewLine: false),
         child: const ToolbarIconButton(icon: SFSymbols.bold),
       ),
 
@@ -20,7 +22,9 @@ class DiscuzEditorToolbarMarkdownItems {
       /// 插入斜体字
       GestureDetector(
         onTap: () => callbackInput(
-            toolbarEvt: ToolbarEvt.formatItalic, formatValue: '_ _'),
+            toolbarEvt: ToolbarEvt.formatItalic,
+            formatValue: '_ _',
+            asNewLine: false),
         child: const ToolbarIconButton(icon: SFSymbols.italic),
       ),
 
@@ -28,21 +32,27 @@ class DiscuzEditorToolbarMarkdownItems {
       /// 插入标题
       GestureDetector(
         onTap: () => callbackInput(
-            toolbarEvt: ToolbarEvt.formatHead, formatValue: '###  '),
+            toolbarEvt: ToolbarEvt.formatHead,
+            formatValue: '###  ',
+            asNewLine: true),
         child: const ToolbarIconButton(icon: Icons.text_fields),
       ),
 
       /// 插入引用
       GestureDetector(
         onTap: () => callbackInput(
-            toolbarEvt: ToolbarEvt.formatQuote, formatValue: '>  '),
+            toolbarEvt: ToolbarEvt.formatQuote,
+            formatValue: '>  ',
+            asNewLine: true),
         child: const ToolbarIconButton(icon: SFSymbols.quote_bubble),
       ),
 
       /// 插入超链接
       GestureDetector(
         onTap: () => callbackInput(
-            toolbarEvt: ToolbarEvt.formatUrl, formatValue: '[ ]( )'),
+            toolbarEvt: ToolbarEvt.formatUrl,
+            formatValue: '[ ]( )',
+            asNewLine: false),
         child: const ToolbarIconButton(icon: SFSymbols.link),
       ),
 
@@ -50,7 +60,9 @@ class DiscuzEditorToolbarMarkdownItems {
       /// 插入列表
       GestureDetector(
         onTap: () => callbackInput(
-            toolbarEvt: ToolbarEvt.formatListDash, formatValue: '-  '),
+            toolbarEvt: ToolbarEvt.formatListDash,
+            formatValue: '-  ',
+            asNewLine: true),
         child: const ToolbarIconButton(icon: SFSymbols.list_dash),
       ),
 
@@ -58,7 +70,9 @@ class DiscuzEditorToolbarMarkdownItems {
       /// 插入列表带序号
       GestureDetector(
         onTap: () => callbackInput(
-            toolbarEvt: ToolbarEvt.formatListNumber, formatValue: '1.  '),
+            toolbarEvt: ToolbarEvt.formatListNumber,
+            formatValue: '1.  ',
+            asNewLine: true),
         child: const ToolbarIconButton(icon: SFSymbols.list_number),
       )
     ];

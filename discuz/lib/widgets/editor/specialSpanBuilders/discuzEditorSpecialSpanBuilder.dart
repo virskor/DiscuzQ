@@ -1,10 +1,10 @@
-import 'package:discuzq/widgets/editor/specialSpanBuilders/discuzBoldTextSpan.dart';
-import 'package:discuzq/widgets/editor/specialSpanBuilders/discuzEmojiTextSpan.dart';
-import 'package:discuzq/widgets/editor/specialSpanBuilders/discuzItalicTextSpan.dart';
 import 'package:extended_text_field/extended_text_field.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/editor/specialSpanBuilders/DiscuzAtTextSpan.dart';
+import 'package:discuzq/widgets/editor/specialSpanBuilders/discuzEmojiTextSpan.dart';
+// import 'package:discuzq/widgets/editor/specialSpanBuilders/discuzItalicTextSpan.dart';
+// import 'package:discuzq/widgets/editor/specialSpanBuilders/discuzBoldTextSpan.dart';
 
 class DiscuzEditorSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
   /// whether show background for @somebody
@@ -42,19 +42,19 @@ class DiscuzEditorSpecialTextSpanBuilder extends SpecialTextSpanBuilder {
           start: index - (DiscuzEmojiTextSpan.flag.length - 1));
     }
 
-    ///
-    /// 处理粗体渲染
-    if (isStart(flag, DiscuzBoldTextSpan.flag)) {
-      return DiscuzBoldTextSpan(textStyle,
-          start: index - (DiscuzBoldTextSpan.flag.length - 1));
-    }
+    // ///
+    // /// 处理粗体渲染
+    // if (isStart(flag, DiscuzBoldTextSpan.flag)) {
+    //   return DiscuzBoldTextSpan(textStyle,
+    //       start: index - (DiscuzBoldTextSpan.flag.length - 1));
+    // }
 
-    ///
-    /// 处理斜体渲染
-    if (isStart(flag, DiscuzItalicTextSpan.flag)) {
-      return DiscuzItalicTextSpan(textStyle,
-          start: index - (DiscuzItalicTextSpan.flag.length - 1));
-    }
+    // ///
+    // /// 处理斜体渲染
+    // if (isStart(flag, DiscuzItalicTextSpan.flag)) {
+    //   return DiscuzItalicTextSpan(textStyle,
+    //       start: index - (DiscuzItalicTextSpan.flag.length - 1));
+    // }
 
     return null;
   }
