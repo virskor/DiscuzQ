@@ -35,13 +35,16 @@ class Request {
     ///
     /// HTTP Default ConnectionManager
     /// Verify Cert
-    ///
-    (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-        (client) {
-      client.badCertificateCallback =
-          (X509Certificate cert, String host, int port) =>
-              BuildInfo().info().onBadCertificate;
-    };
+    /// DefaultHttpClientAdapter 不要在web下添加
+    /// web下browser会自动托管HTTP请求
+    if (!Device.isWeb) {
+      (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (client) {
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) =>
+                BuildInfo().info().onBadCertificate;
+      };
+    }
 
     ///
     /// HTTP2支持
@@ -76,18 +79,23 @@ class Request {
 
       /// interceptor procedure
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
-        final String userAgent = await Device.getWebviewUserAgent();
-        final String deviceAgent = await Device.getDeviceAgentString();
         final String authorization = await AuthorizationHelper().getToken();
+
+        ///
+        /// web下不调用原生API
+        if (!Device.isWeb) {
+          final String deviceAgent = await Device.getDeviceAgentString();
+          final String userAgent = await Device.getWebviewUserAgent();
+          options.headers['user-agent'] = userAgent;
+          options.headers['user-device'] =
+              deviceAgent.split(';')[0]; // not important
+        }
 
         // more devices
         options.connectTimeout = (1000 * 20);
         options.receiveTimeout = (1000 * 20);
-        options.headers['user-agent'] = userAgent;
         options.headers['client-type'] = 'app'; // not important
         options.headers['referer'] = Global.domain;
-        options.headers['user-device'] =
-            deviceAgent.split(';')[0]; // not important
 
         if (authorization != null && autoAuthorization) {
           options.headers['authorization'] = "Bearer $authorization";
@@ -108,7 +116,7 @@ class Request {
 
         ///
         ///
-        
+
         /// RestFul APi 处理错误
         options.validateStatus = (int status) {
           return status >= 200 && status < 300 || status == 304;

@@ -9,9 +9,10 @@ module.exports = {
     ['link', { rel: 'icon', href: '/logo.png' }]
   ],
   themeConfig: {
-    nav: [ // 添加导航栏
+    nav: [
+      { text: '快速构建', link: '/docs/build' },
+      { text: '二次开发', link: '/docs/develop' },
       { text: 'Github', link: 'https://github.com/virskor/DiscuzQ' },
-      { text: '快速构建', link: '/docs/build' }
     ],
     // 添加侧边栏
     sidebar: 'auto',

@@ -1,5 +1,4 @@
 import 'package:badges/badges.dart';
-import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/editor/toolbar/toolbarIconButton.dart';
@@ -12,7 +11,8 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorCategorySelector.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:discuzq/widgets/editor/toolbar/discuzToolbarMarkdownItems.dart';
+import 'package:discuzq/widgets/editor/toolbar/discuzEditorToolbarMarkdownItems.dart';
+import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 
 class DiscuzEditorToolbar extends StatefulWidget {
   final Function onTap;
@@ -264,7 +264,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             ///
             /// 拓展 markdown工具栏
             ///
-            ...DiscuzToolbarMarkdownItems.markdownOpts(
+            ...DiscuzEditorToolbarMarkdownItems.markdownOpts(
                 callbackInput: _callbackInput, show: widget.enableMarkdown),
 
             ///
@@ -277,8 +277,9 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
 
   ///
   /// callback to editor
-  /// toolbar 请求在编辑器内插入信息（字符串） formatValue
-  void _callbackInput({@required ToolbarEvt toolbarEvt, String formatValue}) {
+  /// toolbar 请求在编辑器内插入信息（字符串） formatValue asNewLine 换行
+  void _callbackInput(
+      {@required ToolbarEvt toolbarEvt, String formatValue, bool asNewLine}) {
     if (formatValue == null) {
       _closeKeyboard();
     }
@@ -288,7 +289,8 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
       return;
     }
 
-    widget.onTap(toolbarEvt, formatValue: formatValue);
+    widget.onTap(toolbarEvt,
+        formatValue: formatValue, asNewLine: asNewLine ?? false);
   }
 
   ///

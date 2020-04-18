@@ -8,6 +8,7 @@ import 'package:discuzq/widgets/common/appWrapper.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/utils/buildInfo.dart';
+import 'package:discuzq/widgets/emoji/emojiSync.dart';
 
 ///
 /// 执行
@@ -48,6 +49,11 @@ class DiscuzQ extends StatelessWidget {
 
             /// 加载本地的用户信息
             AuthHelper.getUserFromLocal(state: state);
+
+            ///
+            ///
+            /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
+            Future.delayed(Duration.zero).then((_) => EmojiSync().getEmojis());
           },
 
           /// 创建入口APP

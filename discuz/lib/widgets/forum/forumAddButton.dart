@@ -1,11 +1,11 @@
-import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/widgets/common/blurBackground.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:discuzq/models/categoryModel.dart';
@@ -13,6 +13,7 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 class ForumAddButton extends StatefulWidget {
   ///
@@ -61,14 +62,22 @@ class _ForumAddButtonState extends State<ForumAddButton> {
   ///
   Future<bool> _showPop() => showCupertinoModalPopup(
       context: context,
+      semanticsDismissible: true,
+      filter: ImageFilter.blur(
+        sigmaX: 5,
+        sigmaY: 5,
+      ),
       builder: (BuildContext context) {
-        return const BlurDialogBackground(
-          child: const _ForumCreateThreadDialog(),
+        return SizedBox(
+          height: 300,
+          child: const Material(
+              color: Colors.transparent,
+              child: const _ForumCreateThreadDialog()),
         );
       });
 }
 
-/// 论坛首页
+/// 创建帖子的对话框
 class _ForumCreateThreadDialog extends StatefulWidget {
   const _ForumCreateThreadDialog({Key key}) : super(key: key);
 
