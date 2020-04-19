@@ -67,95 +67,98 @@ class _ThreadCardState extends State<ThreadCard> {
   }
 
   @override
-  Widget build(BuildContext context) => RepaintBoundary(
-        child: Container(
-          padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
-          decoration: BoxDecoration(
-            color: DiscuzApp.themeOf(context).backgroundColor,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              const DiscuzDivider(
-                padding: 0,
+  Widget build(BuildContext context) => RepaintBoundary(child: _buildThreadCard(context));
+
+  ///
+  /// 构建帖子卡片
+  ///
+  Widget _buildThreadCard(BuildContext context) => Container(
+        padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+        decoration: BoxDecoration(
+          color: DiscuzApp.themeOf(context).backgroundColor,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            const DiscuzDivider(
+              padding: 0,
+            ),
+            const SizedBox(height: 10),
+
+            ///
+            /// 主题顶部的用户信息
+            ThreadHeaderCard(
+              thread: widget.thread,
+              author: _author,
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              alignment: Alignment.topLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  /// 显示主题的title
+                  ..._buildContentTitle(),
+
+                  /// 主题的内容
+                  widget.thread.attributes.title != ''
+                      ? const SizedBox()
+                      : GestureDetector(
+                          onTap: () => DiscuzRoute.open(
+                              context: context,
+                              shouldLogin: true,
+                              widget: ThreadDetailDelegate(
+                                author: _author,
+                                thread: widget.thread,
+                              )),
+                          child: Container(
+                            child: HtmlRender(
+                              html: _firstPost.attributes.contentHtml,
+                            ),
+                          )),
+
+                  /// 渲染九宫格图片
+                  ///
+                  ///
+                  ThreadGalleriesSnapshot(
+                    firstPost: _firstPost,
+                    threadsCacher: widget.threadsCacher,
+                    thread: widget.thread,
+                  ),
+
+                  ///
+                  /// 用于渲染小视频
+                  ///
+                  widget.thread.relationships.threadVideo == null
+                      ? const SizedBox()
+                      : ThreadVideoSnapshot(
+                          threadsCacher: widget.threadsCacher,
+                          thread: widget.thread,
+                          post: _firstPost,
+                        )
+                ],
               ),
-              const SizedBox(height: 10),
+            ),
 
-              ///
-              /// 主题顶部的用户信息
-              ThreadHeaderCard(
-                thread: widget.thread,
-                author: _author,
-              ),
-              Container(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                alignment: Alignment.topLeft,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    /// 显示主题的title
-                    ..._buildContentTitle(),
+            ///
+            /// 梯子快捷操作工具栏
+            ThreadCardQuickActions(
+              firstPost: _firstPost,
+              thread: widget.thread,
+            ),
 
-                    /// 主题的内容
-                    widget.thread.attributes.title != ''
-                        ? const SizedBox()
-                        : GestureDetector(
-                            onTap: () => DiscuzRoute.open(
-                                context: context,
-                                shouldLogin: true,
-                                widget: ThreadDetailDelegate(
-                                  author: _author,
-                                  thread: widget.thread,
-                                )),
-                            child: Container(
-                              child: HtmlRender(
-                                html: _firstPost.attributes.contentHtml,
-                              ),
-                            )),
-
-                    /// 渲染九宫格图片
-                    ///
-                    ///
-                    ThreadGalleriesSnapshot(
-                      firstPost: _firstPost,
-                      threadsCacher: widget.threadsCacher,
-                      thread: widget.thread,
-                    ),
-
-                    ///
-                    /// 用于渲染小视频
-                    ///
-                    widget.thread.relationships.threadVideo == null
-                        ? const SizedBox()
-                        : ThreadVideoSnapshot(
-                            threadsCacher: widget.threadsCacher,
-                            thread: widget.thread,
-                            post: _firstPost,
-                          )
-                  ],
-                ),
-              ),
-
-              ///
-              /// 梯子快捷操作工具栏
-              ThreadCardQuickActions(
-                firstPost: _firstPost,
-                thread: widget.thread,
-              ),
-
-              /// 楼层评论
-              ThreadPostSnapshot(
-                replyCounts: widget.thread.attributes.postCount,
-                lastThreePosts: widget.thread.relationships.lastThreePosts,
-                firstPost: _firstPost,
-                threadsCacher: widget.threadsCacher,
-                thread: widget.thread,
-                author: _author,
-              ),
-            ],
-          ),
+            /// 楼层评论
+            ThreadPostSnapshot(
+              replyCounts: widget.thread.attributes.postCount,
+              lastThreePosts: widget.thread.relationships.lastThreePosts,
+              firstPost: _firstPost,
+              threadsCacher: widget.threadsCacher,
+              thread: widget.thread,
+              author: _author,
+            ),
+          ],
         ),
       );
 
@@ -175,7 +178,6 @@ class _ThreadCardState extends State<ThreadCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                
                 DiscuzText(
                   widget.thread.attributes.title,
                   fontWeight: FontWeight.bold,
