@@ -2,13 +2,17 @@
 <img width="200px" src="./snapshots/logo.png"/> 
 <img width="160px" src="./snapshots/tencentCloud.png"/> 
 </p> 
+<p align="center">
+<a href="https://github.com/virskor/DiscuzQ/actions"><img src="https://github.com/virskor/DiscuzQ/workflows/Build%20Discuz-Q-APP/badge.svg"></a> 
+<a href="https://github.com/virskor/DiscuzQ/releases"><img src="https://badgen.net/github/release/virskor/DiscuzQ"></a> 
+<a href="https://github.com/virskor/DiscuzQ/blob/master/LICENSE"><img src="https://badgen.net/github/license/virskor/DiscuzQ"></a> 
+</p> 
 <p align="center">该项目的诞生，离不开Discuz DNSPod TencentCloud 的贡献</p>
 
 ### 文档
-https://virskor.github.io/DiscuzQ/docs/
+https://discuzapp.xyz
 
 ## About DiscuzQ Flutter  
-![Build Discuz-Q-APP](https://github.com/virskor/DiscuzQ/workflows/Build%20Discuz-Q-APP/badge.svg)  
 这是一个基于DiscuzQ 第三方开发的Flutter跨平台APP，要知道使用这些代码是免费的。但基于你取得DiscuzQ的授权。
 
 ### 实现目标
