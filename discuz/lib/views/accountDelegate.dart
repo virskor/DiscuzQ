@@ -41,10 +41,10 @@ class _AccountDelegateState extends State<AccountDelegate> {
         icon: SFSymbols.wand_stars,
         separate: true,
         child: const ProfileDelegate()),
-    const _AccountMenuItem(
-        label: '我的钱包',
-        icon: SFSymbols.money_yen_circle,
-        child: const WalletDelegate()),
+    // const _AccountMenuItem(
+    //     label: '我的钱包',
+    //     icon: SFSymbols.money_yen_circle,
+    //     child: const WalletDelegate()),
     const _AccountMenuItem(
         label: '我的收藏',
         icon: SFSymbols.star,

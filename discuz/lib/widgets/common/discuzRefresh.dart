@@ -1,8 +1,8 @@
-import 'package:discuzq/utils/sounds.dart';
+// import 'package:discuzq/utils/global.dart';
+// import 'package:discuzq/utils/sounds.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../utils/device.dart';
 
 ///
 /// 这个组件基于pull_to_refresh 但担心如果后续更改其他控件所以重新封装下
@@ -56,20 +56,20 @@ class DiscuzRefresh extends StatelessWidget {
         child: SmartRefresher(
           enablePullDown: enablePullDown,
           enablePullUp: enablePullUp,
-          header: const WaterDropHeader(),
+          header: const ClassicHeader(),
           scrollController: scrollController,
-
+          
           /// 允许乡下加载
           // header: WaterDropHeader(),
           controller: controller,
           onRefresh: () {
-            Device.emitVibration();
-            Sounds.play(Sounds.refresh);
+            // Device.emitVibration();
+            // Sounds.play(Sounds.refresh);
             onRefresh();
           },
           onLoading: () {
-            Device.emitVibration();
-            Sounds.play(Sounds.refresh);
+            // Device.emitVibration();
+            // Sounds.play(Sounds.refresh);
             onLoading();
           },
           child: child,
