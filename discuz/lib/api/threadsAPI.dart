@@ -19,6 +19,26 @@ class ThreadsAPI {
   ThreadsAPI({@required this.context});
 
   ///
+  /// 删除主题
+  /// 仅判断删除结果
+  ///
+  Future<bool> delete({@required int threadID}) async {
+    final Function close = DiscuzToast.loading(context: context);
+
+    /// 开始请求
+    Response resp = await Request(context: context).patch(
+      url: '${Urls.threads}/${threadID.toString()}',
+    );
+
+    close();
+
+    if (resp == null) {
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
+  ///
   /// 发布主题
   ///
   Future<DiscuzEditorRequestResult> create({@required dynamic data}) async {
