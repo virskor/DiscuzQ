@@ -81,6 +81,12 @@ class _ThreadBaseCacher {
   }
 
   ///
+  /// 移除主题
+  void removeThreadByID({@required int threadID}) {
+    _threads = _threads.where((it) => it.id != threadID).toList();
+  }
+
+  ///
   /// 评论
   ///
   List<PostModel> _posts = [];

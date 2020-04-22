@@ -15,8 +15,8 @@ public class SwiftFlutterNativeLoadingPlugin: NSObject, FlutterPlugin {
     SVProgressHUD.setDefaultStyle(.custom)
     SVProgressHUD.setDefaultMaskType(.custom)
     SVProgressHUD.setDefaultAnimationType(SVProgressHUDAnimationType.flat)
-    SVProgressHUD.setForegroundColor(UIColor.black)           //Ring Color
-    SVProgressHUD.setBackgroundColor(UIColor.white)        //HUD Color
+    SVProgressHUD.setForegroundColor(UIColor.white)           //Ring Color
+    SVProgressHUD.setBackgroundColor(UIColor.clear)        //HUD Color
     SVProgressHUD.setBackgroundLayerColor(semi)
     SVProgressHUD.setRingThickness(5)
 

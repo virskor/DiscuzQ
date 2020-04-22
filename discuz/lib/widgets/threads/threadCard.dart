@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -17,6 +16,8 @@ import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/common/discuzExpansionTile.dart';
 
 ///
 /// 主题卡片
@@ -32,7 +33,13 @@ class ThreadCard extends StatefulWidget {
   /// threadsCacher 是用于缓存当前页面的主题数据的对象
   final ThreadsCacher threadsCacher;
 
-  ThreadCard({this.thread, @required this.threadsCacher});
+  ///
+  /// ------
+  /// 当卡片被删除，注意，因为该组件存在threadsCacher，所以删除threadsCacher来影响UIbuild的过程在该组件内
+  /// 其次，注意，该回调仅用于其他处理，不用在处理删除显示当前主题
+  final Function onDelete;
+
+  ThreadCard({this.thread, @required this.threadsCacher, this.onDelete});
   @override
   _ThreadCardState createState() => _ThreadCardState();
 }
@@ -66,8 +73,34 @@ class _ThreadCardState extends State<ThreadCard> {
     /// 查找附件图片
   }
 
+  ///
+  /// Build 卡片的的过程中需要注意的是，如果主题顶置，则需要支持收起
   @override
-  Widget build(BuildContext context) => RepaintBoundary(child: _buildThreadCard(context));
+  Widget build(BuildContext context) => RepaintBoundary(
+      child: widget.thread.attributes.isSticky
+          ? _buildExpansion()
+          : _buildThreadCard(context));
+
+
+  ///
+  /// 生成简单的标题，取固定值
+  /// 
+   String get _flatTitle => widget.thread.attributes.title != ''
+          ? widget.thread.attributes.title
+          : "${_firstPost.attributes.content.substring(0, 15)}...";
+
+  ///
+  /// 可收起的主题
+  /// 
+  Widget _buildExpansion() => DiscuzExpansionTile(
+      title: DiscuzText(_flatTitle, fontWeight: FontWeight.bold,),
+      leading: const DiscuzIcon(
+        0xe70f,
+        size: 20,
+        withOpacity: true,
+      ),
+      backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+      children: <Widget>[_buildThreadCard(context)]);
 
   ///
   /// 构建帖子卡片
