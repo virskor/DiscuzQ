@@ -6,7 +6,6 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/widgets/player/discuzPlayer.dart';
 import 'package:discuzq/models/postModel.dart';
 
 ///
@@ -73,13 +72,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
   ///
   Widget _videoContainer({BuildContext context, ThreadVideoModel video}) =>
       GestureDetector(
-        onTap: () => DiscuzRoute.open(
-            context: context,
-            fullscreenDialog: true,
-            widget: DiscuzPlayer(
-              video: video,
-              post: post,
-            )),
+        onTap: () => _play(context: context),
         child: Container(
           alignment: Alignment.center,
           height: 180,
@@ -109,17 +102,16 @@ class ThreadVideoSnapshot extends StatelessWidget {
                         width: 40,
                         height: 40,
                       ),
-                      onPressed: () => DiscuzRoute.open(
-                          context: context,
-                          fullscreenDialog: true,
-                          widget: DiscuzPlayer(
-                            video: video,
-                            post: post,
-                          )),
+                      onPressed: () => _play(context: context),
                     )),
               ],
             ),
           ),
         ),
       );
+
+  ///
+  /// 播放
+  Future<bool> _play({@required BuildContext context}) =>
+      DiscuzRoute.open(context: context, widget: Scaffold());
 }
