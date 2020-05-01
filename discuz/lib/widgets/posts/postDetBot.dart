@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/request/urls.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/api/threadsAPI.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -9,6 +8,10 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/share/shareNative.dart';
+import 'package:discuzq/models/postModel.dart';
+import 'package:discuzq/utils/request/request.dart';
+import 'package:discuzq/utils/request/urls.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 
 class PostDetBot extends StatefulWidget {
   ///
@@ -16,7 +19,11 @@ class PostDetBot extends StatefulWidget {
   ///
   final ThreadModel thread;
 
-  PostDetBot({@required this.thread});
+  ///
+  /// 首贴
+  final PostModel post;
+
+  PostDetBot({@required this.thread, @required this.post});
 
   @override
   _PostDetBotState createState() => _PostDetBotState();
@@ -60,7 +67,7 @@ class _PostDetBotState extends State<PostDetBot> {
           DiscuzText(
             ///
             /// 由于 postCount 包含 fristpost 所以要进行减除
-            "${(widget.thread.attributes.postCount-1).toString()}回复",
+            "${(widget.thread.attributes.postCount - 1).toString()}回复",
             color: DiscuzApp.themeOf(context).greyTextColor,
           ),
           Row(
@@ -73,6 +80,31 @@ class _PostDetBotState extends State<PostDetBot> {
                 label: _collectionButtonLabel(),
                 onTap: _requestFavorite,
               ),
+
+              ///
+              /// 删除帖子
+              widget.post.attributes.canEdit
+                  ? DiscuzLink(
+                      label: '删除',
+                      onTap: () async {
+                        await DiscuzDialog.confirm(
+                            context: context,
+                            title: '提示',
+                            message: '确定删除吗？',
+                            onConfirm: () async {
+                              ///
+                              /// 执行删除
+                              ///
+                              final bool result =
+                                  await ThreadsAPI(context: context)
+                                      .delete(thread: widget.thread);
+                              if (result && Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              }
+                            });
+                      },
+                    )
+                  : const SizedBox(),
             ],
           )
         ],
@@ -117,8 +149,8 @@ class _PostDetBotState extends State<PostDetBot> {
     };
 
     final Function close = DiscuzToast.loading(context: context);
-    Response resp = await Request(context: context)
-        .patch(url: '${Urls.threads}/${widget.thread.id.toString()}', data: data);
+    Response resp = await Request(context: context).patch(
+        url: '${Urls.threads}/${widget.thread.id.toString()}', data: data);
     close();
     if (resp == null) {
       return;

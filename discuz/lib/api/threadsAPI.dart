@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -22,19 +24,27 @@ class ThreadsAPI {
   /// 删除主题
   /// 仅判断删除结果
   ///
-  Future<bool> delete({@required int threadID}) async {
+  Future<bool> delete({@required ThreadModel thread}) async {
     final Function close = DiscuzToast.loading(context: context);
+    final dynamic data = {
+      "data": {
+        "type": "threads",
+        "attributes": {"isDeleted": true}
+      },
+      "relationships": {"category": thread.relationships.category}
+    };
 
     /// 开始请求
-    Response resp = await Request(context: context).patch(
-      url: '${Urls.threads}/${threadID.toString()}',
-    );
-
+    Response resp = await Request(context: context)
+        .patch(url: '${Urls.threads}/${thread.id.toString()}', data: data);
     close();
 
     if (resp == null) {
       return Future.value(false);
     }
+
+    DiscuzToast.success(context: context, message: '删除成功');
+
     return Future.value(true);
   }
 
