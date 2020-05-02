@@ -95,7 +95,9 @@ class Request {
         options.connectTimeout = (1000 * 20);
         options.receiveTimeout = (1000 * 20);
         options.headers['client-type'] = 'app'; // not important
-        options.headers['referer'] = Global.domain;
+        if (!Device.isWeb) {
+          options.headers['referer'] = Global.domain;
+        }
 
         if (authorization != null && autoAuthorization) {
           options.headers['authorization'] = "Bearer $authorization";

@@ -111,7 +111,8 @@ class ThreadVideoSnapshot extends StatelessWidget {
       );
 
   ///
-  /// 播放
+  /// 播放视频
+  /// 
   Future<bool> _play({@required BuildContext context}) =>
       DiscuzRoute.open(context: context, widget: Scaffold());
 }

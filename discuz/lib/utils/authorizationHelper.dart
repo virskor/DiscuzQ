@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:discuzq/db/user.dart';
+import 'package:discuzq/utils/device.dart';
+import 'package:discuzq/utils/localstorage.dart';
 
 class AuthorizationHelper {
   /// 用于获取 acesstoken
@@ -20,6 +22,10 @@ class AuthorizationHelper {
   ///
   /// 获取api token
   Future<String> getToken({int key = authorizationKey}) async {
+    if (Device.isWeb) {
+      return DiscuzLocalStorage.getString(key.toString());
+    }
+
     await _userDataSqlite.openSqlite();
     UserDBModel user = await _userDataSqlite.queryByID(key);
     _userDataSqlite.close();
@@ -35,6 +41,11 @@ class AuthorizationHelper {
   /// 取得用户信息
   ///
   Future<dynamic> getUser({int key = userKey}) async {
+    if (Device.isWeb) {
+      final dynamic data = await DiscuzLocalStorage.getString(key.toString());
+      return Future.value(jsonDecode(data));
+    }
+
     await _userDataSqlite.openSqlite();
     UserDBModel user = await _userDataSqlite.queryByID(key);
     await _userDataSqlite.close();
@@ -50,6 +61,12 @@ class AuthorizationHelper {
   /// 刷新token
   ///
   Future<UserDBModel> update({dynamic data, int key = authorizationKey}) async {
+    if (Device.isWeb) {
+      final dynamic u =
+          await DiscuzLocalStorage.setString(key.toString(), jsonEncode(data));
+      return Future.value(jsonDecode(u));
+    }
+
     await _userDataSqlite.openSqlite();
     UserDBModel user = await _userDataSqlite.update(
         UserDBModel(key, data.runtimeType == String ? data : jsonEncode(data)));
@@ -61,6 +78,9 @@ class AuthorizationHelper {
   /// 清除token
   ///
   Future<bool> clear({int key = authorizationKey}) async {
+    if (Device.isWeb) {
+      return DiscuzLocalStorage.clear();
+    }
     await _userDataSqlite.openSqlite();
     await _userDataSqlite.remove(key);
     await _userDataSqlite.close();
@@ -71,6 +91,12 @@ class AuthorizationHelper {
   /// 保存认证
   ///
   Future<UserDBModel> save({dynamic data, int key = authorizationKey}) async {
+    if (Device.isWeb) {
+      final dynamic a =
+          await DiscuzLocalStorage.setString(key.toString(), jsonEncode(data));
+      return Future.value(jsonDecode(a));
+    }
+
     await _userDataSqlite.openSqlite();
 
     /// 判断是更新，还是新入保存
@@ -90,6 +116,9 @@ class AuthorizationHelper {
   }
 
   Future<void> clearAll() async {
+    if (Device.isWeb) {
+      return DiscuzLocalStorage.clear();
+    }
     await _userDataSqlite.clearAll();
   }
 }

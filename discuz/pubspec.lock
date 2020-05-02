@@ -249,13 +249,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-  flutter_tencentplayer:
-    dependency: "direct main"
-    description:
-      path: "../packages/flutter_tencentplayer"
-      relative: true
-    source: path
-    version: "0.3.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter

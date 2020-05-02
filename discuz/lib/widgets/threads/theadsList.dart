@@ -230,24 +230,14 @@ class _ForumCategoryState extends State<ThreadsList> {
 
     ///
     /// 为了保证scroll 滑动流畅，这里不要使用Listview，不然总有些奇奇怪怪的问题
-    return ListView(
-      controller: _scrollController,
-      shrinkWrap: true,
-      children: _buildCollectionsList(state: state),
-    );
+    /// Listview.builder可以仅构建屏幕内的Item，而不是构建整个listview tree
+    return ListView.builder(
+        itemCount: _threadsCacher.threads.length,
+        itemBuilder: (BuildContext context, index) => ThreadCard(
+              threadsCacher: _threadsCacher,
+              thread: _threadsCacher.threads[index],
+            ));
   }
-
-  ///
-  /// 构造收藏的列表
-  /// todo: 直接把主题列表做成一个组件好了，这样也不用每个地方一大堆代码
-  List<Widget> _buildCollectionsList({AppState state}) => _threadsCacher.threads
-      .map<Widget>(
-        (ThreadModel it) => ThreadCard(
-          threadsCacher: _threadsCacher,
-          thread: it,
-        ),
-      )
-      .toList();
 
   ///
   /// _requestData will get data from backend

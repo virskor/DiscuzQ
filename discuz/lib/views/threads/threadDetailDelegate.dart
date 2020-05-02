@@ -199,7 +199,8 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       });
     }
 
-    return RepaintBoundary(child: Container(
+    return RepaintBoundary(
+        child: Container(
       padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
@@ -272,7 +273,8 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
           /// 显示帖子 评论 收藏 分享等
           PostDetBot(
             thread: _threadsCacher.threads[0],
-post: _firstPost,
+            post: _firstPost,
+
             ///注意： 要传入的thread 不应该是widget.thread，而是接口请求详情获取的主题
           )
         ],
