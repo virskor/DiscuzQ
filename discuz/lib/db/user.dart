@@ -26,7 +26,7 @@ class UserDBModel {
 class UserDataSqlite {
   Database db;
 
-  openSqlite() async {
+  Future<void> openSqlite() async {
     /// 获取数据库文件的存储路径
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, 'user.db');

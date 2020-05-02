@@ -168,24 +168,15 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
       return const DiscuzNoMoreData();
     }
 
-    return ListView(
-      controller: _scrollController,
-      shrinkWrap: true,
-      children: _buildCollectionsList(state: state),
-    );
+    return ListView.builder(
+        controller: _scrollController,
+        itemCount: _threadsCacher.threads.length,
+        itemBuilder: (BuildContext context, index) => ThreadCard(
+              thread: _threadsCacher.threads[index],
+              threadsCacher: _threadsCacher,
+              initiallyExpanded: true,
+            ));
   }
-
-  ///
-  /// 构造收藏的列表
-  /// todo: 直接把主题列表做成一个组件好了，这样也不用每个地方一大堆代码
-  List<Widget> _buildCollectionsList({AppState state}) => _threadsCacher.threads
-      .map<Widget>(
-        (ThreadModel it) => ThreadCard(
-          thread: it,
-          threadsCacher: _threadsCacher,
-        ),
-      )
-      .toList();
 
   ///
   /// 是否允许加载更多

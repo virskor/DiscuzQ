@@ -63,8 +63,6 @@ dependencies:
     path: ../packages/flutter_widget_from_html
   flutter_user_agent:
     path: ../packages/flutter_user_agent
-  flutter_tencentplayer:
-    path: ../packages/flutter_tencentplayer
   udid:
     path: ../packages/flutter_udid
   assets_audio_player:

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,6 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/widgets/player/discuzPlayer.dart';
 import 'package:discuzq/models/postModel.dart';
 
 ///
@@ -73,13 +73,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
   ///
   Widget _videoContainer({BuildContext context, ThreadVideoModel video}) =>
       GestureDetector(
-        onTap: () => DiscuzRoute.open(
-            context: context,
-            fullscreenDialog: true,
-            widget: DiscuzPlayer(
-              video: video,
-              post: post,
-            )),
+        onTap: () => _play(context: context),
         child: Container(
           alignment: Alignment.center,
           height: 180,
@@ -109,17 +103,19 @@ class ThreadVideoSnapshot extends StatelessWidget {
                         width: 40,
                         height: 40,
                       ),
-                      onPressed: () => DiscuzRoute.open(
-                          context: context,
-                          fullscreenDialog: true,
-                          widget: DiscuzPlayer(
-                            video: video,
-                            post: post,
-                          )),
+                      onPressed: () => _play(context: context),
                     )),
               ],
             ),
           ),
         ),
       );
+
+  ///
+  /// 播放视频
+  /// 
+  Future<bool> _play({@required BuildContext context}) =>
+      DiscuzRoute.open(context: context, widget: Scaffold(
+        appBar: DiscuzAppBar(title: '正在重构',),
+      ));
 }
