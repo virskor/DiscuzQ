@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -114,5 +115,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
   /// 播放视频
   /// 
   Future<bool> _play({@required BuildContext context}) =>
-      DiscuzRoute.open(context: context, widget: Scaffold());
+      DiscuzRoute.open(context: context, widget: Scaffold(
+        appBar: DiscuzAppBar(title: '正在重构',),
+      ));
 }

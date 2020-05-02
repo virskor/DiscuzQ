@@ -232,6 +232,7 @@ class _ForumCategoryState extends State<ThreadsList> {
     /// 为了保证scroll 滑动流畅，这里不要使用Listview，不然总有些奇奇怪怪的问题
     /// Listview.builder可以仅构建屏幕内的Item，而不是构建整个listview tree
     return ListView.builder(
+        controller: _scrollController,
         itemCount: _threadsCacher.threads.length,
         itemBuilder: (BuildContext context, index) => ThreadCard(
               threadsCacher: _threadsCacher,

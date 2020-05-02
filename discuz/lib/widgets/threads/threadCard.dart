@@ -39,7 +39,17 @@ class ThreadCard extends StatefulWidget {
   /// 其次，注意，该回调仅用于其他处理，不用在处理删除显示当前主题
   final Function onDelete;
 
-  ThreadCard({this.thread, @required this.threadsCacher, this.onDelete});
+  ///
+  /// ----
+  /// initiallyExpanded
+  /// 默认是否展开(为置顶的主题默认展开)
+  final bool initiallyExpanded;
+
+  ThreadCard(
+      {this.thread,
+      @required this.threadsCacher,
+      this.onDelete,
+      this.initiallyExpanded = false});
   @override
   _ThreadCardState createState() => _ThreadCardState();
 }
@@ -81,19 +91,22 @@ class _ThreadCardState extends State<ThreadCard> {
           ? _buildExpansion()
           : _buildThreadCard(context));
 
-
   ///
   /// 生成简单的标题，取固定值
-  /// 
-   String get _flatTitle => widget.thread.attributes.title != ''
-          ? widget.thread.attributes.title
-          : "${_firstPost.attributes.content.substring(0, 15)}...";
+  ///
+  String get _flatTitle => widget.thread.attributes.title != ''
+      ? widget.thread.attributes.title
+      : "${_firstPost.attributes.content.substring(0, 15)}...";
 
   ///
   /// 可收起的主题
-  /// 
+  ///
   Widget _buildExpansion() => DiscuzExpansionTile(
-      title: DiscuzText(_flatTitle, fontWeight: FontWeight.bold,),
+      initiallyExpanded: widget.initiallyExpanded,
+      title: DiscuzText(
+        _flatTitle,
+        fontWeight: FontWeight.bold,
+      ),
       leading: const DiscuzIcon(
         0xe70f,
         size: 20,

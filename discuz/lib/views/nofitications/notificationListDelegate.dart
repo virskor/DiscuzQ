@@ -98,6 +98,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
   /// 是否允许加载更多
   bool get _enablePullUp =>
       _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+
   ///
   /// 生成搜索用户的组件
   ///
@@ -137,95 +138,96 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
       return const DiscuzNoMoreData();
     }
 
-    return ListView(
-      children: _notifications
-          .map<Widget>((NotificationModel n) => Container(
-              decoration: BoxDecoration(
-                  color: DiscuzApp.themeOf(context).backgroundColor),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    top: 5, bottom: 5, left: 10, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    const DiscuzDivider(
-                      padding: 0,
-                    ),
-                    const SizedBox(height: 10),
-                    widget.type == NotificationTypes.system
-                        ? const SizedBox()
-                        : Container(
-                            child: DiscuzListTile(
-                              contentPadding: const EdgeInsets.all(0),
-                              leading: DiscuzAvatar(
-                                  url: n.attributes.userAvatar, size: 40),
-                              title: Row(
-                                children: <Widget>[
-                                  // todo 点击查看用户
-                                  DiscuzText('${n.attributes.username}回复了我')
-                                ],
-                              ),
-                              subtitle: DiscuzText(
-                                DateUtil.formatDate(
-                                    DateTime.parse(n.attributes.createdAt)
-                                        .toLocal(),
-                                    format: "yyyy-MM-dd HH:mm"),
-                                fontSize: 14,
-                                color: DiscuzApp.themeOf(context).greyTextColor,
-                              ),
-                              trailing: DiscuzLink(
-                                label: '删除',
-                                onTap: () async {
-                                  final bool deleted =
-                                      await _deleteNotification(id: n.id);
-                                  if (deleted) {
-                                    setState(() {
-                                      ///
-                                      /// 用户进行了删除， 隐藏当前选项
-                                      /// 只需要删除通知列表中的数据就可以了
-                                      /// 没有必要重新请求接口的
-                                      _notifications = _notifications
-                                          .where((it) => it.id != n.id)
-                                          .toList();
-                                    });
-                                  }
-                                },
-                              ),
+    return ListView.builder(
+      itemCount: _notifications.length,
+      itemBuilder: (BuildContext context, index) {
+        final NotificationModel n = _notifications[index];
+        return Container(
+            decoration: BoxDecoration(
+                color: DiscuzApp.themeOf(context).backgroundColor),
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  const DiscuzDivider(
+                    padding: 0,
+                  ),
+                  const SizedBox(height: 10),
+                  widget.type == NotificationTypes.system
+                      ? const SizedBox()
+                      : Container(
+                          child: DiscuzListTile(
+                            contentPadding: const EdgeInsets.all(0),
+                            leading: DiscuzAvatar(
+                                url: n.attributes.userAvatar, size: 40),
+                            title: Row(
+                              children: <Widget>[
+                                // todo 点击查看用户
+                                DiscuzText('${n.attributes.username}回复了我')
+                              ],
+                            ),
+                            subtitle: DiscuzText(
+                              DateUtil.formatDate(
+                                  DateTime.parse(n.attributes.createdAt)
+                                      .toLocal(),
+                                  format: "yyyy-MM-dd HH:mm"),
+                              fontSize: 14,
+                              color: DiscuzApp.themeOf(context).greyTextColor,
+                            ),
+                            trailing: DiscuzLink(
+                              label: '删除',
+                              onTap: () async {
+                                final bool deleted =
+                                    await _deleteNotification(id: n.id);
+                                if (deleted) {
+                                  setState(() {
+                                    ///
+                                    /// 用户进行了删除， 隐藏当前选项
+                                    /// 只需要删除通知列表中的数据就可以了
+                                    /// 没有必要重新请求接口的
+                                    _notifications = _notifications
+                                        .where((it) => it.id != n.id)
+                                        .toList();
+                                  });
+                                }
+                              },
                             ),
                           ),
+                        ),
 
-                    /// 仅系统通知显示标题
-                    widget.type != NotificationTypes.system
-                        ? const SizedBox()
-                        : DiscuzText(
-                            n.attributes.title,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  /// 仅系统通知显示标题
+                  widget.type != NotificationTypes.system
+                      ? const SizedBox()
+                      : DiscuzText(
+                          n.attributes.title,
+                          fontWeight: FontWeight.bold,
+                        ),
 
-                    /// 仅系统通知显示时间
-                    widget.type != NotificationTypes.system
-                        ? const SizedBox()
-                        : DiscuzText(
-                            DateUtil.formatDate(
-                                DateTime.parse(n.attributes.createdAt)
-                                    .toLocal(),
-                                format: "yyyy-MM-dd HH:mm"),
-                            fontSize: 14,
-                            color: DiscuzApp.themeOf(context).greyTextColor,
-                          ),
+                  /// 仅系统通知显示时间
+                  widget.type != NotificationTypes.system
+                      ? const SizedBox()
+                      : DiscuzText(
+                          DateUtil.formatDate(
+                              DateTime.parse(n.attributes.createdAt).toLocal(),
+                              format: "yyyy-MM-dd HH:mm"),
+                          fontSize: 14,
+                          color: DiscuzApp.themeOf(context).greyTextColor,
+                        ),
 
-                    /// 渲染消息内容
-                    /// todo: 点击到关联的帖子
-                    HtmlRender(
-                      html: n.attributes.postContent != ''
-                          ? n.attributes.postContent
-                          : n.attributes.content,
-                    ),
-                  ],
-                ),
-              )))
-          .toList(),
+                  /// 渲染消息内容
+                  /// todo: 点击到关联的帖子
+                  HtmlRender(
+                    html: n.attributes.postContent != ''
+                        ? n.attributes.postContent
+                        : n.attributes.content,
+                  ),
+                ],
+              ),
+            ));
+      },
     );
   }
 
