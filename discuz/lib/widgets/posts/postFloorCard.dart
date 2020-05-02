@@ -1,5 +1,3 @@
-import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
-import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -24,6 +22,8 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/api/postsAPI.dart';
+import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 
 class PostFloorCard extends StatelessWidget {
   ///
@@ -89,7 +89,10 @@ class PostFloorCard extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: DiscuzApp.themeOf(context).backgroundColor,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -239,9 +242,8 @@ class PostFloorCard extends StatelessWidget {
                       onConfirm: () async {
                         final Function close =
                             DiscuzToast.loading(context: context);
-                        final bool result =
-                            await PostsAPI(context: context)
-                                .delete(postID: post.id);
+                        final bool result = await PostsAPI(context: context)
+                            .delete(postID: post.id);
                         close();
                         if (result && onDelete != null) {
                           /// 删除成功，隐藏该项目

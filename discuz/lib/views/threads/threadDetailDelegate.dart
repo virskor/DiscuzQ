@@ -115,6 +115,25 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   bool get _enablePullUp =>
       _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
 
+  ///
+  /// 评论组件数
+  ///
+  List<Widget> get commentsTree =>
+      _threadsCacher.posts.map<Widget>((PostModel p) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: PostFloorCard(
+              post: p,
+              threadsCacher: _threadsCacher,
+              thread: widget.thread,
+              onDelete: () {
+                setState(() {
+                  _threadsCacher.removePostByID(postID: p.id);
+                });
+              }),
+        );
+      }).toList();
+
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
@@ -150,16 +169,38 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                             await _requestData(pageNumber: _pageNumber + 1);
                             _controller.loadComplete();
                           },
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: <Widget>[
-                              /// 显示内容
-                              _buildThreadContent(),
+                          child: ListView.builder(
+                              itemCount: commentsTree.length,
+                              addRepaintBoundaries: true,
+                              padding: const EdgeInsets.only(bottom: 80),
+                              itemBuilder: (BuildContext context, index) {
+                                // if (_threadsCacher.posts.length == 1) {
+                                //   return const DiscuzNoMoreData();
+                                // }
 
-                              /// 显示评论
-                              _buildComments()
-                            ],
-                          ),
+                                if (index == 0) {
+                                  return Column(
+                                    children: <Widget>[
+                                      _buildThreadContent(),
+                                      Container(
+                                        alignment: Alignment.centerLeft,
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, top: 10),
+                                        child: ThreadFavoritesAndRewards(
+                                          firstPost: _firstPost,
+                                          threadsCacher: _threadsCacher,
+                                          thread: widget.thread,
+                                        ),
+                                      ),
+                                      _threadsCacher.posts.length == 1
+                                          ? const DiscuzNoMoreData()
+                                          : commentsTree[index]
+                                    ],
+                                  );
+                                }
+
+                                return commentsTree[index];
+                              }),
                         ),
                 ),
 
@@ -281,67 +322,6 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       ),
     ));
   }
-
-  ///
-  /// 渲染评论列表等
-  Widget _buildComments() {
-    if (_firstPost.id == 0) {
-      return const SizedBox();
-    }
-
-    return Container(
-      margin: const EdgeInsets.only(top: 10),
-      padding: const EdgeInsets.only(bottom: 10),
-      decoration:
-          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          //const SizedBox(height: 20),
-
-          /// 显示点赞
-          Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: ThreadFavoritesAndRewards(
-              firstPost: _firstPost,
-              threadsCacher: _threadsCacher,
-              thread: widget.thread,
-            ),
-          ),
-
-          ///
-          /// 显示评论和用户
-          /// 为什么 length= 1 的时候显示 DiscuzNoMoreData？
-          /// 因为每个thread至少包含一个post，也就是首贴
-          ///
-          _threadsCacher.posts.length == 1
-              ? const DiscuzNoMoreData()
-              : _comments()
-        ],
-      ),
-    );
-  }
-
-  ///
-  /// 渲染评论
-  ///
-  Widget _comments() => Column(
-        children: _threadsCacher.posts
-            .map<Widget>((PostModel p) => Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                  child: PostFloorCard(
-                      post: p,
-                      threadsCacher: _threadsCacher,
-                      thread: widget.thread,
-                      onDelete: () {
-                        setState(() {
-                          _threadsCacher.removePostByID(postID: p.id);
-                        });
-                      }),
-                ))
-            .toList(),
-      );
 
   ///
   /// 底部工具栏
