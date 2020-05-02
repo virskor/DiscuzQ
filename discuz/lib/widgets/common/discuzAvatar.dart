@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/StringHelper.dart';
+import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 
 class DiscuzAvatar extends StatelessWidget {
   final double size;
@@ -48,14 +47,12 @@ class DiscuzAvatar extends StatelessWidget {
   /// 返回缓存的头像
   Widget _cachedNetworkAvatar(String avatarUrl) => ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(circularRate)),
-      child: CachedNetworkImage(
+      child: DiscuzCachedNetworkImage(
         imageUrl: avatarUrl,
-        httpHeaders: {"Referer": Global.domain},
         width: size,
         height: size,
         fit: BoxFit.cover,
-        errorWidget: (context, url, error) => _empty(),
-        fadeInDuration: Duration(milliseconds: 270),
+        errorWidget: (context, url, error) => _empty()
       ));
 
   /// 用户未设置头像，刷新头像

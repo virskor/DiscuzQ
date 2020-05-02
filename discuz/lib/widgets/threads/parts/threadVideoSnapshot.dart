@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +6,8 @@ import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/models/postModel.dart';
+import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
+import 'package:discuzq/widgets/player/discuzPlayer.dart';
 
 ///
 /// 显示视频缩略图的组件
@@ -73,7 +73,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
   ///
   Widget _videoContainer({BuildContext context, ThreadVideoModel video}) =>
       GestureDetector(
-        onTap: () => _play(context: context),
+        onTap: () => _play(context: context, video: video),
         child: Container(
           alignment: Alignment.center,
           height: 180,
@@ -88,7 +88,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
               fit: StackFit.passthrough,
               alignment: Alignment.center,
               children: <Widget>[
-                CachedNetworkImage(
+                DiscuzCachedNetworkImage(
                   imageUrl: video.attributes.coverUrl,
                   fit: BoxFit.cover,
                 ),
@@ -103,7 +103,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
                         width: 40,
                         height: 40,
                       ),
-                      onPressed: () => _play(context: context),
+                      onPressed: () => _play(context: context, video: video),
                     )),
               ],
             ),
@@ -113,9 +113,12 @@ class ThreadVideoSnapshot extends StatelessWidget {
 
   ///
   /// 播放视频
-  /// 
-  Future<bool> _play({@required BuildContext context}) =>
-      DiscuzRoute.open(context: context, widget: Scaffold(
-        appBar: DiscuzAppBar(title: '正在重构',),
-      ));
+  ///
+  Future<bool> _play(
+          {@required BuildContext context, @required ThreadVideoModel video}) =>
+      DiscuzRoute.open(
+          context: context,
+          widget: DiscuzPlayer(
+            video: video,
+          ));
 }

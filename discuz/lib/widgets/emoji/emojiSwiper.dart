@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/emojiModel.dart';
 import 'package:discuzq/widgets/emoji/emojiSync.dart';
+import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 
 class EmojiSwiper extends StatefulWidget {
   ///
@@ -62,7 +62,7 @@ class _EmojiSwiperState extends State<EmojiSwiper> {
             child: Wrap(
               children: _emojis
                   .map<Widget>((e) => IconButton(
-                        icon: CachedNetworkImage(
+                        icon: DiscuzCachedNetworkImage(
                           imageUrl: e.attributes.url,
                         ),
                         onPressed: () {

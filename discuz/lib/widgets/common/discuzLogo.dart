@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 
 class DiscuzAppLogo extends StatelessWidget {
   final double width;
@@ -38,7 +38,7 @@ class DiscuzAppLogo extends StatelessWidget {
       ));
     }
 
-    return CachedNetworkImage(
+    return DiscuzCachedNetworkImage(
       imageUrl: state.forum.attributes.setSite.siteLogo,
       fit: BoxFit.contain,
       width: width,

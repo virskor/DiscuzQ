@@ -1,9 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/webview/webviewHelper.dart';
+import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 
 ///
 /// 渲染HTML
@@ -19,7 +19,7 @@ class HtmlRender extends StatelessWidget {
       final src = meta.domElement.attributes['src'];
       return pieces
         ..first?.block?.addWidget(WidgetSpan(
-                child: CachedNetworkImage(
+                child: DiscuzCachedNetworkImage(
               imageUrl: src,
               width: 20,
             )));

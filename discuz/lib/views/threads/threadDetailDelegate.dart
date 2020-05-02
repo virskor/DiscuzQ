@@ -348,10 +348,13 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       ? <Widget>[]
       : <Widget>[
           const SizedBox(height: 20),
-          DiscuzText(
-            widget.thread.attributes.title,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
+          Container(
+            child: DiscuzText(
+              widget.thread.attributes.title,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              overflow: TextOverflow.visible,
+            ),
           ),
           const SizedBox(height: 5),
           const DiscuzDivider(

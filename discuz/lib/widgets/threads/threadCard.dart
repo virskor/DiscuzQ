@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/StringHelper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -210,27 +211,33 @@ class _ThreadCardState extends State<ThreadCard> {
 
   /// 显示主题的标题
   /// 并不是所有主题都有标题，所以要做判断
-  List<Widget> _buildContentTitle() => widget.thread.attributes.title == ""
-      ? <Widget>[]
-      : <Widget>[
-          GestureDetector(
-            onTap: () => DiscuzRoute.open(
-                context: context,
-                shouldLogin: true,
-                widget: ThreadDetailDelegate(
-                  author: _author,
-                  thread: widget.thread,
-                )),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                DiscuzText(
-                  widget.thread.attributes.title,
-                  fontWeight: FontWeight.bold,
+  List<Widget> _buildContentTitle() =>
+      StringHelper.isEmpty(string: widget.thread.attributes.title)
+          ? <Widget>[]
+          : <Widget>[
+              GestureDetector(
+                onTap: () => DiscuzRoute.open(
+                    context: context,
+                    shouldLogin: true,
+                    widget: ThreadDetailDelegate(
+                      author: _author,
+                      thread: widget.thread,
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      child: DiscuzText(
+                        widget.thread.attributes.title.length <= 15
+                            ? widget.thread.attributes.title
+                            : "${widget.thread.attributes.title.substring(0, 15)}...",
+                        fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    DiscuzIcon(SFSymbols.doc_plaintext),
+                  ],
                 ),
-                DiscuzIcon(SFSymbols.doc_plaintext),
-              ],
-            ),
-          )
-        ];
+              )
+            ];
 }
