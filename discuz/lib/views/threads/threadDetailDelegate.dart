@@ -118,28 +118,33 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   ///
   /// 评论组件数
   ///
-  List<Widget> get commentsTree =>
-      _threadsCacher.posts.map<Widget>((PostModel p) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: PostFloorCard(
-              post: p,
-              threadsCacher: _threadsCacher,
-              thread: widget.thread,
-              onDelete: () {
-                setState(() {
-                  _threadsCacher.removePostByID(postID: p.id);
-                });
-              }),
-        );
-      }).toList();
+  List<Widget> get commentsTree => _threadsCacher.posts
+      .map<Widget>((PostModel p) => Column(
+            children: <Widget>[
+              const DiscuzDivider(
+                padding: 0,
+              ),
+              PostFloorCard(
+                  post: p,
+                  threadsCacher: _threadsCacher,
+                  thread: widget.thread,
+                  onDelete: () {
+                    setState(() {
+                      _threadsCacher.removePostByID(postID: p.id);
+                    });
+                  })
+            ],
+          ))
+      .toList();
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
-              title: '详情',
+              title: widget.thread.attributes.title != ''
+                  ? widget.thread.attributes.title
+                  : '详情',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: Stack(
@@ -348,10 +353,13 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       ? <Widget>[]
       : <Widget>[
           const SizedBox(height: 20),
-          DiscuzText(
-            widget.thread.attributes.title,
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
+          Container(
+            child: DiscuzText(
+              widget.thread.attributes.title,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              overflow: TextOverflow.visible,
+            ),
           ),
           const SizedBox(height: 5),
           const DiscuzDivider(

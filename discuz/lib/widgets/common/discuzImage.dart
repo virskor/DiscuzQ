@@ -1,12 +1,10 @@
 import 'dart:typed_data';
+import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
-import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/permissionHepler.dart';
 import 'package:discuzq/widgets/common/discuzContextMenu.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
@@ -117,13 +115,12 @@ class _DiscuzImageState extends State<DiscuzImage> {
       ],
       child: GestureDetector(
         onTap: () => onWantOriginalImage(attachment.attributes.url),
-        child: CachedNetworkImage(
+        child: DiscuzCachedNetworkImage(
           imageUrl: widget.isThumb
               ? attachment.attributes.thumbUrl
               : attachment.attributes.url,
           ///
           /// 请求图片时要带Referer
-          httpHeaders: {"Referer": Global.domain},
           fit: BoxFit.cover,
           width: widget.isThumb ? imageSize : null,
           height: widget.isThumb ? imageSize : null,
