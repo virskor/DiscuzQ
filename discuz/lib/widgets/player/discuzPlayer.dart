@@ -1,9 +1,9 @@
-import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/player/discuzPlayerAppbar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/player/discuzPlayerAppbar.dart';
 
 class DiscuzPlayer extends StatefulWidget {
   final ThreadVideoModel video;

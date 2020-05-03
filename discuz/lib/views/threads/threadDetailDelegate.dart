@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/threads/payments/threadRequiredPayments.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -315,6 +316,11 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                   thread: widget.thread,
                   post: _firstPost,
                 ),
+
+          ///
+          /// 是否需要支付后才能查看
+          /// 
+          ThreadRequiredPayments(thread: widget.thread,),
 
           /// 显示帖子 评论 收藏 分享等
           PostDetBot(

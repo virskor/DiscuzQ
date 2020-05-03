@@ -13,7 +13,7 @@ import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 
 ///
 /// 按钮图标的大小
-const double _iconsize = 22;
+const double _kIconsize = 22;
 
 class ThreadCardQuickActions extends StatelessWidget {
   ///
@@ -24,7 +24,7 @@ class ThreadCardQuickActions extends StatelessWidget {
   /// 关联帖子
   final ThreadModel thread;
 
-  ThreadCardQuickActions({@required this.firstPost, @required this.thread});
+  const ThreadCardQuickActions({@required this.firstPost, @required this.thread});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,20 +35,17 @@ class ThreadCardQuickActions extends StatelessWidget {
         children: [
           ///
           /// 点赞按钮
-          Padding(
-            padding: const EdgeInsets.only(top: 3, right: 4),
-            child: PostLikeButton(
-              size: _iconsize,
+          PostLikeButton(
+              size: _kIconsize,
               post: firstPost,
             ),
-          ),
 
           ///
           /// 分享按钮
           IconButton(
             icon: DiscuzIcon(
               SFSymbols.square_arrow_up,
-              size: _iconsize,
+              size: _kIconsize,
               color: DiscuzApp.themeOf(context).textColor,
             ),
             onPressed: () => ShareNative.shareThread(thread: thread),
@@ -59,7 +56,7 @@ class ThreadCardQuickActions extends StatelessWidget {
           IconButton(
             icon: DiscuzIcon(
               SFSymbols.bubble_left_bubble_right,
-              size: _iconsize,
+              size: _kIconsize,
               color: DiscuzApp.themeOf(context).textColor,
             ),
             onPressed: () async {
