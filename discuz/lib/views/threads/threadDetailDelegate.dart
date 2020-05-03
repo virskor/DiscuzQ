@@ -121,7 +121,9 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   List<Widget> get commentsTree => _threadsCacher.posts
       .map<Widget>((PostModel p) => Column(
             children: <Widget>[
-              const DiscuzDivider(padding: 0,),
+              const DiscuzDivider(
+                padding: 0,
+              ),
               PostFloorCard(
                   post: p,
                   threadsCacher: _threadsCacher,
@@ -140,7 +142,9 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
-              title: '详情',
+              title: widget.thread.attributes.title != ''
+                  ? widget.thread.attributes.title
+                  : '详情',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: Stack(

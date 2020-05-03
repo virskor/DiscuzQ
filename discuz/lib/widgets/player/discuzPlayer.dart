@@ -1,3 +1,5 @@
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/player/discuzPlayerAppbar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadVideoModel.dart';
@@ -17,10 +19,26 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(child: DiscuzCachedNetworkImage(
-        imageUrl: widget.video.attributes.coverUrl,
-        fit: BoxFit.cover,
-      ),),
+      body: Stack(
+        children: <Widget>[
+          Center(
+            child: DiscuzCachedNetworkImage(
+              imageUrl: widget.video.attributes.coverUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Center(
+            child: DiscuzText(
+              '正在重构播放器',
+              color: Colors.white,
+            ),
+          ),
+          Positioned(
+            bottom: 0,
+            child: DiscuzPlayerAppbar(),
+          )
+        ],
+      ),
     );
   }
 }
