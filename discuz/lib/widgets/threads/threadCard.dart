@@ -1,4 +1,3 @@
-import 'package:discuzq/utils/StringHelper.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -19,6 +18,7 @@ import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzExpansionTile.dart';
+import 'package:discuzq/utils/StringHelper.dart';
 
 ///
 /// 主题卡片

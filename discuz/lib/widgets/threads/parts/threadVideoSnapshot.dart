@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:discuzq/widgets/common/frost.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +11,11 @@ import 'package:discuzq/router/route.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 import 'package:discuzq/widgets/player/discuzPlayer.dart';
+import 'package:flutter/rendering.dart';
+
+///
+/// _kVideoSnapshotHeight
+const double _kVideoSnapshotHeight = 180;
 
 ///
 /// 显示视频缩略图的组件
@@ -76,37 +84,32 @@ class ThreadVideoSnapshot extends StatelessWidget {
         onTap: () => _play(context: context, video: video),
         child: Container(
           alignment: Alignment.center,
-          height: 180,
-          decoration: const BoxDecoration(
-            color: Colors.black,
-            borderRadius: const BorderRadius.all(
-              const Radius.circular(5),
-            ),
-          ),
-          child: Container(
-            child: Stack(
-              fit: StackFit.passthrough,
-              alignment: Alignment.center,
-              children: <Widget>[
-                DiscuzCachedNetworkImage(
+          height: _kVideoSnapshotHeight,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: const BorderRadius.all(const Radius.circular(5)),
+                child: DiscuzCachedNetworkImage(
                   imageUrl: video.attributes.coverUrl,
+                  width: MediaQuery.of(context).size.width,
                   fit: BoxFit.cover,
                 ),
-                Positioned(
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    bottom: 0,
-                    child: IconButton(
-                      icon: Image.asset(
-                        'assets/images/play.png',
-                        width: 40,
-                        height: 40,
-                      ),
-                      onPressed: () => _play(context: context, video: video),
-                    )),
-              ],
-            ),
+              ),
+              Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: IconButton(
+                    icon: Image.asset(
+                      'assets/images/play.png',
+                      width: 40,
+                      height: 40,
+                    ),
+                    onPressed: () => _play(context: context, video: video),
+                  )),
+            ],
           ),
         ),
       );

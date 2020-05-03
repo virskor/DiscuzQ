@@ -118,21 +118,22 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   ///
   /// 评论组件数
   ///
-  List<Widget> get commentsTree =>
-      _threadsCacher.posts.map<Widget>((PostModel p) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: PostFloorCard(
-              post: p,
-              threadsCacher: _threadsCacher,
-              thread: widget.thread,
-              onDelete: () {
-                setState(() {
-                  _threadsCacher.removePostByID(postID: p.id);
-                });
-              }),
-        );
-      }).toList();
+  List<Widget> get commentsTree => _threadsCacher.posts
+      .map<Widget>((PostModel p) => Column(
+            children: <Widget>[
+              const DiscuzDivider(padding: 0,),
+              PostFloorCard(
+                  post: p,
+                  threadsCacher: _threadsCacher,
+                  thread: widget.thread,
+                  onDelete: () {
+                    setState(() {
+                      _threadsCacher.removePostByID(postID: p.id);
+                    });
+                  })
+            ],
+          ))
+      .toList();
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(

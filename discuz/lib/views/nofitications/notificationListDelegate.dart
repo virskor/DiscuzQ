@@ -177,23 +177,35 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                               fontSize: 14,
                               color: DiscuzApp.themeOf(context).greyTextColor,
                             ),
-                            trailing: DiscuzLink(
-                              label: '删除',
-                              onTap: () async {
-                                final bool deleted =
-                                    await _deleteNotification(id: n.id);
-                                if (deleted) {
-                                  setState(() {
-                                    ///
-                                    /// 用户进行了删除， 隐藏当前选项
-                                    /// 只需要删除通知列表中的数据就可以了
-                                    /// 没有必要重新请求接口的
-                                    _notifications = _notifications
-                                        .where((it) => it.id != n.id)
-                                        .toList();
-                                  });
-                                }
-                              },
+                            trailing: SizedBox(
+                              width: 100,
+                              child: Row(
+                                children: <Widget>[
+                                  DiscuzLink(
+                                    label: '回复',
+                                    onTap: () => DiscuzToast.show(
+                                        context: context, message: '即将支持'),
+                                  ),
+                                  DiscuzLink(
+                                    label: '删除',
+                                    onTap: () async {
+                                      final bool deleted =
+                                          await _deleteNotification(id: n.id);
+                                      if (deleted) {
+                                        setState(() {
+                                          ///
+                                          /// 用户进行了删除， 隐藏当前选项
+                                          /// 只需要删除通知列表中的数据就可以了
+                                          /// 没有必要重新请求接口的
+                                          _notifications = _notifications
+                                              .where((it) => it.id != n.id)
+                                              .toList();
+                                        });
+                                      }
+                                    },
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),

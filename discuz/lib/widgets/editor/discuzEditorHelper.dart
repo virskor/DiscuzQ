@@ -1,9 +1,4 @@
 import 'dart:ui';
-
-import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/utils/authHelper.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +9,9 @@ import 'package:discuzq/views/editor.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/utils/authHelper.dart';
 
 ///
 /// DiscuzEditorHelper

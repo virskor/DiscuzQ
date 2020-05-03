@@ -98,7 +98,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
       body: _buildBody(context),
     );
   }
-  
+
   ///
   /// 是否允许加载更多
   bool get _enablePullUp =>
@@ -143,22 +143,24 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
       return const DiscuzNoMoreData();
     }
 
-    return ListView(
-      children: _users.map((UserModel u) {
-        return UserListTile(user: u);
-      }).toList(),
+    return ListView.builder(
+      itemCount: _users.length,
+      itemBuilder: (BuildContext context, index) =>
+          UserListTile(user: _users[index]),
     );
   }
 
   ///
   /// 请求用户搜索结果
   Future<void> _requestData({BuildContext context, int pageNumber}) async {
-    if(_loading){
+    if (_loading) {
       return;
     }
 
-    if(pageNumber == 1){
-      _users.clear(); /// 要清空历史搜索数据，否则会重复渲染到UI
+    if (pageNumber == 1) {
+      _users.clear();
+
+      /// 要清空历史搜索数据，否则会重复渲染到UI
       setState(() {
         _continueToRead = false;
       });
@@ -202,6 +204,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
       _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
       _continueToRead = true;
       _users.addAll([...userModels]);
+
       /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
     });

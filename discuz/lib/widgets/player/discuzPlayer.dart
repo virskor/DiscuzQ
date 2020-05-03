@@ -17,9 +17,10 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: DiscuzCachedNetworkImage(
+      body: Center(child: DiscuzCachedNetworkImage(
         imageUrl: widget.video.attributes.coverUrl,
-      ),
+        fit: BoxFit.cover,
+      ),),
     );
   }
 }

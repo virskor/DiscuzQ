@@ -153,31 +153,34 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
     if (_users.length == 0) {
       return const DiscuzNoMoreData();
     }
+    return ListView.builder(
+        itemCount: _userFollows.length,
+        itemBuilder: (context, index) {
+          final UserFollowModel u = _userFollows[index];
 
-    return ListView(
-      children: _userFollows.map((UserFollowModel u) {
-        ///
-        /// 取出UserFollowModel关联的用户
-        final dynamic findRelatedUser =
-            widget.isToUser ? u.relationships.toUser : u.relationships.fromUser;
-        final int findRelatedUserID =
-            int.parse(findRelatedUser['data']['id'].toString());
+          ///
+          /// 取出UserFollowModel关联的用户
+          final dynamic findRelatedUser = widget.isToUser
+              ? u.relationships.toUser
+              : u.relationships.fromUser;
+          final int findRelatedUserID =
+              int.parse(findRelatedUser['data']['id'].toString());
 
-        /// 从数组中取出关联的用户
-        final List<UserModel> user =
-            _users.where((UserModel el) => el.id == findRelatedUserID).toList();
+          /// 从数组中取出关联的用户
+          final List<UserModel> user = _users
+              .where((UserModel el) => el.id == findRelatedUserID)
+              .toList();
 
-        if (user == null || user.length == 0) {
-          return const SizedBox();
-        }
+          if (user == null || user.length == 0) {
+            return const SizedBox();
+          }
 
-        return UserFollowListTile(
-          user: user.first,
-          userFollow: u,
-          isToUser: widget.isToUser,
-        );
-      }).toList(),
-    );
+          return UserFollowListTile(
+            user: user.first,
+            userFollow: u,
+            isToUser: widget.isToUser,
+          );
+        });
   }
 
   ///
@@ -231,7 +234,9 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
 
     setState(() {
       _loading = false;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber; /// pageNumber 在onload传入时已经自动加1
+      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+
+      /// pageNumber 在onload传入时已经自动加1
       _meta = MetaModel.fromMap(maps: resp.data['meta']);
     });
   }

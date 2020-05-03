@@ -140,24 +140,16 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       },
 
       /// 允许刷新
-      child: ListView(
-        shrinkWrap: true,
-        children: _buildCollectionsList(state: state),
+      child: ListView.builder(
+        itemCount: _threadsCacher.threads.length,
+        itemBuilder: (context, index) =>  ThreadCard(
+          threadsCacher: _threadsCacher,
+          thread: _threadsCacher.threads[index],
+          initiallyExpanded: true,
+        ),
       ),
     );
   }
-
-  ///
-  /// 构造收藏的列表
-  /// todo: 直接把主题列表做成一个组件好了，这样也不用每个地方一大堆代码
-  List<Widget> _buildCollectionsList({AppState state}) => _threadsCacher.threads
-      .map<Widget>(
-        (ThreadModel it) => ThreadCard(
-          threadsCacher: _threadsCacher,
-          thread: it,
-        ),
-      )
-      .toList();
 
   ///
   /// _requestData will get data from backend
