@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
@@ -16,8 +18,13 @@ class ThreadRequiredPayments extends StatelessWidget {
 
   const ThreadRequiredPayments({this.thread});
 
+  String get _paymentLabel =>
+      Platform.isIOS ? '包含受保护的内容，暂时无权限查看' : '该内容需要付费后才能浏览，请在网页端购买';
+
   @override
   Widget build(BuildContext context) {
+    ///
+    /// 已经支付，或者免费的内容则不提示
     if (thread.attributes.paid ||
         double.tryParse(thread.attributes.price) == 0) {
       return const SizedBox();
@@ -35,7 +42,7 @@ class ThreadRequiredPayments extends StatelessWidget {
         children: <Widget>[
           Center(
             child: DiscuzText(
-              '包含受保护的内容，暂时无权限查看',
+              _paymentLabel,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -49,7 +56,8 @@ class ThreadRequiredPayments extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              WebviewHelper.launchUrl(url: '${Global.domain}/details/${thread.id.toString()}');
+              WebviewHelper.launchUrl(
+                  url: '${Global.domain}/details/${thread.id.toString()}');
             },
           )
         ],
