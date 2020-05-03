@@ -53,7 +53,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 或者其他交互逻辑涉及调用 Authhelper.refreshUser 也会自动刷新的
     ///
     Future.delayed(Duration(milliseconds: 500))
-        .then((_) => _refreshStateOnly());
+        .then((_) => _refreshMessageList(context: context));
   }
 
   @override
@@ -84,7 +84,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                 children: <Widget>[
                   ///
                   /// 回复我的
-                  /// 
+                  ///
                   _notificationsSelection(
                     item: _NotificationMenuItem(
                         label: '回复我的',
@@ -108,7 +108,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                               badges: _typeUnreadNotifications.rewarded),
                         )
                       : const SizedBox(),
-                  
+
                   ///
                   /// 点赞我的
                   _notificationsSelection(
@@ -163,13 +163,8 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                         item.badges.toString(),
                         color: Colors.white,
                       ),
-                      animationType: BadgeAnimationType.fade,
+                      animationType: BadgeAnimationType.slide,
                       elevation: 0,
-                      child: const Icon(
-                        SFSymbols.chevron_right,
-                        color: const Color(0xFFDEDEDE),
-                        size: 20,
-                      ),
                     )
                   : const DiscuzListTileTrailing(),
             ),
@@ -191,6 +186,14 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   ///
   Future<void> _refreshMessageList(
       {BuildContext context, AppState state}) async {
+    if (state == null) {
+      try {
+        state = ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
+      } catch (e) {
+        print(e);
+      }
+    }
+
     final bool refreshed =
         await AuthHelper.refreshUser(context: context, state: state);
     if (!refreshed) {
@@ -205,14 +208,6 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   /// 仅刷新状态
   /// 页面initState 和 _refreshMessageList 都会刷新状态
   void _refreshStateOnly({AppState state}) {
-    if (state == null) {
-      try {
-        state = ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
-      } catch (e) {
-        print(e);
-      }
-    }
-
     ///
     /// 刷新列表
     /// 数据为空则不要继续
