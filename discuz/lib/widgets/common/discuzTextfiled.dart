@@ -6,28 +6,87 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 class DiscuzTextfiled extends StatelessWidget {
+  ///
+  /// 提交时校验的函数
   final Function validator;
+  ///
+  /// 允许最大的行数
   final int maxLines;
+  ///
+  /// TextEditingController 绑定
   final TextEditingController controller;
+  ///
+  /// placeholder 类似hintText
   final String placeHolder;
+  ///
+  /// 内容区缩进
   final EdgeInsetsGeometry contentPadding;
+  ///
+  /// 是否混淆输入的字符
+  /// 输入密码时设置为true
   final bool obscureText;
+  ///
+  /// 字号
   final double fontSize;
+  ///
+  /// 输入内容变化的 callback
+  /// (String val) => null
   final Function onChanged;
+  ///
+  /// 用户提交
   final Function onSubmit;
+  ///
+  /// 允许最大的长度
   final int maxLength;
+  ///
+  /// 自动聚焦
   final bool autofocus;
+  ///
+  /// 聚焦
   final FocusNode focusNode;
+  ///
+  /// 输入类型
   final TextInputType inputType;
+  ///
+  /// 输入行为
   final TextInputAction textInputAction;
+  ///
+  /// 变宽
+  /// 
   final double borderWidth;
+  ///
+  /// 移除底部缩进
+  /// 
   final bool removeBottomMargin;
+  ///
+  /// 颜色
+  /// 
   final Color color;
+  ///
+  /// 变色
+  /// 
   final Color borderColor;
+  ///
+  /// 底部缩进
   final double bottomMargin;
+  ///
+  /// 是否允许清空
+  /// 默认false
+  /// 
   final bool clearable;
+  ///
+  /// prefix icon
+  /// 默认不显示
+  /// 
   final DiscuzIcon prefixIcon;
+  ///
+  /// 被清除 callback
+  /// 
   final Function onClear;
+  ///
+  /// 自动更正
+  /// 默认 false
+  final bool autocorrect;
 
   DiscuzTextfiled(
       {Key key,
@@ -37,6 +96,7 @@ class DiscuzTextfiled extends StatelessWidget {
       this.contentPadding,
       this.fontSize,
       this.autofocus = false,
+      this.autocorrect = false,
       this.onChanged,
       this.focusNode,
       this.bottomMargin = 10,
@@ -79,6 +139,7 @@ class DiscuzTextfiled extends StatelessWidget {
             maxLength: maxLength,
             showCursor: true,
             enableSuggestions: false,
+            autocorrect: autocorrect,
             decoration: InputDecoration(
                 prefixIcon: prefixIcon == null
                     ? null
