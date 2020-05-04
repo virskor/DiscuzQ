@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/threads/payments/threadRequiredPayments.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
@@ -297,11 +298,10 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                           /// 调整数组，将targetUrl置于第一个，然后传入图集组件
                           originalImageUrls.remove(a.attributes.url);
                           originalImageUrls.insert(0, a.attributes.url);
-                          return showCupertinoDialog(
+                          return DiscuzRoute.open(
                               context: context,
-                              builder: (BuildContext context) =>
-                                  DiscuzGalleryDelegate(
-                                      gallery: originalImageUrls));
+                              widget: DiscuzGalleryDelegate(
+                                  gallery: originalImageUrls));
                         }),
                   ))
               .toList(),
@@ -319,8 +319,10 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
           ///
           /// 是否需要支付后才能查看
-          /// 
-          ThreadRequiredPayments(thread: widget.thread,),
+          ///
+          ThreadRequiredPayments(
+            thread: widget.thread,
+          ),
 
           /// 显示帖子 评论 收藏 分享等
           PostDetBot(

@@ -130,7 +130,8 @@ class _AvatarPickerState extends State<AvatarPicker> {
       close();
 
       DiscuzToast.show(
-          context: context, message: result == true ? '头像上传成功' : '上传失败，可能是网络问题，请重试。');
+          context: context,
+          message: result == true ? '头像上传成功' : '上传失败，可能是网络问题，请重试。');
       if (result == true) {
         if (widget.onSuccess != null) {
           widget.onSuccess();
@@ -166,14 +167,13 @@ class _AvatarPickerState extends State<AvatarPicker> {
         Directory appDocDir = await getTemporaryDirectory();
         File compressedFile = await compressAndGetFile(
             imageFile, appDocDir.path + path.basename(imageFile.path));
-        Response resp = await Request(context: context).uploadFile(
+        final Response resp = await Request(context: context).uploadFile(
             url: "${Urls.users}/${state.user.id.toString()}/avatar",
             name: 'avatar',
 
             /// 上传头像
-            file: MultipartFile.fromFileSync(compressedFile.path,
-                filename: path.basename(compressedFile.path)));
-
+            file: MultipartFile.fromFileSync(compressedFile.path));
+        
         if (resp == null) {
           return Future.value(false);
         }

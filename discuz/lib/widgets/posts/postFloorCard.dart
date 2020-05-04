@@ -139,11 +139,10 @@ class PostFloorCard extends StatelessWidget {
                           /// 调整数组，将targetUrl置于第一个，然后传入图集组件
                           originalImageUrls.remove(a.attributes.url);
                           originalImageUrls.insert(0, a.attributes.url);
-                          return showCupertinoDialog(
+                          return DiscuzRoute.open(
                               context: context,
-                              builder: (BuildContext context) =>
-                                  DiscuzGalleryDelegate(
-                                      gallery: originalImageUrls));
+                              widget: DiscuzGalleryDelegate(
+                                  gallery: originalImageUrls));
                         }),
                   ))
               .toList(),

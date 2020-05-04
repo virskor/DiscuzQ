@@ -429,22 +429,25 @@ class Request {
       Function onSendProgress}) async {
     Response resp;
 
-    final FormData formData = FormData.fromMap({name: file, ...data});
+    final FormData formData = data == null
+        ? FormData.fromMap({name: file})
+        : FormData.fromMap({name: file, ...data});
 
     try {
       resp = await _dio.post(url,
           data: formData,
           queryParameters: queryParameters,
           onReceiveProgress: onReceiveProgress,
-          onSendProgress: onSendProgress);
+          onSendProgress: onSendProgress,
+          options: Options(contentType: _contentFormData));
+
+      resp.data = await _temporaryTransformer(resp.data);
+
+      return Future.value(resp);
     } catch (e) {
       print(e);
       return Future.value(null);
     }
-
-    resp.data = await _temporaryTransformer(resp.data);
-
-    return Future.value(resp);
   }
 
   /// 这是一个临时用的transformer
