@@ -7,6 +7,7 @@ import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/widgets/common/discuzImage.dart';
 import 'package:discuzq/views/gallery/discuzGalleryDelegate.dart';
+import 'package:discuzq/router/route.dart';
 
 ///
 /// 帖子9宫格图片预览组件
@@ -28,7 +29,9 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
   final ThreadModel thread;
 
   ThreadGalleriesSnapshot(
-      {@required this.threadsCacher, @required this.firstPost, @required this.thread });
+      {@required this.threadsCacher,
+      @required this.firstPost,
+      @required this.thread});
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +90,10 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                             /// 调整数组，将targetUrl置于第一个，然后传入图集组件
                             originalImageUrls.remove(targetUrl);
                             originalImageUrls.insert(0, targetUrl);
-                            return showCupertinoDialog(
+                            return DiscuzRoute.open(
                                 context: context,
-                                builder: (BuildContext context) =>
-                                    DiscuzGalleryDelegate(gallery: originalImageUrls));
+                                widget: DiscuzGalleryDelegate(
+                                    gallery: originalImageUrls));
                           }),
                     ))
               .toList(),
