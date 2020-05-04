@@ -143,4 +143,9 @@ class Urls {
   /// 和 视频模型的 fileID 拼接URL 获取播放文件信息
   /// videoFileInfo/qcloud_vod_sub_app_id/fileID
   static String videoPlayInfo = "https://playvideo.qcloud.com/getplayinfo/v2/";
+
+  ///
+  /// github changelog
+  /// 
+  static String changelog = 'https://github.com/virskor/DiscuzQ/blob/master/CHANGELOG.md';
 }

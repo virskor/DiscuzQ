@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
@@ -7,8 +10,6 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/webview/webviewHelper.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 class ThreadRequiredPayments extends StatelessWidget {
   ///
@@ -16,8 +17,10 @@ class ThreadRequiredPayments extends StatelessWidget {
   ///
   final ThreadModel thread;
 
-  const ThreadRequiredPayments({this.thread});
+  const ThreadRequiredPayments({@required this.thread});
 
+  ///
+  /// ios下，提示不应该涉及金融内容
   String get _paymentLabel =>
       Platform.isIOS ? '包含受保护的内容，暂时无权限查看' : '该内容需要付费后才能浏览，请在网页端购买';
 

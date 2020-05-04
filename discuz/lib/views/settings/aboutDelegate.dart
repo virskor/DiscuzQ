@@ -57,8 +57,7 @@ class _AboutDelegateState extends State<AboutDelegate> {
 
                   ///
                   /// app logo
-                  Container(
-                    padding: const EdgeInsets.all(10),
+                  Center(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -74,26 +73,6 @@ class _AboutDelegateState extends State<AboutDelegate> {
                         const SizedBox(
                           height: 50,
                         ),
-                        DiscuzText(
-                          state.forum.attributes.setSite.siteName,
-                          fontWeight: FontWeight.bold,
-                          textScaleFactor: 2,
-                        ),
-
-                        ///
-                        /// Flutter DiscuzQ是免费的，但你需要声明使用
-                        /// 如果移除版权信息，你可能面临诉讼
-                        const DiscuzText('基于DiscuzQ和Flutter for DiscuzQ'),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        DiscuzButton(
-                          color: Colors.transparent,
-                          labelColor: DiscuzApp.themeOf(context).primaryColor,
-                          label: '查看更多站点信息',
-                          onPressed: () => WebviewHelper.launchUrl(
-                              url: "${Global.domain}/circle-info"),
-                        )
                       ],
                     ),
                   )

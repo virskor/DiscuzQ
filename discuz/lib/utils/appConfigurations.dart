@@ -13,6 +13,8 @@ class AppConfigurations {
     "themeColor": 0xFF316598,
     "fontWidthFactor": 0.95,
     "showPerformanceOverlay": false,
+    "autoplay": true,
+    "hideContentRequirePayments": true,
   };
 
   Future<bool> update(

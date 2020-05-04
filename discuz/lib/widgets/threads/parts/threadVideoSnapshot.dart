@@ -123,5 +123,6 @@ class ThreadVideoSnapshot extends StatelessWidget {
           context: context,
           widget: DiscuzPlayer(
             video: video,
+            thread: thread,
           ));
 }

@@ -19,6 +19,12 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzExpansionTile.dart';
 import 'package:discuzq/utils/StringHelper.dart';
+import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/states/scopedState.dart';
+
+///
+/// flat title length to substr
+const int _kFlatTitleLength = 15;
 
 ///
 /// 主题卡片
@@ -62,6 +68,13 @@ class _ThreadCardState extends State<ThreadCard> {
   /// firstPost 指定的是主题第一个帖子，其他的是回复
   PostModel _firstPost = PostModel();
 
+  ///
+  /// 是否需要支付才能查看
+  bool get _requiredPaymentToPlay => widget.thread.attributes.paid ||
+          double.tryParse(widget.thread.attributes.price) == 0
+      ? false
+      : true;
+
   @override
   void initState() {
     super.initState();
@@ -87,34 +100,57 @@ class _ThreadCardState extends State<ThreadCard> {
   ///
   /// Build 卡片的的过程中需要注意的是，如果主题顶置，则需要支持收起
   @override
-  Widget build(BuildContext context) => RepaintBoundary(
-      child: widget.thread.attributes.isSticky
-          ? _buildExpansion()
-          : _buildThreadCard(context));
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+      rebuildOnChange: false,
+      builder: (context, child, state) => RepaintBoundary(
+            child: _buildCard(state: state, context: context),
+          ));
+
+  ///
+  /// 生成内容
+  /// 实际上，我们会收起顶置的帖子
+  /// 其次，如果用户设置了收起付费的帖子，他们也会被折叠，但用不同的颜色提示
+  Widget _buildCard({BuildContext context, AppState state}) {
+    if (widget.thread.attributes.isSticky) {
+      return _buildExpansion(context);
+    }
+
+    return state.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
+        ? _buildExpansion(context)
+        : _buildThreadCard(context);
+  }
 
   ///
   /// 生成简单的标题，取固定值
   ///
   String get _flatTitle => widget.thread.attributes.title != ''
       ? widget.thread.attributes.title
-      : "${_firstPost.attributes.content.substring(0, 15)}...";
+      : _firstPost.attributes.content.length <= _kFlatTitleLength
+          ? _firstPost.attributes.content
+          : "${_firstPost.attributes.content.substring(0, _kFlatTitleLength)}...";
 
   ///
   /// 可收起的主题
   ///
-  Widget _buildExpansion() => DiscuzExpansionTile(
-      initiallyExpanded: widget.initiallyExpanded,
-      title: DiscuzText(
-        _flatTitle,
-        fontWeight: FontWeight.bold,
-      ),
-      leading: const DiscuzIcon(
-        0xe70f,
-        size: 20,
-        withOpacity: true,
-      ),
-      backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
-      children: <Widget>[_buildThreadCard(context)]);
+  Widget _buildExpansion(BuildContext context) {
+    final Widget leadingIcon = DiscuzIcon(
+      widget.thread.attributes.isSticky
+          ? 0xe70f
+          : SFSymbols.money_dollar_circle_fill,
+      size: widget.thread.attributes.isSticky ? 20 : 25,
+      withOpacity: true,
+    );
+
+    return DiscuzExpansionTile(
+        initiallyExpanded: widget.initiallyExpanded,
+        title: DiscuzText(
+          _flatTitle,
+          fontWeight: FontWeight.bold,
+        ),
+        leading: leadingIcon,
+        backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+        children: <Widget>[_buildThreadCard(context)]);
+  }
 
   ///
   /// 构建帖子卡片
@@ -128,11 +164,6 @@ class _ThreadCardState extends State<ThreadCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const DiscuzDivider(
-              padding: 0,
-            ),
-            const SizedBox(height: 10),
-
             ///
             /// 主题顶部的用户信息
             ThreadHeaderCard(
@@ -184,7 +215,7 @@ class _ThreadCardState extends State<ThreadCard> {
                           threadsCacher: widget.threadsCacher,
                           thread: widget.thread,
                           post: _firstPost,
-                        )
+                        ),
                 ],
               ),
             ),
@@ -205,6 +236,9 @@ class _ThreadCardState extends State<ThreadCard> {
               thread: widget.thread,
               author: _author,
             ),
+            const SizedBox(height: 10),
+            const DiscuzDivider(padding: 0),
+            const SizedBox(height: 10),
           ],
         ),
       );
@@ -228,14 +262,15 @@ class _ThreadCardState extends State<ThreadCard> {
                   children: [
                     Container(
                       child: DiscuzText(
-                        widget.thread.attributes.title.length <= 15
+                        widget.thread.attributes.title.length <=
+                                _kFlatTitleLength
                             ? widget.thread.attributes.title
-                            : "${widget.thread.attributes.title.substring(0, 15)}...",
+                            : "${widget.thread.attributes.title.substring(0, _kFlatTitleLength)}...",
                         fontWeight: FontWeight.bold,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    DiscuzIcon(SFSymbols.doc_plaintext),
+                    const DiscuzIcon(SFSymbols.doc_plaintext),
                   ],
                 ),
               )
