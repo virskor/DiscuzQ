@@ -17,7 +17,7 @@ class ThreadRequiredPayments extends StatelessWidget {
   ///
   final ThreadModel thread;
 
-  const ThreadRequiredPayments({this.thread});
+  const ThreadRequiredPayments({@required this.thread});
 
   ///
   /// ios下，提示不应该涉及金融内容

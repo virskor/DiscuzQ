@@ -1,6 +1,3 @@
-import 'package:discuzq/utils/buildInfo.dart';
-import 'package:discuzq/utils/request/urls.dart';
-import 'package:discuzq/widgets/webview/webviewHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -14,6 +11,9 @@ import 'package:discuzq/widgets/settings/clearCache.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/settings/aboutDelegate.dart';
+import 'package:discuzq/utils/buildInfo.dart';
+import 'package:discuzq/utils/request/urls.dart';
+import 'package:discuzq/widgets/webview/webviewHelper.dart';
 
 class PreferencesDelegate extends StatefulWidget {
   const PreferencesDelegate({Key key}) : super(key: key);
@@ -79,6 +79,11 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                       settinKey: 'autoplay',
                       icon: SFSymbols.videocam_circle,
                       label: '自动播放视频',
+                    ),
+                    const SettingSwitcher(
+                      settinKey: 'hideContentRequirePayments',
+                      icon: SFSymbols.money_dollar_circle,
+                      label: '收起受保护的内容',
                     ),
                     SettingTile(
                       icon: SFSymbols.square_stack_3d_down_dottedline,

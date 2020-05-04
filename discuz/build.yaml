@@ -35,7 +35,7 @@ development:
   #
   # Financial fatures
   # Set this item into FALSE, wallet and financial amount will be displayed
-  financial: false 
+  financial: true 
 
 # 构建生产环境的APP时加载的信息
 # Parameters for building prodution package
