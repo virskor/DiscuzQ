@@ -1,10 +1,11 @@
 # 更新记录与变化
 
 ### build 47
-2020-05-10  
+2020-05-08
 优化了APP启动加载速度  
 布局相关调整  
-重构 关于APP 页面  
+更新Flutter部分outdated依赖  
+关于APP增加Build info
 
 ### build 45
 2020-05-04  
