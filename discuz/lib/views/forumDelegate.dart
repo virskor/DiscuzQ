@@ -6,8 +6,6 @@ import 'package:discuzq/widgets/forum/floatLoginButton.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/common/discuzNetworkError.dart';
-import 'package:discuzq/widgets/forum/bootstrapForum.dart';
 import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/states/scopedState.dart';
@@ -25,10 +23,6 @@ class ForumDelegate extends StatefulWidget {
 
 class _ForumDelegateState extends State<ForumDelegate>
     with AutomaticKeepAliveClientMixin {
-  /// states
-  /// _loaded means user forum api already requested! not means success or fail to load data
-  bool _loaded = false;
-
   ///
   /// _showAppbar
   /// 是否隐藏appbar
@@ -58,7 +52,6 @@ class _ForumDelegateState extends State<ForumDelegate>
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
-    this._getForumData();
   }
 
   @override
@@ -66,7 +59,7 @@ class _ForumDelegateState extends State<ForumDelegate>
     super.build(context);
 
     return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: true,
+        rebuildOnChange: false,
         builder: (context, child, state) => Scaffold(
               appBar: _showAppbar
                   ? DiscuzAppBar(
@@ -117,9 +110,6 @@ class _ForumDelegateState extends State<ForumDelegate>
                           },
                         ),
 
-                  /// 是否显示网络错误组件
-                  _buildNetwordError(state),
-
                   /// 显示底部悬浮登录提示组件
                   Positioned(
                     bottom: 20,
@@ -135,29 +125,4 @@ class _ForumDelegateState extends State<ForumDelegate>
             ));
   }
 
-  /// 创建网络错误提示组件，尽在加载失败的时候提示
-  Widget _buildNetwordError(AppState state) => _loaded && state.forum == null
-      ? Center(
-          child: DiscuzNetworkError(
-            onRequestRefresh: () => _getForumData(force: true),
-          ),
-        )
-      : const SizedBox();
-
-  /// 获取论坛启动信息
-  /// force 为true时，会忽略_loaded
-  /// 如果在初始化的时候将loaded设置为true, 则会导致infinite loop
-  Future<void> _getForumData({bool force = false}) async {
-    /// 避免重复加载
-    if (_loaded && !force) {
-      return;
-    }
-
-    await BootstrapForum(context).getForum();
-
-    /// 加载完了就可以将_loaded 设置为true了其实，因为_loaded只做是否请求过得判断依据
-    setState(() {
-      _loaded = true;
-    });
-  }
 }

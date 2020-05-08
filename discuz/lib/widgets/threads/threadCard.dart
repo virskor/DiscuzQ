@@ -143,6 +143,7 @@ class _ThreadCardState extends State<ThreadCard> {
 
     return DiscuzExpansionTile(
         initiallyExpanded: widget.initiallyExpanded,
+        dense: true,
         title: DiscuzText(
           _flatTitle,
           fontWeight: FontWeight.bold,
@@ -156,7 +157,7 @@ class _ThreadCardState extends State<ThreadCard> {
   /// 构建帖子卡片
   ///
   Widget _buildThreadCard(BuildContext context) => Container(
-        padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+        padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10,top: 10),
         decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
         ),
@@ -236,8 +237,6 @@ class _ThreadCardState extends State<ThreadCard> {
               thread: widget.thread,
               author: _author,
             ),
-            const SizedBox(height: 10),
-            const DiscuzDivider(padding: 0),
             const SizedBox(height: 10),
           ],
         ),

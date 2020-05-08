@@ -83,18 +83,15 @@ class ThreadVideoSnapshot extends StatelessWidget {
       GestureDetector(
         onTap: () => _play(context: context, video: video),
         child: Container(
-          alignment: Alignment.center,
+          alignment: Alignment.centerLeft,
           height: _kVideoSnapshotHeight,
           child: Stack(
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: const BorderRadius.all(const Radius.circular(5)),
-                child: DiscuzCachedNetworkImage(
-                  imageUrl: video.attributes.coverUrl,
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
-                ),
+              DiscuzCachedNetworkImage(
+                imageUrl: video.attributes.coverUrl,
+                //width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
               ),
               Positioned(
                   left: 0,

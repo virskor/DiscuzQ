@@ -17,8 +17,6 @@ https://discuzapp.xyz
 
 ### 实现目标
 基本上和官方版本是保持一致的，只是会增加黑暗模式，主题颜色，字体大小等设置罢了。
-* 考虑接入腾讯云短视频SDK
-If you have any question about this project, follow and post an issue. I will consit to write this application.
 
 ## 限制
 现在的版本还有一些限制，并且这些限制需要后续的版本中逐渐更新来解决，不意味着不会被解决。这是因为APP上架策略，或者现有的SDK暂时不能支持，需要自行封装等。  
@@ -31,6 +29,7 @@ If you have any question about this project, follow and post an issue. I will co
 
 ### 贡献
 他们参与了这个项目，并为此做出贡献，排名不分先后  
+#### 编译相关
 [奶罩大佬 提供了自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
 
 
@@ -92,7 +91,7 @@ void dispose() {
 首先，要确认你的Flutter版本
 ```yaml
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: ">=2.8.0 <3.0.0"
 ```
 
 ```
@@ -101,9 +100,8 @@ targetSdkVersion 29
 ```
 你可以使用命令行开启调试，如果你使用android studio，你可以直接运行。  
 不过在此之前值得说明的是，如果你的网络不能正常快速访问一些技术类网站，建议你使用pub国内源，你可以搜索找到配置的方式。  
-现阶段的调试，至少要beta以上版本，或者dev。因为我们采用了最新的Flutter特性，以便后续不用调整一些代码。即Flutter v1.15 +
+请使用最新版的Flutter，即Flutter v1.17 +
 ```sh
-flutter channel beta
 cd ./discuz
 flutter run
 ```
@@ -111,6 +109,7 @@ flutter run
 
 ### 使用不同的信息来作用在开发和生产环境
 在生产或者开发时你可能需要访问不同的业务后端域名。现在你可以更改或者输入下面的信息到 ./discuz/build.yaml。但在这之前请先打开 ./discuz/build.yaml中的文件描述，来确定这些设置的作用或者关于风险的描述。   
+你可能需要在git repo上面的discuz/build.yaml查找更多可以支持的设置，下面的代码仅展示部分设置。  
 每个项目都不可以缺少下面的配置信息，其他的信息可以忽略，或者在后面不断开发的过程中你可以自定义。  
 实际上build的过程中，你可以在build script构建过程中重新生成一个build.yaml完成快速构建，这个build.yaml在生产时仅需要包含production 下配置描述，或者只选其中一个选项来覆盖APP默认BuildInfo模型的数据。  
 https://self-signed.badssl.com/
@@ -167,6 +166,7 @@ sudo rm -rf Podfile.lock
 pod install #手动安装IOS相关依赖
 ```
 推荐直接打开discuz目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看discuz目录下的PROBLEMS
+
 ## 生成发布
 可能有的开发者刚开始接触Flutter按照上面的指引运行起来APP后顿时感觉卡顿，实际上flutter run是运行的Debug模式，Debug下性能表现和Release是有很大差异的。如果体验用于生产的，应该使用下面的命令。
 R8 是谷歌推出的最新代码压缩器，当你打包 release 版本的 APK 或者 AAB 时会默认开启。要关闭 R8，请向 flutter build apk 或 flutter build appbundle 传 --no-shrink 标志。
@@ -175,50 +175,9 @@ flutter build apk --release --no-shrink
 ```
 
 因IOS为提供签名flutter build ios无法build,这时需要使用xcode来archive，而不是使用Flutter build. 而IOS 参考自动化构建所需要的。
-```yaml
-- run:
-    command: bundle install
-    working_directory: ios
-- run:
-    name: Install CocoaPods Version
-    command: sudo gem install cocoapods
-- run:
-    working_directory: ios
-    command: pod setup
-- run:
-    name: Run pod install
-    working_directory: ios
-    command: pod install
-- run:
-    name: Update CocoaPods
-    working_directory: ios
-    command: pod update
-- save_cache:
-    key: bundle-v2-{{ checksum "ios/Gemfile" }}-{{ arch }}
-    paths:
-      - vendor/bundle
-- run:
-    name: Fastlane Match (certificates and provisioning profiles)
-    working_directory: ios
-    command: bundle exec fastlane setup_match_prod
-- run:
-    command: flutter clean
-- run:
-    command: flutter build ios --release --flavor production --no-codesign --verbose
-    no_output_timeout: 20m
-- run:
-    name: Create archive
-    working_directory: ios
-    command: xcodebuild -workspace ./Runner.xcworkspace -configuration Release-production -scheme production -destination 'generic/platform=iOS' -archivePath build/ios/iphoneos/Runner.xcarchive archive -allowProvisioningUpdates
-    no_output_timeout: 20m
-- run:
-    name: Create IPA
-    working_directory: ios
-    command: xcodebuild -exportArchive -archivePath build/ios/iphoneos/Runner.xcarchive -exportPath build/ios/iphoneos -exportOptionsPlist exportOptions-prod.plist
-    no_output_timeout: 20m
-- store_artifacts:
-    path: ios/build
-```
+
+[参考编译文档](https://discuzapp.xyz/docs/build.html#ios%E7%BC%96%E8%AF%91)在之前，还是推荐使用[奶罩大佬的CI](https://github.com/naizhao/Build-Discuz-Q-Flutter)进行编译。
+
 
 ### 源相关
 如果你无法Build，那么你可能需要更改Gradle 源 pub源，关于Pub源，建议搜索 flutter China相关内容。 gradle源，则需要注意下面的信息。  

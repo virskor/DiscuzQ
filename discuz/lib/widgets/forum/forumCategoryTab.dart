@@ -179,6 +179,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               unselectedLabelColor:
                   DiscuzApp.themeOf(context).textColor, //niceish grey
               isScrollable: true, //up to your taste
+              indicatorPadding: const EdgeInsets.all(0),
               indicator: MD2Indicator(
                   //it begins here
                   indicatorHeight: 2,
