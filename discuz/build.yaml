@@ -17,6 +17,8 @@ development:
   # YOUR DOMAIN SHOULD NEVER ENDED WITH PATH SEPARATOR LIKE : https://www.example.com/
   domain: https://discuz.chat
   appname: DiscuzQ
+  # Allow to show checked mode banner
+  debugShowCheckedModeBanner: true
   # Allow and show performance overlay setting
   enablePerformanceOverlay: true
   # HTTP2
@@ -44,6 +46,8 @@ production:
   appname: DiscuzQ
   ## DO NOT ENABLE THIS ITEM WHEN YOU ARE BUILD AN APPLICATION FOR YOUR USERS
   enablePerformanceOverlay: false
+  ## DO NOT ENABLE THIS ITEM WHEN YOU ARE BUILD AN APPLICATION FOR YOUR USERS
+  debugShowCheckedModeBanner: false
   # HTTP2
   enableHttp2: false
   onBadCertificate: true 

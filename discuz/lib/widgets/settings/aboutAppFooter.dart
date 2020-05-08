@@ -36,6 +36,12 @@ class AboutAppFooter extends StatelessWidget {
                     fontSize: DiscuzApp.themeOf(context).miniTextSize,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  DiscuzText(
+                    'Powered by Discuz!Q & Disucz!Q for Flutter',
+                    color: DiscuzApp.themeOf(context).greyTextColor,
+                    fontSize: DiscuzApp.themeOf(context).miniTextSize,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),

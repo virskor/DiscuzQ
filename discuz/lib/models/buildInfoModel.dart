@@ -11,6 +11,10 @@ class BuildInfoModel {
   ///
   /// APP名称
   final String appname;
+  
+  ///
+  /// 是否显示pdebugShowCheckedModeBanner
+  final bool debugShowCheckedModeBanner;
 
   ///
   /// 是否显示performance Overlay
@@ -40,6 +44,7 @@ class BuildInfoModel {
       this.onBadCertificate = true,
       this.financial = false,
       this.idleTimeout = 15000,
+      this.debugShowCheckedModeBanner = false,
       this.enablePerformanceOverlay = false});
 
   ///
@@ -69,6 +74,7 @@ class BuildInfoModel {
         onBadCertificate: data['onBadCertificate'] ?? true,
         idleTimeout: data['idleTimeout'] ?? 15000,
         financial: data['financial'] ?? false,
+        debugShowCheckedModeBanner: data['debugShowCheckedModeBanner'] ?? false,
         enablePerformanceOverlay: data['enablePerformanceOverlay'] ?? false);
   }
 }

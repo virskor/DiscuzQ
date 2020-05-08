@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/widgets/webview/webviewHelper.dart';
-import 'package:discuzq/widgets/common/discuzButton.dart';
 import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/settings/aboutAppFooter.dart';
+import 'package:discuzq/widgets/common/discuzIndicater.dart';
 
 class AboutDelegate extends StatefulWidget {
   const AboutDelegate({Key key}) : super(key: key);
@@ -19,6 +19,9 @@ class AboutDelegate extends StatefulWidget {
 }
 
 class _AboutDelegateState extends State<AboutDelegate> {
+  /// state
+  PackageInfo _packageInfo;
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -30,6 +33,8 @@ class _AboutDelegateState extends State<AboutDelegate> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration(milliseconds: 400))
+        .then((_) => this._getPackageInfo());
   }
 
   @override
@@ -57,29 +62,56 @@ class _AboutDelegateState extends State<AboutDelegate> {
 
                   ///
                   /// app logo
-                  Center(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                            width: 200,
-                            child: state.forum.attributes.setSite.siteLogo == ''
-                                ? const DiscuzAppLogo()
-                                : CachedNetworkImage(
-                                    imageUrl:
-                                        state.forum.attributes.setSite.siteLogo,
-                                  )),
-                        const SizedBox(
-                          height: 50,
+                  ListView(
+                    padding: const EdgeInsets.only(top: 100),
+                    children: <Widget>[
+                      SizedBox(
+                          width: 120,
+                          child: state.forum.attributes.setSite.siteLogo == ''
+                              ? const DiscuzAppLogo()
+                              : CachedNetworkImage(
+                                  imageUrl:
+                                      state.forum.attributes.setSite.siteLogo,
+                                )),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      Center(
+                        child: DiscuzText(
+                          state.forum.attributes.setSite.siteName,
+                          fontWeight: FontWeight.bold,
+                          fontSize: DiscuzApp.themeOf(context).mediumTextSize,
                         ),
-                      ],
-                    ),
-                  )
-
-                  ///_buildBody(),
+                      ),
+                      Center(
+                        child: _buildPackageInfoNitice(),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
           ));
+
+  ///
+  /// 版本信息
+  Widget _buildPackageInfoNitice() {
+    if (_packageInfo == null) {
+      return const DiscuzIndicator();
+    }
+
+    return Container(
+      child: DiscuzText(
+          '版本信息： ${_packageInfo.version}+${_packageInfo.buildNumber}'),
+    );
+  }
+
+  ///
+  /// 获取APP package信息
+  Future<void> _getPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
 }

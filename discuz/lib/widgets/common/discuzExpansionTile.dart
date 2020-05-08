@@ -37,9 +37,14 @@ class DiscuzExpansionTile extends StatefulWidget {
     this.onExpansionChanged,
     this.children = const <Widget>[],
     this.trailing,
+    this.dense = false,
     this.initiallyExpanded = false,
   }) : assert(initiallyExpanded != null),
        super(key: key);
+
+  /// Dense
+  /// 
+  final bool dense;
 
   /// A widget to display before the title.
   ///
@@ -164,6 +169,7 @@ class _DiscuzExpansionTileState extends State<DiscuzExpansionTile> with SingleTi
               onTap: _handleTap,
               leading: widget.leading,
               title: widget.title,
+              dense: widget.dense,
               subtitle: widget.subtitle,
               trailing: widget.trailing ?? RotationTransition(
                 turns: _iconTurns,

@@ -13,7 +13,7 @@ import 'package:discuzq/models/siteRegModel.dart';
 class ForumModel {
   final ForumAttributesModel attributes;
 
-  const ForumModel({this.attributes});
+  const ForumModel({this.attributes = const ForumAttributesModel()});
 
   ///
   /// fromMap

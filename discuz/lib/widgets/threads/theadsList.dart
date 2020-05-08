@@ -5,7 +5,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/models/categoryModel.dart';
-import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
@@ -105,6 +104,10 @@ class _ForumCategoryState extends State<ThreadsList> {
   void didUpdateWidget(ThreadsList oldWidget) {
     super.didUpdateWidget(oldWidget);
 
+    if (oldWidget == null) {
+      return;
+    }
+
     ///
     /// 如果 filter 发生变化，和上次filter不同那么就是发生变化
     /// 这时候刷新请求变化
@@ -174,9 +177,8 @@ class _ForumCategoryState extends State<ThreadsList> {
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, state) => RepaintBoundary(
-            child: _body(context: context, state: state),
-          ));
+      builder: (context, child, state) =>
+          _body(context: context, state: state));
 
   /// build body
   Widget _body({@required BuildContext context, @required AppState state}) =>

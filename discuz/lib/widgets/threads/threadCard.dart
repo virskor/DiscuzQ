@@ -143,6 +143,7 @@ class _ThreadCardState extends State<ThreadCard> {
 
     return DiscuzExpansionTile(
         initiallyExpanded: widget.initiallyExpanded,
+        dense: true,
         title: DiscuzText(
           _flatTitle,
           fontWeight: FontWeight.bold,
@@ -156,7 +157,8 @@ class _ThreadCardState extends State<ThreadCard> {
   /// 构建帖子卡片
   ///
   Widget _buildThreadCard(BuildContext context) => Container(
-        padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+        padding:
+            const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 10),
         decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
         ),
@@ -237,8 +239,6 @@ class _ThreadCardState extends State<ThreadCard> {
               author: _author,
             ),
             const SizedBox(height: 10),
-            const DiscuzDivider(padding: 0),
-            const SizedBox(height: 10),
           ],
         ),
       );
@@ -261,16 +261,21 @@ class _ThreadCardState extends State<ThreadCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      child: DiscuzText(
-                        widget.thread.attributes.title.length <=
-                                _kFlatTitleLength
-                            ? widget.thread.attributes.title
-                            : "${widget.thread.attributes.title.substring(0, _kFlatTitleLength)}...",
-                        fontWeight: FontWeight.bold,
-                        overflow: TextOverflow.ellipsis,
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        children: <Widget>[
+                          DiscuzText(
+                            widget.thread.attributes.title.length <=
+                                    _kFlatTitleLength
+                                ? widget.thread.attributes.title
+                                : "${widget.thread.attributes.title.substring(0, _kFlatTitleLength)}...",
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const DiscuzIcon(SFSymbols.doc_plaintext),
+                        ],
                       ),
                     ),
-                    const DiscuzIcon(SFSymbols.doc_plaintext),
                   ],
                 ),
               )

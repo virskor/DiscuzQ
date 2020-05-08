@@ -12,6 +12,10 @@ import 'package:discuzq/views/accountDelegate.dart';
 import 'package:discuzq/views/forumDelegate.dart';
 import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';
 import 'package:discuzq/views/notificationsDelegate.dart';
+import 'package:discuzq/widgets/common/discuzNetworkError.dart';
+import 'package:discuzq/widgets/forum/bootstrapForum.dart';
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/states/appState.dart';
 
 class Discuz extends StatefulWidget {
   const Discuz({Key key}) : super(key: key);
@@ -48,7 +52,8 @@ class _DiscuzState extends State<Discuz> {
             theme: _buildTheme(state),
             child: MaterialApp(
               title: Global.appname,
-              debugShowCheckedModeBanner: false,
+              debugShowCheckedModeBanner:
+                  BuildInfo().info().debugShowCheckedModeBanner,
 
               /// 如果用户在Build.yaml禁止了这项，这直接不要允许开启
               showPerformanceOverlay:
@@ -62,7 +67,21 @@ class _DiscuzState extends State<Discuz> {
                   /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
                   /// 这样会造成黑暗模式切换时有问题
                   builder: (BuildContext context) => Theme(
+                        // This is the theme of your application.
+                        //
+                        // Try running your application with "flutter run". You'll see the
+                        // application has a blue toolbar. Then, without quitting the app, try
+                        // changing the primarySwatch below to Colors.green and then invoke
+                        // "hot reload" (press "r" in the console where you ran "flutter run",
+                        // or simply save your changes to "hot reload" in a Flutter IDE).
+                        // Notice that the counter didn't reset back to zero; the application
+                        // is not restarted.
                         data: ThemeData(
+                            // This makes the visual density adapt to the platform that you run
+                            // the app on. For desktop platforms, the controls will be smaller and
+                            // closer together (more dense) than on mobile platforms.
+                            visualDensity:
+                                VisualDensity.adaptivePlatformDensity,
                             primaryColor:
                                 DiscuzApp.themeOf(context).primaryColor,
                             splashColor: DiscuzApp.themeOf(context).splashColor,
@@ -154,6 +173,9 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// states
   int _selected = 0;
 
+  /// _loaded means user forum api already requested! not means success or fail to load data
+  bool _loaded = false;
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -164,6 +186,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
 
   @override
   void initState() {
+    this._getForumData();
     super.initState();
   }
 
@@ -173,16 +196,42 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: _views.elementAt(_selected),
-      bottomNavigationBar: DiscuzBottomNavigator(
-        items: _items,
-        onItemSelected: (index) => setState(() {
-          _selected = index;
-        }),
-      ),
-    );
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+      rebuildOnChange: false,
+      builder: (context, child, state) => Scaffold(
+            key: _scaffoldKey,
+            body: _buildAppElement(state),
+            bottomNavigationBar: DiscuzBottomNavigator(
+              items: _items,
+              onItemSelected: (index) => setState(() {
+                _selected = index;
+              }),
+            ),
+          ));
+
+  /// 创建网络错误提示组件，尽在加载失败的时候提示
+  Widget _buildAppElement(AppState state) => _loaded && state.forum == null
+      ? Center(
+          child: DiscuzNetworkError(
+            onRequestRefresh: () => _getForumData(force: true),
+          ),
+        )
+      : _views.elementAt(_selected);
+
+  /// 获取论坛启动信息
+  /// force 为true时，会忽略_loaded
+  /// 如果在初始化的时候将loaded设置为true, 则会导致infinite loop
+  Future<void> _getForumData({bool force = false}) async {
+    /// 避免重复加载
+    if (_loaded && !force) {
+      return;
+    }
+
+    await BootstrapForum(context).getForum();
+
+    /// 加载完了就可以将_loaded 设置为true了其实，因为_loaded只做是否请求过得判断依据
+    setState(() {
+      _loaded = true;
+    });
   }
 }
