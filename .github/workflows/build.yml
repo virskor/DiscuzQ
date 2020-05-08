@@ -41,9 +41,10 @@ jobs:
         java-version: '14.x'
 
     - name: Initialization Flutter
-      uses: subosito/flutter-action@v1.2.0
+      uses: subosito/flutter-action@v1.3.1
       with:
-        channel: 'dev'
+        flutter-version: '1.17.0'
+        channel: 'stable'
 
     - name: Clone source code
       run: |
