@@ -58,12 +58,28 @@ production:
 ### 金融相关的功能
 实际上，现在我们还不支援这些特性，不过预先设计您可以在Build时，抹去这些功能和您实际情况所相符。  
 现在不建议开启financial。
-
 ```yaml
 production:
   # 钱包，等金融数字等功能都会被隐藏
   financial: false 
 ```
+
+### 统计代码
+您可以使用Umeng.com的统计代码进行APP移动统计， 在https://mobile.umeng.com 申请账号并为Android APP和IOS分别创建appKey。  
+之后再build.yaml中写入以下信息：  
+```yml
+# 推荐仅生产环境下统计
+production:
+  # Appkey for Android devices
+  umengAndroidAppkey: 
+  # Appkey for Apple IOS devices
+  umengIOSAppkey: 
+  umengChannel: channel
+  umengReportCrash: true
+  umengLogEnable: true
+  umengEncrypt: true
+```
+
 ## 如何自定义主体颜色，字体大小
 App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.dart修改对应的参数，在lib/utils/global.dart中修改对应的参数完整定制。  
 使用命令行一键生成APP的图标和启动图(todo)。

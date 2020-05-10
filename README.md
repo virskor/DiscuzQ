@@ -9,7 +9,8 @@
 </p> 
 <p align="center">该项目的诞生，离不开Discuz DNSPod TencentCloud 的贡献</p>
 
-### 文档
+### 详细的文档
+下方虽然会有些说明，但是仅用于快速启动一个APP，对部分功能的描述和开启，请参考文档。  
 https://discuzapp.xyz
 
 ## About DiscuzQ Flutter  
@@ -150,6 +151,9 @@ production:
   # 钱包，等金融数字等功能都会被隐藏
   financial: false 
 ```
+
+### 使用移动统计代码
+参考：设置文档(https://discuzapp.xyz/docs/build.html#%E7%BB%9F%E8%AE%A1%E4%BB%A3%E7%A0%81)
 
 ### Android Release or debug
 我们推荐使用IOS模拟器开始你的调试，如果你Build Android版本，首先你需要生成一个keystore文件，存储到 ./discuz/android/目录下，并命名为android.keystore   

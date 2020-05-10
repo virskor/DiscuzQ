@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class BuildInfoModel {
   ///
   /// APP名称
   final String appname;
-  
+
   ///
   /// 是否显示pdebugShowCheckedModeBanner
   final bool debugShowCheckedModeBanner;
@@ -37,6 +38,27 @@ class BuildInfoModel {
   /// idleTimeout
   final int idleTimeout;
 
+  ///
+  /// umengKey
+  /// this value will be different for ios and android
+  final String umengAppkey;
+
+  ///
+  /// umengChannel
+  final String umengChannel;
+
+  ///
+  /// umengReportCrash
+  final bool umengReportCrash;
+
+  ///
+  /// umengLogEnable
+  final bool umengLogEnable;
+
+  /// 
+  /// umengEncrypt
+  final bool umengEncrypt;
+
   const BuildInfoModel(
       {this.domain = 'https://discuz.chat',
       this.appname = 'DiscuzQ',
@@ -44,6 +66,11 @@ class BuildInfoModel {
       this.onBadCertificate = true,
       this.financial = false,
       this.idleTimeout = 15000,
+      this.umengAppkey = '',
+      this.umengChannel = 'channel',
+      this.umengReportCrash = true,
+      this.umengLogEnable = true,
+      this.umengEncrypt = true,
       this.debugShowCheckedModeBanner = false,
       this.enablePerformanceOverlay = false});
 
@@ -74,6 +101,13 @@ class BuildInfoModel {
         onBadCertificate: data['onBadCertificate'] ?? true,
         idleTimeout: data['idleTimeout'] ?? 15000,
         financial: data['financial'] ?? false,
+        umengChannel: data['umengChannel'] ?? 'channel',
+        umengReportCrash: data['umengReportCrash'] ?? true,
+        umengLogEnable: data['umengLogEnable'] ?? true,
+        umengEncrypt: data['umengEncrypt'] ?? true,
+        umengAppkey: Platform.isIOS
+            ? data['umengIOSAppkey']
+            : data['umengAndroidAppkey'],
         debugShowCheckedModeBanner: data['debugShowCheckedModeBanner'] ?? false,
         enablePerformanceOverlay: data['enablePerformanceOverlay'] ?? false);
   }

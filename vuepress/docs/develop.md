@@ -8,10 +8,13 @@
 * DiscuzButton
 
 ## 状态拓展
-实际上我们并没有使用Redux，而是使用了ScopedModel。这么做是为了用更少的代码，起到同样的效果，但是ScopedModel同样有缺点，这需要您对Flutter的进一步学习来了解。但是评估状态管理使用ScopedModel显然是利大于弊。
+实际上我们并没有使用Redux，而是使用了ScopedModel。
 
 ## 数据模型
+待补全  
 
 ## 接口请求类
+待补全  
 
 ## 性能优化建议
+待补全  
