@@ -114,12 +114,16 @@ class ThreadVideoSnapshot extends StatelessWidget {
   ///
   /// 播放视频
   ///
-  Future<bool> _play(
+  PersistentBottomSheetController<dynamic> _play(
           {@required BuildContext context, @required ThreadVideoModel video}) =>
-      DiscuzRoute.open(
+      showBottomSheet(
           context: context,
-          widget: DiscuzPlayer(
-            video: video,
-            thread: thread,
-          ));
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          elevation: 10,
+          builder: (BuildContext context) => DiscuzPlayer(
+                video: video,
+                thread: thread,
+              ));
 }

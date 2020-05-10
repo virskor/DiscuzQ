@@ -1,6 +1,10 @@
 # 快速构建一个APP
 构建一个APP非常简单，只需要按照Flutter的编译方式来进行编译即可。但是需要注意的是，如果你之前没有过Flutter的开发经验，那么您可以参照下面的过程来完成构建。
 
+## 使用Github CI
+试试GitHub CI [奶罩大佬 提供了自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
+
+
 ## Flutter安装
 你需要安装Flutter的开发环境。下载[Flutter](http://flutter.dev/)时你可以直接下载Stable，或者Beta。而我们要用到的可能是Beta，若Flutter当前的稳定版本大于V1.15，那么你可以直接使用稳定版，而无需切换到Beta版本。  
 如果您下载的版本是Stable，那么请参照下面的命令行切换到Beta

@@ -142,7 +142,7 @@ class Urls {
   /// 使用form 配置中的 qcloud_vod_sub_app_id
   /// 和 视频模型的 fileID 拼接URL 获取播放文件信息
   /// videoFileInfo/qcloud_vod_sub_app_id/fileID
-  static String videoPlayInfo = "https://playvideo.qcloud.com/getplayinfo/v2/";
+  static String videoPlayInfo = "https://playvideo.qcloud.com/getplayinfo/v4";
 
   ///
   /// github changelog

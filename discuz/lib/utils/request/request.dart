@@ -324,13 +324,11 @@ class Request {
         url,
         queryParameters: queryParameters,
       );
+      // todo: this method should be removed after DIO fixed bugs some how
+      resp.data = await _temporaryTransformer(resp.data);
     } catch (e) {
       return Future.value(null);
     }
-
-    // todo: this method should be removed after DIO fixed bugs some how
-    resp.data = await _temporaryTransformer(resp.data);
-
     return Future.value(resp);
   }
 
@@ -455,7 +453,7 @@ class Request {
   /// 所以这个方法用来重新decodejson， 后续将被移除
   /// todo: remove
   Future<dynamic> _temporaryTransformer(dynamic data) async {
-    if (data.runtimeType == dynamic) {
+    if (data.runtimeType != String) {
       return Future.value(data);
     }
 
@@ -463,11 +461,7 @@ class Request {
       Future.value(null);
     }
 
-    if (data.runtimeType == String) {
-      return await compute(decodeData, data);
-    }
-
-    return Future.value(null);
+    return await compute(decodeData, data);
   }
 }
 
