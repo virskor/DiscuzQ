@@ -54,6 +54,12 @@ PODS:
     - SVProgressHUD
   - flutter_plugin_android_lifecycle (0.0.1):
     - Flutter
+  - flutter_umplus (0.0.1):
+    - Flutter
+    - UMCAnalytics
+    - UMCCommon
+    - UMCCommonLog
+    - UMCErrorCatch
   - flutter_user_agent (1.2.1):
     - Flutter
   - fluttertoast (0.0.2):
@@ -112,6 +118,12 @@ PODS:
   - TOCropViewController (2.5.2)
   - udid (0.0.1):
     - Flutter
+  - UMCAnalytics (6.0.5):
+    - UMCCommon
+  - UMCCommon (2.1.1)
+  - UMCCommonLog (1.0.0)
+  - UMCErrorCatch (1.0.0):
+    - UMCCommon
   - url_launcher (0.0.1):
     - Flutter
   - url_launcher_macos (0.0.1):
@@ -138,6 +150,7 @@ DEPENDENCIES:
   - flutter_native_dialog (from `.symlinks/plugins/flutter_native_dialog/ios`)
   - flutter_native_loading (from `.symlinks/plugins/flutter_native_loading/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
+  - flutter_umplus (from `.symlinks/plugins/flutter_umplus/ios`)
   - flutter_user_agent (from `.symlinks/plugins/flutter_user_agent/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
@@ -174,6 +187,10 @@ SPEC REPOS:
     - SDWebImageWebPCoder
     - SVProgressHUD
     - TOCropViewController
+    - UMCAnalytics
+    - UMCCommon
+    - UMCCommonLog
+    - UMCErrorCatch
 
 EXTERNAL SOURCES:
   assets_audio_player:
@@ -196,6 +213,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_loading/ios"
   flutter_plugin_android_lifecycle:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
+  flutter_umplus:
+    :path: ".symlinks/plugins/flutter_umplus/ios"
   flutter_user_agent:
     :path: ".symlinks/plugins/flutter_user_agent/ios"
   fluttertoast:
@@ -255,6 +274,7 @@ SPEC CHECKSUMS:
   flutter_native_dialog: dd322cb82cdb53801cad92a3becca4de2dfdf4ef
   flutter_native_loading: fd0c759a3e4fbc8e26336d4fa372dc5c67141c86
   flutter_plugin_android_lifecycle: 47de533a02850f070f5696a623995e93eddcdb9b
+  flutter_umplus: be1f2b751dd6110757509fa57c1ffb12edb1c2b2
   flutter_user_agent: 73414e04725e8332d4a61d4b1d4153971d7a2349
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
@@ -278,6 +298,10 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   TOCropViewController: e9da34f484aedd4e5d5a8ab230ba217cfe16c729
   udid: 64bd5a1da04ee46b04a875a666fd0f79fa7a61ee
+  UMCAnalytics: 045be2cd1ec05aa95ad62405a850757f932e2d59
+  UMCCommon: 971f324a5a99c9d662ae040a815e7e3d7ef8b2a8
+  UMCCommonLog: 05a2d5de21858e3d870551562cff405c1366d244
+  UMCErrorCatch: 51f1b68f920233e90a3fa6d51f0456174507ec78
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c

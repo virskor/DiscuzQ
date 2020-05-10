@@ -14,8 +14,6 @@ import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';
 import 'package:discuzq/views/notificationsDelegate.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/forum/bootstrapForum.dart';
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 
 class Discuz extends StatefulWidget {
   const Discuz({Key key}) : super(key: key);

@@ -38,7 +38,31 @@ development:
   # Financial fatures
   # Set this item into FALSE, wallet and financial amount will be displayed
   financial: true 
+  # Umeng.com analysis for mobiles
+  # Get your account and appKey by clicking https://mobile.umeng.com/
+  # If you do not need these functionalities just give a empty value
+  #
+  # Appkey for Android devices
+  # For development environment empty value is recommended
+  # Not work for web
+  umengAndroidAppkey: 
+  # Appkey for Apple IOS devices
+  # For development environment empty value is recommended
+  umengIOSAppkey:
+  # umeng channel
+  # 即 渠道分发
+  umengChannel: channel
+  # reportCrash
+  # bool
+  umengReportCrash: true
+  # logEnable
+  # bool
+  umengLogEnable: true
+  # umeng encrypt
+  # bool
+  umengEncrypt: true
 
+  
 # 构建生产环境的APP时加载的信息
 # Parameters for building prodution package
 production:
@@ -53,4 +77,12 @@ production:
   onBadCertificate: true 
   http2idleTimeout: 15000
   financial: false 
+  # Appkey for Android devices
+  umengAndroidAppkey: 5eb7ab6f895cca574f00009e
+  # Appkey for Apple IOS devices
+  umengIOSAppkey: 5eb7ab8f895cca4be10000eb
+  umengChannel: channel
+  umengReportCrash: true
+  umengLogEnable: true
+  umengEncrypt: true
 

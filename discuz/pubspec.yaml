@@ -47,12 +47,16 @@ dependencies:
   flutter_picker: ^1.1.4
   yaml: ^2.2.1
   webview_flutter: ^0.3.21
+
+  # flutter
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
 
   # locally stashed dependencies
+  flutter_umplus:
+    path: ../packages/flutter_umplus
   fluttertoast:
     path: ../packages/flutter_toast
   flutter_native_loading:
