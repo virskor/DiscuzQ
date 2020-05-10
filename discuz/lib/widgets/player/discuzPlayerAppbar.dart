@@ -18,7 +18,6 @@ class DiscuzPlayerAppbar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _DiscuzPlayerAppbarState extends State<DiscuzPlayerAppbar> {
-
   @override
   void initState() {
     super.initState();
@@ -29,12 +28,12 @@ class _DiscuzPlayerAppbarState extends State<DiscuzPlayerAppbar> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: true,
       child: Container(
-        padding: const EdgeInsets.only(left: 10, right: 10),
+        padding: const EdgeInsets.only(left: 10, right: 10, top: 30),
         child: Row(
           children: <Widget>[
             const _BackButton(),
@@ -53,21 +52,16 @@ class _BackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        width: 60,
+        width: 45,
         height: 45,
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            color: Colors.white.withOpacity(.44)),
         child: DiscuzIcon(
-          SFSymbols.arrow_left,
+          SFSymbols.arrow_uturn_left,
           color: Colors.white,
           size: 30,
         ),
       ),
       onTap: () {
-        if (Navigator.canPop(context)) {
-          Navigator.pop(context);
-        }
+        Navigator.pop(context);
       },
     );
   }
