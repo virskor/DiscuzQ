@@ -102,11 +102,14 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                         label: '历史版本记录',
                         onPressed: () =>
                             WebviewHelper.launchUrl(url: Urls.changelog)),
-                    SettingTile(
-                        icon: SFSymbols.text_bubble,
-                        label: '吐槽',
-                        onPressed: () =>
-                            WebviewHelper.open(context, url: 'https://support.qq.com/embed/phone/152424/', title: '反馈')),
+                    BuildInfo().info().tuxiaochao == ''
+                        ? const SizedBox()
+                        : SettingTile(
+                            icon: SFSymbols.text_bubble,
+                            label: '吐槽',
+                            onPressed: () => WebviewHelper.open(context,
+                                url: BuildInfo().info().tuxiaochao,
+                                title: '反馈')),
                     SettingTile(
                         icon: SFSymbols.info_circle,
                         label: '关于APP',

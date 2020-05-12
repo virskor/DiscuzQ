@@ -61,6 +61,9 @@ development:
   # umeng encrypt
   # bool
   umengEncrypt: true
+  # Tuxiaochao
+  # Get your account https://txc.qq.com/
+  tuxiaochao: https://support.qq.com/embed/phone/152424
 
   
 # 构建生产环境的APP时加载的信息
@@ -85,4 +88,5 @@ production:
   umengReportCrash: true
   umengLogEnable: true
   umengEncrypt: true
+  tuxiaochao: https://support.qq.com/embed/phone/152424
 
