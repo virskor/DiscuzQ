@@ -36,10 +36,6 @@ class TencentCloudCaptchaContainer extends StatefulWidget {
 }
 
 class _TencentCloudCaptchaContainerState
-
-    ///
-    /// webview controller
-    ///
     extends State<TencentCloudCaptchaContainer> {
   @override
   void setState(fn) {
