@@ -103,6 +103,11 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                         onPressed: () =>
                             WebviewHelper.launchUrl(url: Urls.changelog)),
                     SettingTile(
+                        icon: SFSymbols.text_bubble,
+                        label: '吐槽',
+                        onPressed: () =>
+                            WebviewHelper.open(context, url: 'https://support.qq.com/embed/phone/152424/', title: '反馈')),
+                    SettingTile(
                         icon: SFSymbols.info_circle,
                         label: '关于APP',
                         onPressed: () => DiscuzRoute.open(
