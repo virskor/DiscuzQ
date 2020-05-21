@@ -19,6 +19,26 @@ class ThreadsAPI {
   ThreadsAPI({@required this.context});
 
   ///
+  /// 获取帖子详情
+  ///
+  Future<ThreadModel> getDetailByID({@required int threadID}) async {
+    final Function close = DiscuzToast.loading(context: context);
+
+    final String uri = "${Urls.threads}/${threadID.toString()}";
+    Response resp = await Request(context: context).getUrl(url: uri);
+
+    ///
+    /// close loading animations
+    close();
+
+    if (resp == null) {
+      return null;
+    }
+
+    return ThreadModel.fromMap(maps: resp.data['data']);
+  }
+
+  ///
   /// 删除主题
   /// 仅判断删除结果
   ///

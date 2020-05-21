@@ -173,7 +173,7 @@ class _ThreadCardState extends State<ThreadCard> {
               author: _author,
             ),
             Container(
-              padding: EdgeInsets.only(top: 10, bottom: 10),
+              padding: EdgeInsets.only(top: 10),
               alignment: Alignment.topLeft,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,11 +193,10 @@ class _ThreadCardState extends State<ThreadCard> {
                                 author: _author,
                                 thread: widget.thread,
                               )),
-                          child: Container(
-                            child: HtmlRender(
-                              html: _firstPost.attributes.contentHtml,
-                            ),
-                          )),
+                          child: HtmlRender(
+                            html: _firstPost.attributes.contentHtml,
+                          ),
+                        ),
 
                   /// 渲染九宫格图片
                   ///
@@ -239,6 +238,7 @@ class _ThreadCardState extends State<ThreadCard> {
               author: _author,
             ),
             const SizedBox(height: 10),
+            const DiscuzDivider(padding: 0,)
           ],
         ),
       );
