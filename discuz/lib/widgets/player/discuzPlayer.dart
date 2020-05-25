@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:video_player/video_player.dart';
@@ -15,6 +14,7 @@ import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/api/videoAPI.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 class DiscuzPlayer extends StatefulWidget {
   ///
@@ -74,10 +74,17 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
   @override
   void dispose() {
     if (_controller != null) {
-      _controller.pause();
-      _controller.dispose();
+      _mute();
     }
     super.dispose();
+  }
+
+  void _mute() {
+    if(!_controller.value.initialized){
+      return;
+    }
+    _controller.pause();
+    _controller.dispose();
   }
 
   @override
@@ -104,7 +111,13 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
                         )
                       : _buildPlayer(),
 
-                  DiscuzPlayerAppbar()
+                  DiscuzPlayerAppbar(
+                    onClose: () {
+                      Future.delayed(Duration(milliseconds: 400)).then((_) {
+                        _mute();
+                      });
+                    },
+                  )
                 ],
               ),
             ));

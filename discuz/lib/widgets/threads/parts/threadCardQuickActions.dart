@@ -30,7 +30,7 @@ class ThreadCardQuickActions extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ///
@@ -39,17 +39,6 @@ class ThreadCardQuickActions extends StatelessWidget {
               size: _kIconsize,
               post: firstPost,
             ),
-
-          ///
-          /// 分享按钮
-          IconButton(
-            icon: DiscuzIcon(
-              SFSymbols.square_arrow_up,
-              size: _kIconsize,
-              color: DiscuzApp.themeOf(context).textColor,
-            ),
-            onPressed: () => ShareNative.shareThread(thread: thread),
-          ),
 
           ///
           /// 评论按钮
@@ -69,7 +58,18 @@ class ThreadCardQuickActions extends StatelessWidget {
                 DiscuzToast.success(context: context, message: '回复成功');
               }
             },
-          )
+          ),
+
+                    ///
+          /// 分享按钮
+          IconButton(
+            icon: DiscuzIcon(
+              SFSymbols.square_arrow_up,
+              size: _kIconsize,
+              color: DiscuzApp.themeOf(context).textColor,
+            ),
+            onPressed: () => ShareNative.shareThread(thread: thread),
+          ),
         ],
       ),
     );
