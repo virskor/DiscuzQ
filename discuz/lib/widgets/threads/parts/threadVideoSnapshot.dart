@@ -1,13 +1,11 @@
 import 'dart:ui';
 
-import 'package:discuzq/widgets/common/frost.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
-import 'package:discuzq/router/route.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 import 'package:discuzq/widgets/player/discuzPlayer.dart';
@@ -114,9 +112,9 @@ class ThreadVideoSnapshot extends StatelessWidget {
   ///
   /// 播放视频
   ///
-  PersistentBottomSheetController<dynamic> _play(
+  Future<bool> _play(
           {@required BuildContext context, @required ThreadVideoModel video}) =>
-      showBottomSheet(
+      showModalBottomSheet(
           context: context,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),

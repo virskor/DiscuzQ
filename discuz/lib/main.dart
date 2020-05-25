@@ -13,13 +13,7 @@ import 'package:discuzq/utils/analysis.dart';
 
 ///
 /// 执行
-void main() {
-  ///
-  /// ensureInitialized is very important
-  WidgetsFlutterBinding.ensureInitialized();
-
-  runApp(DiscuzQ());
-}
+void main() => runApp(DiscuzQ());
 
 class DiscuzQ extends StatelessWidget {
   final AppState appState = AppState();
