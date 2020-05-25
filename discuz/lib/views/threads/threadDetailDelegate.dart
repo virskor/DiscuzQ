@@ -446,7 +446,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       await _threadsCacher.computeAttachements(include: included);
       await _threadsCacher.computeThreadVideos(include: included);
     } catch (e) {
-      print(e);
+      throw e;
     }
 
     setState(() {

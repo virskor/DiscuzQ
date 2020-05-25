@@ -321,7 +321,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
           .map((n) => NotificationModel.fromMap(maps: n))
           .toList();
     } catch (e) {
-      print(e);
+      throw e;
     }
 
     setState(() {

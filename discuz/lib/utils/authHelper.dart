@@ -93,7 +93,7 @@ class AuthHelper {
       }
       state.updateUser(UserModel.fromMap(maps: jsonDecode(user)));
     } catch (e) {
-      print(e);
+      throw e;
     }
   }
 

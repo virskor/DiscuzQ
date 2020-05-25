@@ -156,7 +156,7 @@ class _ClearCacheState extends State<ClearCache> {
               await DefaultCacheManager().emptyCache();
               imageCache.clear();
             } catch (e) {
-              print(e);
+              throw e;
             }
 
             DiscuzToast.success(context: context, message: '清理完毕');

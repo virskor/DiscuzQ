@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:discuzq/router/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -114,14 +115,10 @@ class ThreadVideoSnapshot extends StatelessWidget {
   ///
   Future<bool> _play(
           {@required BuildContext context, @required ThreadVideoModel video}) =>
-      showModalBottomSheet(
+      DiscuzRoute.open(
           context: context,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          elevation: 10,
-          builder: (BuildContext context) => DiscuzPlayer(
-                video: video,
-                thread: thread,
-              ));
+          widget: DiscuzPlayer(
+            video: video,
+            thread: thread,
+          ));
 }

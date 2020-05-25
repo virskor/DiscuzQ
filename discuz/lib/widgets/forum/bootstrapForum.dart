@@ -41,7 +41,7 @@ class BootstrapForum {
         /// 更新状态
         state.updateForum(forum);
       } catch (e) {
-        print(e);
+        throw e;
       }
 
       /// 返回成功

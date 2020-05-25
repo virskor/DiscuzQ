@@ -89,7 +89,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
         state.updateFocusedCategories(cat);
       } catch (e) {
-        print(e);
+        throw e;
       }
     });
   }
@@ -167,11 +167,12 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               controller: _tabController,
               labelStyle: TextStyle(
                 //up to your taste
-                fontSize: DiscuzApp.themeOf(context).normalTextSize,
-                fontWeight: FontWeight.bold,
+                fontSize: DiscuzApp.themeOf(context).largeTextSize,
+                fontWeight: FontWeight.w800,
               ),
               unselectedLabelStyle: TextStyle(
                 fontWeight: FontWeight.normal,
+                fontSize: DiscuzApp.themeOf(context).normalTextSize,
               ),
               indicatorSize: TabBarIndicatorSize.label, //makes it better
               labelColor:
@@ -220,7 +221,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
           length: state.categories == null ? 0 : state.categories.length,
           vsync: this);
     } catch (e) {
-      print(e);
+      throw e;
     }
   }
 

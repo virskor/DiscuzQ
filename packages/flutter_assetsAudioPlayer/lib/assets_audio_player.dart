@@ -281,7 +281,7 @@ class AssetsAudioPlayer {
       try {
         _channel.invokeMethod('open', assetAudioPath);
       } catch (e) {
-        print(e);
+        throw e;
       }
 
       _lastOpenedAssetsAudioPath = assetAudioPath;

@@ -206,7 +206,7 @@ class Request {
 
             debugPrint("------------Token 自动刷新失败----------");
           } catch (e) {
-            debugPrint(e);
+            throw e;
           }
 
           /// 弹出登录
@@ -294,7 +294,7 @@ class Request {
       }
     } catch (e) {
       final DioError err = e;
-      print(err.response.data);
+      throw err.response.data;
     }
 
     return Future.value(false);
@@ -309,7 +309,7 @@ class Request {
         AuthHelper.login(context: context);
       }
     } catch (e) {
-      debugPrint(e);
+      throw e;
     }
   }
 
@@ -327,7 +327,7 @@ class Request {
       // todo: this method should be removed after DIO fixed bugs some how
       resp.data = await _temporaryTransformer(resp.data);
     } catch (e) {
-      return Future.value(null);
+      throw e;
     }
     return Future.value(resp);
   }
@@ -352,7 +352,7 @@ class Request {
       // todo: this method should be removed after DIO fixed bugs some how
       resp.data = await _temporaryTransformer(resp.data);
     } catch (e) {
-      return Future.value(null);
+      throw e;
     }
 
     return Future.value(resp);
@@ -379,7 +379,7 @@ class Request {
       // todo: this method should be removed after DIO fixed bugs some how
       resp.data = await _temporaryTransformer(resp.data);
     } catch (e) {
-      return Future.value(null);
+      throw e;
     }
 
     return Future.value(resp);
@@ -406,7 +406,7 @@ class Request {
       // todo: this method should be removed after DIO fixed bugs some how
       resp.data = await _temporaryTransformer(resp.data);
     } catch (e) {
-      return Future.value(null);
+      throw e;
     }
 
     return Future.value(resp);
@@ -443,8 +443,7 @@ class Request {
 
       return Future.value(resp);
     } catch (e) {
-      print(e);
-      return Future.value(null);
+     throw e;
     }
   }
 

@@ -152,7 +152,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
           _controller.setLooping(true);
         });
     } catch (e) {
-      print(e);
+      throw e;
     }
   }
 

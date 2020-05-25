@@ -52,7 +52,7 @@ class DiscuzEditorHelper {
         return Future.value(null);
       }
     } catch (e) {
-      print(e);
+      throw e;
       return Future.value(null);
     }
 

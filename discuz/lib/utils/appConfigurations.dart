@@ -64,7 +64,7 @@ class AppConfigurations {
 
         return Future.value(true);
       } catch (e) {
-        return Future.value(false);
+        throw e;
       }
     }
 
