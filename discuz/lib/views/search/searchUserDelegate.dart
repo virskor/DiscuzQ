@@ -194,7 +194,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
           .map((p) => UserModel.fromMap(maps: p))
           .toList();
     } catch (e) {
-      print(e);
+      throw e;
     }
 
     print({_users.length, resp.data['data'].length});

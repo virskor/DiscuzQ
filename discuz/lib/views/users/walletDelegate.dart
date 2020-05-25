@@ -148,7 +148,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
       try {
         state = ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
       } catch (e) {
-        print(e);
+        throw e;
       }
     }
 

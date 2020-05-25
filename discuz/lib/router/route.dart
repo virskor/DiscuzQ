@@ -39,7 +39,7 @@ class DiscuzRoute {
           return Future.value(false);
         }
       } catch (e) {
-        print(e);
+        throw e;
       }
     }
 

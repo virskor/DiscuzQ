@@ -229,7 +229,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
           .map((p) => UserFollowModel.fromMap(maps: p))
           .toList();
     } catch (e) {
-      print(e);
+      throw e;
     }
 
     setState(() {

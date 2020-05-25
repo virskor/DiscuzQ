@@ -190,7 +190,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       try {
         state = ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
       } catch (e) {
-        print(e);
+        throw e;
       }
     }
 

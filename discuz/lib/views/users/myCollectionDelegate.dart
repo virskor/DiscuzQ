@@ -215,7 +215,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       await _threadsCacher.computeAttachements(include: included);
       await _threadsCacher.computeThreadVideos(include: included);
     } catch (e) {
-      print(e);
+      throw e;
     }
 
     setState(() {

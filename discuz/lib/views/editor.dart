@@ -216,7 +216,7 @@ class _EditorState extends State<Editor> {
         }
       }
     } catch (e) {
-      print(e);
+      throw e;
     }
 
     ///
