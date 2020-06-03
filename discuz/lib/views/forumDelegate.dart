@@ -65,15 +65,22 @@ class _ForumDelegateState extends State<ForumDelegate>
                   ? DiscuzAppBar(
                       elevation: 0,
                       centerTitle: true,
-                      title: const Center(child: const DiscuzAppLogo()),
+                      title: const Center(child: const DiscuzAppLogo(dark: true,)),
+                      backgroundColor: DiscuzApp.themeOf(context).primaryColor,
+                      dark: true,
+                      brightness: Brightness.dark,
                       leading: IconButton(
-                        icon: DiscuzIcon(
+                        icon: const DiscuzIcon(
                           SFSymbols.search,
-                          color: DiscuzApp.themeOf(context).textColor,
+                          color: Colors.white,
                         ),
                         onPressed: () => SearchColumnDialog.show(context),
                       ),
-                      actions: <Widget>[const ForumAddButton()],
+                      actions: <Widget>[
+                        const ForumAddButton(
+                          awalysDark: true,
+                        )
+                      ],
                     )
                   : null,
 
@@ -124,5 +131,4 @@ class _ForumDelegateState extends State<ForumDelegate>
               ),
             ));
   }
-
 }
