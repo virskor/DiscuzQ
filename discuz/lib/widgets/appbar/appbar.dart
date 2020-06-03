@@ -70,7 +70,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
   /// 生成阴影，ios下默认不带阴影(海拔)，除非用户提供
   /// 但是安卓则需要
   double _computeElevation() {
-    if(Device.isWeb){
+    if (Device.isWeb) {
       return 0;
     }
     return elevation == 0 && Platform.isAndroid ? 10 : elevation;
@@ -78,35 +78,35 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) => AppBarExt(
-          title: _title(),
-          elevation: _computeElevation(),
-          bottomOpacity: bottomOpacity,
-          automaticallyImplyLeading: automaticallyImplyLeading,
-          centerTitle: centerTitle,
-          leadingWidth: ModalRoute.of(context).canPop == true &&
-                  ModalRoute.of(context).isFirst == false
-              ? leadingWidth > 0 ? leadingWidth : 100
-              : kToolbarHeight,
-          leading: leading ??
-              AppbarLeading(
-                previousPageTitle: previousPageTitle,
-                dark: dark,
-              ),
-          brightness: brightness ?? DiscuzApp.themeOf(context).brightness,
-          toolbarOpacity: toolbarOpacity,
-          backgroundColor:
-              backgroundColor ?? DiscuzApp.themeOf(context).backgroundColor,
-          textTheme: TextTheme(
-            headline6: TextStyle(
-                color: dark == true
-                    ? Colors.white
-                    : DiscuzApp.themeOf(context).textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: DiscuzApp.themeOf(context).normalTextSize),
-          ),
-          actions: actions ?? actions,
-          bottom: bottom,
-        );
+        title: _title(),
+        elevation: _computeElevation(),
+        bottomOpacity: bottomOpacity,
+        automaticallyImplyLeading: automaticallyImplyLeading,
+        centerTitle: centerTitle,
+        leadingWidth: ModalRoute.of(context).canPop == true &&
+                ModalRoute.of(context).isFirst == false
+            ? leadingWidth > 0 ? leadingWidth : 100
+            : kToolbarHeight,
+        leading: leading ??
+            AppbarLeading(
+              previousPageTitle: previousPageTitle,
+              dark: dark,
+            ),
+        brightness: brightness ?? DiscuzApp.themeOf(context).brightness,
+        toolbarOpacity: toolbarOpacity,
+        backgroundColor:
+            backgroundColor ?? DiscuzApp.themeOf(context).backgroundColor,
+        textTheme: TextTheme(
+          headline6: TextStyle(
+              color: dark == true
+                  ? Colors.white
+                  : DiscuzApp.themeOf(context).textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: DiscuzApp.themeOf(context).normalTextSize),
+        ),
+        actions: actions ?? actions,
+        bottom: bottom,
+      );
 }
 
 class AppbarLeading extends StatelessWidget {
@@ -129,22 +129,46 @@ class AppbarLeading extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: ModalRoute.of(context).canPop == true &&
                   ModalRoute.of(context).isFirst == false
-              ? IconButton(
-                  tooltip: previousPageTitle,
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  icon: Icon(
-                    codePoint,
-                    size: size,
-                    color: dark
-                        ? Colors.white
-                        : DiscuzApp.themeOf(context).primaryColor,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
+              ? _button(context: context)
               : null));
+
+  Widget _button({BuildContext context}) {
+    if (Platform.isIOS) {
+      return GestureDetector(
+        child: Row(
+          children: <Widget>[
+            Icon(
+              SFSymbols.chevron_left,
+              size: size,
+              color:
+                  dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
+            ),
+            DiscuzText(
+              previousPageTitle,
+              color: DiscuzApp.themeOf(context).primaryColor,
+            )
+          ],
+        ),
+        onTap: () {
+          Navigator.pop(context);
+        },
+      );
+    }
+
+    return IconButton(
+      tooltip: previousPageTitle,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      icon: Icon(
+        codePoint,
+        size: size,
+        color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+  }
 }
 
 class DiscuzAppBarActions extends StatelessWidget {
