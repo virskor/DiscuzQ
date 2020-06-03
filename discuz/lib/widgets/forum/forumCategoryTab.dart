@@ -28,8 +28,6 @@ class ForumCategoryTab extends StatefulWidget {
 
 class _ForumCategoryTabState extends State<ForumCategoryTab>
     with SingleTickerProviderStateMixin {
-
-
   /// states
   /// tab controller
   TabController _tabController;
@@ -43,7 +41,6 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 
   /// 筛选条件状态
   ForumCategoryFilterItem _filterItem;
-  
 
   @override
   void setState(fn) {
@@ -134,18 +131,10 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
         /// tab Content
         /// 生成帖子渲染content区域(tabviews)
         Expanded(
-          child: TabBarView(
+          child: _ForumCategoryTabContent(
             controller: _tabController,
-            children: state.categories.map<Widget>((CategoryModel cat) {
-              //创建3个Tab页
-              return ThreadsList(
-                category: cat,
-                onAppbarState: widget.onAppbarState,
-
-                /// 初始化的时候，用户没有选择，则默认使用第一个筛选条件
-                filter: _filterItem ?? ForumCategoryFilter.conditions[0],
-              );
-            }).toList(),
+            filter: _filterItem,
+            onAppbarState: widget.onAppbarState,
           ),
         )
       ],
@@ -278,5 +267,55 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     state.updateCategories(categories);
 
     return Future.value(true);
+  }
+}
+
+///
+///
+/// 构造ThreadList列表
+class _ForumCategoryTabContent extends StatefulWidget {
+  ///
+  /// 滑动控制
+  final TabController controller;
+
+  ///
+  /// 筛选器
+  final ForumCategoryFilterItem filter;
+
+  ///
+  /// 状态变化
+  final Function onAppbarState;
+
+  _ForumCategoryTabContent(
+      {@required this.controller, @required this.filter, this.onAppbarState});
+
+  @override
+  __ForumCategoryTabContentState createState() =>
+      __ForumCategoryTabContentState();
+}
+
+class __ForumCategoryTabContentState extends State<_ForumCategoryTabContent>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return ScopedStateModelDescendant<AppState>(
+        rebuildOnChange: false,
+        builder: (context, child, state) => TabBarView(
+              controller: widget.controller,
+              children: state.categories
+                  .map<Widget>((CategoryModel cat) => ThreadsList(
+                        category: cat,
+                        onAppbarState: widget.onAppbarState,
+
+                        /// 初始化的时候，用户没有选择，则默认使用第一个筛选条件
+                        filter:
+                            widget.filter ?? ForumCategoryFilter.conditions[0],
+                      ))
+                  .toList(),
+            ));
   }
 }

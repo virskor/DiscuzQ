@@ -206,7 +206,7 @@ class Request {
 
             debugPrint("------------Token 自动刷新失败----------");
           } catch (e) {
-            throw e;
+            // throw e;
           }
 
           /// 弹出登录
