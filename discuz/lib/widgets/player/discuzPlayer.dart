@@ -74,20 +74,10 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
 
   @override
   void dispose() {
-    if (_controller != null) {
-      _mute();
-    }
-    super.dispose();
-  }
-
-  void _mute() {
-    if(!_controller.value.initialized){
-      return;
-    }
     _controller.pause();
     _controller.dispose();
+    super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return ScopedStateModelDescendant<AppState>(
@@ -114,7 +104,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
 
                   DiscuzPlayerAppbar(
                     onClose: () {
-                      _mute();
+                      Navigator.pop(context);
                     },
                   )
                 ],
@@ -138,6 +128,10 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
       }
 
       if (_transcodeUrl == null) {
+        return;
+      }
+
+      if(!mounted){
         return;
       }
 
