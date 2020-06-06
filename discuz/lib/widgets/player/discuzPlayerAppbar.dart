@@ -52,7 +52,6 @@ class _DiscuzPlayerAppbarState extends State<DiscuzPlayerAppbar> {
                 if (widget.onClose != null) {
                   widget.onClose();
                 }
-                Navigator.pop(context);
               },
             )
           ],

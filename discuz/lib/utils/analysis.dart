@@ -16,7 +16,7 @@ class Analysis {
       return Future.value(false);
     }
 
-    if(BuildInfo().info().umengAppkey.isEmpty){
+    if(BuildInfo().info().umengAppkey == ''){
       return Future.value(false);
     }
 

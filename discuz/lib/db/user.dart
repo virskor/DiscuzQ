@@ -3,6 +3,8 @@ import 'package:sqflite/sqflite.dart';
 
 final String tableName = 'userTable';
 
+const int _kDBVersion = 1;
+
 class UserDBModel {
   int item;
   String data;
@@ -32,7 +34,7 @@ class UserDataSqlite {
     String path = join(databasesPath, 'user.db');
 
     /// 根据数据库文件路径和数据库版本号创建数据库表
-    db = await openDatabase(path, version: 1,
+    db = await openDatabase(path, version: _kDBVersion,
         onCreate: (Database db, int version) async {
       await db.execute('''
           CREATE TABLE $tableName (

@@ -10,9 +10,9 @@ class ThemeColorSetting extends StatelessWidget {
   const ThemeColorSetting({Key key}) : super(key: key);
 
   static const List<Color> _themes = [
+    Color(0xFF007AFF),
     Color(0xFF316598),
     Color(0xFF1DA1F2),
-    Color(0xFF007AFF),
     Color(0xFF05A9F1),
     Color(0xFF04BBD3),
     Color(0xFF3EAF7C),

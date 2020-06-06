@@ -129,7 +129,7 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
                             child: Container(
                               margin: const EdgeInsets.only(top: 10),
                               padding: const EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width / 2,
+                              width: MediaQuery.of(context).size.width / 1.5,
                               decoration: BoxDecoration(
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(10)),

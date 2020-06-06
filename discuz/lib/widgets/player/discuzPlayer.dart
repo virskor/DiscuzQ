@@ -16,6 +16,7 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 
+
 class DiscuzPlayer extends StatefulWidget {
   ///
   /// 关联的视频模型
@@ -73,20 +74,10 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
 
   @override
   void dispose() {
-    if (_controller != null) {
-      _mute();
-    }
-    super.dispose();
-  }
-
-  void _mute() {
-    if(!_controller.value.initialized){
-      return;
-    }
     _controller.pause();
     _controller.dispose();
+    super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return ScopedStateModelDescendant<AppState>(
@@ -113,9 +104,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
 
                   DiscuzPlayerAppbar(
                     onClose: () {
-                      Future.delayed(Duration(milliseconds: 400)).then((_) {
-                        _mute();
-                      });
+                      Navigator.pop(context);
                     },
                   )
                 ],
@@ -139,6 +128,10 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
       }
 
       if (_transcodeUrl == null) {
+        return;
+      }
+
+      if(!mounted){
         return;
       }
 
