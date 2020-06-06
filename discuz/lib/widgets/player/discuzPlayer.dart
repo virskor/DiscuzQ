@@ -16,6 +16,7 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 
+
 class DiscuzPlayer extends StatefulWidget {
   ///
   /// 关联的视频模型
@@ -113,9 +114,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
 
                   DiscuzPlayerAppbar(
                     onClose: () {
-                      Future.delayed(Duration(milliseconds: 400)).then((_) {
-                        _mute();
-                      });
+                      _mute();
                     },
                   )
                 ],
