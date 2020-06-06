@@ -53,23 +53,18 @@ class DiscuzEditorHelper {
       }
     } catch (e) {
       throw e;
-      return Future.value(null);
     }
 
     await showCupertinoModalPopup(
         context: context,
         semanticsDismissible: false,
-        useRootNavigator: true,
+        useRootNavigator: false,
         filter: ImageFilter.blur(
           sigmaX: 5,
           sigmaY: 5,
         ),
-        builder: (BuildContext context) => ClipRRect(
-            borderRadius: const BorderRadius.only(
-                topRight: const Radius.circular(15),
-                topLeft: const Radius.circular(15)),
-            child: SizedBox(
-              height: 500,
+        builder: (BuildContext context) => Container(
+              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               child: Editor(
                 type: DiscuzEditorInputTypes.reply,
                 post: post,
@@ -80,7 +75,7 @@ class DiscuzEditorHelper {
                   result = res;
                 },
               ),
-            )));
+            ));
     return Future.value(result);
   }
 
