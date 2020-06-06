@@ -10,7 +10,7 @@ class AppConfigurations {
 
   final Map<String, dynamic> defaultAppSetting = {
     "darkTheme": false,
-    "themeColor": 0xFF316598,
+    "themeColor": 0xFF007AFF,
     "fontWidthFactor": 0.95,
     "showPerformanceOverlay": false,
     "autoplay": true,
