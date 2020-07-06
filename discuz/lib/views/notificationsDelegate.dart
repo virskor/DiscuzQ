@@ -83,6 +83,17 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
               child: Column(
                 children: <Widget>[
                   ///
+                  /// @我的
+                  ///
+                  _notificationsSelection(
+                    item: _NotificationMenuItem(
+                        label: '@我的',
+                        icon: SFSymbols.at,
+                        child: const NotificationListDelegate(
+                            type: NotificationTypes.related),
+                        badges: _typeUnreadNotifications.replied),
+                  ),
+                  ///
                   /// 回复我的
                   ///
                   _notificationsSelection(
@@ -101,7 +112,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                   BuildInfo().info().financial
                       ? _notificationsSelection(
                           item: _NotificationMenuItem(
-                              label: '打赏我的',
+                              label: '财务通知',
                               icon: SFSymbols.money_yen_circle,
                               child: const NotificationListDelegate(
                                   type: NotificationTypes.rewarded),
