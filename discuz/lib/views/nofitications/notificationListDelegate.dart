@@ -257,7 +257,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
       Response _ = await Request(context: context)
           .delete(url: "${Urls.notifications}/${id.toString()}");
       close();
-      DiscuzToast.success(context: context, message: '删除成功');
+      DiscuzToast.toast(context: context, message: '删除成功');
     };
 
     /// 是否确认删除

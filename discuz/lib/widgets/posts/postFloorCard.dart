@@ -275,7 +275,7 @@ class PostFloorCard extends StatelessWidget {
               if (res != null) {
                 threadsCacher.posts = res.posts;
                 threadsCacher.users = res.users;
-                DiscuzToast.success(context: context, message: '回复成功');
+                DiscuzToast.toast(context: context, message: '回复成功');
               }
             },
           )

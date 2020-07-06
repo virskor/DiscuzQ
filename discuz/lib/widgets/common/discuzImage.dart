@@ -94,7 +94,7 @@ class _DiscuzImageState extends State<DiscuzImage> {
             final result = await ImageGallerySaver.saveImage(
                 Uint8List.fromList(response.data));
             if (result) {
-              DiscuzToast.success(context: context, message: '保存成功');
+              DiscuzToast.toast(context: context, message: '保存成功');
               //Navigator.pop(context); /// 暂时不为用户关闭
               return;
             }

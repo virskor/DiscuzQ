@@ -183,6 +183,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.0+1"
+  flare_dart:
+    dependency: transitive
+    description:
+      name: flare_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.4"
+  flare_flutter:
+    dependency: transitive
+    description:
+      name: flare_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.8.3"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -287,13 +301,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_wechat_toast:
-    dependency: "direct main"
-    description:
-      name: flutter_wechat_toast
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   flutter_widget_from_html:
     dependency: "direct main"
     description:
@@ -635,6 +642,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.3"
+  status_alert:
+    dependency: "direct main"
+    description:
+      path: "../packages/flutter_status_alert"
+      relative: true
+    source: path
+    version: "0.1.2"
   stream_channel:
     dependency: transitive
     description:

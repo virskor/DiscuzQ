@@ -62,7 +62,7 @@ class _ShareAppView extends StatelessWidget {
                 onPressed: () async {
                   await ClipboardManager.copyToClipBoard(
                       "${Global.domain}/open-circle/${user.id.toString()}");
-                  DiscuzToast.success(context: context, message: '复制成功');
+                  DiscuzToast.toast(context: context, message: '复制成功');
                   Navigator.pop(context);
                 },
               )

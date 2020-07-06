@@ -163,7 +163,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
       if (res != null) {
         widget.threadsCacher.posts = res.posts;
         widget.threadsCacher.users = res.users;
-        DiscuzToast.success(context: context, message: '回复成功');
+        DiscuzToast.toast(context: context, message: '回复成功');
       }
       return;
     }
