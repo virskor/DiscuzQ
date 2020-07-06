@@ -341,6 +341,11 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
 ///
 class NotificationTypes {
   ///
+  /// @我的
+  static const related =
+      const NotificationTypesItem(label: '@我的', type: 'related');
+
+  ///
   /// 回复
   static const replies =
       const NotificationTypesItem(label: '回复我的', type: 'replied');
@@ -348,7 +353,7 @@ class NotificationTypes {
   ///
   /// 打赏我的
   static const rewarded =
-      const NotificationTypesItem(label: '打赏我的', type: 'rewarded');
+      const NotificationTypesItem(label: '财务通知', type: 'rewarded');
 
   ///
   /// 打赏我的

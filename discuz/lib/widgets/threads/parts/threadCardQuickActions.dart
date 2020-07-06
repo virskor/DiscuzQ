@@ -24,30 +24,27 @@ class ThreadCardQuickActions extends StatelessWidget {
   /// 关联帖子
   final ThreadModel thread;
 
-  const ThreadCardQuickActions({@required this.firstPost, @required this.thread});
+  const ThreadCardQuickActions(
+      {@required this.firstPost, @required this.thread});
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 5),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ///
           /// 点赞按钮
           PostLikeButton(
-              size: _kIconsize,
-              post: firstPost,
-            ),
+            size: _kIconsize,
+            post: firstPost,
+          ),
 
           ///
-          /// 评论按钮
-          IconButton(
-            icon: DiscuzIcon(
-              SFSymbols.bubble_left_bubble_right,
-              size: _kIconsize,
-              color: DiscuzApp.themeOf(context).textColor,
-            ),
+          /// 评论
+          _ThreadCardQuickActionsItem(
+            icon: SFSymbols.bubble_left_bubble_right,
             onPressed: () async {
               final DiscuzEditorRequestResult res =
                   await DiscuzEditorHelper(context: context)
@@ -60,18 +57,38 @@ class ThreadCardQuickActions extends StatelessWidget {
             },
           ),
 
-                    ///
+          ///
           /// 分享按钮
-          IconButton(
-            icon: DiscuzIcon(
-              SFSymbols.square_arrow_up,
-              size: _kIconsize,
-              color: DiscuzApp.themeOf(context).textColor,
-            ),
+          _ThreadCardQuickActionsItem(
+            icon: SFSymbols.square_arrow_up,
             onPressed: () => ShareNative.shareThread(thread: thread),
-          ),
+          )
         ],
       ),
+    );
+  }
+}
+
+class _ThreadCardQuickActionsItem extends StatelessWidget {
+  const _ThreadCardQuickActionsItem(
+      {Key key, @required this.icon, @required this.onPressed})
+      : super(key: key);
+
+  /// icon
+  final IconData icon;
+
+  /// onPressed
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: DiscuzIcon(
+        icon,
+        size: _kIconsize,
+        color: DiscuzApp.themeOf(context).textColor,
+      ),
+      onPressed: () => onPressed,
     );
   }
 }
