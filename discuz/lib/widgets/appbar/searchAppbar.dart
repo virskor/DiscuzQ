@@ -59,6 +59,7 @@ class _SearchAppbarState extends State<SearchAppbar> {
   @override
   Widget build(BuildContext context) {
     /// todo: 优化，仅在初始化设置即可
+
     SystemChrome.setSystemUIOverlayStyle(
         DiscuzApp.themeOf(context).brightness == Brightness.dark
             ? SystemUiOverlayStyle.light
@@ -69,21 +70,19 @@ class _SearchAppbarState extends State<SearchAppbar> {
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
       child: SafeArea(
-        top: true,
-        bottom: false,
         child: Stack(
+          overflow: Overflow.visible,
           children: <Widget>[
-
-            Positioned(
-              top: -6, /// todo: Not recommend modify appbar leading
-              child: const AppbarLeading(),),
+            const AppbarLeading(removePreviousPageTitle: true,),
 
             AnimatedContainer(
               duration: Duration(milliseconds: 270),
 
               ///padding: EdgeInsets.only(right: _showButton ? 50 : 0),
+              padding: EdgeInsets.only(
+                right: _showButton ? 50 : 0,
+              ),
               margin: EdgeInsets.only(
-                  right: _showButton ? 50 : 0,
                   left: ModalRoute.of(context).canPop == true &&
                           ModalRoute.of(context).isFirst == false
                       ? 50

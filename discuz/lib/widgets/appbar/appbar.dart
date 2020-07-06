@@ -114,12 +114,14 @@ class AppbarLeading extends StatelessWidget {
   final double size;
   final String previousPageTitle;
   final bool dark;
+  final removePreviousPageTitle;
 
   const AppbarLeading(
       {Key key,
       this.codePoint = SFSymbols.arrow_left,
       this.size = 25,
       this.dark = false,
+      this.removePreviousPageTitle = false,
       this.previousPageTitle})
       : super(key: key);
 
@@ -133,7 +135,7 @@ class AppbarLeading extends StatelessWidget {
               : null));
 
   Widget _button({BuildContext context}) {
-    if (Platform.isIOS) {
+    if (Platform.isIOS && !removePreviousPageTitle) {
       return GestureDetector(
         child: Row(
           children: <Widget>[
@@ -144,9 +146,9 @@ class AppbarLeading extends StatelessWidget {
                   dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
             ),
             DiscuzText(
-              previousPageTitle,
-              color: DiscuzApp.themeOf(context).primaryColor,
-            )
+                    previousPageTitle,
+                    color: DiscuzApp.themeOf(context).primaryColor,
+                  )
           ],
         ),
         onTap: () {
