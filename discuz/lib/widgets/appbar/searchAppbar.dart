@@ -73,7 +73,12 @@ class _SearchAppbarState extends State<SearchAppbar> {
         child: Stack(
           overflow: Overflow.visible,
           children: <Widget>[
-            const AppbarLeading(removePreviousPageTitle: true,),
+            const Positioned(
+              top: -6,
+              child: const AppbarLeading(
+                removePreviousPageTitle: true,
+              ),
+            ),
 
             AnimatedContainer(
               duration: Duration(milliseconds: 270),

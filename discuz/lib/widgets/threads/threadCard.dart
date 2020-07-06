@@ -157,9 +157,10 @@ class _ThreadCardState extends State<ThreadCard> {
   /// 构建帖子卡片
   ///
   Widget _buildThreadCard(BuildContext context) => Container(
-        padding:
-            const EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 10),
+        margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(const Radius.circular(5)),
           color: DiscuzApp.themeOf(context).backgroundColor,
         ),
         child: Column(
@@ -237,8 +238,6 @@ class _ThreadCardState extends State<ThreadCard> {
               thread: widget.thread,
               author: _author,
             ),
-            const SizedBox(height: 10),
-            const DiscuzDivider(padding: 0,)
           ],
         ),
       );
@@ -264,15 +263,20 @@ class _ThreadCardState extends State<ThreadCard> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Row(
                         children: <Widget>[
+                          DiscuzText('发布了：'),
+                          const DiscuzIcon(
+                            SFSymbols.link,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 5),
                           DiscuzText(
                             widget.thread.attributes.title.length <=
                                     _kFlatTitleLength
                                 ? widget.thread.attributes.title
                                 : "${widget.thread.attributes.title.substring(0, _kFlatTitleLength)}...",
-                            fontWeight: FontWeight.bold,
                             overflow: TextOverflow.ellipsis,
+                            color: DiscuzApp.themeOf(context).primaryColor,
                           ),
-                          const DiscuzIcon(SFSymbols.doc_plaintext),
                         ],
                       ),
                     ),
