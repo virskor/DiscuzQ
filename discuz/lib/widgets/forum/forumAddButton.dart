@@ -187,7 +187,7 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
     if (res != null) {
       ///
       /// todo: 刷新列表
-      DiscuzToast.success(context: context, message: '发布成功');
+      DiscuzToast.toast(context: context, message: '发布成功');
     }
 
     /// 对话框一定在后关闭，否则会造成widget tree unstable

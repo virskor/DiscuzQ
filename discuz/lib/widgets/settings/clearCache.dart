@@ -159,7 +159,7 @@ class _ClearCacheState extends State<ClearCache> {
               throw e;
             }
 
-            DiscuzToast.success(context: context, message: '清理完毕');
+            DiscuzToast.toast(context: context, message: '清理完毕');
             Navigator.pop(context, true);
           },
         ),

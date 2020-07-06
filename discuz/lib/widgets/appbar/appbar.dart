@@ -85,7 +85,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
         centerTitle: centerTitle,
         leadingWidth: ModalRoute.of(context).canPop == true &&
                 ModalRoute.of(context).isFirst == false
-            ? leadingWidth > 0 ? leadingWidth : 100
+            ? (leadingWidth > 0 ? leadingWidth : 65)
             : kToolbarHeight,
         leading: leading ??
             AppbarLeading(
@@ -146,9 +146,10 @@ class AppbarLeading extends StatelessWidget {
                   dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
             ),
             DiscuzText(
-                    previousPageTitle,
-                    color: DiscuzApp.themeOf(context).primaryColor,
-                  )
+              previousPageTitle,
+              color:
+                  dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
+            )
           ],
         ),
         onTap: () {

@@ -61,7 +61,7 @@ class ThreadsAPI {
       return Future.value(false);
     }
 
-    DiscuzToast.success(context: context, message: '删除成功');
+    DiscuzToast.toast(context: context, message: '删除成功');
 
     return Future.value(true);
   }

@@ -42,11 +42,11 @@ class UserFollowRequest {
       } catch (e) {
         final DioError err = e;
         if (err.response.statusCode == 204) {
-          DiscuzToast.success(context: context, message: '已取消');
+          DiscuzToast.toast(context: context, message: '已取消');
           return Future.value(true);
         }
       }
-      DiscuzToast.success(context: context, message: '已取消');
+      DiscuzToast.toast(context: context, message: '已取消');
       return Future.value(true);
     }
 
@@ -60,7 +60,7 @@ class UserFollowRequest {
       DiscuzToast.failed(context: context, message: '操作失败');
       return Future.value(false);
     }
-    DiscuzToast.success(context: context, message: '已关注');
+    DiscuzToast.toast(context: context, message: '已关注');
     return Future.value(true);
   }
 }

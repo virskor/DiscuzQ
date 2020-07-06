@@ -183,7 +183,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
     ///
     /// await AuthHelper.processLoginByResponseData(resp.data, state: state);
 
-    DiscuzToast.success(context: context, message: '注册成功，请登陆');
+    DiscuzToast.toast(context: context, message: '注册成功，请登陆');
 
     Navigator.pop(context);
   }

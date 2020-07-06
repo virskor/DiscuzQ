@@ -52,7 +52,7 @@ class ThreadCardQuickActions extends StatelessWidget {
               if (res != null) {
                 ////
                 /// 这种时候，用户是在卡片操作回复的，仅提示回复成功即可
-                DiscuzToast.success(context: context, message: '回复成功');
+                DiscuzToast.toast(context: context, message: '回复成功');
               }
             },
           ),
@@ -88,7 +88,7 @@ class _ThreadCardQuickActionsItem extends StatelessWidget {
         size: _kIconsize,
         color: DiscuzApp.themeOf(context).textColor,
       ),
-      onPressed: () => onPressed,
+      onPressed: onPressed,
     );
   }
 }
