@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -157,7 +158,7 @@ class _ThreadCardState extends State<ThreadCard> {
   /// 构建帖子卡片
   ///
   Widget _buildThreadCard(BuildContext context) => Container(
-        margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
+        margin: kMarginAllContent,
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(const Radius.circular(5)),

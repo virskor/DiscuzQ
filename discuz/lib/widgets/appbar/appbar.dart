@@ -33,7 +33,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
   const DiscuzAppBar(
       {Key key,
       this.height,
-      this.elevation = 0,
+      this.elevation = 10,
       this.automaticallyImplyLeading = false,
       @required this.title,
       this.dark = false,

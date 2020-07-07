@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -89,9 +90,11 @@ class PostFloorCard extends StatelessWidget {
     }
 
     return Container(
+      margin: kMarginAllContent,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: DiscuzApp.themeOf(context).backgroundColor,
+        borderRadius: const BorderRadius.all(const Radius.circular(5))
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
