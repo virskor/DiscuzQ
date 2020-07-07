@@ -86,6 +86,11 @@ class RequestIncludes {
   static const String toUser = 'toUser';
 
   ///
+  /// toUser.groups
+  /// 关注用户数据
+  static const String toUserGroups = 'toUser.groups';
+
+  ///
   /// replyUser
   /// 回复的用户
   static const String postReplyUser = 'posts.replyUser';
@@ -114,6 +119,11 @@ class RequestIncludes {
   /// fromUser
   /// 粉丝用户数据
   static const String fromUser = 'fromUser';
+
+  ///
+  /// fromUser.groups
+  /// 粉丝用户数据
+  static const String fromUserGroups = 'fromUser.groups';
 
   ///
   /// groups

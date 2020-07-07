@@ -123,9 +123,6 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   List<Widget> get commentsTree => _threadsCacher.posts
       .map<Widget>((PostModel p) => Column(
             children: <Widget>[
-              const DiscuzDivider(
-                padding: 0,
-              ),
               PostFloorCard(
                   post: p,
                   threadsCacher: _threadsCacher,

@@ -1,6 +1,14 @@
 import 'package:discuzq/utils/buildInfo.dart';
 import 'package:flutter/material.dart';
 
+///
+/// View stack margin left&right
+const kMarginLeftRightContent = const EdgeInsets.only(left: 5, right: 5);
+
+/// View stack margin all
+const kMarginAllContent = const EdgeInsets.all(5);
+
+
 class Global {
   ///
   /// appname
@@ -32,7 +40,6 @@ class Global {
 
   ///用户协议
   static const String policiesUri = '';
-  
 
   /// 开启支付
   /// 允许支付功能
