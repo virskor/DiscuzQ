@@ -58,6 +58,30 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                       ),
                     ),
                   ),
+                  // const DiscuzDivider(
+                  //   padding: 0,
+                  // ),
+                  // DiscuzListTile(
+                  //   title: const DiscuzText('绑定手机'),
+                  //   onTap: () =>
+                  //       DiscuzToast.failed(context: context, message: '暂不支持'),
+                  // ),
+                  // const DiscuzDivider(
+                  //   padding: 0,
+                  // ),
+                  // DiscuzListTile(
+                  //   title: const DiscuzText('登录密码'),
+                  //   onTap: () =>
+                  //       DiscuzToast.failed(context: context, message: '暂不支持'),
+                  // ),
+                  // const DiscuzDivider(
+                  //   padding: 0,
+                  // ),
+                  // DiscuzListTile(
+                  //   title: const DiscuzText('钱包密码'),
+                  //   onTap: () =>
+                  //       DiscuzToast.failed(context: context, message: '暂不支持'),
+                  // ),
                 ],
               )
             ],

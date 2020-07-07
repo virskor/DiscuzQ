@@ -264,8 +264,9 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             ///
             /// 拓展 markdown工具栏
             ///
-            ...DiscuzEditorToolbarMarkdownItems.markdownOpts(
-                callbackInput: _callbackInput, show: widget.enableMarkdown),
+            /// todo: 优化markdown编辑类
+            /// ...DiscuzEditorToolbarMarkdownItems.markdownOpts(
+            ///    callbackInput: _callbackInput, show: widget.enableMarkdown),
 
             ///
             /// 防止无法滑动 多增加区域
