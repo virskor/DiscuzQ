@@ -33,23 +33,20 @@ class _PostLikeButtonState extends State<PostLikeButton> {
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, state) {
-        return LikeButton(
-          padding: const EdgeInsets.all(0),
-          isLiked: _iLikedIt(state: state),
-          onTap: _onLikeButtonTapped,
-          size: widget.size,
-          likeBuilder: (bool isLiked) {
-            return Icon(
+      builder: (context, child, state) => LikeButton(
+            padding: const EdgeInsets.all(0),
+            isLiked: _iLikedIt(state: state),
+            onTap: _onLikeButtonTapped,
+            size: widget.size,
+            likeCount: widget.post.attributes.likeCount,
+            likeBuilder: (bool isLiked) => Icon(
               isLiked ? SFSymbols.heart_fill : SFSymbols.heart,
               color: isLiked
                   ? Colors.pinkAccent
                   : DiscuzApp.themeOf(context).textColor,
               //size: widget.size,
-            );
-          },
-        );
-      });
+            ),
+          ));
 
   ///
   /// 用户点赞
