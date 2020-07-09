@@ -65,6 +65,7 @@ class ThreadCardQuickActions extends StatelessWidget {
           /// 分享按钮
           _ThreadCardQuickActionsItem(
             icon: Icons.share,
+            hideCounter: true,
             onPressed: () => ShareNative.shareThread(thread: thread),
           )
         ],
@@ -75,7 +76,11 @@ class ThreadCardQuickActions extends StatelessWidget {
 
 class _ThreadCardQuickActionsItem extends StatelessWidget {
   const _ThreadCardQuickActionsItem(
-      {Key key, @required this.icon, @required this.onPressed, this.count = 0})
+      {Key key,
+      @required this.icon,
+      @required this.onPressed,
+      this.count = 0,
+      this.hideCounter = false})
       : super(key: key);
 
   /// icon
@@ -84,38 +89,37 @@ class _ThreadCardQuickActionsItem extends StatelessWidget {
   /// onPressed
   final Function onPressed;
 
-  /// show counter
+  /// counter
   final int count;
+
+  /// hide counter
+  final bool hideCounter;
 
   @override
   Widget build(BuildContext context) => Expanded(
         child: IconButton(
-          icon: count == 0
-              ? DiscuzIcon(
-                  icon,
-                  size: _kIconsize,
-                  color: DiscuzApp.themeOf(context).greyTextColor,
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    DiscuzIcon(
-                      icon,
-                      size: _kIconsize,
-                      color: DiscuzApp.themeOf(context).greyTextColor,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    DiscuzText(
+          icon: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              DiscuzIcon(
+                icon,
+                size: _kIconsize,
+                color: DiscuzApp.themeOf(context).greyTextColor,
+              ),
+              const SizedBox(
+                width: 4,
+              ),
+              hideCounter
+                  ? const SizedBox()
+                  : DiscuzText(
                       count.toString(),
                       fontSize: DiscuzApp.themeOf(context).smallTextSize,
                       color: DiscuzApp.themeOf(context).greyTextColor,
                       overflow: TextOverflow.ellipsis,
                     )
-                  ],
-                ),
+            ],
+          ),
           onPressed: onPressed,
         ),
       );
