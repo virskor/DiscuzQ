@@ -36,7 +36,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.elevation = 10,
       this.automaticallyImplyLeading = false,
       @required this.title,
-      this.dark = false,
+      this.dark = true,
       this.actions,
       this.toolbarOpacity = 1,
       this.leadingWidth = 0,
@@ -49,7 +49,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.dense = true,
       this.transitionAnimation = true,
       this.bottom,
-      this.brightness,
+      this.brightness = Brightness.dark,
       this.backgroundColor})
       : super(key: key);
 
@@ -95,7 +95,7 @@ class DiscuzAppBar extends StatelessWidget implements PreferredSizeWidget {
         brightness: brightness ?? DiscuzApp.themeOf(context).brightness,
         toolbarOpacity: toolbarOpacity,
         backgroundColor:
-            backgroundColor ?? DiscuzApp.themeOf(context).backgroundColor,
+            backgroundColor ?? DiscuzApp.themeOf(context).primaryColor,
         textTheme: TextTheme(
           headline6: TextStyle(
               color: dark == true
@@ -134,44 +134,19 @@ class AppbarLeading extends StatelessWidget {
               ? _button(context: context)
               : null));
 
-  Widget _button({BuildContext context}) {
-    if (Platform.isIOS && !removePreviousPageTitle) {
-      return GestureDetector(
-        child: Row(
-          children: <Widget>[
-            Icon(
-              SFSymbols.chevron_left,
-              size: size,
-              color:
-                  dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
-            ),
-            DiscuzText(
-              previousPageTitle,
-              color:
-                  dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
-            )
-          ],
+  Widget _button({BuildContext context}) => IconButton(
+        tooltip: previousPageTitle,
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        icon: Icon(
+          codePoint,
+          size: size,
+          color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
         ),
-        onTap: () {
+        onPressed: () {
           Navigator.pop(context);
         },
       );
-    }
-
-    return IconButton(
-      tooltip: previousPageTitle,
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      icon: Icon(
-        codePoint,
-        size: size,
-        color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-  }
 }
 
 class DiscuzAppBarActions extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:like_button/like_button.dart';
 
 import 'package:discuzq/models/postModel.dart';
@@ -24,7 +24,7 @@ class PostLikeButton extends StatefulWidget {
   ///
   final double size;
 
-  PostLikeButton({this.post, this.size = 26});
+  PostLikeButton({this.post, this.size = 20});
   @override
   _PostLikeButtonState createState() => _PostLikeButtonState();
 }
@@ -33,23 +33,20 @@ class _PostLikeButtonState extends State<PostLikeButton> {
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, state) {
-        return LikeButton(
-          padding: const EdgeInsets.all(0),
-          isLiked: _iLikedIt(state: state),
-          onTap: _onLikeButtonTapped,
-          size: widget.size,
-          likeBuilder: (bool isLiked) {
-            return Icon(
-              isLiked ? SFSymbols.heart_fill : SFSymbols.heart,
+      builder: (context, child, state) => LikeButton(
+            padding: const EdgeInsets.all(0),
+            isLiked: _iLikedIt(state: state),
+            onTap: _onLikeButtonTapped,
+            size: widget.size,
+            likeCount: widget.post.attributes.likeCount,
+            likeBuilder: (bool isLiked) => DiscuzIcon(
+              Icons.thumb_up,
               color: isLiked
                   ? Colors.pinkAccent
-                  : DiscuzApp.themeOf(context).textColor,
-              //size: widget.size,
-            );
-          },
-        );
-      });
+                  : DiscuzApp.themeOf(context).greyTextColor,
+              size: widget.size,
+            ),
+          ));
 
   ///
   /// 用户点赞

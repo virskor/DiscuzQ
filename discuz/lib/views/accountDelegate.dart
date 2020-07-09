@@ -101,7 +101,9 @@ class _AccountDelegateState extends State<AccountDelegate> {
               title: '个人中心',
               elevation: 0,
               actions: <Widget>[
-                const NightModeSwitcher(),
+                const NightModeSwitcher(
+                  color: Colors.white,
+                ),
                 const _SettingButton()
               ],
             ),
@@ -179,10 +181,7 @@ class _SettingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: DiscuzIcon(
-          SFSymbols.gear_alt_fill,
-          color: DiscuzApp.themeOf(context).textColor,
-        ),
+        icon: const DiscuzIcon(SFSymbols.gear_alt_fill, color: Colors.white),
         onPressed: () => DiscuzRoute.open(
             context: context, widget: const PreferencesDelegate()),
       );
