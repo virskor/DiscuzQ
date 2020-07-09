@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 
 ///
 /// 按钮图标的大小
-const double _kIconsize = 22;
+const double _kIconsize = 20;
 
 class ThreadCardQuickActions extends StatelessWidget {
   ///
@@ -36,15 +37,18 @@ class ThreadCardQuickActions extends StatelessWidget {
         children: [
           ///
           /// 点赞按钮
-          PostLikeButton(
-            size: _kIconsize,
-            post: firstPost,
+          Expanded(
+            child: PostLikeButton(
+              size: _kIconsize,
+              post: firstPost,
+            ),
           ),
 
           ///
           /// 评论
           _ThreadCardQuickActionsItem(
             icon: SFSymbols.bubble_left_bubble_right,
+            count: thread.attributes.postCount,
             onPressed: () async {
               final DiscuzEditorRequestResult res =
                   await DiscuzEditorHelper(context: context)
@@ -60,7 +64,7 @@ class ThreadCardQuickActions extends StatelessWidget {
           ///
           /// 分享按钮
           _ThreadCardQuickActionsItem(
-            icon: SFSymbols.square_arrow_up,
+            icon: Icons.share,
             onPressed: () => ShareNative.shareThread(thread: thread),
           )
         ],
@@ -71,7 +75,7 @@ class ThreadCardQuickActions extends StatelessWidget {
 
 class _ThreadCardQuickActionsItem extends StatelessWidget {
   const _ThreadCardQuickActionsItem(
-      {Key key, @required this.icon, @required this.onPressed})
+      {Key key, @required this.icon, @required this.onPressed, this.count = 0})
       : super(key: key);
 
   /// icon
@@ -80,15 +84,39 @@ class _ThreadCardQuickActionsItem extends StatelessWidget {
   /// onPressed
   final Function onPressed;
 
+  /// show counter
+  final int count;
+
   @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: DiscuzIcon(
-        icon,
-        size: _kIconsize,
-        color: DiscuzApp.themeOf(context).textColor,
-      ),
-      onPressed: onPressed,
-    );
-  }
+  Widget build(BuildContext context) => Expanded(
+        child: IconButton(
+          icon: count == 0
+              ? DiscuzIcon(
+                  icon,
+                  size: _kIconsize,
+                  color: DiscuzApp.themeOf(context).greyTextColor,
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    DiscuzIcon(
+                      icon,
+                      size: _kIconsize,
+                      color: DiscuzApp.themeOf(context).greyTextColor,
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    DiscuzText(
+                      count.toString(),
+                      fontSize: DiscuzApp.themeOf(context).smallTextSize,
+                      color: DiscuzApp.themeOf(context).greyTextColor,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
+          onPressed: onPressed,
+        ),
+      );
 }

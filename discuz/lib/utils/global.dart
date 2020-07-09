@@ -66,7 +66,7 @@ class Global {
   static const Color highlightColor = Colors.transparent;
 
   /// 日间模式底色
-  static const Color scaffoldBackgroundColorLight = Color(0xFFF1F1F1);
+  static const Color scaffoldBackgroundColorLight = Color(0xFFF0F0F0);
 
   /// 夜间模式底色
   static const Color scaffoldBackgroundColorDark = Color(0xFF19232d);
