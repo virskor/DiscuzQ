@@ -59,7 +59,12 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
 
           ///
           /// 生成已经上传的图片
-          widgets = state.galleries
+          /// 
+          /// todo: 跟进问题
+          /// 注意：由于attachements失去 isGallery 字段导致的 state过滤附件类型失效问题
+          /// 新版接口废弃了：isGallery
+          /// widgets = state.galleries
+          widgets = state.attachements
               .map<Widget>((AttachmentsModel a) => SizedBox(
                     width: _imageSize,
                     height: _imageSize,
@@ -114,24 +119,24 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
       ///
       /// 执行上传过程
       /// todo: 增加该文件正在上传的状态
-      final dynamic attachment =
+      final AttachmentsModel attachment =
           await _uploadImage(file: imageFile, state: state);
       close();
-      if (attachment != null && attachment.runtimeType == AttachmentsModel) {
+      if (attachment == null) {
         ///
-        /// 图片上传成功,state新增
-        state.addAttachment(attachment);
-        if (widget.onUploaded != null) {
-          widget.onUploaded();
-        }
+        /// 上传失败
+        /// todo: 移除该文件正在上传的状态
+        /// 提醒用户正在上传
+        DiscuzToast.failed(context: context, message: '上传失败');
         return;
       }
 
       ///
-      /// 上传失败
-      /// todo: 移除该文件正在上传的状态
-      /// 提醒用户正在上传
-      DiscuzToast.failed(context: context, message: '上传失败');
+      /// 图片上传成功,state新增
+      state.addAttachment(attachment);
+      if (widget.onUploaded != null) {
+        widget.onUploaded();
+      }
     }
   }
 
@@ -147,7 +152,10 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
         ///
         ///  参数补全
         data: {
+          "type": 1,
           "isGallery": 1,
+
+          /// 是否为帖子图片
 
           /// 上传图集，而不是普通附件
           "order": state.galleries == null ? 0 : state.galleries.length,
@@ -159,7 +167,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
       return Future.value(null);
     }
 
-    return AttachmentsModel.fromMap(maps: resp.data['data']);
+    return Future.value(AttachmentsModel.fromMap(maps: resp.data['data']));
   }
 }
 
@@ -220,7 +228,7 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50)),
                               color: Colors.white),
-                          child: DiscuzIcon(
+                          child: const DiscuzIcon(
                             SFSymbols.minus_circle_fill,
                             size: 15,
                             color: Colors.redAccent,
