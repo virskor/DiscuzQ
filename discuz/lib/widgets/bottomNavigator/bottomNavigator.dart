@@ -8,6 +8,8 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 
+const double _kBottomNavigationElevation = 15;
+
 class DiscuzBottomNavigator extends StatefulWidget {
   final ValueChanged<int> onItemSelected;
   final List<NavigatorItem> items;
@@ -36,20 +38,21 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
   Widget build(BuildContext context) {
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: false,
-        builder: (context, child, state) {
-          return Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                bottom: MediaQuery.of(context).padding.bottom),
-            decoration:  BoxDecoration(
-              color: DiscuzApp.themeOf(context).backgroundColor,
-              border: const Border(top: Global.border),
-            ),
-            child: _buildItems(state: state),
-          );
-        });
+        builder: (context, child, state) => Material(
+              elevation: _kBottomNavigationElevation,
+              child: Container(
+                constraints: const BoxConstraints(maxHeight: 70),
+                padding: EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: MediaQuery.of(context).padding.bottom),
+                decoration: BoxDecoration(
+                  color: DiscuzApp.themeOf(context).backgroundColor,
+                  border: const Border(top: Global.border),
+                ),
+                child: _buildItems(state: state),
+              ),
+            ));
   }
 
   Widget _buildItems({AppState state}) => Row(
