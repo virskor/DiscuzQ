@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzAmount.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
@@ -59,7 +59,6 @@ class _WalletDelegateState extends State<WalletDelegate> {
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
-              dark: true,
               brightness: Brightness.dark,
               backgroundColor: DiscuzApp.themeOf(context).primaryColor,
               title: '我的钱包',

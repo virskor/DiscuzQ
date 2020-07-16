@@ -4,6 +4,9 @@
 
 import 'dart:math' as math;
 
+import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -49,14 +52,14 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 ///
 /// App bars are typically used in the [Scaffold.appBar] property, which places
 /// the app bar as a fixed-height widget at the top of the screen. For a scrollable
-/// app bar, see [SliverAppBarExt], which embeds an [AppBarExt] in a sliver for use in
+/// app bar, see [SliverDiscuzAppBar], which embeds an [DiscuzAppBar] in a sliver for use in
 /// a [CustomScrollView].
 ///
 /// When not used as [Scaffold.appBar], or when wrapped in a [Hero], place the app
 /// bar in a [MediaQuery] to take care of the padding around the content of the
 /// app bar if needed, as the padding will not be handled by [Scaffold].
 ///
-/// The AppBarExt displays the toolbar widgets, [leading], [title], and [actions],
+/// The DiscuzAppBar displays the toolbar widgets, [leading], [title], and [actions],
 /// above the [bottom] (if any). The [bottom] is usually used for a [TabBar]. If
 /// a [flexibleSpace] widget is specified then it is stacked behind the toolbar
 /// and the bottom widget. The following diagram shows where each of these slots
@@ -67,7 +70,7 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 /// the title is between them. The bottom is, naturally, at the bottom, and the
 /// flexibleSpace is behind all of them.](https://flutter.github.io/assets-for-api-docs/assets/material/app_bar.png)
 ///
-/// If the [leading] widget is omitted, but the [AppBarExt] is in a [Scaffold] with
+/// If the [leading] widget is omitted, but the [DiscuzAppBar] is in a [Scaffold] with
 /// a [Drawer], then a button will be inserted to open the drawer. Otherwise, if
 /// the nearest [Navigator] has any previous routes, a [BackButton] is inserted
 /// instead. This behavior can be turned off by setting the [automaticallyImplyLeading]
@@ -76,7 +79,7 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 ///
 /// {@tool dartpad --template=stateless_widget_material}
 ///
-/// This sample shows an [AppBarExt] with two simple actions. The first action
+/// This sample shows an [DiscuzAppBar] with two simple actions. The first action
 /// opens a [SnackBar], while the second action navigates to a new page.
 ///
 /// ```dart preamble
@@ -87,7 +90,7 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 ///   Navigator.push(context, MaterialPageRoute(
 ///     builder: (BuildContext context) {
 ///       return Scaffold(
-///         appBar: AppBarExt(
+///         appBar: DiscuzAppBar(
 ///           title: const Text('Next page'),
 ///         ),
 ///         body: const Center(
@@ -106,8 +109,8 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 /// Widget build(BuildContext context) {
 ///   return Scaffold(
 ///     key: scaffoldKey,
-///     appBar: AppBarExt(
-///       title: const Text('AppBarExt Demo'),
+///     appBar: DiscuzAppBar(
+///       title: const Text('DiscuzAppBar Demo'),
 ///       actions: <Widget>[
 ///         IconButton(
 ///           icon: const Icon(Icons.add_alert),
@@ -138,17 +141,17 @@ class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
 ///
 /// See also:
 ///
-///  * [Scaffold], which displays the [AppBarExt] in its [Scaffold.appBar] slot.
-///  * [SliverAppBarExt], which uses [AppBarExt] to provide a flexible app bar that
+///  * [Scaffold], which displays the [DiscuzAppBar] in its [Scaffold.appBar] slot.
+///  * [SliverDiscuzAppBar], which uses [DiscuzAppBar] to provide a flexible app bar that
 ///    can be used in a [CustomScrollView].
-///  * [TabBar], which is typically placed in the [bottom] slot of the [AppBarExt]
+///  * [TabBar], which is typically placed in the [bottom] slot of the [DiscuzAppBar]
 ///    if the screen has multiple pages arranged in tabs.
 ///  * [IconButton], which is used with [actions] to show buttons on the app bar.
 ///  * [PopupMenuButton], to show a popup menu on the app bar, via [actions].
 ///  * [FlexibleSpaceBar], which is used with [flexibleSpace] when the app bar
 ///    can expand and collapse.
 ///  * <https://material.io/design/components/app-bars-top.html>
-class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
+class DiscuzAppBar extends StatefulWidget implements PreferredSizeWidget {
   /// Creates a material design app bar.
   ///
   /// The arguments [primary], [toolbarOpacity], [bottomOpacity]
@@ -156,12 +159,12 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   /// [elevation] is specified, it must be non-negative.
   ///
   /// If [backgroundColor], [elevation], [brightness], [iconTheme],
-  /// [actionsIconTheme], or [textTheme] are null, then their [AppBarExtTheme]
-  /// values will be used. If the corresponding [AppBarExtTheme] property is null,
+  /// [actionsIconTheme], or [textTheme] are null, then their [DiscuzAppBarTheme]
+  /// values will be used. If the corresponding [DiscuzAppBarTheme] property is null,
   /// then the default specified in the property's documentation will be used.
   ///
   /// Typically used in the [Scaffold.appBar] property.
-  AppBarExt({
+  DiscuzAppBar({
     Key key,
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -169,7 +172,7 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
     this.actions,
     this.flexibleSpace,
     this.bottom,
-    this.elevation,
+    this.elevation = 10,
     this.shape,
     this.backgroundColor,
     this.brightness,
@@ -179,7 +182,7 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
     this.textTheme,
     this.primary = true,
     this.shadowColor = const Color(0x2F000000),
-    this.centerTitle,
+    this.centerTitle = false,
     this.titleSpacing = NavigationToolbar.kMiddleSpacing,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
@@ -196,10 +199,10 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   /// A widget to display before the [title].
   ///
   /// If this is null and [automaticallyImplyLeading] is set to true, the
-  /// [AppBarExt] will imply an appropriate widget. For example, if the [AppBarExt] is
+  /// [DiscuzAppBar] will imply an appropriate widget. For example, if the [DiscuzAppBar] is
   /// in a [Scaffold] that also has a [Drawer], the [Scaffold] will fill this
   /// widget with an [IconButton] that opens the drawer (using [Icons.menu]). If
-  /// there's no [Drawer] and the parent [Navigator] can go back, the [AppBarExt]
+  /// there's no [Drawer] and the parent [Navigator] can go back, the [DiscuzAppBar]
   /// will use a [BackButton] that calls [Navigator.maybePop].
   ///
   /// {@tool snippet}
@@ -208,7 +211,7 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   /// instead of relying on [automaticallyImplyLeading]:
   ///
   /// ```dart
-  /// AppBarExt(
+  /// DiscuzAppBar(
   ///   leading: Builder(
   ///     builder: (BuildContext context) {
   ///       return IconButton(
@@ -230,7 +233,7 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   ///
   /// See also:
   ///
-  ///  * [Scaffold.appBar], in which an [AppBarExt] is usually placed.
+  ///  * [Scaffold.appBar], in which an [DiscuzAppBar] is usually placed.
   ///  * [Scaffold.drawer], in which the [Drawer] is usually placed.
   final Widget leading;
   final double leadingWidth;
@@ -246,7 +249,7 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   ///
   /// Typically a [Text] widget containing a description of the current contents
   /// of the app.
-  final Widget title;
+  final dynamic title;
 
   /// Widgets to display after the [title] widget.
   ///
@@ -258,9 +261,9 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   /// This widget is stacked behind the toolbar and the tab bar. It's height will
   /// be the same as the app bar's overall height.
   ///
-  /// A flexible space isn't actually flexible unless the [AppBarExt]'s container
-  /// changes the [AppBarExt]'s size. A [SliverAppBarExt] in a [CustomScrollView]
-  /// changes the [AppBarExt]'s height when scrolled.
+  /// A flexible space isn't actually flexible unless the [DiscuzAppBar]'s container
+  /// changes the [DiscuzAppBar]'s size. A [SliverDiscuzAppBar] in a [CustomScrollView]
+  /// changes the [DiscuzAppBar]'s height when scrolled.
   ///
   /// Typically a [FlexibleSpaceBar]. See [FlexibleSpaceBar] for details.
   final Widget flexibleSpace;
@@ -353,7 +356,7 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   /// A value of 1.0 is fully opaque, and a value of 0.0 is fully transparent.
   ///
   /// Typically, this value is not changed from its default value (1.0). It is
-  /// used by [SliverAppBarExt] to animate the opacity of the toolbar when the app
+  /// used by [SliverDiscuzAppBar] to animate the opacity of the toolbar when the app
   /// bar is scrolled.
   final double toolbarOpacity;
 
@@ -362,7 +365,7 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   /// A value of 1.0 is fully opaque, and a value of 0.0 is fully transparent.
   ///
   /// Typically, this value is not changed from its default value (1.0). It is
-  /// used by [SliverAppBarExt] to animate the opacity of the toolbar when the app
+  /// used by [SliverDiscuzAppBar] to animate the opacity of the toolbar when the app
   /// bar is scrolled.
   final double bottomOpacity;
 
@@ -392,10 +395,10 @@ class AppBarExt extends StatefulWidget implements PreferredSizeWidget {
   }
 
   @override
-  _AppBarExtState createState() => _AppBarExtState();
+  _DiscuzAppBarState createState() => _DiscuzAppBarState();
 }
 
-class _AppBarExtState extends State<AppBarExt> {
+class _DiscuzAppBarState extends State<DiscuzAppBar> {
   static const double _defaultElevation = 4.0;
 
   void _handleDrawerButton() {
@@ -459,7 +462,7 @@ class _AppBarExtState extends State<AppBarExt> {
         );
       } else {
         if (canPop)
-          leading = useCloseButton ? const CloseButton() : const BackButton();
+          leading = useCloseButton ? const CloseButton() : const AppbarLeading(dark: true,);
       }
     }
     if (leading != null) {
@@ -469,7 +472,10 @@ class _AppBarExtState extends State<AppBarExt> {
       );
     }
 
-    Widget title = widget.title;
+    Widget title = widget.title.runtimeType == String
+        ? DiscuzText(widget.title, color: Colors.white, fontSize: 20)
+        : widget.title;
+
     if (title != null) {
       bool namesRoute;
       switch (theme.platform) {
@@ -489,7 +495,7 @@ class _AppBarExtState extends State<AppBarExt> {
         overflow: TextOverflow.ellipsis,
         child: Semantics(
           namesRoute: namesRoute,
-          child: _AppBarExtTitleBox(child: title),
+          child: _DiscuzAppBarTitleBox(child: title),
           header: true,
         ),
       );
@@ -597,8 +603,9 @@ class _AppBarExtState extends State<AppBarExt> {
         value: overlayStyle,
         child: Material(
           shadowColor: widget.shadowColor,
-          color:
-              widget.backgroundColor ?? appBarTheme.color ?? theme.primaryColor,
+          color: widget.backgroundColor ??
+              appBarTheme.color ??
+              DiscuzApp.themeOf(context).primaryColor,
           elevation:
               widget.elevation ?? appBarTheme.elevation ?? _defaultElevation,
           shape: widget.shape,
@@ -612,18 +619,18 @@ class _AppBarExtState extends State<AppBarExt> {
   }
 }
 
-class _FloatingAppBarExt extends StatefulWidget {
-  const _FloatingAppBarExt({Key key, this.child}) : super(key: key);
+class _FloatingDiscuzAppBar extends StatefulWidget {
+  const _FloatingDiscuzAppBar({Key key, this.child}) : super(key: key);
 
   final Widget child;
 
   @override
-  _FloatingAppBarExtState createState() => _FloatingAppBarExtState();
+  _FloatingDiscuzAppBarState createState() => _FloatingDiscuzAppBarState();
 }
 
-// A wrapper for the widget created by _SliverAppBarExtDelegate that starts and
+// A wrapper for the widget created by _SliverDiscuzAppBarDelegate that starts and
 // stops the floating app bar's snap-into-view or snap-out-of-view animation.
-class _FloatingAppBarExtState extends State<_FloatingAppBarExt> {
+class _FloatingDiscuzAppBarState extends State<_FloatingDiscuzAppBar> {
   ScrollPosition _position;
 
   @override
@@ -664,8 +671,8 @@ class _FloatingAppBarExtState extends State<_FloatingAppBarExt> {
   Widget build(BuildContext context) => widget.child;
 }
 
-class _SliverAppBarExtDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarExtDelegate({
+class _SliverDiscuzAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverDiscuzAppBarDelegate({
     @required this.leading,
     @required this.automaticallyImplyLeading,
     @required this.title,
@@ -759,7 +766,7 @@ class _SliverAppBarExtDelegate extends SliverPersistentHeaderDelegate {
       maxExtent: maxExtent,
       currentExtent: math.max(minExtent, maxExtent - shrinkOffset),
       toolbarOpacity: toolbarOpacity,
-      child: AppBarExt(
+      child: DiscuzAppBar(
         leading: leading,
         automaticallyImplyLeading: automaticallyImplyLeading,
         title: title,
@@ -788,11 +795,11 @@ class _SliverAppBarExtDelegate extends SliverPersistentHeaderDelegate {
             : ((visibleMainHeight / _bottomHeight).clamp(0.0, 1.0) as double),
       ),
     );
-    return floating ? _FloatingAppBarExt(child: appBar) : appBar;
+    return floating ? _FloatingDiscuzAppBar(child: appBar) : appBar;
   }
 
   @override
-  bool shouldRebuild(covariant _SliverAppBarExtDelegate oldDelegate) {
+  bool shouldRebuild(covariant _SliverDiscuzAppBarDelegate oldDelegate) {
     return leading != oldDelegate.leading ||
         automaticallyImplyLeading != oldDelegate.automaticallyImplyLeading ||
         title != oldDelegate.title ||
@@ -836,9 +843,9 @@ class _SliverAppBarExtDelegate extends SliverPersistentHeaderDelegate {
 /// [CustomScrollView], which lets the app bar integrate with the scroll view so
 /// that it can vary in height according to the scroll offset or float above the
 /// other content in the scroll view. For a fixed-height app bar at the top of
-/// the screen see [AppBarExt], which is used in the [Scaffold.appBar] slot.
+/// the screen see [DiscuzAppBar], which is used in the [Scaffold.appBar] slot.
 ///
-/// The AppBarExt displays the toolbar widgets, [leading], [title], and
+/// The DiscuzAppBar displays the toolbar widgets, [leading], [title], and
 /// [actions], above the [bottom] (if any). If a [flexibleSpace] widget is
 /// specified then it is stacked behind the toolbar and the bottom widget.
 ///
@@ -848,7 +855,7 @@ class _SliverAppBarExtDelegate extends SliverPersistentHeaderDelegate {
 /// [CustomScrollView.slivers] list:
 ///
 /// ```dart
-/// SliverAppBarExt(
+/// SliverDiscuzAppBar(
 ///   expandedHeight: 150.0,
 ///   flexibleSpace: const FlexibleSpaceBar(
 ///     title: Text('Available seats'),
@@ -891,22 +898,22 @@ class _SliverAppBarExtDelegate extends SliverPersistentHeaderDelegate {
 ///
 /// See also:
 ///
-///  * [CustomScrollView], which integrates the [SliverAppBarExt] into its
+///  * [CustomScrollView], which integrates the [SliverDiscuzAppBar] into its
 ///    scrolling.
-///  * [AppBarExt], which is a fixed-height app bar for use in [Scaffold.appBar].
-///  * [TabBar], which is typically placed in the [bottom] slot of the [AppBarExt]
+///  * [DiscuzAppBar], which is a fixed-height app bar for use in [Scaffold.appBar].
+///  * [TabBar], which is typically placed in the [bottom] slot of the [DiscuzAppBar]
 ///    if the screen has multiple pages arranged in tabs.
 ///  * [IconButton], which is used with [actions] to show buttons on the app bar.
 ///  * [PopupMenuButton], to show a popup menu on the app bar, via [actions].
 ///  * [FlexibleSpaceBar], which is used with [flexibleSpace] when the app bar
 ///    can expand and collapse.
 ///  * <https://material.io/design/components/app-bars-top.html>
-class SliverAppBarExt extends StatefulWidget {
+class SliverDiscuzAppBar extends StatefulWidget {
   /// Creates a material design app bar that can be placed in a [CustomScrollView].
   ///
   /// The arguments [forceElevated], [primary], [floating], [pinned], [snap]
   /// and [automaticallyImplyLeading] must not be null.
-  const SliverAppBarExt({
+  const SliverDiscuzAppBar({
     Key key,
     this.leading,
     this.automaticallyImplyLeading = true,
@@ -947,11 +954,11 @@ class SliverAppBarExt extends StatefulWidget {
 
   /// A widget to display before the [title].
   ///
-  /// If this is null and [automaticallyImplyLeading] is set to true, the [AppBarExt] will
-  /// imply an appropriate widget. For example, if the [AppBarExt] is in a [Scaffold]
+  /// If this is null and [automaticallyImplyLeading] is set to true, the [DiscuzAppBar] will
+  /// imply an appropriate widget. For example, if the [DiscuzAppBar] is in a [Scaffold]
   /// that also has a [Drawer], the [Scaffold] will fill this widget with an
   /// [IconButton] that opens the drawer. If there's no [Drawer] and the parent
-  /// [Navigator] can go back, the [AppBarExt] will use a [BackButton] that calls
+  /// [Navigator] can go back, the [DiscuzAppBar] will use a [BackButton] that calls
   /// [Navigator.maybePop].
   final Widget leading;
 
@@ -981,7 +988,7 @@ class SliverAppBarExt extends StatefulWidget {
   ///   body: CustomScrollView(
   ///     primary: true,
   ///     slivers: <Widget>[
-  ///       SliverAppBarExt(
+  ///       SliverDiscuzAppBar(
   ///         title: Text('Hello World'),
   ///         actions: <Widget>[
   ///           IconButton(
@@ -1031,10 +1038,10 @@ class SliverAppBarExt extends StatefulWidget {
   final double elevation;
 
   /// Whether to show the shadow appropriate for the [elevation] even if the
-  /// content is not scrolled under the [AppBarExt].
+  /// content is not scrolled under the [DiscuzAppBar].
   ///
   /// Defaults to false, meaning that the [elevation] is only applied when the
-  /// [AppBarExt] is being displayed over content that is scrolled under it.
+  /// [DiscuzAppBar] is being displayed over content that is scrolled under it.
   ///
   /// When set to true, the [elevation] is applied regardless.
   ///
@@ -1127,7 +1134,7 @@ class SliverAppBarExt extends StatefulWidget {
   ///
   /// See also:
   ///
-  ///  * [SliverAppBarExt] for more animated examples of how this property changes the
+  ///  * [SliverDiscuzAppBar] for more animated examples of how this property changes the
   ///    behavior of the app bar in combination with [pinned] and [snap].
   final bool floating;
 
@@ -1148,7 +1155,7 @@ class SliverAppBarExt extends StatefulWidget {
   ///
   /// See also:
   ///
-  ///  * [SliverAppBarExt] for more animated examples of how this property changes the
+  ///  * [SliverDiscuzAppBar] for more animated examples of how this property changes the
   ///    behavior of the app bar in combination with [floating].
   final bool pinned;
 
@@ -1180,7 +1187,7 @@ class SliverAppBarExt extends StatefulWidget {
   ///
   /// See also:
   ///
-  ///  * [SliverAppBarExt] for more animated examples of how this property changes the
+  ///  * [SliverDiscuzAppBar] for more animated examples of how this property changes the
   ///    behavior of the app bar in combination with [pinned] and [floating].
   final bool snap;
 
@@ -1200,12 +1207,12 @@ class SliverAppBarExt extends StatefulWidget {
   final AsyncCallback onStretchTrigger;
 
   @override
-  _SliverAppBarExtState createState() => _SliverAppBarExtState();
+  _SliverDiscuzAppBarState createState() => _SliverDiscuzAppBarState();
 }
 
 // This class is only Stateful because it owns the TickerProvider used
 // by the floating appbar snap animation (via FloatingHeaderSnapConfiguration).
-class _SliverAppBarExtState extends State<SliverAppBarExt>
+class _SliverDiscuzAppBarState extends State<SliverDiscuzAppBar>
     with TickerProviderStateMixin {
   FloatingHeaderSnapConfiguration _snapConfiguration;
   OverScrollHeaderStretchConfiguration _stretchConfiguration;
@@ -1241,7 +1248,7 @@ class _SliverAppBarExtState extends State<SliverAppBarExt>
   }
 
   @override
-  void didUpdateWidget(SliverAppBarExt oldWidget) {
+  void didUpdateWidget(SliverDiscuzAppBar oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.snap != oldWidget.snap || widget.floating != oldWidget.floating)
       _updateSnapConfiguration();
@@ -1264,7 +1271,7 @@ class _SliverAppBarExtState extends State<SliverAppBarExt>
       child: SliverPersistentHeader(
         floating: widget.floating,
         pinned: widget.pinned,
-        delegate: _SliverAppBarExtDelegate(
+        delegate: _SliverDiscuzAppBarDelegate(
           leading: widget.leading,
           automaticallyImplyLeading: widget.automaticallyImplyLeading,
           title: widget.title,
@@ -1295,30 +1302,30 @@ class _SliverAppBarExtState extends State<SliverAppBarExt>
   }
 }
 
-// Layout the AppBarExt's title with unconstrained height, vertically
+// Layout the DiscuzAppBar's title with unconstrained height, vertically
 // center it within its (NavigationToolbar) parent, and allow the
 // parent to constrain the title's actual height.
-class _AppBarExtTitleBox extends SingleChildRenderObjectWidget {
-  const _AppBarExtTitleBox({Key key, @required Widget child})
+class _DiscuzAppBarTitleBox extends SingleChildRenderObjectWidget {
+  const _DiscuzAppBarTitleBox({Key key, @required Widget child})
       : assert(child != null),
         super(key: key, child: child);
 
   @override
-  _RenderAppBarExtTitleBox createRenderObject(BuildContext context) {
-    return _RenderAppBarExtTitleBox(
+  _RenderDiscuzAppBarTitleBox createRenderObject(BuildContext context) {
+    return _RenderDiscuzAppBarTitleBox(
       textDirection: Directionality.of(context),
     );
   }
 
   @override
   void updateRenderObject(
-      BuildContext context, _RenderAppBarExtTitleBox renderObject) {
+      BuildContext context, _RenderDiscuzAppBarTitleBox renderObject) {
     renderObject.textDirection = Directionality.of(context);
   }
 }
 
-class _RenderAppBarExtTitleBox extends RenderAligningShiftedBox {
-  _RenderAppBarExtTitleBox({
+class _RenderDiscuzAppBarTitleBox extends RenderAligningShiftedBox {
+  _RenderDiscuzAppBarTitleBox({
     RenderBox child,
     TextDirection textDirection,
   }) : super(

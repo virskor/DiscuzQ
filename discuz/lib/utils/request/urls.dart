@@ -86,6 +86,14 @@ class Urls {
   static String attachments = "$_apiPath/attachments";
 
   /// -----------------------------------
+  /// 举报
+  /// 创建举报数据 post
+  /// 举报列表数据 get
+  /// 批量删除举报 delete
+  /// 批量修改举报 batch
+  static String reports = "$_apiPath/reports";
+
+  /// -----------------------------------
   /// 视频上传
   /// 视频上传相关的接口
   ///
@@ -116,7 +124,7 @@ class Urls {
   /// 瞎猜的用途
   /// 上传结果汇报
   /// 上传成功后，使用 videoApplyUGC，和上传文件的相关参数进行确认汇报
-  /// 
+  ///
   /// 示例参数
   /// appId: 1400331686
   /// cosRegion: "ap-chongqing"
@@ -146,6 +154,7 @@ class Urls {
 
   ///
   /// github changelog
-  /// 
-  static String changelog = 'https://github.com/virskor/DiscuzQ/blob/master/CHANGELOG.md';
+  ///
+  static String changelog =
+      'https://github.com/virskor/DiscuzQ/blob/master/CHANGELOG.md';
 }

@@ -4,7 +4,7 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/forum/floatLoginButton.dart';
 import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
@@ -66,7 +66,6 @@ class _ForumDelegateState extends State<ForumDelegate>
                       centerTitle: true,
                       title: const Center(child: const DiscuzAppLogo(dark: true,)),
                       backgroundColor: DiscuzApp.themeOf(context).primaryColor,
-                      dark: true,
                       brightness: Brightness.dark,
                       leading: IconButton(
                         icon: const DiscuzIcon(
