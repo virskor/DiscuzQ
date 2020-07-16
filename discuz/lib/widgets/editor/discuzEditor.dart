@@ -342,17 +342,16 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
       return;
     }
 
-    ///
-    /// 先执行一次转化为editorData的操作，确保编辑器回调的数据为最终的数据
-    /// 更新编辑器Data的时候 切记不要调用setState
-    _updateEditorData(state: state);
-
-    ///
-    /// 将编辑器的_discuzEditorData传到调用编辑器的组件，
-    /// 然后让其调用formter转化为最终的用户用于提交的数据进行提交
-    /// 延迟回调，性能优化
-
     _debouncer.run(() {
+      ///
+      /// 先执行一次转化为editorData的操作，确保编辑器回调的数据为最终的数据
+      /// 更新编辑器Data的时候 切记不要调用setState
+      _updateEditorData(state: state);
+
+      ///
+      /// 将编辑器的_discuzEditorData传到调用编辑器的组件，
+      /// 然后让其调用formter转化为最终的用户用于提交的数据进行提交
+      /// 延迟回调，性能优化
       widget.onChanged(_discuzEditorData);
     });
   }
