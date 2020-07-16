@@ -39,6 +39,7 @@ class EditorState extends StateModel {
   List<AttachmentsModel> get galleries =>
       _attachements.where((a) => a.attributes.isGallery).toList();
 
+
   ///
   /// 访问上传的附件文件数据
   ///

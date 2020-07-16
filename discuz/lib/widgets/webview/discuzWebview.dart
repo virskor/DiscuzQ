@@ -2,7 +2,7 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
 
 class DiscuzWebview extends StatefulWidget {
   ///

@@ -7,7 +7,7 @@ import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
-import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';

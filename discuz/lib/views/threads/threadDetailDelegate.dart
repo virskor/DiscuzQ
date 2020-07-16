@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/widgets/threads/payments/threadRequiredPayments.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +10,7 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/utils/request/urls.dart';
-import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
@@ -35,6 +33,8 @@ import 'package:discuzq/widgets/threads/parts/threadExtendBottomBar.dart';
 import 'package:discuzq/widgets/common/discuzImage.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/widgets/threads/payments/threadRequiredPayments.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///

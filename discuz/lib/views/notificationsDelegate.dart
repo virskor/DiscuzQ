@@ -4,7 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
