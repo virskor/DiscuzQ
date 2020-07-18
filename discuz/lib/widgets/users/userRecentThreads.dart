@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/models/userModel.dart';
@@ -17,22 +16,23 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/threads/threadCard.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
+import 'package:discuzq/models/userGroupModel.dart';
+import 'package:discuzq/widgets/users/userHomeDelegateCard.dart';
 
 ///
 /// 用于展示用户最近发帖的组件
 ///
 class UserRecentThreads extends StatefulWidget {
+  const UserRecentThreads({@required this.user, @required this.userGroup});
+
+  ///
+  /// 用户组信息
+  final UserGroupModel userGroup;
+
   ///
   /// 要查询的用户，将展示他最近发帖的数据
   ///
   final UserModel user;
-
-  ///
-  /// onUserCardState
-  /// 请求关闭用户顶部卡片
-  final Function onUserCardState;
-
-  const UserRecentThreads({this.user, this.onUserCardState});
 
   @override
   _UserRecentThreadsState createState() => _UserRecentThreadsState();
@@ -87,10 +87,6 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     super.initState();
 
     ///
-    /// 绑定列表移动时间观察
-    this._watchScrollOffset();
-
-    ///
     /// 加载数据
     ///
     Future.delayed(Duration(milliseconds: 450))
@@ -111,23 +107,6 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
       builder: (context, child, state) => RepaintBoundary(
             child: _body(context: context, state: state),
           ));
-
-  ///
-  /// 观察列表移动
-  /// 观察移动要传递变化时候的值并减少传递，避免UI渲染过程中的Loop造成性能消耗
-  ///
-  void _watchScrollOffset() {
-    bool showAppbar = true;
-
-    _scrollController.addListener(() {
-      final bool wantHide = _scrollController.offset > 300 ? false : true;
-
-      if (widget.onUserCardState != null && wantHide != showAppbar) {
-        widget.onUserCardState(wantHide);
-        showAppbar = wantHide;
-      }
-    });
-  }
 
   /// build body
   Widget _body({@required BuildContext context, @required AppState state}) =>
@@ -171,11 +150,33 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     return ListView.builder(
         controller: _scrollController,
         itemCount: _threadsCacher.threads.length,
-        itemBuilder: (BuildContext context, index) => ThreadCard(
+        itemBuilder: (BuildContext context, index) {
+          if (index != 0) {
+            return ThreadCard(
               thread: _threadsCacher.threads[index],
               threadsCacher: _threadsCacher,
               initiallyExpanded: true,
-            ));
+            );
+          }
+
+          return Column(
+            children: <Widget>[
+              ///
+              /// 用户信息卡片
+              /// 用于显示粉丝数量
+              /// 关注或取消
+              UserHomeDelegateCard(
+                user: widget.user,
+                userGroup: widget.userGroup,
+              ),
+              ThreadCard(
+                thread: _threadsCacher.threads[index],
+                threadsCacher: _threadsCacher,
+                initiallyExpanded: true,
+              )
+            ],
+          );
+        });
   }
 
   ///

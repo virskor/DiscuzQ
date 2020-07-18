@@ -5,7 +5,6 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
-import 'package:discuzq/widgets/users/userHomeDelegateCard.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/users/userRecentThreads.dart';
@@ -13,8 +12,6 @@ import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/utils/request/urls.dart';
-
-const double _userHomeDelagateCardHeight = 200;
 
 class UserHomeDelegate extends StatefulWidget {
   final UserModel user;
@@ -101,37 +98,9 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
       );
     }
 
-    return Column(
-      children: <Widget>[
-        ///
-        /// 用户信息卡片
-        /// 用于显示粉丝数量
-        /// 关注或取消
-        UserHomeDelegateCard(
-          user: _user,
-          userGroup: _userGroup,
-          height:
-              _showUserDeleagetCard == true ? _userHomeDelagateCardHeight : 0,
-        ),
-
-        ///
-        /// 展示用户最近发帖
-        ///
-        Expanded(
-          child: UserRecentThreads(
-            user: _user,
-            onUserCardState: (bool showUserDeleagetCard) {
-              if (_showUserDeleagetCard == showUserDeleagetCard) {
-                return;
-              }
-
-              setState(() {
-                _showUserDeleagetCard = showUserDeleagetCard;
-              });
-            },
-          ),
-        )
-      ],
+    return UserRecentThreads(
+      user: _user,
+      userGroup: _userGroup,
     );
   }
 

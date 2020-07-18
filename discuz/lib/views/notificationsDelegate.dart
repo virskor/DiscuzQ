@@ -87,7 +87,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                   ///
                   _notificationsSelection(
                     item: _NotificationMenuItem(
-                        label: '@我的',
+                        label: '提及我的',
                         icon: SFSymbols.at,
                         child: const NotificationListDelegate(
                             type: NotificationTypes.related),
