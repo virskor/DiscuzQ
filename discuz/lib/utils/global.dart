@@ -9,6 +9,10 @@ const kMarginLeftRightContent = const EdgeInsets.only(left: 5, right: 5);
 const kMarginAllContent = const EdgeInsets.all(5);
 
 
+/// Body padding all
+const kBodyPaddingAll = const EdgeInsets.all(15);
+
+
 class Global {
   ///
   /// appname

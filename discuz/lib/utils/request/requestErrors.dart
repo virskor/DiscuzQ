@@ -56,6 +56,10 @@ class RequestErrors {
     "setting_fill_register_reason": "注册时的注册原因必须必填",
     "Notification is missing template_config": "微信推送信息不全",
     "UnauthorizedOperation.Unauthorized": "未开通权限",
+    "POST": "提交失败",
+    "GET": "获取失败",
+    "DELETE": "删除失败",
+    "PATCH": "修改失败",
   };
 
   /// 获取对应的错误提示信息

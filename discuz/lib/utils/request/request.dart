@@ -107,6 +107,7 @@ class Request {
 
         options.responseType = ResponseType.json;
         options.contentType = Headers.jsonContentType;
+        options.headers['origin'] = Global.domain;
 
         ///
         /// http2 开启的时候，要将header中包含大写字符的Key 更改为小写
@@ -136,17 +137,17 @@ class Request {
 
         if (e.type == DioErrorType.DEFAULT) {
           DiscuzToast.failed(context: context, message: "网络故障");
-          return Future.value(e);
+          return e;
         }
 
         if (e.type == DioErrorType.CONNECT_TIMEOUT) {
           DiscuzToast.failed(context: context, message: '请求超时');
-          return Future.value(e);
+          return e;
         }
 
         if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
           DiscuzToast.failed(context: context, message: '响应超时');
-          return Future.value(e);
+          return e;
         }
 
         ///
@@ -203,7 +204,7 @@ class Request {
               }
 
               debugPrint("------------Token 自动刷新继续请求完成----------");
-              return Future.value(e);
+              return e;
             }
 
             debugPrint("------------Token 自动刷新失败----------");
@@ -220,7 +221,7 @@ class Request {
           /// 401时，提醒用户错误信息
           DiscuzToast.failed(
               context: context, message: e.response.data['errors'][0]['code']);
-          return Future.value(e);
+          return e;
         }
 
         ///
@@ -234,7 +235,7 @@ class Request {
         /// 没有传入context,使用原生的toast组件进行提示
         ///
         DiscuzToast.show(context: context, message: errMessage);
-        return Future.value(e);
+        return e;
       }))
 
       /// logger
