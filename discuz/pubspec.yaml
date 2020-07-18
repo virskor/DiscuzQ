@@ -45,7 +45,7 @@ dependencies:
   extended_text_field: ^0.5.0
   flutter_picker: ^1.1.4
   yaml: ^2.2.1
-  webview_flutter: ^0.3.21
+  webview_flutter: ^0.3.22+1
   video_player: ^0.10.10
 
   # flutter

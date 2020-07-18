@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:discuzq/router/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -34,13 +35,11 @@ class AuthHelper {
       return Future.value(true);
     }
 
-    await showCupertinoModalPopup(
-        context: context,
-        builder: (_) => LoginDelegate(
-              onRequested: (bool val) {
-                success = val;
-              },
-            ));
+    await Navigator.of(context).push(CupertinoPageRoute(
+        fullscreenDialog: true,
+        builder: (_) {
+          return const LoginDelegate();
+        }));
 
     return Future.value(success);
   }

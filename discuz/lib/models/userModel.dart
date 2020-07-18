@@ -83,7 +83,7 @@ class UserModel {
             attributes: userModel.attributes,
             username: username,
             follow: follow,
-            mobile: mobile, 
+            mobile: mobile,
             avatarUrl: avatarUrl,
             fansCount: fansCount);
     return UserModel(
@@ -134,6 +134,11 @@ class UserAttributesModelModel {
   /// 粉丝数量
   ///
   final int fansCount;
+
+  /// likedCount
+  /// 获得点赞
+  ///
+  final int likedCount;
 
   ///
   /// follow
@@ -245,6 +250,11 @@ class UserAttributesModelModel {
   final String realname;
 
   ///
+  /// signature
+  /// 个人签名
+  final String signature;
+
+  ///
   /// walletBalance
   /// 钱包余额
   ///
@@ -294,10 +304,12 @@ class UserAttributesModelModel {
       this.registerReason = "",
       this.banReason = "",
       this.payTime = "",
+      this.signature = "",
       this.canDelete = false,
       this.mobileConfirmed = false,
       this.canWalletPay = false,
       this.follow = 0,
+      this.likedCount = 0,
       this.threadCount = 0,
       this.unreadNotifications = 0,
       this.canEdit = false,
@@ -348,7 +360,9 @@ class UserAttributesModelModel {
       payTime: attributes.payTime,
       canWalletPay: attributes.canWalletPay,
       createdAt: attributes.createdAt,
+      signature: attributes.signature,
       threadCount: attributes.threadCount,
+      likedCount: attributes.likedCount,
       status: attributes.status,
       typeUnreadNotifications: attributes.typeUnreadNotifications,
       unreadNotifications: attributes.unreadNotifications,
@@ -405,6 +419,11 @@ class UserAttributesModelModel {
             : data['follow'].runtimeType == String
                 ? int.tryParse(data['follow'])
                 : data['follow'],
+        likedCount: data['likedCount'] == null
+            ? 0
+            : data['likedCount'].runtimeType == String
+                ? int.tryParse(data['likedCount'])
+                : data['likedCount'],
         status: data['status'] == null
             ? 0
             : data['status'].runtimeType == String
@@ -425,6 +444,7 @@ class UserAttributesModelModel {
         registerIp: data['registerIp'] ?? '',
         lastLoginIp: data['lastLoginIp'] ?? '',
         identity: data['identity'] ?? '',
+        signature: data['signature'] ?? '',
         realname: data['realname'] ?? '',
         walletBalance: data['walletBalance'] ?? '',
         paid: data['paid'] ?? false,

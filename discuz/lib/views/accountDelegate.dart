@@ -99,7 +99,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '个人中心',
-              elevation: 0,
               actions: <Widget>[
                 const NightModeSwitcher(
                   color: Colors.white,

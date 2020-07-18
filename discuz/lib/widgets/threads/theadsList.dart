@@ -236,6 +236,7 @@ class _ForumCategoryState extends State<ThreadsList> {
     return ListView.builder(
         controller: _scrollController,
         itemCount: _threadsCacher.threads.length,
+        padding: const EdgeInsets.only(top: 5),
         itemBuilder: (BuildContext context, index) => ThreadCard(
               threadsCacher: _threadsCacher,
               thread: _threadsCacher.threads[index],
