@@ -1,4 +1,5 @@
 import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -8,7 +9,6 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/threads/parts/threadHeaderCard.dart';
-import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/threads/parts/threadPostSnapshot.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/threads/threadDetailDelegate.dart';
@@ -113,12 +113,13 @@ class _ThreadCardState extends State<ThreadCard> {
   /// 其次，如果用户设置了收起付费的帖子，他们也会被折叠，但用不同的颜色提示
   Widget _buildCard({BuildContext context, AppState state}) {
     if (widget.thread.attributes.isSticky) {
-      return _buildExpansion(context);
+      return _buildStickyThreadTitle(context);
     }
 
-    return state.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
-        ? _buildExpansion(context)
-        : _buildThreadCard(context);
+    // return state.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
+    //     ? _buildStickyThreadTitle(context)
+    //     : _buildThreadCard(context);
+    return _buildThreadCard(context);
   }
 
   ///
@@ -133,25 +134,45 @@ class _ThreadCardState extends State<ThreadCard> {
   ///
   /// 可收起的主题
   ///
-  Widget _buildExpansion(BuildContext context) {
-    final Widget leadingIcon = DiscuzIcon(
-      widget.thread.attributes.isSticky
-          ? 0xe70f
-          : SFSymbols.money_dollar_circle_fill,
-      size: widget.thread.attributes.isSticky ? 20 : 25,
-      withOpacity: true,
+  Widget _buildStickyThreadTitle(BuildContext context) {
+    final Widget stickyIcon = SizedBox(
+      width: 60,
+      height: 25,
+      child: Container(
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(right: 10),
+        decoration: const BoxDecoration(
+            color: Global.scaffoldBackgroundColorLight,
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
+        child: const DiscuzText('置顶', color: Colors.black),
+      ),
     );
 
-    return DiscuzExpansionTile(
-        initiallyExpanded: widget.initiallyExpanded,
-        dense: true,
-        title: DiscuzText(
-          _flatTitle,
-          fontWeight: FontWeight.bold,
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        padding: kMarginAllContent,
+        margin: kMarginAllContent,
+        decoration: BoxDecoration(
+            color: DiscuzApp.themeOf(context).backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
+        child: Row(
+          children: <Widget>[
+            stickyIcon,
+            DiscuzText(
+              _flatTitle,
+            )
+          ],
         ),
-        leading: leadingIcon,
-        backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
-        children: <Widget>[_buildThreadCard(context)]);
+      ),
+      onTap: () => DiscuzRoute.open(
+          context: context,
+          shouldLogin: true,
+          widget: ThreadDetailDelegate(
+            author: _author,
+            thread: widget.thread,
+          )),
+    );
   }
 
   ///
@@ -188,6 +209,7 @@ class _ThreadCardState extends State<ThreadCard> {
                   widget.thread.attributes.title != ''
                       ? const SizedBox()
                       : GestureDetector(
+                          behavior: HitTestBehavior.deferToChild,
                           onTap: () => DiscuzRoute.open(
                               context: context,
                               shouldLogin: true,

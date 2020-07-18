@@ -10,8 +10,6 @@ import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/search/searchColumnDialog.dart';
 
 /// 论坛首页
 class ForumDelegate extends StatefulWidget {
@@ -23,10 +21,6 @@ class ForumDelegate extends StatefulWidget {
 
 class _ForumDelegateState extends State<ForumDelegate>
     with AutomaticKeepAliveClientMixin {
-  ///
-  /// _showAppbar
-  /// 是否隐藏appbar
-  bool _showAppbar = true;
 
   @override
   bool get wantKeepAlive => true;
@@ -61,37 +55,17 @@ class _ForumDelegateState extends State<ForumDelegate>
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: false,
         builder: (context, child, state) => Scaffold(
-              appBar: _showAppbar
-                  ? DiscuzAppBar(
-                      centerTitle: true,
-                      title: const Center(child: const DiscuzAppLogo(dark: true,)),
+              appBar: DiscuzAppBar(
+                      title: const DiscuzAppLogo(
+                        dark: true,
+                      ),
                       backgroundColor: DiscuzApp.themeOf(context).primaryColor,
                       brightness: Brightness.dark,
-                      leading: IconButton(
-                        icon: const DiscuzIcon(
-                          SFSymbols.search,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => SearchColumnDialog.show(context),
-                      ),
                       actions: <Widget>[
                         const ForumAddButton(
                           awalysDark: true,
                         )
                       ],
-                    )
-                  : null,
-
-              /// 用户未登录时也不显示floatingActionButton
-              floatingActionButton: _showAppbar || state.user == null
-                  ? null
-                  : FloatingActionButton(
-                      elevation: 0,
-                      backgroundColor: DiscuzApp.themeOf(context).primaryColor,
-                      child: const ForumAddButton(
-                        awalysDark: true,
-                      ),
-                      onPressed: () => null,
                     ),
               drawerEdgeDragWidth: Global.drawerEdgeDragWidth,
               body: Stack(
@@ -103,15 +77,6 @@ class _ForumDelegateState extends State<ForumDelegate>
                       ? const SizedBox()
                       : ForumCategoryTab(
                           onAppbarState: (bool show) {
-                            ///
-                            /// 过滤相同的状态，避免UI重新Build
-                            ///
-                            if (_showAppbar == show) {
-                              return;
-                            }
-                            setState(() {
-                              _showAppbar = show;
-                            });
                           },
                         ),
 
@@ -119,11 +84,7 @@ class _ForumDelegateState extends State<ForumDelegate>
                   Positioned(
                     bottom: 20,
                     width: MediaQuery.of(context).size.width,
-                    child: AnimatedOpacity(
-                      opacity: _showAppbar ? 1 : 0,
-                      duration: Duration(milliseconds: 270),
-                      child: const FloatLoginButton(),
-                    ),
+                    child: const FloatLoginButton(),
                   )
                 ],
               ),
