@@ -1,5 +1,5 @@
-import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
@@ -10,8 +10,7 @@ import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/users/userFollow.dart';
 import 'package:discuzq/models/userGroupModel.dart';
-import 'package:flutter/rendering.dart';
-
+import 'package:discuzq/utils/global.dart';
 ///
 /// 用户主页顶部卡片
 ///
@@ -24,12 +23,8 @@ class UserHomeDelegateCard extends StatefulWidget {
   /// 指定要显示的用户组信息
   final UserGroupModel userGroup;
 
-  ///
-  /// 高度
-  final double height;
-
   UserHomeDelegateCard(
-      {Key key, @required this.user, @required this.userGroup, this.height})
+      {Key key, @required this.user, @required this.userGroup})
       : super(key: key);
 
   @override
@@ -70,7 +65,6 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             padding: const EdgeInsets.only(top: 10, bottom: 10),
-            height: widget.height,
             width: MediaQuery.of(context).size.width,
 
             ///
