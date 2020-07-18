@@ -1,3 +1,5 @@
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/users/profiles/userSignatureDelegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -58,14 +60,19 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                       ),
                     ),
                   ),
-                  // const DiscuzDivider(
-                  //   padding: 0,
-                  // ),
-                  // DiscuzListTile(
-                  //   title: const DiscuzText('绑定手机'),
-                  //   onTap: () =>
-                  //       DiscuzToast.failed(context: context, message: '暂不支持'),
-                  // ),
+                  const DiscuzDivider(
+                    padding: 0,
+                  ),
+                  DiscuzListTile(
+                    title: const DiscuzText('个性签名'),
+                    onTap: () => DiscuzRoute.open(
+                        context: context,
+                        fullscreenDialog: true,
+                        shouldLogin: true,
+                        widget: Builder(
+                            builder: (BuildContext context) =>
+                                const UserSignatureDelegate())),
+                  ),
                   // const DiscuzDivider(
                   //   padding: 0,
                   // ),
