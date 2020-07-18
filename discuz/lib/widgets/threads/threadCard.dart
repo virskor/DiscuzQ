@@ -142,9 +142,9 @@ class _ThreadCardState extends State<ThreadCard> {
         alignment: Alignment.center,
         margin: const EdgeInsets.only(right: 10),
         decoration: const BoxDecoration(
-            color: const Color(0xfff9f9f9),
+            color: Global.scaffoldBackgroundColorLight,
             borderRadius: const BorderRadius.all(Radius.circular(5))),
-        child: DiscuzText('置顶'),
+        child: const DiscuzText('置顶', color: Colors.black),
       ),
     );
 
@@ -153,7 +153,9 @@ class _ThreadCardState extends State<ThreadCard> {
       child: Container(
         padding: kMarginAllContent,
         margin: kMarginAllContent,
-        decoration: BoxDecoration(color: Colors.white),
+        decoration: BoxDecoration(
+            color: DiscuzApp.themeOf(context).backgroundColor,
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
         child: Row(
           children: <Widget>[
             stickyIcon,

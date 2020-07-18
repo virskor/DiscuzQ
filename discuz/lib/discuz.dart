@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -14,6 +15,7 @@ import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';
 import 'package:discuzq/views/notificationsDelegate.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/forum/bootstrapForum.dart';
+import 'package:discuzq/views/search/appSearchDelegate.dart';
 
 class Discuz extends StatefulWidget {
   const Discuz({Key key}) : super(key: key);
@@ -154,6 +156,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 页面集合
   static const List<Widget> _views = [
     const ForumDelegate(),
+    const AppSearchDelegate(),
     const NotificationsDelegate(),
     const AccountDelegate()
   ];
@@ -161,6 +164,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 底部按钮菜单
   final List<NavigatorItem> _items = [
     const NavigatorItem(icon: 0xe63e),
+    const NavigatorItem(icon: SFSymbols.search, shouldLogin: true),
     const NavigatorItem(icon: 0xe677, shouldLogin: true),
     const NavigatorItem(icon: 0xe7c7, size: 23, shouldLogin: true)
   ];
