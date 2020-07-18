@@ -180,7 +180,7 @@ class _ThreadCardState extends State<ThreadCard> {
   ///
   Widget _buildThreadCard(BuildContext context) => Container(
         margin: kMarginAllContent,
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(const Radius.circular(5)),
           color: DiscuzApp.themeOf(context).backgroundColor,
