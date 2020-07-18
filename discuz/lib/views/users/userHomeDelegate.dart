@@ -14,7 +14,7 @@ import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/utils/request/urls.dart';
 
-const double _userHomeDelagateCardHeight = 180;
+const double _userHomeDelagateCardHeight = 200;
 
 class UserHomeDelegate extends StatefulWidget {
   final UserModel user;

@@ -80,6 +80,12 @@ class DiscuzEditorDataFormater {
       ///
     };
 
+    if (!isBuildForCreatingPost) {
+      attributes.addAll({
+        "free_words": 0,
+      });
+    }
+
     ///
     /// 补全验证码信息
     if (captcha != null) {
