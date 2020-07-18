@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -80,6 +81,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   DiscuzListTile(
+                    contentPadding: kMarginLeftRightContent,
                     leading: Hero(
                       tag: 'heroAvatar',
                       child: DiscuzAvatar(
@@ -106,6 +108,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                   const SizedBox(height: 20),
                   Container(
                     alignment: Alignment.centerLeft,
+                    padding: kMarginLeftRightContent,
                     child: DiscuzText(widget.user.attributes.signature == ''
                         ? '暂无签名'
                         : widget.user.attributes.signature),

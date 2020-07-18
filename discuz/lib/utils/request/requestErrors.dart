@@ -55,6 +55,7 @@ class RequestErrors {
     "post_not_fond": "未查询到该条回复",
     "setting_fill_register_reason": "注册时的注册原因必须必填",
     "Notification is missing template_config": "微信推送信息不全",
+    "UnauthorizedOperation.Unauthorized": "未开通权限",
   };
 
   /// 获取对应的错误提示信息

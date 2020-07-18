@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:discuzq/utils/debouncer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
@@ -27,6 +28,7 @@ const _contentFormData = "multipart/form-data";
 class Request {
   final Dio _dio = Dio();
   final BuildContext context;
+  final Debouncer _debouncer = Debouncer(milliseconds: 500);
 
   /// 是否自动添加 票据
   final bool autoAuthorization;
@@ -306,7 +308,9 @@ class Request {
   void _popLogin() {
     try {
       if (context != null) {
-        AuthHelper.login(context: context);
+        _debouncer.run(() {
+          AuthHelper.login(context: context);
+        });
       }
     } catch (e) {
       throw e;
@@ -443,7 +447,7 @@ class Request {
 
       return Future.value(resp);
     } catch (e) {
-     throw e;
+      throw e;
     }
   }
 
