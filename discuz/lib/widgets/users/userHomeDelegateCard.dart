@@ -9,6 +9,7 @@ import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/users/userFollow.dart';
 import 'package:discuzq/models/userGroupModel.dart';
+import 'package:flutter/rendering.dart';
 
 ///
 /// 用户主页顶部卡片
@@ -103,6 +104,13 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: DiscuzText(widget.user.attributes.signature == ''
+                        ? '暂无签名'
+                        : widget.user.attributes.signature),
+                  ),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,6 +151,18 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                           ),
                         ],
                       ),
+                      Column(
+                        children: <Widget>[
+                          DiscuzText(
+                            _user.attributes.likedCount.toString(),
+                            fontWeight: FontWeight.bold,
+                          ),
+                          DiscuzText(
+                            '点赞',
+                            color: DiscuzApp.themeOf(context).greyTextColor,
+                          ),
+                        ],
+                      ),
                     ],
                   )
                 ],
@@ -150,7 +170,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
             ),
           ));
 
-  /// 
+  ///
   /// 用户组标签
   String _userGroupLabel() => widget.userGroup.attributes.name == ''
       ? '获取中'
