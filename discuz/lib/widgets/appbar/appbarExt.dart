@@ -4,15 +4,18 @@
 
 import 'dart:math' as math;
 
-import 'package:discuzq/widgets/appbar/appbar.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:flutter/material.dart';
+
+import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/states/appState.dart';
+import 'package:discuzq/widgets/appbar/appbar.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 // Bottom justify the kToolbarHeight child which may overflow the top.
 class _ToolbarContainerLayout extends SingleChildLayoutDelegate {
@@ -410,213 +413,225 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    assert(!widget.primary || debugCheckHasMediaQuery(context));
-    assert(debugCheckHasMaterialLocalizations(context));
-    final ThemeData theme = Theme.of(context);
-    final AppBarTheme appBarTheme = AppBarTheme.of(context);
-    final ScaffoldState scaffold = Scaffold.of(context, nullOk: true);
-    final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+      rebuildOnChange: true,
+      builder: (context, child, state) {
+        assert(!widget.primary || debugCheckHasMediaQuery(context));
+        assert(debugCheckHasMaterialLocalizations(context));
+        final ThemeData theme = Theme.of(context);
+        final AppBarTheme appBarTheme = AppBarTheme.of(context);
+        final ScaffoldState scaffold = Scaffold.of(context, nullOk: true);
+        final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
 
-    final bool hasDrawer = scaffold?.hasDrawer ?? false;
-    final bool hasEndDrawer = scaffold?.hasEndDrawer ?? false;
-    final bool canPop = parentRoute?.canPop ?? false;
-    final bool useCloseButton =
-        parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+        final bool hasDrawer = scaffold?.hasDrawer ?? false;
+        final bool hasEndDrawer = scaffold?.hasEndDrawer ?? false;
+        final bool canPop = parentRoute?.canPop ?? false;
+        final bool useCloseButton =
+            parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
 
-    IconThemeData overallIconTheme =
-        widget.iconTheme ?? appBarTheme.iconTheme ?? theme.primaryIconTheme;
-    IconThemeData actionsIconTheme = widget.actionsIconTheme ??
-        appBarTheme.actionsIconTheme ??
-        overallIconTheme;
-    TextStyle centerStyle = widget.textTheme?.headline6 ??
-        appBarTheme.textTheme?.headline6 ??
-        theme.primaryTextTheme.headline6;
-    TextStyle sideStyle = widget.textTheme?.bodyText2 ??
-        appBarTheme.textTheme?.bodyText2 ??
-        theme.primaryTextTheme.bodyText2;
+        IconThemeData overallIconTheme =
+            widget.iconTheme ?? appBarTheme.iconTheme ?? theme.primaryIconTheme;
+        IconThemeData actionsIconTheme = widget.actionsIconTheme ??
+            appBarTheme.actionsIconTheme ??
+            overallIconTheme;
+        TextStyle centerStyle = widget.textTheme?.headline6 ??
+            appBarTheme.textTheme?.headline6 ??
+            theme.primaryTextTheme.headline6;
+        TextStyle sideStyle = widget.textTheme?.bodyText2 ??
+            appBarTheme.textTheme?.bodyText2 ??
+            theme.primaryTextTheme.bodyText2;
 
-    if (widget.toolbarOpacity != 1.0) {
-      final double opacity =
-          const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
-              .transform(widget.toolbarOpacity);
-      if (centerStyle?.color != null)
-        centerStyle =
-            centerStyle.copyWith(color: centerStyle.color.withOpacity(opacity));
-      if (sideStyle?.color != null)
-        sideStyle =
-            sideStyle.copyWith(color: sideStyle.color.withOpacity(opacity));
-      overallIconTheme = overallIconTheme.copyWith(
-          opacity: opacity * (overallIconTheme.opacity ?? 1.0));
-      actionsIconTheme = actionsIconTheme.copyWith(
-          opacity: opacity * (actionsIconTheme.opacity ?? 1.0));
-    }
+        if (widget.toolbarOpacity != 1.0) {
+          final double opacity =
+              const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
+                  .transform(widget.toolbarOpacity);
+          if (centerStyle?.color != null)
+            centerStyle = centerStyle.copyWith(
+                color: centerStyle.color.withOpacity(opacity));
+          if (sideStyle?.color != null)
+            sideStyle =
+                sideStyle.copyWith(color: sideStyle.color.withOpacity(opacity));
+          overallIconTheme = overallIconTheme.copyWith(
+              opacity: opacity * (overallIconTheme.opacity ?? 1.0));
+          actionsIconTheme = actionsIconTheme.copyWith(
+              opacity: opacity * (actionsIconTheme.opacity ?? 1.0));
+        }
 
-    Widget leading = widget.leading;
-    if (leading == null && widget.automaticallyImplyLeading) {
-      if (hasDrawer) {
-        leading = IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: _handleDrawerButton,
-          tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+        Widget leading = widget.leading;
+        if (leading == null && widget.automaticallyImplyLeading) {
+          if (hasDrawer) {
+            leading = IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: _handleDrawerButton,
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          } else {
+            if (canPop)
+              leading = useCloseButton
+                  ? const CloseButton()
+                  : const AppbarLeading(
+                      dark: true,
+                    );
+          }
+        }
+        if (leading != null) {
+          leading = ConstrainedBox(
+            constraints: BoxConstraints.tightFor(width: widget.leadingWidth),
+            child: leading,
+          );
+        }
+
+        Widget title = widget.title.runtimeType == String
+            ? DiscuzText(widget.title, color: Colors.white, fontSize: 20)
+            : widget.title;
+
+        if (title != null) {
+          bool namesRoute;
+          switch (theme.platform) {
+            case TargetPlatform.android:
+            case TargetPlatform.fuchsia:
+            case TargetPlatform.linux:
+            case TargetPlatform.windows:
+              namesRoute = true;
+              break;
+            case TargetPlatform.iOS:
+            case TargetPlatform.macOS:
+              break;
+          }
+          title = DefaultTextStyle(
+            style: centerStyle,
+            softWrap: false,
+            overflow: TextOverflow.ellipsis,
+            child: Semantics(
+              namesRoute: namesRoute,
+              child: _DiscuzAppBarTitleBox(child: title),
+              header: true,
+            ),
+          );
+        }
+
+        Widget actions;
+        if (widget.actions != null && widget.actions.isNotEmpty) {
+          actions = Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: widget.actions,
+          );
+        } else if (hasEndDrawer) {
+          actions = IconButton(
+            icon: const Icon(Icons.menu),
+            onPressed: _handleDrawerButtonEnd,
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+          );
+        }
+
+        // Allow the trailing actions to have their own theme if necessary.
+        if (actions != null) {
+          actions = IconTheme.merge(
+            data: actionsIconTheme,
+            child: actions,
+          );
+        }
+
+        final Widget toolbar = NavigationToolbar(
+          leading: leading,
+          middle: title,
+          trailing: actions,
+          centerMiddle: widget._getEffectiveCenterTitle(theme),
+          middleSpacing: widget.titleSpacing,
         );
-      } else {
-        if (canPop)
-          leading = useCloseButton ? const CloseButton() : const AppbarLeading(dark: true,);
-      }
-    }
-    if (leading != null) {
-      leading = ConstrainedBox(
-        constraints: BoxConstraints.tightFor(width: widget.leadingWidth),
-        child: leading,
-      );
-    }
 
-    Widget title = widget.title.runtimeType == String
-        ? DiscuzText(widget.title, color: Colors.white, fontSize: 20)
-        : widget.title;
-
-    if (title != null) {
-      bool namesRoute;
-      switch (theme.platform) {
-        case TargetPlatform.android:
-        case TargetPlatform.fuchsia:
-        case TargetPlatform.linux:
-        case TargetPlatform.windows:
-          namesRoute = true;
-          break;
-        case TargetPlatform.iOS:
-        case TargetPlatform.macOS:
-          break;
-      }
-      title = DefaultTextStyle(
-        style: centerStyle,
-        softWrap: false,
-        overflow: TextOverflow.ellipsis,
-        child: Semantics(
-          namesRoute: namesRoute,
-          child: _DiscuzAppBarTitleBox(child: title),
-          header: true,
-        ),
-      );
-    }
-
-    Widget actions;
-    if (widget.actions != null && widget.actions.isNotEmpty) {
-      actions = Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: widget.actions,
-      );
-    } else if (hasEndDrawer) {
-      actions = IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: _handleDrawerButtonEnd,
-        tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-      );
-    }
-
-    // Allow the trailing actions to have their own theme if necessary.
-    if (actions != null) {
-      actions = IconTheme.merge(
-        data: actionsIconTheme,
-        child: actions,
-      );
-    }
-
-    final Widget toolbar = NavigationToolbar(
-      leading: leading,
-      middle: title,
-      trailing: actions,
-      centerMiddle: widget._getEffectiveCenterTitle(theme),
-      middleSpacing: widget.titleSpacing,
-    );
-
-    // If the toolbar is allocated less than kToolbarHeight make it
-    // appear to scroll upwards within its shrinking container.
-    Widget appBar = ClipRect(
-      child: CustomSingleChildLayout(
-        delegate: const _ToolbarContainerLayout(),
-        child: IconTheme.merge(
-          data: overallIconTheme,
-          child: DefaultTextStyle(
-            style: sideStyle,
-            child: toolbar,
-          ),
-        ),
-      ),
-    );
-    if (widget.bottom != null) {
-      appBar = Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Flexible(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: kToolbarHeight),
-              child: appBar,
+        // If the toolbar is allocated less than kToolbarHeight make it
+        // appear to scroll upwards within its shrinking container.
+        Widget appBar = ClipRect(
+          child: CustomSingleChildLayout(
+            delegate: const _ToolbarContainerLayout(),
+            child: IconTheme.merge(
+              data: overallIconTheme,
+              child: DefaultTextStyle(
+                style: sideStyle,
+                child: toolbar,
+              ),
             ),
           ),
-          if (widget.bottomOpacity == 1.0)
-            widget.bottom
-          else
-            Opacity(
-              opacity: const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
-                  .transform(widget.bottomOpacity),
-              child: widget.bottom,
-            ),
-        ],
-      );
-    }
+        );
+        if (widget.bottom != null) {
+          appBar = Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Flexible(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: kToolbarHeight),
+                  child: appBar,
+                ),
+              ),
+              if (widget.bottomOpacity == 1.0)
+                widget.bottom
+              else
+                Opacity(
+                  opacity:
+                      const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
+                          .transform(widget.bottomOpacity),
+                  child: widget.bottom,
+                ),
+            ],
+          );
+        }
 
-    // The padding applies to the toolbar and tabbar, not the flexible space.
-    if (widget.primary) {
-      appBar = SafeArea(
-        top: true,
-        child: appBar,
-      );
-    }
-
-    appBar = Align(
-      alignment: Alignment.topCenter,
-      child: appBar,
-    );
-
-    if (widget.flexibleSpace != null) {
-      appBar = Stack(
-        fit: StackFit.passthrough,
-        children: <Widget>[
-          widget.flexibleSpace,
-          appBar,
-        ],
-      );
-    }
-    final Brightness brightness = widget.brightness ??
-        appBarTheme.brightness ??
-        theme.primaryColorBrightness;
-    final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
-        ? SystemUiOverlayStyle.light
-        : SystemUiOverlayStyle.dark;
-
-    return Semantics(
-      container: true,
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: overlayStyle,
-        child: Material(
-          shadowColor: widget.shadowColor,
-          color: widget.backgroundColor ??
-              appBarTheme.color ??
-              DiscuzApp.themeOf(context).primaryColor,
-          elevation:
-              widget.elevation ?? appBarTheme.elevation ?? _defaultElevation,
-          shape: widget.shape,
-          child: Semantics(
-            explicitChildNodes: true,
+        // The padding applies to the toolbar and tabbar, not the flexible space.
+        if (widget.primary) {
+          appBar = SafeArea(
+            top: true,
             child: appBar,
+          );
+        }
+
+        appBar = Align(
+          alignment: Alignment.topCenter,
+          child: appBar,
+        );
+
+        if (widget.flexibleSpace != null) {
+          appBar = Stack(
+            fit: StackFit.passthrough,
+            children: <Widget>[
+              widget.flexibleSpace,
+              appBar,
+            ],
+          );
+        }
+        final Brightness brightness = widget.brightness ??
+            appBarTheme.brightness ??
+            theme.primaryColorBrightness;
+        final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark;
+
+        final Color buildBackgroundColor = state.appConf['darkTheme']
+            ? DiscuzApp.themeOf(context).scaffoldBackgroundColor
+            : widget.backgroundColor ??
+                appBarTheme.color ??
+                DiscuzApp.themeOf(context).primaryColor;
+
+        return Semantics(
+          container: true,
+          child: AnnotatedRegion<SystemUiOverlayStyle>(
+            value: overlayStyle,
+            child: Material(
+              shadowColor: widget.shadowColor,
+              color: buildBackgroundColor,
+              elevation: widget.elevation ??
+                  appBarTheme.elevation ??
+                  _defaultElevation,
+              shape: widget.shape,
+              child: Semantics(
+                explicitChildNodes: true,
+                child: appBar,
+              ),
+            ),
           ),
-        ),
-      ),
-    );
-  }
+        );
+      });
 }
 
 class _FloatingDiscuzAppBar extends StatefulWidget {
