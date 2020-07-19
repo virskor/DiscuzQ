@@ -63,5 +63,11 @@ class RequestErrors {
   };
 
   /// 获取对应的错误提示信息
-  static String mapError(String key) => errors[key] ?? '未知错误';
+  static String mapError(String key, {dynamic err}) {
+    if (err != null && err['detail'] != null && err['detail'].length > 0) {
+      return err['detail'].map((it) => it).join('\r\n').toString();
+    }
+
+    return errors[key] ?? '未知错误';
+  }
 }

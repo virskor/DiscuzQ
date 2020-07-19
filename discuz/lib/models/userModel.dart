@@ -278,6 +278,12 @@ class UserAttributesModelModel {
   ///
   final int unreadNotifications;
 
+  /// usernameBout
+  /// 用户名修改了几次
+  /// usernameBout == 0 可以修改
+  /// usernameBout >=1  不可以修改
+  final int usernameBout;
+
   ///
   /// 未读消息列表
   ///
@@ -316,6 +322,7 @@ class UserAttributesModelModel {
       this.paid = false,
       this.fansCount = 0,
       this.status = 0,
+      this.usernameBout = 0,
       this.typeUnreadNotifications,
       this.followCount = 0});
 
@@ -335,40 +342,40 @@ class UserAttributesModelModel {
       return const UserAttributesModelModel();
 
     return UserAttributesModelModel(
-      id: attributes.id,
-      username: username ?? attributes.username,
-      follow: follow ?? attributes.follow,
-      mobile: mobile ?? attributes.mobile,
+        id: attributes.id,
+        username: username ?? attributes.username,
+        follow: follow ?? attributes.follow,
+        mobile: mobile ?? attributes.mobile,
 
-      /// todo: 脱敏mobile
-      canDelete: attributes.canDelete,
-      registerReason: attributes.registerReason,
-      avatarUrl: avatarUrl ?? attributes.avatarUrl,
-      originalMobile: mobile ?? attributes.mobile,
-      loginAt: attributes.loginAt,
-      banReason: attributes.banReason,
-      expiredAt: attributes.expiredAt,
-      joinedAt: attributes.joinedAt,
-      identity: attributes.identity,
-      fansCount: fansCount ?? attributes.fansCount,
-      registerIp: attributes.registerIp,
-      followCount: attributes.followCount,
-      lastLoginIp: attributes.lastLoginIp,
-      walletBalance: attributes.walletBalance,
-      canEdit: attributes.canEdit,
-      paid: attributes.paid,
-      payTime: attributes.payTime,
-      canWalletPay: attributes.canWalletPay,
-      createdAt: attributes.createdAt,
-      signature: attributes.signature,
-      threadCount: attributes.threadCount,
-      likedCount: attributes.likedCount,
-      status: attributes.status,
-      typeUnreadNotifications: attributes.typeUnreadNotifications,
-      unreadNotifications: attributes.unreadNotifications,
-      mobileConfirmed: attributes.mobileConfirmed,
-      realname: attributes.realname,
-    );
+        /// todo: 脱敏mobile
+        canDelete: attributes.canDelete,
+        registerReason: attributes.registerReason,
+        avatarUrl: avatarUrl ?? attributes.avatarUrl,
+        originalMobile: mobile ?? attributes.mobile,
+        loginAt: attributes.loginAt,
+        banReason: attributes.banReason,
+        expiredAt: attributes.expiredAt,
+        joinedAt: attributes.joinedAt,
+        identity: attributes.identity,
+        fansCount: fansCount ?? attributes.fansCount,
+        registerIp: attributes.registerIp,
+        followCount: attributes.followCount,
+        lastLoginIp: attributes.lastLoginIp,
+        walletBalance: attributes.walletBalance,
+        canEdit: attributes.canEdit,
+        paid: attributes.paid,
+        payTime: attributes.payTime,
+        canWalletPay: attributes.canWalletPay,
+        createdAt: attributes.createdAt,
+        signature: attributes.signature,
+        threadCount: attributes.threadCount,
+        likedCount: attributes.likedCount,
+        status: attributes.status,
+        typeUnreadNotifications: attributes.typeUnreadNotifications,
+        unreadNotifications: attributes.unreadNotifications,
+        mobileConfirmed: attributes.mobileConfirmed,
+        realname: attributes.realname,
+        usernameBout: attributes.usernameBout);
   }
 
   ///
@@ -429,6 +436,11 @@ class UserAttributesModelModel {
             : data['status'].runtimeType == String
                 ? int.tryParse(data['status'])
                 : data['status'],
+        usernameBout: data['usernameBout'] == null
+            ? 0
+            : data['usernameBout'].runtimeType == String
+                ? int.tryParse(data['usernameBout'])
+                : data['usernameBout'],
         loginAt: data['loginAt'] ?? '',
         joinedAt: data['joinedAt'] ?? '',
         expiredAt: data['expiredAt'] ?? '',

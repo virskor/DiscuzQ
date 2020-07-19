@@ -225,11 +225,12 @@ class Request {
         }
 
         ///
-        /// 提示用户接口返回的错误信息
+        /// 提��用户接口返回的错误信息
         ///
         String errMessage = e.response.data['errors'] == null
             ? '未知错误'
-            : RequestErrors.mapError(e.response.data['errors'][0]['code']);
+            : RequestErrors.mapError(e.response.data['errors'][0]['code'],
+                err: e.response.data['errors'][0]);
 
         ///
         /// 没有传入context,使用原生的toast组件进行提示
