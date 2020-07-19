@@ -56,7 +56,8 @@ class DiscuzRefresh extends StatelessWidget {
         child: SmartRefresher(
           enablePullDown: enablePullDown,
           enablePullUp: enablePullUp,
-          header: const ClassicHeader(),
+          header: const MaterialClassicHeader(),
+          footer: const ClassicFooter(),
           scrollController: scrollController,
           
           /// 允许乡下加载
