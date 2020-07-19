@@ -128,7 +128,6 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     if (!_continueToRead && _loading) {
       return const DiscuzSkeleton(
         isCircularImage: false,
-        length: Global.requestPageLimit,
         isBottomLinesActive: false,
       );
     }

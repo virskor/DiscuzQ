@@ -193,8 +193,6 @@ class DiscuzTextfiled extends StatelessWidget {
         widthFactor: 1,
         child: IconButton(
             padding: const EdgeInsets.all(0),
-            splashColor: Global.splashColor,
-            highlightColor: Global.highlightColor,
             icon: DiscuzIcon(
               Icons.clear,
               size: 20,

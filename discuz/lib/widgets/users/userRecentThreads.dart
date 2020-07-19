@@ -138,7 +138,6 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     if (!_continueToRead && _loading) {
       return const DiscuzSkeleton(
         isCircularImage: false,
-        length: Global.requestPageLimit,
         isBottomLinesActive: true,
       );
     }

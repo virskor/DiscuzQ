@@ -134,7 +134,6 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
     if (!_continueToRead && _loading) {
       return const DiscuzSkeleton(
         isCircularImage: false,
-        length: Global.requestPageLimit,
         isBottomLinesActive: false,
       );
     }

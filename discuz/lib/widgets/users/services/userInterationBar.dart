@@ -22,10 +22,8 @@ class _UserServicesState extends State<UserInterationBar> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: true,
       builder: (context, child, state) => Container(
-            margin: const EdgeInsets.only(left: 10, right: 10),
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,

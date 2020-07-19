@@ -85,21 +85,25 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
             appBar: DiscuzAppBar(
               title: _getTitle(),
               actions: <Widget>[
-                IconButton(
-                  icon: DiscuzIcon(
-                    SFSymbols.flag,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => DiscuzRoute.open(
-                    context: context,
-                    shouldLogin: true,
-                    fullscreenDialog: true,
-                    widget: Builder(
-                      builder: (context) =>
-                          ReportsDelegate(type: ReportType.thread, user: _user),
-                    ),
-                  ),
-                )
+                ///
+                /// 举报按钮仅在查看其它用户时显示
+                state.user != null && state.user.id != widget.user.id
+                    ? IconButton(
+                        icon: DiscuzIcon(
+                          SFSymbols.flag,
+                          color: Colors.white,
+                        ),
+                        onPressed: () => DiscuzRoute.open(
+                          context: context,
+                          shouldLogin: true,
+                          fullscreenDialog: true,
+                          widget: Builder(
+                            builder: (context) => ReportsDelegate(
+                                type: ReportType.thread, user: _user),
+                          ),
+                        ),
+                      )
+                    : const SizedBox()
               ],
             ),
             body: _buildBody(context: context),

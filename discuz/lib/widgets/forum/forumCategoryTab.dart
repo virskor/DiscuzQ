@@ -97,7 +97,6 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     if (_loading) {
       return const DiscuzSkeleton(
         isCircularImage: false,
-        length: Global.requestPageLimit,
         isBottomLinesActive: true,
       );
     }

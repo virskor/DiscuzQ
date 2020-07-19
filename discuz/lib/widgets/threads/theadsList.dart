@@ -221,7 +221,6 @@ class _ForumCategoryState extends State<ThreadsList> {
 
       return const DiscuzSkeleton(
         isCircularImage: false,
-        length: Global.requestPageLimit,
         isBottomLinesActive: true,
       );
     }
@@ -236,7 +235,6 @@ class _ForumCategoryState extends State<ThreadsList> {
     return ListView.builder(
         controller: _scrollController,
         itemCount: _threadsCacher.threads.length,
-        padding: const EdgeInsets.only(top: 5),
         itemBuilder: (BuildContext context, index) => ThreadCard(
               threadsCacher: _threadsCacher,
               thread: _threadsCacher.threads[index],

@@ -37,10 +37,6 @@ class DiscuzTheme {
   final Color backgroundColor;
   // scaffoldBackgroundColor
   final Color scaffoldBackgroundColor;
-  // splashColor
-  final Color splashColor;
-  // hightlight Color
-  final Color highlightColor;
   // text color default is Color(0xFF000000)
   final Color textColor;
   // grey text color default is Color(0xFF666666)
@@ -62,8 +58,6 @@ class DiscuzTheme {
       {this.backgroundColor = Global.backgroundColorLight,
       this.scaffoldBackgroundColor = Global.scaffoldBackgroundColorLight,
       this.primaryColor = Global.primaryColor,
-      this.highlightColor = Global.highlightColor,
-      this.splashColor = Global.splashColor,
       this.textColor = Global.textColorLight,
       this.greyTextColor = Global.greyTextColorLight,
       this.miniTextSize = 12,

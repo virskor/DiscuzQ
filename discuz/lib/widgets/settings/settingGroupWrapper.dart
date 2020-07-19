@@ -27,11 +27,10 @@ class SettingGroupWrapper extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(bottom: 10),
-      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-          color: DiscuzApp.themeOf(context).backgroundColor,
-          borderRadius: const BorderRadius.all(const Radius.circular(10))),
+        color: DiscuzApp.themeOf(context).backgroundColor,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
