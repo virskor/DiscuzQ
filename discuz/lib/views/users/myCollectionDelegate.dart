@@ -91,7 +91,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
           appBar: DiscuzAppBar(
             title: '我的收藏',
           ),
-          backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
           body: _body(state: state)));
 
   /// _body

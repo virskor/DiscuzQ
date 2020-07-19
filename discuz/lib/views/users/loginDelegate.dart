@@ -71,7 +71,6 @@ class _LoginDelegateState extends State<LoginDelegate> {
                 )
               ],
             ),
-            backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: _buildLoginForm(state),
           ));
 

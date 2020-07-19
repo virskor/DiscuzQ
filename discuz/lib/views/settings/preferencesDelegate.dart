@@ -47,7 +47,6 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
             appBar: DiscuzAppBar(
               title: '偏好设置',
             ),
-            backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: ListView(
               children: <Widget>[
                 SettingGroupWrapper(

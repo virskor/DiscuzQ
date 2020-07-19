@@ -109,7 +109,6 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
                 await _requestData(context: context, pageNumber: 1);
               },
             ),
-            backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: _body(context: context, state: state),
           ));
 

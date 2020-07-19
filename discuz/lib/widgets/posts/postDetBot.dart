@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:discuzq/api/threadsAPI.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/reports/reportsDelegate.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:flutter/material.dart';
 
@@ -72,6 +74,18 @@ class _PostDetBotState extends State<PostDetBot> {
           ),
           Row(
             children: <Widget>[
+              DiscuzLink(
+                  label: '举报',
+                  onTap: () => DiscuzRoute.open(
+                        context: context,
+                        shouldLogin: true,
+                        fullscreenDialog: true,
+                        widget: Builder(
+                          builder: (context) => ReportsDelegate(
+                              type: ReportType.thread, thread: widget.thread),
+                        ),
+                      )),
+
               DiscuzLink(
                 label: '分享',
                 onTap: () => ShareNative.shareThread(thread: widget.thread),

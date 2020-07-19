@@ -47,7 +47,6 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
           appBar: DiscuzAppBar(
             title: '我的资料',
           ),
-          backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
           body: Column(
             children: <Widget>[
               SettingGroupWrapper(
