@@ -104,7 +104,6 @@ class _EditorState extends State<Editor> {
               _buildSaveButton(),
             ],
           ),
-          backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
           body: Column(
             children: <Widget>[
               Expanded(child: _buildEditor()),

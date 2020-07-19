@@ -49,8 +49,6 @@ class _AboutDelegateState extends State<AboutDelegate> {
             appBar: DiscuzAppBar(
               title: '关于APP',
             ),
-            backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
-
             /// 这里直接使用一致的颜色
             body: RepaintBoundary(
               child: Stack(

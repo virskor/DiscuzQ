@@ -70,7 +70,6 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
             appBar: DiscuzAppBar(
               title: '注册',
             ),
-            backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: Column(
               children: [
                 Expanded(

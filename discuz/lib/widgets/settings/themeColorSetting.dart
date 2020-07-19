@@ -73,19 +73,13 @@ class ThemeColorSetting extends StatelessWidget {
           height: 30,
           decoration: BoxDecoration(
               color: color,
-              borderRadius: const BorderRadius.all(Radius.circular(5))),
+              borderRadius: const BorderRadius.all(Radius.circular(50))),
           child: Center(
             child: Color(state.appConf['themeColor']) != color
-                ? Container(
-                    child: Icon(
-                      SFSymbols.app_fill,
-                      size: 20,
-                      color: Color(0xFF333333).withOpacity(.54),
-                    ),
-                  )
+                ? const SizedBox()
                 : Container(
                     child: Icon(
-                      SFSymbols.checkmark,
+                      Icons.check,
                       size: 20,
                       color: Colors.white,
                     ),

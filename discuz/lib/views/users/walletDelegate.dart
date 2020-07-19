@@ -72,7 +72,6 @@ class _WalletDelegateState extends State<WalletDelegate> {
                     : const SizedBox()
               ],
             ),
-            backgroundColor: DiscuzApp.themeOf(context).primaryColor,
             body: SingleChildScrollView(
               child: Column(
                 children: <Widget>[

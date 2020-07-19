@@ -60,46 +60,18 @@ class _DiscuzState extends State<Discuz> {
                   BuildInfo().info().enablePerformanceOverlay
                       ? state.appConf['showPerformanceOverlay']
                       : false,
+
               home: Builder(
 
                   /// 不在 MaterialApp 使用theme属性
                   /// 这里rebuild的时候会有问题，所以使用Theme去包裹
                   /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
                   /// 这样会造成黑暗模式切换时有问题
-                  builder: (BuildContext context) => Theme(
-                        // This is the theme of your application.
-                        //
-                        // Try running your application with "flutter run". You'll see the
-                        // application has a blue toolbar. Then, without quitting the app, try
-                        // changing the primarySwatch below to Colors.green and then invoke
-                        // "hot reload" (press "r" in the console where you ran "flutter run",
-                        // or simply save your changes to "hot reload" in a Flutter IDE).
-                        // Notice that the counter didn't reset back to zero; the application
-                        // is not restarted.
-                        data: ThemeData(
-                            // This makes the visual density adapt to the platform that you run
-                            // the app on. For desktop platforms, the controls will be smaller and
-                            // closer together (more dense) than on mobile platforms.
-                            visualDensity:
-                                VisualDensity.adaptivePlatformDensity,
-                            primaryColor:
-                                DiscuzApp.themeOf(context).primaryColor,
-                            splashColor: DiscuzApp.themeOf(context).splashColor,
-                            highlightColor:
-                                DiscuzApp.themeOf(context).highlightColor,
-                            backgroundColor:
-                                DiscuzApp.themeOf(context).backgroundColor,
-                            scaffoldBackgroundColor: DiscuzApp.themeOf(context)
-                                .scaffoldBackgroundColor,
-                            canvasColor: DiscuzApp.themeOf(context)
-                                .scaffoldBackgroundColor),
-                        child: MediaQuery(
-                          data: MediaQuery.of(context).copyWith(
-                              boldText: false,
-                              textScaleFactor:
-                                  state.appConf['fontWidthFactor']),
-                          child: const _DiscuzAppDelegate(),
-                        ),
+                  builder: (BuildContext context) => MediaQuery(
+                        data: MediaQuery.of(context).copyWith(
+                            boldText: false,
+                            textScaleFactor: state.appConf['fontWidthFactor']),
+                        child: const _DiscuzAppDelegate(),
                       )),
               localizationsDelegates: [
                 // this line is important
@@ -124,21 +96,17 @@ class _DiscuzState extends State<Discuz> {
   }
 
   // build discuz app theme
-  DiscuzTheme _buildTheme(AppState state) {
-    if (state.appConf['darkTheme'] == true) {
-      return DiscuzTheme(
+  DiscuzTheme _buildTheme(AppState state) => state.appConf['darkTheme']
+      ? DiscuzTheme(
           primaryColor: Color(state.appConf['themeColor']),
           textColor: Global.textColorDark,
           greyTextColor: Global.greyTextColorDark,
           scaffoldBackgroundColor: Global.scaffoldBackgroundColorDark,
           backgroundColor: Global.backgroundColorDark,
-          brightness: Brightness.dark);
-    }
-
-    return DiscuzTheme(
-      primaryColor: Color(state.appConf['themeColor']),
-    );
-  }
+          brightness: Brightness.dark)
+      : DiscuzTheme(
+          primaryColor: Color(state.appConf['themeColor']),
+        );
 }
 
 ///
@@ -200,14 +168,30 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-            key: _scaffoldKey,
-            body: _buildAppElement(state),
-            bottomNavigationBar: DiscuzBottomNavigator(
-              items: _items,
-              onItemSelected: (index) => setState(() {
-                _selected = index;
-              }),
+      builder: (context, child, state) => Theme(
+            data: Theme.of(context).copyWith(
+                // This makes the visual density adapt to the platform that you run
+                // the app on. For desktop platforms, the controls will be smaller and
+                // closer together (more dense) than on mobile platforms.
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                primaryColor: DiscuzApp.themeOf(context).primaryColor,
+                splashColor: DiscuzApp.themeOf(context).splashColor,
+                highlightColor: DiscuzApp.themeOf(context).highlightColor,
+                backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+                scaffoldBackgroundColor:
+                    DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+                canvasColor:
+                    DiscuzApp.themeOf(context).scaffoldBackgroundColor),
+            child: Scaffold(
+              key: _scaffoldKey,
+              body: _buildAppElement(state),
+              resizeToAvoidBottomPadding: true,
+              bottomNavigationBar: DiscuzBottomNavigator(
+                items: _items,
+                onItemSelected: (index) => setState(() {
+                  _selected = index;
+                }),
+              ),
             ),
           ));
 

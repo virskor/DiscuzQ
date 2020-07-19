@@ -95,7 +95,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: true,
+      rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '个人中心',

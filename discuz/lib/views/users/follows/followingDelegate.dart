@@ -43,7 +43,6 @@ class _FollowingDelegateState extends State<FollowingDelegate> {
             appBar: DiscuzAppBar(
               title: '我的关注',
             ),
-            backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: SingleChildScrollView(
               child: SettingGroupWrapper(
                 label: '关注的用户和粉丝',

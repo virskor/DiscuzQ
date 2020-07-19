@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,6 @@ class DiscuzRoute {
     /// fullscreenDialog
     /// 是否以对话框方式弹出
     bool fullscreenDialog = false,
-
 
     ///
     /// maintainState
@@ -46,6 +46,20 @@ class DiscuzRoute {
     return Navigator.of(context).push(CupertinoPageRoute(
         maintainState: maintainState,
         fullscreenDialog: fullscreenDialog,
-        builder: (_) => widget));
+        builder: (_) => Theme(
+            data: Theme.of(context).copyWith(
+                // This makes the visual density adapt to the platform that you run
+                // the app on. For desktop platforms, the controls will be smaller and
+                // closer together (more dense) than on mobile platforms.
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                primaryColor: DiscuzApp.themeOf(context).primaryColor,
+                splashColor: DiscuzApp.themeOf(context).splashColor,
+                highlightColor: DiscuzApp.themeOf(context).highlightColor,
+                backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+                scaffoldBackgroundColor:
+                    DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+                canvasColor:
+                    DiscuzApp.themeOf(context).scaffoldBackgroundColor),
+            child: widget)));
   }
 }

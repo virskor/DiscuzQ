@@ -81,7 +81,6 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
             appBar: DiscuzAppBar(
               title: _getTitle(),
             ),
-            backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: _buildBody(context: context),
           ));
 

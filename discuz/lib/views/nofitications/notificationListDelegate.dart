@@ -89,7 +89,6 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
       appBar: DiscuzAppBar(
         title: widget.type.label,
       ),
-      backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
       body: _buildBody(context),
     );
   }
