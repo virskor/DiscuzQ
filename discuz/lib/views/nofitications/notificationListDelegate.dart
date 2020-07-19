@@ -343,7 +343,7 @@ class NotificationTypes {
   ///
   /// @我的
   static const related =
-      const NotificationTypesItem(label: '@我的', type: 'related');
+      const NotificationTypesItem(label: '提到我的', type: 'related');
 
   ///
   /// 回复

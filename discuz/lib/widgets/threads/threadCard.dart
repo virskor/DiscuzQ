@@ -116,10 +116,9 @@ class _ThreadCardState extends State<ThreadCard> {
       return _buildStickyThreadTitle(context);
     }
 
-    // return state.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
-    //     ? _buildStickyThreadTitle(context)
-    //     : _buildThreadCard(context);
-    return _buildThreadCard(context);
+    return state.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
+        ? const SizedBox()
+        : _buildThreadCard(context);
   }
 
   ///

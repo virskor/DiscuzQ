@@ -82,7 +82,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                     const SettingSwitcher(
                       settinKey: 'hideContentRequirePayments',
                       icon: SFSymbols.money_dollar_circle,
-                      label: '收起受保护的内容',
+                      label: '不看受保护的内容',
                     ),
                     SettingTile(
                       icon: SFSymbols.square_stack_3d_down_dottedline,
