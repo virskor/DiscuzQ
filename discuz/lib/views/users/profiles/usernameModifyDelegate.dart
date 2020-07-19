@@ -126,7 +126,7 @@ class _UsernameModifyDelegateState extends State<UsernameModifyDelegate> {
   ///
   /// Request API to modify user's signature
   Future<void> _modify() async {
-    if (_controller.text == '') {
+    if (_controller.text.isEmpty) {
       return DiscuzToast.toast(
           type: DiscuzToastType.failed,
           context: context,

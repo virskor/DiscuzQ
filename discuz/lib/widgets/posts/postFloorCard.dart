@@ -1,4 +1,3 @@
-import 'package:discuzq/utils/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -25,6 +24,8 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/api/postsAPI.dart';
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/views/reports/reportsDelegate.dart';
 
 class PostFloorCard extends StatelessWidget {
   ///
@@ -93,9 +94,8 @@ class PostFloorCard extends StatelessWidget {
       margin: kMarginAllContent,
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: DiscuzApp.themeOf(context).backgroundColor,
-        borderRadius: const BorderRadius.all(const Radius.circular(5))
-      ),
+          color: DiscuzApp.themeOf(context).backgroundColor,
+          borderRadius: const BorderRadius.all(const Radius.circular(5))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -269,7 +269,7 @@ class PostFloorCard extends StatelessWidget {
             icon: DiscuzIcon(
               SFSymbols.bubble_left_bubble_right,
               size: 20,
-              color: DiscuzApp.themeOf(context).textColor,
+              color: DiscuzApp.themeOf(context).greyTextColor,
             ),
             onPressed: () async {
               final DiscuzEditorRequestResult res =
@@ -281,6 +281,25 @@ class PostFloorCard extends StatelessWidget {
                 DiscuzToast.toast(context: context, message: '回复成功');
               }
             },
+          ),
+
+          ///
+          /// 举报按钮
+          IconButton(
+            icon: DiscuzIcon(
+              SFSymbols.flag,
+              size: 20,
+              color: DiscuzApp.themeOf(context).greyTextColor,
+            ),
+            onPressed: () => DiscuzRoute.open(
+              context: context,
+              shouldLogin: true,
+              fullscreenDialog: true,
+              widget: Builder(
+                builder: (context) =>
+                    ReportsDelegate(type: ReportType.thread, post: post),
+              ),
+            ),
           )
         ],
       );

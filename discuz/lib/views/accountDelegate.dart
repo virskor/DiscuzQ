@@ -25,6 +25,7 @@ import 'package:discuzq/views/users/follows/followingDelegate.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/widgets/users/services/userInterationBar.dart';
+import 'package:discuzq/views/reports/reportsHistoryDelegate.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -48,18 +49,19 @@ class _AccountDelegateState extends State<AccountDelegate> {
     const _AccountMenuItem(
         label: '我的收藏',
         icon: SFSymbols.star,
+        separate: true,
         child: const MyCollectionDelegate()),
     const _AccountMenuItem(
         label: '我的关注',
         icon: SFSymbols.lasso,
-        showDivider: false,
+        separate: true,
         child: const FollowingDelegate()),
     // const _AccountMenuItem(
-    //     label: '黑名单',
-    //     icon: SFSymbols.captions_bubble_fill,
-    //     showDivider: false,
+    //     label: '投诉举报记录',
+    //     icon: SFSymbols.flag,
     //     separate: true,
-    //     child: const BlackListDelegate()),
+        
+    //     child: const ReportHistoryDelegate()),
 
     /// 请求退出账户
     _AccountMenuItem(

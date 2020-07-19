@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/reports/reportsDelegate.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -12,6 +15,7 @@ import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/utils/request/urls.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 class UserHomeDelegate extends StatefulWidget {
   final UserModel user;
@@ -80,6 +84,23 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
             key: uniqueKey,
             appBar: DiscuzAppBar(
               title: _getTitle(),
+              actions: <Widget>[
+                IconButton(
+                  icon: DiscuzIcon(
+                    SFSymbols.flag,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => DiscuzRoute.open(
+                    context: context,
+                    shouldLogin: true,
+                    fullscreenDialog: true,
+                    widget: Builder(
+                      builder: (context) =>
+                          ReportsDelegate(type: ReportType.thread, user: _user),
+                    ),
+                  ),
+                )
+              ],
             ),
             body: _buildBody(context: context),
           ));

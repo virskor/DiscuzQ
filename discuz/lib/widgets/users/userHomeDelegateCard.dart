@@ -11,6 +11,7 @@ import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/users/userFollow.dart';
 import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/utils/global.dart';
+
 ///
 /// 用户主页顶部卡片
 ///
@@ -23,8 +24,7 @@ class UserHomeDelegateCard extends StatefulWidget {
   /// 指定要显示的用户组信息
   final UserGroupModel userGroup;
 
-  UserHomeDelegateCard(
-      {Key key, @required this.user, @required this.userGroup})
+  UserHomeDelegateCard({Key key, @required this.user, @required this.userGroup})
       : super(key: key);
 
   @override
@@ -64,7 +64,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
             duration: Duration(milliseconds: 300),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,
 
             ///
@@ -103,13 +103,16 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                   Container(
                     alignment: Alignment.centerLeft,
                     padding: kMarginLeftRightContent,
-                    child: DiscuzText(widget.user.attributes.signature == ''
-                        ? '暂无签名'
-                        : widget.user.attributes.signature),
+                    child: DiscuzText(
+                      widget.user.attributes.signature == ''
+                          ? '暂无签名'
+                          : widget.user.attributes.signature,
+                      color: DiscuzApp.themeOf(context).greyTextColor,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Column(
