@@ -1,5 +1,6 @@
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/profiles/userSignatureDelegate.dart';
+import 'package:discuzq/views/users/profiles/usernameModifyDelegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -41,7 +42,7 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
 
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
+        rebuildOnChange: true,
         builder: (context, child, state) => Scaffold(
           appBar: DiscuzAppBar(
             title: '我的资料',
@@ -64,6 +65,31 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                     padding: 0,
                   ),
                   DiscuzListTile(
+                    title: const DiscuzText('用户名'),
+                    onTap: () {
+                      if (state.user.attributes.usernameBout >= 1) {
+                        DiscuzToast.toast(
+                            context: context,
+                            type: DiscuzToastType.failed,
+                            title: '不能继续',
+                            message:
+                                '${state.user.attributes.username},用户名只可以修改一次');
+                        return false;
+                      }
+
+                      return DiscuzRoute.open(
+                          context: context,
+                          fullscreenDialog: true,
+                          shouldLogin: true,
+                          widget: Builder(
+                              builder: (BuildContext context) =>
+                                  const UsernameModifyDelegate()));
+                    },
+                  ),
+                  const DiscuzDivider(
+                    padding: 0,
+                  ),
+                  DiscuzListTile(
                     title: const DiscuzText('个性签名'),
                     onTap: () => DiscuzRoute.open(
                         context: context,
@@ -73,14 +99,6 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                             builder: (BuildContext context) =>
                                 const UserSignatureDelegate())),
                   ),
-                  // const DiscuzDivider(
-                  //   padding: 0,
-                  // ),
-                  // DiscuzListTile(
-                  //   title: const DiscuzText('登录密码'),
-                  //   onTap: () =>
-                  //       DiscuzToast.failed(context: context, message: '暂不支持'),
-                  // ),
                   // const DiscuzDivider(
                   //   padding: 0,
                   // ),

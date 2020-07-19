@@ -152,10 +152,6 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  const DiscuzDivider(
-                    padding: 0,
-                  ),
-                  const SizedBox(height: 10),
                   widget.type == NotificationTypes.system
                       ? const SizedBox()
                       : Container(
@@ -236,6 +232,11 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                         ? n.attributes.postContent
                         : n.attributes.content,
                   ),
+                  const SizedBox(height: 5),
+                  const DiscuzDivider(
+                    padding: 0,
+                  ),
+                  const SizedBox(height: 5),
                 ],
               ),
             ));
