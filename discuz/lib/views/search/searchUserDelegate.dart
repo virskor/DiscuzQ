@@ -25,7 +25,8 @@ class SearchUserDelegate extends StatefulWidget {
   _SearchUserDelegateState createState() => _SearchUserDelegateState();
 }
 
-class _SearchUserDelegateState extends State<SearchUserDelegate> {
+class _SearchUserDelegateState extends State<SearchUserDelegate>
+    with AutomaticKeepAliveClientMixin {
   /// refresh controller
   final RefreshController _controller = RefreshController();
 
@@ -53,6 +54,9 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
   bool _continueToRead = false;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void setState(fn) {
     if (!mounted) {
       return;
@@ -63,6 +67,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration(milliseconds: 450))
         .then((_) async => await _requestData(pageNumber: 1));
   }
@@ -91,9 +96,13 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-      color: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-      child: _buildBody(context));
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return Container(
+        color: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+        child: _buildBody(context));
+  }
 
   ///
   /// 是否允许加载更多

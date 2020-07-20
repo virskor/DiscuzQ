@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:discuzq/utils/debouncer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
@@ -57,7 +58,8 @@ class ThreadsList extends StatefulWidget {
   _ForumCategoryState createState() => _ForumCategoryState();
 }
 
-class _ForumCategoryState extends State<ThreadsList> {
+class _ForumCategoryState extends State<ThreadsList>
+    with AutomaticKeepAliveClientMixin {
   ///
   /// _controller refresh
   ///
@@ -95,6 +97,9 @@ class _ForumCategoryState extends State<ThreadsList> {
   /// _continueToRead
   /// 是否是连续加载
   bool _continueToRead = false;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void setState(fn) {
@@ -182,10 +187,13 @@ class _ForumCategoryState extends State<ThreadsList> {
       _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) =>
-          _body(context: context, state: state));
+  Widget build(BuildContext context) {
+    super.build(context);
+    return ScopedStateModelDescendant<AppState>(
+        rebuildOnChange: false,
+        builder: (context, child, state) =>
+            _body(context: context, state: state));
+  }
 
   /// build body
   Widget _body({@required BuildContext context, @required AppState state}) =>

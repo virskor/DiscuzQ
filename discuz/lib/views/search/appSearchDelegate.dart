@@ -31,39 +31,77 @@ class AppSearchDelegate extends StatefulWidget {
   _AppSearchDelegateState createState() => _AppSearchDelegateState();
 }
 
-class _AppSearchDelegateState extends State<AppSearchDelegate> {
+class _AppSearchDelegateState extends State<AppSearchDelegate>
+    with AutomaticKeepAliveClientMixin {
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
-          appBar: DiscuzAppBar(title: '搜索与发现', actions: <Widget>[..._actions])));
+        appBar: DiscuzAppBar(title: '发现与话题', actions: <Widget>[..._actions]),
+        body: SizedBox.expand(),
+      ),
+    );
+  }
 
   ///
   /// search Icon Button
   List<Widget> get _actions => [
-        IconButton(
-            icon: const DiscuzIcon(
-              SFSymbols.doc_text_search,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showSearch(
-                  context: context,
-                  delegate: _DiscuzAppSearchDelegate(
-                      type: DiscuzAppSearchType.thread));
-            }),
-        IconButton(
-            icon: const DiscuzIcon(
-              SFSymbols.person_badge_plus,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              showSearch(
-                  context: context,
-                  delegate:
-                      _DiscuzAppSearchDelegate(type: DiscuzAppSearchType.user));
-            })
+        const _DiscuzAppSearchActionButton(
+          type: DiscuzAppSearchType.thread,
+          caption: '搜主题',
+        ),
+        const _DiscuzAppSearchActionButton(
+          type: DiscuzAppSearchType.user,
+          caption: '搜用户',
+        ),
       ];
+}
+
+class _DiscuzAppSearchActionButton extends StatelessWidget {
+  const _DiscuzAppSearchActionButton(
+      {this.type = DiscuzAppSearchType.thread, this.caption = '搜主题'});
+
+  final DiscuzAppSearchType type;
+
+  final String caption;
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        child: Container(
+          margin: const EdgeInsets.only(right: 5, top: 10, bottom: 10),
+          constraints: BoxConstraints(maxHeight: 45),
+          alignment: Alignment.centerRight,
+          decoration: const BoxDecoration(
+              color: const Color(0xFF00000),
+              borderRadius: const BorderRadius.all(Radius.circular(30))),
+          child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                children: <Widget>[
+                  DiscuzText(
+                    caption,
+                    color: const Color(0xFFDEDEDE),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  const DiscuzIcon(
+                    SFSymbols.chevron_right,
+                    size: 14,
+                    color: const Color(0xFFDEDEDE),
+                  )
+                ],
+              )),
+        ),
+        onTap: () => showSearch(
+            context: context, delegate: _DiscuzAppSearchDelegate(type: type)),
+      );
 }
 
 class _DiscuzAppSearchDelegate extends SearchDelegate<String> {

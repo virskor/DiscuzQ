@@ -1,3 +1,5 @@
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/topics/topicListDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -45,11 +47,13 @@ class HtmlRender extends StatelessWidget {
       onTapUrl: (url) async => await WebviewHelper.launchUrl(url: url),
 
       /// onTapSharpUrl 点击话题
-      onTapSharpUrl: (int topicId) => DiscuzToast.toast(
-          context: context,
-          type: DiscuzToastType.failed,
-          title: '即将支持',
-          message: '话题ID： ${topicId.toString()} 暂不支持打开'),
+      onTapSharpUrl: (int topicID) => topicID == 0
+          ? () => false
+          : DiscuzRoute.open(
+              context: context,
+              widget: TopicListDelegate(
+                topicID: topicID,
+              )),
 
       /// 处理表情渲染
       builderCallback: (meta, e) {

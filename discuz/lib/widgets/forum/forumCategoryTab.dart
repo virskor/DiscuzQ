@@ -55,12 +55,12 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     super.initState();
 
     /// 延迟加载
-    Future.delayed(Duration(milliseconds: 400))
+    Future.delayed(Duration.zero)
         .then((_) => this._initTabController())
 
         /// 监听用户滑动的分类
         /// 切勿在这个方法中进行setState的操作，这样会很影响性能
-        .then((_) => _tabControllerListener());
+        .then((_) => this._tabControllerListener());
   }
 
   @override
@@ -153,7 +153,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               fontWeight: FontWeight.w600,
             ),
             unselectedLabelStyle: TextStyle(
-              fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+              fontSize: DiscuzApp.themeOf(context).largeTextSize,
               fontWeight: FontWeight.w600,
             ),
             indicatorSize: TabBarIndicatorSize.label, //makes it better
@@ -166,7 +166,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
                 indicatorHeight: 2,
                 indicatorColor: DiscuzApp.themeOf(context).primaryColor,
                 indicatorSize:
-                    MD2IndicatorSize.full //3 different modes tiny-normal-full
+                    MD2IndicatorSize.tiny //3 different modes tiny-normal-full
                 ),
             tabs: state.categories
                 .map<Widget>((CategoryModel e) => Tab(text: e.attributes.name))
@@ -295,6 +295,7 @@ class __ForumCategoryTabContentState extends State<_ForumCategoryTabContent>
         rebuildOnChange: false,
         builder: (context, child, state) => TabBarView(
               controller: widget.controller,
+              physics: BouncingScrollPhysics(),
               children: state.categories
                   .map<Widget>((CategoryModel cat) => ThreadsList(
                         category: cat,

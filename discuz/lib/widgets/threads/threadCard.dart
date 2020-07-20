@@ -102,7 +102,17 @@ class _ThreadCardState extends State<ThreadCard> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => RepaintBoundary(
-            child: _buildCard(state: state, context: context),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => DiscuzRoute.open(
+                  context: context,
+                  shouldLogin: true,
+                  widget: ThreadDetailDelegate(
+                    author: _author,
+                    thread: widget.thread,
+                  )),
+              child: _buildCard(state: state, context: context),
+            ),
           ));
 
   ///
@@ -139,9 +149,8 @@ class _ThreadCardState extends State<ThreadCard> {
         alignment: Alignment.center,
         margin: const EdgeInsets.only(right: 10),
         decoration: const BoxDecoration(
-          color: Global.scaffoldBackgroundColorLight,
-          border: const Border(top: Global.border, bottom: Global.border)
-        ),
+            color: Global.scaffoldBackgroundColorLight,
+            border: const Border(top: Global.border, bottom: Global.border)),
         child: const DiscuzText('置顶', color: Colors.black),
       ),
     );
@@ -180,9 +189,8 @@ class _ThreadCardState extends State<ThreadCard> {
         padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
         margin: const EdgeInsets.only(top: 5),
         decoration: BoxDecoration(
-          color: DiscuzApp.themeOf(context).backgroundColor,
-          border: const Border(top: Global.border, bottom: Global.border)
-        ),
+            color: DiscuzApp.themeOf(context).backgroundColor,
+            border: const Border(top: Global.border, bottom: Global.border)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -206,18 +214,8 @@ class _ThreadCardState extends State<ThreadCard> {
                   /// 主题的内容
                   widget.thread.attributes.title != ''
                       ? const SizedBox()
-                      : GestureDetector(
-                          behavior: HitTestBehavior.deferToChild,
-                          onTap: () => DiscuzRoute.open(
-                              context: context,
-                              shouldLogin: true,
-                              widget: ThreadDetailDelegate(
-                                author: _author,
-                                thread: widget.thread,
-                              )),
-                          child: HtmlRender(
-                            html: _firstPost.attributes.contentHtml,
-                          ),
+                      : HtmlRender(
+                          html: _firstPost.attributes.contentHtml,
                         ),
 
                   /// 渲染九宫格图片
@@ -244,7 +242,7 @@ class _ThreadCardState extends State<ThreadCard> {
             ),
 
             ///
-            /// 梯子快捷操作工具栏
+            /// 梯子快捷操��工具栏
             ThreadCardQuickActions(
               firstPost: _firstPost,
               thread: widget.thread,
