@@ -12,6 +12,7 @@ part 'ops/style_bg_color.dart';
 part 'ops/style_margin.dart';
 part 'ops/style_text_align.dart';
 part 'ops/tag_a.dart';
+part 'ops/tag_sharp.dart';
 part 'ops/tag_code.dart';
 part 'ops/tag_font.dart';
 part 'ops/tag_img.dart';
@@ -29,6 +30,7 @@ class WidgetFactory {
   BuildOp _styleMargin;
   BuildOp _styleTextAlign;
   BuildOp _tagA;
+  BuildOp _tagSharp;
   BuildOp _tagBr;
   BuildOp _tagCode;
   BuildOp _tagFont;
@@ -141,6 +143,13 @@ class WidgetFactory {
           ? _config.onTapUrl(url)
           : print("[flutter_widget_from_html] Tapped url $url")
       : null;
+
+  GestureTapCallback buildGestureTapCallbackForSharpUrl(int topicID) =>
+      topicID != null
+          ? () => _config.onTapUrl != null
+              ? _config.onTapSharpUrl(topicID)
+              : print("[flutter_widget_from_html] Tapped sharp url $topicID")
+          : null;
 
   Widget buildImage(String url, {double height, String text, double width}) {
     ImageProvider image;
@@ -396,7 +405,6 @@ class WidgetFactory {
       case 'a':
         meta = lazySet(meta, buildOp: tagA());
         break;
-
       case 'abbr':
       case 'acronym':
         meta = lazySet(
@@ -533,6 +541,9 @@ class WidgetFactory {
           fontWeight: FontWeight.bold,
           styles: [kCssMargin, '1.67em 0'],
         );
+        break;
+      case 'span':
+        meta = lazySet(meta, buildOp: tagSharp());
         break;
       case 'h6':
         meta = lazySet(
@@ -760,6 +771,11 @@ class WidgetFactory {
   BuildOp tagA() {
     _tagA ??= _TagA(this).buildOp;
     return _tagA;
+  }
+
+  BuildOp tagSharp() {
+    _tagSharp ??= _TagSharp(this).buildOp;
+    return _tagSharp;
   }
 
   BuildOp tagBr() {

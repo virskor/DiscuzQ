@@ -21,6 +21,7 @@ class HtmlWidget extends core.HtmlWidget {
     NodeMetadataCollector builderCallback,
     Color hyperlinkColor,
     core.OnTapUrl onTapUrl,
+    core.OnTapSharpUrl onTapSharpUrl,
     EdgeInsets tableCellPadding = const EdgeInsets.all(5),
     TextStyle textStyle = const TextStyle(),
     bool unsupportedWebViewWorkaroundForIssue37 = false,
@@ -39,6 +40,7 @@ class HtmlWidget extends core.HtmlWidget {
                 builderCallback: builderCallback,
                 hyperlinkColor: hyperlinkColor,
                 onTapUrl: onTapUrl,
+                onTapSharpUrl: onTapSharpUrl,
                 tableCellPadding: tableCellPadding,
                 textStyle: textStyle,
                 unsupportedWebViewWorkaroundForIssue37:
@@ -84,6 +86,7 @@ class HtmlWidgetConfig extends core.HtmlWidgetConfig {
     NodeMetadataCollector builderCallback,
     Color hyperlinkColor,
     core.OnTapUrl onTapUrl,
+    core.OnTapSharpUrl onTapSharpUrl,
     EdgeInsets tableCellPadding,
     TextStyle textStyle,
     this.unsupportedWebViewWorkaroundForIssue37,
@@ -95,6 +98,7 @@ class HtmlWidgetConfig extends core.HtmlWidgetConfig {
           builderCallback: builderCallback,
           hyperlinkColor: hyperlinkColor,
           onTapUrl: onTapUrl,
+          onTapSharpUrl: onTapSharpUrl,
           tableCellPadding: tableCellPadding,
           textStyle: textStyle,
         );
