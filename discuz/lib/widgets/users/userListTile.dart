@@ -23,7 +23,7 @@ class UserListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          border: const Border(top: Global.border, bottom: Global.border),
+          border: const Border(bottom: Global.border),
           color: DiscuzApp.themeOf(context).backgroundColor),
       child: Column(
         children: <Widget>[
@@ -42,7 +42,6 @@ class UserListTile extends StatelessWidget {
                   user: user,
                 )),
           ),
-          const DiscuzDivider(padding: 0),
         ],
       ),
     );
