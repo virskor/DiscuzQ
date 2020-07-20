@@ -31,12 +31,21 @@ class AppSearchDelegate extends StatefulWidget {
   _AppSearchDelegateState createState() => _AppSearchDelegateState();
 }
 
-class _AppSearchDelegateState extends State<AppSearchDelegate> {
+class _AppSearchDelegateState extends State<AppSearchDelegate> with AutomaticKeepAliveClientMixin{
+
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context){
+
+    super.build(context);
+
+    return ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
           appBar: DiscuzAppBar(title: '搜索与发现', actions: <Widget>[..._actions])));
+  }
 
   ///
   /// search Icon Button

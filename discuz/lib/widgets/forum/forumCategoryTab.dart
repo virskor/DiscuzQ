@@ -153,7 +153,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
               fontWeight: FontWeight.w600,
             ),
             unselectedLabelStyle: TextStyle(
-              fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+              fontSize: DiscuzApp.themeOf(context).largeTextSize,
               fontWeight: FontWeight.w600,
             ),
             indicatorSize: TabBarIndicatorSize.label, //makes it better
@@ -166,7 +166,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
                 indicatorHeight: 2,
                 indicatorColor: DiscuzApp.themeOf(context).primaryColor,
                 indicatorSize:
-                    MD2IndicatorSize.full //3 different modes tiny-normal-full
+                    MD2IndicatorSize.tiny //3 different modes tiny-normal-full
                 ),
             tabs: state.categories
                 .map<Widget>((CategoryModel e) => Tab(text: e.attributes.name))
@@ -295,6 +295,7 @@ class __ForumCategoryTabContentState extends State<_ForumCategoryTabContent>
         rebuildOnChange: false,
         builder: (context, child, state) => TabBarView(
               controller: widget.controller,
+              physics: BouncingScrollPhysics(),
               children: state.categories
                   .map<Widget>((CategoryModel cat) => ThreadsList(
                         category: cat,
