@@ -55,12 +55,12 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     super.initState();
 
     /// 延迟加载
-    Future.delayed(Duration(milliseconds: 400))
+    Future.delayed(Duration.zero)
         .then((_) => this._initTabController())
 
         /// 监听用户滑动的分类
         /// 切勿在这个方法中进行setState的操作，这样会很影响性能
-        .then((_) => _tabControllerListener());
+        .then((_) => this._tabControllerListener());
   }
 
   @override

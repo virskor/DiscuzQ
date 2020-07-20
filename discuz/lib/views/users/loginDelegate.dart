@@ -11,14 +11,15 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzFormContainer.dart';
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/users/registerDelegate.dart';
+// import 'package:discuzq/router/route.dart';
+// import 'package:discuzq/views/users/registerDelegate.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/users/privacyBar.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/webview/webviewHelper.dart';
 
 class LoginDelegate extends StatefulWidget {
   final Function onRequested;
@@ -127,8 +128,9 @@ class _LoginDelegateState extends State<LoginDelegate> {
             label: '没有账号，立即注册',
             labelColor: DiscuzApp.themeOf(context).primaryColor,
             color: Colors.transparent,
-            onPressed: () => DiscuzRoute.open(
-                context: context, widget: const RegisterDelegate()),
+            onPressed: () => WebviewHelper.launchUrl(url: "${Global.domain}/pages/user/register"),
+            // onPressed: () => DiscuzRoute.open(
+            //     context: context, widget: const RegisterDelegate()),
           ),
 
           /// 用户协议
