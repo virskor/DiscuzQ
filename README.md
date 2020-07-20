@@ -45,15 +45,13 @@ https://discuzapp.xyz
 <p> 
 <img width="200px" src="./snapshots/snapshot.png"/> 
 <img width="200px" src="./snapshots/snapshot_me.png"/>  
-<img width="200px" src="./snapshots/snapshot_wallet.png"/>  
 <img width="200px" src="./snapshots/snapshot_notifications.png"/>  
 <img width="200px" src="./snapshots/snapshot_collection.png"/>  
-<img width="200px" src="./snapshots/snapshot_dartmode_1.png"/>  
-<img width="200px" src="./snapshots/snapshot_dartmode_2.png"/>  
+<img width="200px" src="./snapshots/snapshot_darkmode_1.png"/>  
+<img width="200px" src="./snapshots/snapshot_darmkode_2.png"/>  
 <img width="200px" src="./snapshots/snapshot_skeleton.png"/>  
 <img width="200px" src="./snapshots/snapshot_create.png"/>  
 <img width="200px" src="./snapshots/snapshot_detail.png">
-<img width="200px" src="./snapshots/snapshot_android.png">
 <img width="200px" src="./snapshots/snapshot_editor.png">
 </p> 
 

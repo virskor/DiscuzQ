@@ -103,7 +103,7 @@ class _DiscuzAppSearchDelegate extends SearchDelegate<String> {
       );
 
   @override
-  String searchFieldLabel = '输入关键字搜索';
+  String searchFieldLabel = '输入关键字来继续';
 
   @override
   Widget buildResults(BuildContext context) {
