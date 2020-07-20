@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
-import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/forum/floatLoginButton.dart';
-import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/forum/forumCategoryTab.dart';
-import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 
 /// 论坛首页
 class ForumDelegate extends StatefulWidget {
@@ -53,21 +47,8 @@ class _ForumDelegateState extends State<ForumDelegate>
     super.build(context);
 
     return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
+        rebuildOnChange: true,
         builder: (context, child, state) => Scaffold(
-              appBar: DiscuzAppBar(
-                      title: const DiscuzAppLogo(
-                        dark: true,
-                      ),
-                      backgroundColor: DiscuzApp.themeOf(context).primaryColor,
-                      brightness: Brightness.dark,
-                      actions: <Widget>[
-                        const ForumAddButton(
-                          awalysDark: true,
-                        )
-                      ],
-                    ),
-              drawerEdgeDragWidth: Global.drawerEdgeDragWidth,
               body: Stack(
                 fit: StackFit.expand,
                 overflow: Overflow.clip,

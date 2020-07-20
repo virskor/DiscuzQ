@@ -102,7 +102,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       return const Center(
         child: const DiscuzSkeleton(
           isCircularImage: false,
-          length: Global.requestPageLimit,
           isBottomLinesActive: true,
         ),
       );
@@ -141,7 +140,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       /// 允许刷新
       child: ListView.builder(
         itemCount: _threadsCacher.threads.length,
-        itemBuilder: (context, index) =>  ThreadCard(
+        itemBuilder: (context, index) => ThreadCard(
           threadsCacher: _threadsCacher,
           thread: _threadsCacher.threads[index],
           initiallyExpanded: true,

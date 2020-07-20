@@ -69,7 +69,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
-              title: '通知提醒',
+              title: '消息通知',
             ),
             body: DiscuzRefresh(
               enablePullDown: true,
@@ -160,7 +160,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
               leading: DiscuzIcon(item.icon,
                   color: DiscuzApp.themeOf(context).primaryColor),
               title: DiscuzText(item.label),
-
+              
               ///
               /// 点击查看消息
               ///

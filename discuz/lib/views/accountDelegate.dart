@@ -7,7 +7,6 @@ import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/nightModeSwitcher.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
-import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
@@ -26,6 +25,7 @@ import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/widgets/users/services/userInterationBar.dart';
 import 'package:discuzq/views/reports/reportsHistoryDelegate.dart';
+import 'package:discuzq/utils/global.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -60,7 +60,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
     //     label: '投诉举报记录',
     //     icon: SFSymbols.flag,
     //     separate: true,
-        
+
     //     child: const ReportHistoryDelegate()),
 
     /// 请求退出账户
@@ -130,13 +130,9 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
                         /// 菜单构造
                         Container(
-                          margin: const EdgeInsets.all(10),
-                          child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            child: Column(
-                              children: _buildMenus(state),
-                            ),
+                          margin: const EdgeInsets.only(top: 5),
+                          child: Column(
+                            children: _buildMenus(state),
                           ),
                         )
                       ],
@@ -166,9 +162,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
                           : DiscuzRoute.open(
                               context: context, widget: el.child),
                 ),
-                el.showDivider == true
-                    ? const DiscuzDivider()
-                    : const SizedBox()
               ],
             ),
           ))
@@ -225,10 +218,8 @@ class _MyAccountCard extends StatelessWidget {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: true,
       builder: (context, child, state) => Container(
-            margin: const EdgeInsets.all(10),
             padding: const EdgeInsets.only(top: 15, bottom: 15),
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: DiscuzListTile(
               leading: Hero(

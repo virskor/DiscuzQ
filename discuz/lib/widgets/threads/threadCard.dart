@@ -1,5 +1,3 @@
-import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -18,10 +16,10 @@ import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzExpansionTile.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/utils/global.dart';
 
 ///
 /// flat title length to substr
@@ -112,14 +110,13 @@ class _ThreadCardState extends State<ThreadCard> {
   /// 实际上，我们会收起顶置的帖子
   /// 其次，如果用户设置了收起付费的帖子，他们也会被折叠，但用不同的颜色提示
   Widget _buildCard({BuildContext context, AppState state}) {
-    if (widget.thread.attributes.isSticky) {
-      return _buildStickyThreadTitle(context);
-    }
+    // if (widget.thread.attributes.isSticky) {
+    //   return _buildStickyThreadTitle(context);
+    // }
 
-    // return state.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
-    //     ? _buildStickyThreadTitle(context)
-    //     : _buildThreadCard(context);
-    return _buildThreadCard(context);
+    return state.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
+        ? const SizedBox()
+        : _buildThreadCard(context);
   }
 
   ///
@@ -142,8 +139,9 @@ class _ThreadCardState extends State<ThreadCard> {
         alignment: Alignment.center,
         margin: const EdgeInsets.only(right: 10),
         decoration: const BoxDecoration(
-            color: Global.scaffoldBackgroundColorLight,
-            borderRadius: const BorderRadius.all(Radius.circular(5))),
+          color: Global.scaffoldBackgroundColorLight,
+          border: const Border(top: Global.border, bottom: Global.border)
+        ),
         child: const DiscuzText('置顶', color: Colors.black),
       ),
     );
@@ -151,11 +149,11 @@ class _ThreadCardState extends State<ThreadCard> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Container(
+        margin: const EdgeInsets.only(top: 5),
         padding: kMarginAllContent,
-        margin: kMarginAllContent,
         decoration: BoxDecoration(
-            color: DiscuzApp.themeOf(context).backgroundColor,
-            borderRadius: const BorderRadius.all(Radius.circular(5))),
+          color: DiscuzApp.themeOf(context).backgroundColor,
+        ),
         child: Row(
           children: <Widget>[
             stickyIcon,
@@ -179,11 +177,11 @@ class _ThreadCardState extends State<ThreadCard> {
   /// 构建帖子卡片
   ///
   Widget _buildThreadCard(BuildContext context) => Container(
-        margin: kMarginAllContent,
         padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
+        margin: const EdgeInsets.only(top: 5),
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(const Radius.circular(5)),
           color: DiscuzApp.themeOf(context).backgroundColor,
+          border: const Border(top: Global.border, bottom: Global.border)
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

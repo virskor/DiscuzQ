@@ -91,11 +91,11 @@ class PostFloorCard extends StatelessWidget {
     }
 
     return Container(
-      margin: kMarginAllContent,
+      margin: const EdgeInsets.only(top: 5.0),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
-          borderRadius: const BorderRadius.all(const Radius.circular(5))),
+          border: const Border(top: Global.border, bottom: Global.border)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

@@ -75,7 +75,7 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(top: 5.0),
           child: Container(
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -233,7 +233,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(top: 5.0),
           child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -415,7 +415,7 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(top: 5.0),
           child: Container(
             color: Colors.white,
             padding: EdgeInsets.all(10),
@@ -562,7 +562,7 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(top: 5.0),
           child: Container(
             color: Colors.grey[800],
             padding: EdgeInsets.all(10),
@@ -706,7 +706,7 @@ class _PKCardPageSkeletonState extends State<PKCardPageSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(top: 5.0),
           child: Container(
               color: Colors.white,
               padding: EdgeInsets.all(10),
@@ -796,7 +796,7 @@ class _PKDarkCardPageSkeletonState extends State<PKDarkCardPageSkeleton>
       animation: animation,
       builder: (context, child) {
         return Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(top: 5.0),
           child: Container(
               color: Colors.grey[800],
               padding: EdgeInsets.all(10),

@@ -82,7 +82,7 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Container(
-        height: 40,
+            height: 45,
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.only(
               left: 10,
@@ -90,7 +90,7 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
             ),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor,
-                border: Border(top: Global.border, bottom: Global.border)),
+                border: const Border(top: Global.border, bottom: Global.border)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

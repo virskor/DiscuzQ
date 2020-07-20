@@ -69,11 +69,10 @@ class _SearchTypeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: colors),
-          borderRadius: const BorderRadius.all(Radius.circular(5))),
+        gradient: LinearGradient(colors: colors),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -61,14 +61,6 @@ class Global {
   /// theme
   static const Color primaryColor = Color(0xFF316598);
 
-  ///
-  /// splash color
-  static const Color splashColor = Colors.transparent;
-
-  ///
-  /// highlightColor
-  static const Color highlightColor = Colors.transparent;
-
   /// 日间模式底色
   static const Color scaffoldBackgroundColorLight = Color(0xFFF0F0F0);
 
@@ -100,7 +92,7 @@ class Global {
 
   /// 边
   static const BorderSide border =
-      const BorderSide(width: .2, color: const Color(0x1F000000));
+      const BorderSide(width: .4, color: const Color(0x1F000000));
 
   /// 加密
   ///

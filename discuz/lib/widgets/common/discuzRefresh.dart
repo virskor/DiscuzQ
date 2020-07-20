@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-
 ///
 /// 这个组件基于pull_to_refresh 但担心如果后续更改其他控件所以重新封装下
 class DiscuzRefresh extends StatelessWidget {
@@ -53,12 +52,14 @@ class DiscuzRefresh extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scrollbar(
+        isAlwaysShown: false,
         child: SmartRefresher(
           enablePullDown: enablePullDown,
           enablePullUp: enablePullUp,
-          header: const ClassicHeader(),
+          header: const WaterDropHeader(),
+          footer: const ClassicFooter(),
           scrollController: scrollController,
-          
+
           /// 允许乡下加载
           // header: WaterDropHeader(),
           controller: controller,

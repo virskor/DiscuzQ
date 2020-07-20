@@ -175,9 +175,8 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
                 // closer together (more dense) than on mobile platforms.
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 primaryColor: DiscuzApp.themeOf(context).primaryColor,
-                splashColor: DiscuzApp.themeOf(context).splashColor,
-                highlightColor: DiscuzApp.themeOf(context).highlightColor,
                 backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+                
                 scaffoldBackgroundColor:
                     DiscuzApp.themeOf(context).scaffoldBackgroundColor,
                 canvasColor:

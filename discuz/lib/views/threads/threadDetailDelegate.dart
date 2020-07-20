@@ -155,9 +155,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                   child: !_continueToRead && _loading
 
                       /// 加载第一页时加载Loading 骨架屏
-                      ? const DiscuzSkeleton(
-                          length: Global.requestPageLimit,
-                        )
+                      ? const DiscuzSkeleton()
                       : DiscuzRefresh(
                           controller: _controller,
                           enablePullDown: true,
@@ -264,8 +262,11 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
           ..._buildContentTitle(),
 
           /// 显示内容
-          HtmlRender(
-            html: _firstPost.attributes.contentHtml,
+          Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: HtmlRender(
+              html: _firstPost.attributes.contentHtml,
+            ),
           ),
 
           /// 显示附件图片

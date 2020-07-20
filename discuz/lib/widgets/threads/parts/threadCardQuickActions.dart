@@ -47,7 +47,7 @@ class ThreadCardQuickActions extends StatelessWidget {
           /// 评论
           _ThreadCardQuickActionsItem(
             icon: SFSymbols.bubble_left_bubble_right,
-            count: thread.attributes.postCount,
+            count: thread.attributes.postCount - 1,
             onPressed: () async {
               final DiscuzEditorRequestResult res =
                   await DiscuzEditorHelper(context: context)

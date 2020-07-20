@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/forum/forumCategoryTabWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
@@ -8,7 +9,6 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/models/categoryModel.dart';
-import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/threads/theadsList.dart';
 import 'package:discuzq/widgets/categories/discuzCategories.dart';
@@ -97,7 +97,6 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     if (_loading) {
       return const DiscuzSkeleton(
         isCircularImage: false,
-        length: Global.requestPageLimit,
         isBottomLinesActive: true,
       );
     }
@@ -144,44 +143,34 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
   ///
   /// 生成分类Tabs 非Tabcontent
   ///
-  Widget _buildtabs(AppState state) => Container(
-        width: MediaQuery.of(context).size.width,
-        decoration:
-            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
-        child: SafeArea(
-          top: true,
-          bottom: false,
-          child: TabBar(
-              //生成Tab菜单
-              controller: _tabController,
-              labelStyle: TextStyle(
-                //up to your taste
-                fontSize: DiscuzApp.themeOf(context).largeTextSize,
-                fontWeight: FontWeight.w800,
-              ),
-              unselectedLabelStyle: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: DiscuzApp.themeOf(context).normalTextSize,
-              ),
-              indicatorSize: TabBarIndicatorSize.label, //makes it better
-              labelColor:
-                  DiscuzApp.themeOf(context).primaryColor, //Google's sweet blue
-              unselectedLabelColor:
-                  DiscuzApp.themeOf(context).textColor, //niceish grey
-              isScrollable: true, //up to your taste
-              indicatorPadding: const EdgeInsets.all(0),
-              indicator: MD2Indicator(
-                  //it begins here
-                  indicatorHeight: 2,
-                  indicatorColor: DiscuzApp.themeOf(context).primaryColor,
-                  indicatorSize: MD2IndicatorSize
-                      .normal //3 different modes tiny-normal-full
-                  ),
-              tabs: state.categories
-                  .map<Widget>(
-                      (CategoryModel e) => Tab(text: e.attributes.name))
-                  .toList()),
-        ),
+  Widget _buildtabs(AppState state) => ForumCategoryTabWrapper(
+        tabBar: TabBar(
+            //生成Tab菜单
+            controller: _tabController,
+            labelStyle: TextStyle(
+              //up to your taste
+              fontSize: DiscuzApp.themeOf(context).largeTextSize,
+              fontWeight: FontWeight.w600,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+              fontWeight: FontWeight.w600,
+            ),
+            indicatorSize: TabBarIndicatorSize.label, //makes it better
+            labelColor: Colors.white, //Google's sweet blue
+            unselectedLabelColor: Colors.white.withOpacity(.58), //niceish grey
+            isScrollable: true, //up to your taste
+            indicatorPadding: const EdgeInsets.all(0),
+            indicator: MD2Indicator(
+                //it begins here
+                indicatorHeight: 2,
+                indicatorColor: DiscuzApp.themeOf(context).primaryColor,
+                indicatorSize:
+                    MD2IndicatorSize.full //3 different modes tiny-normal-full
+                ),
+            tabs: state.categories
+                .map<Widget>((CategoryModel e) => Tab(text: e.attributes.name))
+                .toList()),
       );
 
   /// 初始化 tab controller
