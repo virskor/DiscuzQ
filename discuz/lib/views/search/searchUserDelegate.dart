@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:discuzq/models/metaModel.dart';
-import 'package:discuzq/widgets/appbar/searchAppbar.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/users/userListTile.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 ///
 /// 搜索用户
 ///
 class SearchUserDelegate extends StatefulWidget {
-  const SearchUserDelegate();
+  SearchUserDelegate({this.keyword});
+
+  final String keyword;
 
   @override
   _SearchUserDelegateState createState() => _SearchUserDelegateState();
@@ -28,11 +28,6 @@ class SearchUserDelegate extends StatefulWidget {
 class _SearchUserDelegateState extends State<SearchUserDelegate> {
   /// refresh controller
   final RefreshController _controller = RefreshController();
-
-  ///
-  /// states
-  ///
-  String _keyword;
 
   ///
   /// _pageNumber
@@ -68,6 +63,8 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration(milliseconds: 450))
+        .then((_) async => await _requestData(pageNumber: 1));
   }
 
   @override
@@ -78,26 +75,25 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: SearchAppbar(
-        placeholder: '输入关键字搜索用户',
-        onSubmit: (String keyword, bool shouldShowNoticeEmpty) async {
-          if (shouldShowNoticeEmpty && keyword == "") {
-            DiscuzToast.failed(context: context, message: '缺少关键字');
-            return;
-          }
-          setState(() {
-            _keyword = keyword;
-          });
+  void didUpdateWidget(SearchUserDelegate oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-          await _requestData(context: context, pageNumber: 1);
-        },
-      ),
-      backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-      body: _buildBody(context),
-    );
+    if (oldWidget == null) {
+      return;
+    }
+
+    ///
+    /// 如果keyword 证明用户重新输入了关键字，那么久执行重新请求
+    if (widget.keyword != null && oldWidget.keyword != widget.keyword) {
+      Future.delayed(Duration(milliseconds: 450))
+          .then((_) async => await _requestData(pageNumber: 1));
+    }
   }
+
+  @override
+  Widget build(BuildContext context) => Container(
+      color: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+      child: _buildBody(context));
 
   ///
   /// 是否允许加载更多
@@ -166,7 +162,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
     }
 
     final dynamic data = {
-      'filter[username]': '*$_keyword*',
+      'filter[username]': '*${widget.keyword}*',
       "page[number]": pageNumber ?? _pageNumber,
       'page[limit]': Global.requestPageLimit
     };
@@ -195,8 +191,6 @@ class _SearchUserDelegateState extends State<SearchUserDelegate> {
     } catch (e) {
       throw e;
     }
-
-    print({_users.length, resp.data['data'].length});
 
     setState(() {
       _loading = false;

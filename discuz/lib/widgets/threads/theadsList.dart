@@ -136,19 +136,20 @@ class _ForumCategoryState extends State<ThreadsList> {
     /// 绑定列表移动时间观察
     this._watchScrollOffset();
 
-    ///
-    /// 如果没有提供绑定的分类，可能是意图调用查询生成列表
-    /// 那么不需要自动加载数据
-    if (widget.category != null) {
-      Future.delayed(Duration(milliseconds: 450))
-          .then((_) async => await _requestData(pageNumber: 1));
-    }
+    Future.delayed(Duration(milliseconds: 450))
+        .then((_) async => await _requestData(pageNumber: 1));
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    _scrollController.dispose();
+    if (_controller != null) {
+      _controller.dispose();
+    }
+
+    if (_scrollController != null) {
+      _scrollController.dispose();
+    }
+
     _threadsCacher.clear();
 
     /// 清空缓存的主题列表数据
