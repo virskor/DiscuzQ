@@ -63,6 +63,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
       builder: (context, child, state) => AnimatedContainer(
             duration: Duration(milliseconds: 300),
             decoration: BoxDecoration(
+                border: const Border(top: Global.border, bottom: Global.border),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width,

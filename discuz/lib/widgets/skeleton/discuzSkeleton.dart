@@ -18,7 +18,7 @@ class DiscuzSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: true,
+        rebuildOnChange: false,
         builder: (context, child, model) {
           return model.appConf['darkTheme'] == true
               ? PKDarkCardListSkeleton(

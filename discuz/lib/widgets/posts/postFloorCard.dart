@@ -94,8 +94,8 @@ class PostFloorCard extends StatelessWidget {
       margin: const EdgeInsets.only(top: 5.0),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: DiscuzApp.themeOf(context).backgroundColor,
-      ),
+          color: DiscuzApp.themeOf(context).backgroundColor,
+          border: const Border(top: Global.border, bottom: Global.border)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,

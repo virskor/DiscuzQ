@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/utils/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -73,6 +74,9 @@ class _ForumCategoryState extends State<ThreadsList> {
   /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
   final ThreadsCacher _threadsCacher = ThreadsCacher();
+
+  /// debouncer
+  final Debouncer _debouncer = Debouncer(milliseconds: 470);
 
   /// states
   ///
@@ -160,12 +164,14 @@ class _ForumCategoryState extends State<ThreadsList> {
     bool showAppbar = true;
 
     _scrollController.addListener(() {
-      final bool wantHide = _scrollController.offset >= 300 ? false : true;
+      _debouncer.run(() {
+        final bool wantHide = _scrollController.offset >= 300 ? false : true;
 
-      if (widget.onAppbarState != null && wantHide != showAppbar) {
-        widget.onAppbarState(wantHide);
-        showAppbar = wantHide;
-      }
+        if (widget.onAppbarState != null && wantHide != showAppbar) {
+          widget.onAppbarState(wantHide);
+          showAppbar = wantHide;
+        }
+      });
     });
   }
 

@@ -7,7 +7,6 @@ import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/nightModeSwitcher.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
-import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
@@ -26,6 +25,7 @@ import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/widgets/users/services/userInterationBar.dart';
 import 'package:discuzq/views/reports/reportsHistoryDelegate.dart';
+import 'package:discuzq/utils/global.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -162,9 +162,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
                           : DiscuzRoute.open(
                               context: context, widget: el.child),
                 ),
-                el.showDivider == true
-                    ? const DiscuzDivider()
-                    : const SizedBox()
               ],
             ),
           ))

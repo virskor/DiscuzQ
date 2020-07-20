@@ -1,15 +1,13 @@
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/users/profiles/userSignatureDelegate.dart';
-import 'package:discuzq/views/users/profiles/usernameModifyDelegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/users/profiles/userSignatureDelegate.dart';
+import 'package:discuzq/views/users/profiles/usernameModifyDelegate.dart';
 import 'package:discuzq/widgets/common/avatarPicker.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
-import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
@@ -60,9 +58,6 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                       ),
                     ),
                   ),
-                  const DiscuzDivider(
-                    padding: 0,
-                  ),
                   DiscuzListTile(
                     title: const DiscuzText('用户名'),
                     onTap: () {
@@ -85,9 +80,6 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                                   const UsernameModifyDelegate()));
                     },
                   ),
-                  const DiscuzDivider(
-                    padding: 0,
-                  ),
                   DiscuzListTile(
                     title: const DiscuzText('个性签名'),
                     onTap: () => DiscuzRoute.open(
@@ -98,9 +90,6 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                             builder: (BuildContext context) =>
                                 const UserSignatureDelegate())),
                   ),
-                  // const DiscuzDivider(
-                  //   padding: 0,
-                  // ),
                   // DiscuzListTile(
                   //   title: const DiscuzText('钱包密码'),
                   //   onTap: () =>

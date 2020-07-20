@@ -1,5 +1,3 @@
-import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -18,10 +16,10 @@ import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzExpansionTile.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/utils/global.dart';
 
 ///
 /// flat title length to substr
@@ -142,6 +140,7 @@ class _ThreadCardState extends State<ThreadCard> {
         margin: const EdgeInsets.only(right: 10),
         decoration: const BoxDecoration(
           color: Global.scaffoldBackgroundColorLight,
+          border: const Border(top: Global.border, bottom: Global.border)
         ),
         child: const DiscuzText('置顶', color: Colors.black),
       ),
@@ -182,6 +181,7 @@ class _ThreadCardState extends State<ThreadCard> {
         margin: const EdgeInsets.only(top: 5),
         decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
+          border: const Border(top: Global.border, bottom: Global.border)
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

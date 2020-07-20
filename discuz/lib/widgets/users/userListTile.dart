@@ -8,6 +8,7 @@ import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/utils/global.dart';
 
 ///
 /// 用于显示用户搜索结果的用户Tile组件
@@ -21,8 +22,9 @@ class UserListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration:
-          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+      decoration: BoxDecoration(
+          border: const Border(top: Global.border, bottom: Global.border),
+          color: DiscuzApp.themeOf(context).backgroundColor),
       child: Column(
         children: <Widget>[
           DiscuzListTile(

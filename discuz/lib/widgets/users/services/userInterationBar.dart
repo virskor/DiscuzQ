@@ -1,6 +1,3 @@
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/editor.dart';
-import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -10,6 +7,10 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/views/editor.dart';
+import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 
 class UserInterationBar extends StatefulWidget {
   const UserInterationBar();
@@ -24,6 +25,7 @@ class _UserServicesState extends State<UserInterationBar> {
       builder: (context, child, state) => Container(
             padding: const EdgeInsets.all(2),
             decoration: BoxDecoration(
+                border: const Border(bottom: Global.border),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
