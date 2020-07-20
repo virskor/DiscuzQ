@@ -163,15 +163,23 @@ class _PostDetBotState extends State<PostDetBot> {
     };
 
     final Function close = DiscuzToast.loading(context: context);
-    Response resp = await Request(context: context).patch(
-        url: '${Urls.threads}/${widget.thread.id.toString()}', data: data);
-    close();
-    if (resp == null) {
-      return;
-    }
 
-    setState(() {
-      _collected = isFavorite;
-    });
+    try {
+      Response resp = await Request(context: context).patch(
+          url: '${Urls.threads}/${widget.thread.id.toString()}', data: data);
+
+      close();
+
+      if (resp == null) {
+        return;
+      }
+
+      setState(() {
+        _collected = isFavorite;
+      });
+    } catch (e) {
+      close();
+      throw e;
+    }
   }
 }
