@@ -60,6 +60,11 @@ class Urls {
   /// 主题相关的接口
   static String threads = "$_apiPath/threads";
 
+  /// -----------------------------------
+  /// 话题
+  /// 话题相关的接口
+  static String topics = "$_apiPath/topics";
+
   ///
   /// 收藏
   static String threadsFavorites = "$_apiPath/favorites";

@@ -112,6 +112,18 @@ class CategoryModelAttributes {
   ///
   final String updatedAt;
 
+  /// canCreateThread
+  /// 是否有权限新增话题
+  final bool canCreateThread;
+
+  /// canReplyThread
+  /// 是否有权限回复
+  final bool canReplyThread;
+
+  /// canViewThreads
+  /// 是否有权查看该分类
+  final bool canViewThreads;
+
   ///
   /// 分类属性
   const CategoryModelAttributes(
@@ -123,6 +135,9 @@ class CategoryModelAttributes {
       this.createdAt = "",
       this.updatedAt = "",
       this.ip = "",
+      this.canCreateThread = false,
+      this.canReplyThread = false,
+      this.canViewThreads = false,
       this.property = 0});
 
   ///
@@ -153,6 +168,9 @@ class CategoryModelAttributes {
         threadCount: data['thread_count'] ?? 0,
         createdAt: data['created_at'] ?? '',
         updatedAt: data['updated_at'] ?? '',
+        canCreateThread: data['canCreateThread'] ?? false,
+        canReplyThread: data['canReplyThread'] ?? false,
+        canViewThreads: data['canViewThreads'] ?? false,
         ip: data['ip'] ?? '');
   }
 }

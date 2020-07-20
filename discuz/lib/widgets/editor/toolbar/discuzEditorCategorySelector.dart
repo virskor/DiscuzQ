@@ -97,8 +97,10 @@ class _DiscuzEditorCategorySelectorState
 
     ///
     /// 没有传入默认选中的分类
-    /// 那么自动选中第一个
-    _selectedCategory = _categories[0];
+    /// 那么自动选中第一个(有发布权限的)
+    _selectedCategory = _categories
+        .where((element) => element.attributes.canCreateThread)
+        .toList()[0];
     widget.onChanged(_selectedCategory);
   }
 
@@ -152,29 +154,31 @@ class _DiscuzEditorCategorySelectorState
                     Expanded(
                       child: ListView(
                         children: _categories
-                            .map((c) => DiscuzListTile(
-                                  title: DiscuzText(c.attributes.name),
+                            .map((c) => c.attributes.canCreateThread
+                                ? DiscuzListTile(
+                                    title: DiscuzText(c.attributes.name),
 
-                                  ///
-                                  /// 选中的分类，图标和未选中的有所差异，这样用户可以得到反馈
-                                  ///
-                                  trailing: _selectedCategory != null &&
-                                          _selectedCategory.id == c.id
-                                      ? const DiscuzIcon(
-                                          SFSymbols.checkmark_circle_fill)
-                                      : const DiscuzListTileTrailing(),
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedCategory = c;
-                                    });
+                                    ///
+                                    /// 选中的分类，图标和未选中的有所差异，这样用户可以得到反馈
+                                    ///
+                                    trailing: _selectedCategory != null &&
+                                            _selectedCategory.id == c.id
+                                        ? const DiscuzIcon(
+                                            SFSymbols.checkmark_circle_fill)
+                                        : const DiscuzListTileTrailing(),
+                                    onTap: () {
+                                      setState(() {
+                                        _selectedCategory = c;
+                                      });
 
-                                    if (widget.onChanged != null) {
-                                      widget.onChanged(c);
-                                    }
+                                      if (widget.onChanged != null) {
+                                        widget.onChanged(c);
+                                      }
 
-                                    Navigator.pop(context);
-                                  },
-                                ))
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                : const SizedBox())
                             .toList(),
                       ),
                     )
