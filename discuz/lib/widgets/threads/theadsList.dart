@@ -137,13 +137,19 @@ class _ForumCategoryState extends State<ThreadsList> {
     this._watchScrollOffset();
 
     Future.delayed(Duration(milliseconds: 450))
-          .then((_) async => await _requestData(pageNumber: 1));
+        .then((_) async => await _requestData(pageNumber: 1));
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    _scrollController.dispose();
+    if (_controller != null) {
+      _controller.dispose();
+    }
+
+    if (_scrollController != null) {
+      _scrollController.dispose();
+    }
+
     _threadsCacher.clear();
 
     /// 清空缓存的主题列表数据

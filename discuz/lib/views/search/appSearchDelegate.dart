@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -8,6 +9,7 @@ import 'package:discuzq/views/search/searchUserDelegate.dart';
 import 'package:discuzq/views/search/searchThreadDelegate.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 enum DiscuzAppSearchType {
   ///
@@ -34,16 +36,34 @@ class _AppSearchDelegateState extends State<AppSearchDelegate> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
-          appBar:
-              DiscuzAppBar(title: '发现', actions: <Widget>[_searchIconButton])));
+          appBar: DiscuzAppBar(title: '搜索与发现', actions: <Widget>[..._actions])));
 
   ///
   /// search Icon Button
-  Widget get _searchIconButton => IconButton(
-      icon: Icon(Icons.search),
-      onPressed: () {
-        showSearch(context: context, delegate: _DiscuzAppSearchDelegate());
-      });
+  List<Widget> get _actions => [
+        IconButton(
+            icon: const DiscuzIcon(
+              SFSymbols.doc_text_search,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              showSearch(
+                  context: context,
+                  delegate: _DiscuzAppSearchDelegate(
+                      type: DiscuzAppSearchType.thread));
+            }),
+        IconButton(
+            icon: const DiscuzIcon(
+              SFSymbols.person_badge_plus,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              showSearch(
+                  context: context,
+                  delegate:
+                      _DiscuzAppSearchDelegate(type: DiscuzAppSearchType.user));
+            })
+      ];
 }
 
 class _DiscuzAppSearchDelegate extends SearchDelegate<String> {
