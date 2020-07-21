@@ -33,8 +33,6 @@ https://discuzapp.xyz
 #### 编译相关
 [奶罩大佬 提供了自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
 
-
-
 ### 开发提示
 现在，我们的仓库每日都有新的commit，这样一来代码变动都是很大的，并且很多功能都没有完成，你可能跑步起来或者跑起来了还有很多问题。我们将在基础功能完成后，进行很大的Code Review工作和测试工作，现在请不要将代码用于生产环境的构建。  
 
@@ -47,8 +45,7 @@ https://discuzapp.xyz
 <img width="200px" src="./snapshots/snapshot_me.png"/>  
 <img width="200px" src="./snapshots/snapshot_notifications.png"/>  
 <img width="200px" src="./snapshots/snapshot_collection.png"/>  
-<img width="200px" src="./snapshots/snapshot_darkmode_1.png"/>  
-<img width="200px" src="./snapshots/snapshot_darmkode_2.png"/>  
+<img width="200px" src="./snapshots/snapshot_darkmode_1.png"/>    
 <img width="200px" src="./snapshots/snapshot_skeleton.png"/>  
 <img width="200px" src="./snapshots/snapshot_create.png"/>  
 <img width="200px" src="./snapshots/snapshot_detail.png">
@@ -58,6 +55,8 @@ https://discuzapp.xyz
 ### 一起开发
 了解开发进度，或者有疑问，可以加我微信奥
 <p><img width="200px" src="./snapshots/wechat.jpeg"/> </p>
+<p><img width="200px" src="./snapshots/wechat.png"/> </p>
+
 
 ## 注意
 This application dose not have released any version. checkout dev branch to get latest version or contribute it. Thanks.  

@@ -64,10 +64,10 @@ class RequestErrors {
 
   /// 获取对应的错误提示信息
   static String mapError(String key, {dynamic err}) {
-    if (err != null && err['detail'] != null && err['detail'].length > 0) {
-      return err['detail'].map((it) => it).join('\r\n').toString();
+    if(err == null || err['detail'] == null){
+      return errors[key] ?? '未知错误';
     }
-
-    return errors[key] ?? '未知错误';
+    
+    return err['detail'].map((it) => it).join('\r\n').toString();
   }
 }

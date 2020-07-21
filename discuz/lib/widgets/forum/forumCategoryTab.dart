@@ -223,7 +223,12 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
         await DiscuzCategories(context: context).getCategories();
 
     categories.insert(
-        0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
+        0,
+        CategoryModel(
+            attributes:
+                CategoryModelAttributes(name: '全部', canViewThreads: true)));
+
+    categories.removeWhere((element) => !element.attributes.canViewThreads);
 
     state.updateCategories(categories);
     setState(() {
@@ -250,7 +255,11 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
     });
 
     categories.insert(
-        0, CategoryModel(attributes: CategoryModelAttributes(name: '全部')));
+        0,
+        CategoryModel(
+            attributes:
+                CategoryModelAttributes(name: '全部', canViewThreads: true)));
+    categories.removeWhere((element) => !element.attributes.canViewThreads);
 
     /// 重新更新状态
     state.updateCategories(categories);

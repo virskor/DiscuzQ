@@ -28,7 +28,7 @@ const _contentFormData = "multipart/form-data";
 class Request {
   final Dio _dio = Dio();
   final BuildContext context;
-  final Debouncer _debouncer = Debouncer(milliseconds: 500);
+  final Debouncer _debouncer = Debouncer(milliseconds: 1000);
 
   /// 是否自动添加 票据
   final bool autoAuthorization;
@@ -218,14 +218,21 @@ class Request {
           }
 
           ///
+          /// 提醒用户接口返回的错误信息
+          ///
+          String errMessage = e.response.data['errors'] == null
+              ? '未知错误'
+              : RequestErrors.mapError(e.response.data['errors'][0]['code'],
+                  err: e.response.data['errors'][0]);
+
+          ///
           /// 401时，提醒用户错误信息
-          DiscuzToast.failed(
-              context: context, message: e.response.data['errors'][0]['code']);
+          DiscuzToast.failed(context: context, message: errMessage);
           return e;
         }
 
         ///
-        /// 提��用户接口返回的错误信息
+        /// 提醒用户接口返回的错误信息
         ///
         String errMessage = e.response.data['errors'] == null
             ? '未知错误'
