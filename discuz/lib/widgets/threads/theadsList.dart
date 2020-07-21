@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:discuzq/utils/debouncer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
@@ -32,6 +31,15 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 ///
 
 class ThreadsList extends StatefulWidget {
+  ThreadsList(
+      {Key key,
+      this.category,
+      this.onAppbarState,
+      @required this.filter,
+      this.topicID,
+      this.keyword})
+      : super(key: key);
+
   /// 要显示的分类
   final CategoryModel category;
 
@@ -46,13 +54,8 @@ class ThreadsList extends StatefulWidget {
   /// 用户查询的筛选条件
   final ForumCategoryFilterItem filter;
 
-  ThreadsList(
-      {Key key,
-      this.category,
-      this.onAppbarState,
-      @required this.filter,
-      this.keyword})
-      : super(key: key);
+  /// 关联话题ID
+  final int topicID;
 
   @override
   _ForumCategoryState createState() => _ForumCategoryState();
@@ -225,15 +228,6 @@ class _ForumCategoryState extends State<ThreadsList>
     /// 骨架屏仅在初始化时加载
     ///
     if (!_continueToRead && _loading) {
-      /// 有一种情况，如果没有提供category,且keyword为空的时候,不要默认加载骨架屏
-      /// 因为这种时候，用户其实在调用搜索来渲染组件
-      if (widget.category == null &&
-          (widget.keyword == null || widget.keyword == "")) {
-        return const Center(
-          child: const DiscuzText('输入关键字来搜索'),
-        );
-      }
-
       return const DiscuzSkeleton(
         isCircularImage: false,
         isBottomLinesActive: true,
@@ -288,6 +282,12 @@ class _ForumCategoryState extends State<ThreadsList>
     Map<String, dynamic> filters = {};
     widget.filter.filter.forEach((element) => filters
         .addAll({"filter[${element.keys.first}]": element.values.first}));
+
+    ///
+    /// 关联话题
+    if (widget.topicID != null) {
+      filters.addAll({"filter[topicId]": widget.topicID});
+    }
 
     dynamic data = {
       "page[limit]": Global.requestPageLimit,
