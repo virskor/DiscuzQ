@@ -1,12 +1,11 @@
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/topics/topicListDelegate.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/webview/webviewHelper.dart';
 import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/topics/topicDelegate.dart';
 
 ///
 /// 渲染HTML
@@ -51,7 +50,7 @@ class HtmlRender extends StatelessWidget {
           ? () => false
           : DiscuzRoute.open(
               context: context,
-              widget: TopicListDelegate(
+              widget: TopicDelegate(
                 topicID: topicID,
               )),
 
