@@ -284,6 +284,13 @@ class UserAttributesModelModel {
   /// usernameBout >=1  不可以修改
   final int usernameBout;
 
+  /// 是否可以编辑用户名
+  final bool canEditUsername;
+
+  /// hasPassword
+  /// 是否设置了密码
+  final bool hasPassword;
+
   ///
   /// 未读消息列表
   ///
@@ -312,8 +319,10 @@ class UserAttributesModelModel {
       this.payTime = "",
       this.signature = "",
       this.canDelete = false,
+      this.canEditUsername = false,
       this.mobileConfirmed = false,
       this.canWalletPay = false,
+      this.hasPassword = false,
       this.follow = 0,
       this.likedCount = 0,
       this.threadCount = 0,
@@ -349,6 +358,7 @@ class UserAttributesModelModel {
 
         /// todo: 脱敏mobile
         canDelete: attributes.canDelete,
+        hasPassword: attributes.hasPassword,
         registerReason: attributes.registerReason,
         avatarUrl: avatarUrl ?? attributes.avatarUrl,
         originalMobile: mobile ?? attributes.mobile,
@@ -374,6 +384,7 @@ class UserAttributesModelModel {
         typeUnreadNotifications: attributes.typeUnreadNotifications,
         unreadNotifications: attributes.unreadNotifications,
         mobileConfirmed: attributes.mobileConfirmed,
+        canEditUsername: attributes.canEditUsername,
         realname: attributes.realname,
         usernameBout: attributes.usernameBout);
   }
@@ -406,6 +417,8 @@ class UserAttributesModelModel {
         username: data['username'] ?? '',
         mobile: data['mobile'] ?? '',
         avatarUrl: data['avatarUrl'] ?? '',
+        hasPassword: data['hasPassword'] ?? false,
+        canEditUsername: data['canEditUsername'] ?? false,
         threadCount: data['threadCount'] == null
             ? 0
             : data['threadCount'].runtimeType == String

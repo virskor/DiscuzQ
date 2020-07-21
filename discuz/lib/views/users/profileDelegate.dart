@@ -61,13 +61,12 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                   DiscuzListTile(
                     title: const DiscuzText('用户名'),
                     onTap: () {
-                      if (state.user.attributes.usernameBout >= 1) {
+                      if (!state.user.attributes.canEditUsername) {
                         DiscuzToast.toast(
                             context: context,
                             type: DiscuzToastType.failed,
                             title: '不能继续',
-                            message:
-                                '${state.user.attributes.username},用户名只可以修改一次');
+                            message: '用户名只可以修改一次');
                         return false;
                       }
 
