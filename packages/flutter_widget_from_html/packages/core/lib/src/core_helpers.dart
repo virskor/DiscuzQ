@@ -18,7 +18,9 @@ final regExpSpaces = RegExp(r'\s+');
 
 typedef void OnTapUrl(String url);
 
-typedef void OnTapSharpUrl(int url);
+typedef void OnTapSharpUrl(int topicID);
+
+typedef void OnTapUserAtUrl(int uid);
 
 typedef Iterable<Widget> WidgetPlaceholderBuilder<T>(
     BuilderContext bc, Iterable<Widget> children, T input);

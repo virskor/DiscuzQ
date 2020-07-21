@@ -151,6 +151,13 @@ class WidgetFactory {
               : print("[flutter_widget_from_html] Tapped sharp url $topicID")
           : null;
 
+  GestureTapCallback buildGestureTapCallbackForUserAt(int userID) =>
+      userID != null
+          ? () => _config.onTapUrl != null
+              ? _config.onTapUserAtUrl(userID)
+              : print("[flutter_widget_from_html] Tapped sharp url $userID")
+          : null;
+
   Widget buildImage(String url, {double height, String text, double width}) {
     ImageProvider image;
     if (url != null) {

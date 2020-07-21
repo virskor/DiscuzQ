@@ -9,7 +9,7 @@ class _TagSharp {
         defaultStyles: (NodeMetadata meta, el) {
           final attrs = el.attributes;
           final id = attrs.containsKey('id') ? attrs['id'] : null;
-          if (id == null || id != 'topic') {
+          if (id == null) {
             return [kCssTextDecoration, kCssTextDecoration];
           }
 
@@ -55,8 +55,14 @@ class _TagSharp {
   GestureTapCallback _buildGestureTapCallback(NodeMetadata meta) {
     final attrs = meta.domElement.attributes;
     final id = attrs.containsKey('id') ? attrs['id'] : null;
-    if (id == null || id != 'topic') {
+    if (id == null || id != 'topic' && id != 'member') {
       return wf.buildGestureTapCallbackForSharpUrl(0);
+    }
+
+    /// @someone
+    if (id == 'member') {
+      final value = attrs.containsKey('value') ? attrs['value'] : null;
+      return wf.buildGestureTapCallbackForUserAt(int.tryParse(value));
     }
 
     final value = attrs.containsKey('value') ? attrs['value'] : null;

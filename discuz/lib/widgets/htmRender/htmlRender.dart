@@ -54,6 +54,9 @@ class HtmlRender extends StatelessWidget {
                 topicID: topicID,
               )),
 
+      /// onTapUserAtUrl 用户点击@someone
+      onTapUserAtUrl: (uid) => print(uid),
+
       /// 处理表情渲染
       builderCallback: (meta, e) {
         if (e.classes.contains('qq-emotion')) {
