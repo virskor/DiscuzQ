@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/users/userLinkDetector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
@@ -55,7 +56,8 @@ class HtmlRender extends StatelessWidget {
               )),
 
       /// onTapUserAtUrl 用户点击@someone
-      onTapUserAtUrl: (uid) => print(uid),
+      onTapUserAtUrl: (uid) =>
+          UserLinkDetector(context: context).showUser(uid: uid),
 
       /// 处理表情渲染
       builderCallback: (meta, e) {

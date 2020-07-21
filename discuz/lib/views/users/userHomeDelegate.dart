@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:discuzq/api/usersAPI.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/reports/reportsDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
@@ -6,21 +6,28 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/users/userRecentThreads.dart';
 import 'package:discuzq/models/userGroupModel.dart';
-import 'package:discuzq/utils/request/request.dart';
-import 'package:discuzq/utils/request/requestIncludes.dart';
-import 'package:discuzq/utils/request/urls.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 class UserHomeDelegate extends StatefulWidget {
+  const UserHomeDelegate(
+      {Key key, @required this.user, this.forceToUpdate = true, this.userGroup})
+      : super(key: key);
+
+  /// Target User
   final UserModel user;
 
-  const UserHomeDelegate({Key key, @required this.user}) : super(key: key);
+  /// Force to update
+  /// 当传入的用户信息不完整时，需要使用forceUpdate来请求最新的用户数据
+  final bool forceToUpdate;
+
+  /// userGroup
+  /// 非必要参数，当 !forceToUpdate 需要传入
+  final UserGroupModel userGroup;
 
   @override
   _UserHomeDelegateState createState() => _UserHomeDelegateState();
@@ -33,11 +40,6 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   final UniqueKey uniqueKey = UniqueKey();
 
   ///
-  /// showUserDeleagetCard
-  /// 显示顶部用户信息卡片
-  bool _showUserDeleagetCard = true;
-
-  ///
   /// 使用用户信息的时候，不应该使用widget.user进行渲染
   /// 而应该使用_user
   /// 这是因为 widget.user不不包含完整的用户信息
@@ -46,7 +48,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   ///
   /// 用户组信息
   /// 用户组信息将在requestUserData的时候更新
-  UserGroupModel _userGroup = const UserGroupModel();
+  UserGroupModel _userGroup;
 
   @override
   void setState(fn) {
@@ -64,12 +66,16 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
     /// 之后再异步更新 _user
     /// 记得，要在super.initState前进行这个操作
     _user = widget.user;
+    _userGroup = widget.userGroup ?? const UserGroupModel();
 
     super.initState();
 
     ///
     /// 异步请求新的用户信息
-    Future.delayed(Duration(milliseconds: 300)).then((_) => _requestUserData());
+    if (widget.forceToUpdate) {
+      Future.delayed(Duration(milliseconds: 300))
+          .then((_) => _requestUserData());
+    }
   }
 
   @override
@@ -133,39 +139,16 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   /// 同时更新用户组信息
   Future<void> _requestUserData() async {
     ///
-    /// 关联查询的数据
-    ///
-    List<String> includes = [RequestIncludes.groups];
+    Map<UserModel, UserGroupModel> userInfo =
+        await UsersAPI(context: context).getUserDataByID(uid: widget.user.id);
 
-    Response resp = await Request(context: context).getUrl(
-        url: "${Urls.users}/${widget.user.id.toString()}",
-        queryParameters: {
-          "include": RequestIncludes.toGetRequestQueries(includes: includes),
-        });
-
-    ///
-    /// 错误时直接返回
-    if (resp == null) {
+    if (userInfo == null) {
       return;
     }
-
-    final UserModel user = UserModel.fromMap(maps: resp.data['data']);
-
-    /// 无效的用户信息，不参与渲染
-    if (user.id == 0) {
-      return;
-    }
-
-    final List<dynamic> include = resp.data['included'] ?? const [];
-    if (include.length == 0) {
-      return;
-    }
-
-    final UserGroupModel group = UserGroupModel.fromMap(maps: include[0]);
 
     setState(() {
-      _user = user;
-      _userGroup = group;
+      _user = userInfo.keys.first;
+      _userGroup = userInfo.values.first;
     });
   }
 }
