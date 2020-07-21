@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -49,49 +50,57 @@ class _DiscuzState extends State<Discuz> {
         rebuildOnChange: true,
         builder: (context, child, state) {
           return DiscuzApp(
-            theme: _buildTheme(state),
-            child: MaterialApp(
-              title: Global.appname,
-              debugShowCheckedModeBanner:
-                  BuildInfo().info().debugShowCheckedModeBanner,
+              theme: _buildTheme(state),
+              child: MaterialApp(
+                  title: Global.appname,
+                  debugShowCheckedModeBanner:
+                      BuildInfo().info().debugShowCheckedModeBanner,
 
-              /// 如果用户在Build.yaml禁止了这项，这直接不要允许开启
-              showPerformanceOverlay:
-                  BuildInfo().info().enablePerformanceOverlay
-                      ? state.appConf['showPerformanceOverlay']
-                      : false,
+                  /// 如果用户在Build.yaml禁止了这项，这直接不要允许开启
+                  showPerformanceOverlay:
+                      BuildInfo().info().enablePerformanceOverlay
+                          ? state.appConf['showPerformanceOverlay']
+                          : false,
+                  localizationsDelegates: [
+                    // this line is important
+                    RefreshLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    DefaultCupertinoLocalizations.delegate
+                  ],
+                  supportedLocales: [
+                    const Locale('zh', 'CH'),
+                    const Locale('en', 'US'),
+                  ],
+                  localeResolutionCallback:
+                      (Locale locale, Iterable<Locale> supportedLocales) {
+                    //print("change language");
+                    return locale;
+                  },
+                  onGenerateRoute: (RouteSettings settings) {
+                    switch (settings.name) {
+                      case '/':
+                        return MaterialWithModalsPageRoute(
+                            builder: (_) => Builder(
 
-              home: Builder(
-
-                  /// 不在 MaterialApp 使用theme属性
-                  /// 这里rebuild的时候会有问题，所以使用Theme去包裹
-                  /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
-                  /// 这样会造成黑暗模式切换时有问题
-                  builder: (BuildContext context) => MediaQuery(
-                        data: MediaQuery.of(context).copyWith(
-                            boldText: false,
-                            textScaleFactor: state.appConf['fontWidthFactor']),
-                        child: const _DiscuzAppDelegate(),
-                      )),
-              localizationsDelegates: [
-                // this line is important
-                RefreshLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                DefaultCupertinoLocalizations.delegate
-              ],
-              supportedLocales: [
-                const Locale('zh', 'CH'),
-                const Locale('en', 'US'),
-              ],
-              localeResolutionCallback:
-                  (Locale locale, Iterable<Locale> supportedLocales) {
-                //print("change language");
-                return locale;
-              },
-            ),
-          );
+                                /// 不在 MaterialApp 使用theme属性
+                                /// 这里rebuild的时候会有问题，所以使用Theme去包裹
+                                /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
+                                /// 这样会造成黑暗模式切换时有问题
+                                builder: (BuildContext context) => MediaQuery(
+                                      data: MediaQuery.of(context).copyWith(
+                                          boldText: false,
+                                          textScaleFactor:
+                                              state.appConf['fontWidthFactor']),
+                                      child: const _DiscuzAppDelegate(),
+                                    )),
+                            settings: settings);
+                    }
+                    return MaterialPageRoute(
+                      builder: (context) => Container(),
+                    );
+                  }));
         });
   }
 
@@ -176,7 +185,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 primaryColor: DiscuzApp.themeOf(context).primaryColor,
                 backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
-                
+                //platform: TargetPlatform.iOS,
                 scaffoldBackgroundColor:
                     DiscuzApp.themeOf(context).scaffoldBackgroundColor,
                 canvasColor:

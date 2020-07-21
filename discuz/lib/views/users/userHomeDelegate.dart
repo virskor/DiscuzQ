@@ -1,8 +1,5 @@
-import 'package:discuzq/api/usersAPI.dart';
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/reports/reportsDelegate.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
@@ -11,7 +8,10 @@ import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/users/userRecentThreads.dart';
 import 'package:discuzq/models/userGroupModel.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/api/usersAPI.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/reports/reportsDelegate.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 class UserHomeDelegate extends StatefulWidget {
   const UserHomeDelegate(
@@ -34,11 +34,6 @@ class UserHomeDelegate extends StatefulWidget {
 }
 
 class _UserHomeDelegateState extends State<UserHomeDelegate> {
-  ///
-  /// uniquekey
-  ///
-  final UniqueKey uniqueKey = UniqueKey();
-
   ///
   /// 使用用户信息的时候，不应该使用widget.user进行渲染
   /// 而应该使用_user
@@ -72,10 +67,12 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
 
     ///
     /// 异步请求新的用户信息
-    if (widget.forceToUpdate) {
-      Future.delayed(Duration(milliseconds: 300))
-          .then((_) => _requestUserData());
-    }
+    Future.delayed(Duration(milliseconds: 300)).then((_) {
+      if (!widget.forceToUpdate) {
+        return;
+      }
+      _requestUserData();
+    });
   }
 
   @override
@@ -87,7 +84,6 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
-            key: uniqueKey,
             appBar: DiscuzAppBar(
               title: _getTitle(),
               actions: <Widget>[
@@ -127,7 +123,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
         child: const DiscuzNoMoreData(),
       );
     }
-
+    
     return UserRecentThreads(
       user: _user,
       userGroup: _userGroup,
