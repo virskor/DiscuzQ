@@ -1,10 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:discuzq/api/usersAPI.dart';
 import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:flutter/material.dart';
 
 class UserLinkDetector {
 

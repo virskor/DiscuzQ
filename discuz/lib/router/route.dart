@@ -1,10 +1,11 @@
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DiscuzRoute {
   static Future<bool> open({
@@ -24,6 +25,10 @@ class DiscuzRoute {
     /// shouldLogin
     /// 是否需要登录，才能查看
     bool shouldLogin = false,
+
+    ///
+    /// PresentModal
+    bool isModal = false,
     @required Widget widget,
   }) async {
     ///
@@ -41,6 +46,15 @@ class DiscuzRoute {
       } catch (e) {
         throw e;
       }
+    }
+
+    if (isModal) {
+      return showCupertinoModalBottomSheet(
+          expand: true,
+          backgroundColor: Colors.transparent,
+          context: context,
+          builder: (BuildContext context, ScrollController scrollController) =>
+              widget);
     }
 
     return Navigator.of(context).push(CupertinoPageRoute(

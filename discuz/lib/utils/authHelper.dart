@@ -11,15 +11,18 @@ import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class AuthHelper {
   /// pop login delegate
-  static login({BuildContext context}) =>
-      Navigator.of(context).push(CupertinoPageRoute(
-          fullscreenDialog: true,
-          builder: (_) {
-            return const LoginDelegate();
-          }));
+  static login({BuildContext context}) => showCupertinoModalBottomSheet(
+      expand: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext context, ScrollController scrollController) =>
+          CupertinoPageScaffold(
+            child: const LoginDelegate(),
+          ));
 
   /// requst login dialog and waiting for login result
   static Future<bool> requsetShouldLogin(
@@ -34,11 +37,9 @@ class AuthHelper {
       return Future.value(true);
     }
 
-    await Navigator.of(context).push(CupertinoPageRoute(
-        fullscreenDialog: true,
-        builder: (_) {
-          return const LoginDelegate();
-        }));
+    await showCupertinoModalBottomSheet(
+        context: context,
+        builder: (BuildContext context, _) => const LoginDelegate());
 
     return Future.value(success);
   }
