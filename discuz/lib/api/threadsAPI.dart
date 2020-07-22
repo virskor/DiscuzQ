@@ -24,18 +24,23 @@ class ThreadsAPI {
   Future<ThreadModel> getDetailByID({@required int threadID}) async {
     final Function close = DiscuzToast.loading(context: context);
 
-    final String uri = "${Urls.threads}/${threadID.toString()}";
-    Response resp = await Request(context: context).getUrl(url: uri);
+    try {
+      final String uri = "${Urls.threads}/${threadID.toString()}";
+      Response resp = await Request(context: context).getUrl(url: uri);
 
-    ///
-    /// close loading animations
-    close();
+      ///
+      /// close loading animations
+      close();
 
-    if (resp == null) {
-      return null;
+      if (resp == null) {
+        return null;
+      }
+
+      return ThreadModel.fromMap(maps: resp.data['data']);
+    } catch (e) {
+      close();
+      throw e;
     }
-
-    return ThreadModel.fromMap(maps: resp.data['data']);
   }
 
   ///
@@ -44,26 +49,32 @@ class ThreadsAPI {
   ///
   Future<bool> delete({@required ThreadModel thread}) async {
     final Function close = DiscuzToast.loading(context: context);
-    final dynamic data = {
-      "data": {
-        "type": "threads",
-        "attributes": {"isDeleted": true}
-      },
-      "relationships": {"category": thread.relationships.category}
-    };
 
-    /// 开始请求
-    Response resp = await Request(context: context)
-        .patch(url: '${Urls.threads}/${thread.id.toString()}', data: data);
-    close();
+    try {
+      final dynamic data = {
+        "data": {
+          "type": "threads",
+          "attributes": {"isDeleted": true}
+        },
+        "relationships": {"category": thread.relationships.category}
+      };
 
-    if (resp == null) {
-      return Future.value(false);
+      /// 开始请求
+      Response resp = await Request(context: context)
+          .patch(url: '${Urls.threads}/${thread.id.toString()}', data: data);
+      close();
+
+      if (resp == null) {
+        return Future.value(false);
+      }
+
+      DiscuzToast.toast(context: context, message: '删除成功');
+
+      return Future.value(true);
+    } catch (e) {
+      close();
+      throw e;
     }
-
-    DiscuzToast.toast(context: context, message: '删除成功');
-
-    return Future.value(true);
   }
 
   ///

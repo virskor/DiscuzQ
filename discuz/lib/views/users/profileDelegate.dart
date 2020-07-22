@@ -1,3 +1,4 @@
+import 'package:discuzq/views/users/profiles/userPasswordModify.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -60,13 +61,11 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                   ),
                   DiscuzListTile(
                     title: const DiscuzText('用户名'),
+                    trailing: !state.user.attributes.canEditUsername
+                        ? DiscuzText(state.user.attributes.username)
+                        : const SizedBox(),
                     onTap: () {
                       if (!state.user.attributes.canEditUsername) {
-                        DiscuzToast.toast(
-                            context: context,
-                            type: DiscuzToastType.failed,
-                            title: '不能继续',
-                            message: '用户名只可以修改一次');
                         return false;
                       }
 
@@ -88,6 +87,16 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                         widget: Builder(
                             builder: (BuildContext context) =>
                                 const UserSignatureDelegate())),
+                  ),
+                  DiscuzListTile(
+                    title: const DiscuzText('修改密码'),
+                    onTap: () => DiscuzRoute.open(
+                        context: context,
+                        fullscreenDialog: true,
+                        shouldLogin: true,
+                        widget: Builder(
+                            builder: (BuildContext context) =>
+                                const UserPasswordModify())),
                   ),
                   // DiscuzListTile(
                   //   title: const DiscuzText('钱包密码'),

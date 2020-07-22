@@ -59,7 +59,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
 
           ///
           /// 生成已经上传的图片
-          /// 
+          ///
           /// todo: 跟进问题
           /// 注意：由于attachements失去 isGallery 字段导致的 state过滤附件类型失效问题
           /// 新版接口废弃了：isGallery
@@ -116,26 +116,33 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
     if (imageFile != null) {
       final Function close = DiscuzToast.loading(context: context);
 
-      ///
-      /// 执行上传过程
-      /// todo: 增加该文件正在上传的状态
-      final AttachmentsModel attachment =
-          await _uploadImage(file: imageFile, state: state);
-      close();
-      if (attachment == null) {
+      try {
         ///
-        /// 上传失败
-        /// todo: 移除该文件正在上传的状态
-        /// 提醒用户正在上传
-        DiscuzToast.failed(context: context, message: '上传失败');
-        return;
-      }
+        /// 执行上传过程
+        /// todo: 增加该文件正在上传的状态
+        final AttachmentsModel attachment =
+            await _uploadImage(file: imageFile, state: state);
 
-      ///
-      /// 图片上传成功,state新增
-      state.addAttachment(attachment);
-      if (widget.onUploaded != null) {
-        widget.onUploaded();
+        close();
+
+        if (attachment == null) {
+          ///
+          /// 上传失败
+          /// todo: 移除该文件正在上传的状态
+          /// 提醒用户正在上传
+          DiscuzToast.failed(context: context, message: '上传失败');
+          return;
+        }
+
+        ///
+        /// 图片上传成功,state新增
+        state.addAttachment(attachment);
+        if (widget.onUploaded != null) {
+          widget.onUploaded();
+        }
+      } catch (e) {
+        close();
+        throw e;
       }
     }
   }

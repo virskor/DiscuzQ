@@ -243,11 +243,8 @@ class PostFloorCard extends StatelessWidget {
                       title: '提示',
                       message: '是否删除评论？',
                       onConfirm: () async {
-                        final Function close =
-                            DiscuzToast.loading(context: context);
                         final bool result = await PostsAPI(context: context)
                             .delete(postID: post.id);
-                        close();
                         if (result && onDelete != null) {
                           /// 删除成功，隐藏该项目
                           onDelete();

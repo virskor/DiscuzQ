@@ -258,9 +258,16 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     final Function process = () async {
       final Function close = DiscuzToast.loading(context: context);
 
-      Response _ = await Request(context: context)
-          .delete(url: "${Urls.notifications}/${id.toString()}");
+      try {
+        Response _ = await Request(context: context)
+            .delete(url: "${Urls.notifications}/${id.toString()}");
+      } catch (e) {
+        close();
+        throw e;
+      }
+
       close();
+      
       DiscuzToast.toast(context: context, message: '删除成功');
     };
 
