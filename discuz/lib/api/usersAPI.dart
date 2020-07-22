@@ -3,6 +3,7 @@ import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/utils/request/urls.dart';
@@ -72,5 +73,62 @@ class UsersAPI {
     final UserGroupModel group = UserGroupModel.fromMap(maps: include[0]);
 
     return Future.value({user: group});
+  }
+
+    ///
+  /// request follow
+  /// 如果用户请求取消关注，应该发送delete请求，如果是关注则，直接发送post请求
+  /// 关注
+  static Future<bool> requestFollow(
+      {@required BuildContext context, @required UserModel user, bool isUnfollow = false}) async {
+    Response resp;
+
+    ///
+    /// 用于请求的数据
+    final dynamic data = {
+      "data": {
+        "attributes": {
+          "to_user_id": user.id,
+        }
+      }
+    };
+
+    final Function closeLoading = DiscuzToast.loading(context: context);
+    
+    /// 204 直接return true DIO处理有问题
+    if (isUnfollow) {
+      try {
+        resp = await Request(context: context)
+            .delete(url: "${Urls.follow}/${user.id.toString()}/1", data: data);
+        closeLoading();
+      } catch (e) {
+        closeLoading();
+        return Future.value(true);
+      }
+      DiscuzToast.toast(context: context, message: '已取消');
+      return Future.value(true);
+    }
+
+    ///
+    /// 请求关注某个用户
+    ///
+    try {
+      resp = await Request(context: context)
+          .postJson(url: Urls.follow, data: data);
+
+      closeLoading();
+
+      if (resp == null) {
+        DiscuzToast.failed(context: context, message: '操作失败');
+        return Future.value(false);
+      }
+
+      DiscuzToast.toast(context: context, message: '已关注');
+      
+      return Future.value(true);
+    } catch (e) {
+      closeLoading();
+      throw e;
+    }
   }
 }

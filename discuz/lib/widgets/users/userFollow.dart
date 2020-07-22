@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/api/usersAPI.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/userModel.dart';
@@ -127,8 +128,10 @@ class _UserFollowState extends State<UserFollow> {
   /// 如果用户请求取消关注，应该发送delete请求，如果是关注则，直接发送post请求
   /// 关注
   Future<void> _requestFollow({BuildContext context}) async {
-    final bool requetFollow =
-        await UserFollowRequest.requestFollow(context: context, user: _user);
+    final bool requetFollow = await UsersAPI.requestFollow(
+        context: context,
+        user: _user,
+        isUnfollow: _user.attributes.follow == 1);
 
     /// 请求时失败的，不更新UI
     if (!requetFollow) {
@@ -141,8 +144,9 @@ class _UserFollowState extends State<UserFollow> {
       _user = UserModel.copyWith(
           userModel: _user,
           follow: _user.attributes.follow == 0 ? 1 : 0,
-          fansCount:
-              _user.attributes.follow == 0 ? _user.attributes.fansCount + 1 : _user.attributes.fansCount - 1);
+          fansCount: _user.attributes.follow == 0
+              ? _user.attributes.fansCount + 1
+              : _user.attributes.fansCount - 1);
     });
 
     if (widget.onUserChanged != null) {
