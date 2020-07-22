@@ -44,7 +44,12 @@ class _ForumDelegateState extends State<ForumDelegate>
 
   @override
   Widget build(BuildContext context) {
+    if(!mounted){
+      return const SizedBox();
+    }
+    
     super.build(context);
+    
 
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: true,

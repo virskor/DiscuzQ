@@ -128,7 +128,8 @@ class _LoginDelegateState extends State<LoginDelegate> {
             label: '没有账号，立即注册',
             labelColor: DiscuzApp.themeOf(context).primaryColor,
             color: Colors.transparent,
-            onPressed: () => WebviewHelper.launchUrl(url: "${Global.domain}/pages/user/register"),
+            onPressed: () => WebviewHelper.launchUrl(
+                url: "${Global.domain}/pages/user/register"),
             // onPressed: () => DiscuzRoute.open(
             //     context: context, widget: const RegisterDelegate()),
           ),
@@ -156,30 +157,35 @@ class _LoginDelegateState extends State<LoginDelegate> {
     final Function closeLoading =
         DiscuzToast.loading(context: context, message: '登陆中');
 
-    final data = {
-      "data": {
-        "attributes": {
-          "username": _usernameTextfiledController.text,
-          "password": _passwordTextfiledController.text,
+    try {
+      final data = {
+        "data": {
+          "attributes": {
+            "username": _usernameTextfiledController.text,
+            "password": _passwordTextfiledController.text,
+          }
         }
+      };
+
+      Response resp = await Request(context: context, autoAuthorization: false)
+          .postJson(url: Urls.usersLogin, data: data);
+
+      /// 一旦请求结束，就要关闭loading
+      closeLoading();
+
+      if (resp == null) {
+        /// 提示登录失败信息
+        return;
       }
-    };
 
-    Response resp = await Request(context: context, autoAuthorization: false)
-        .postJson(url: Urls.usersLogin, data: data);
+      await AuthHelper.processLoginByResponseData(resp.data, state: state);
 
-    /// 一旦请求结束，就要关闭loading
-    closeLoading();
-
-    if (resp == null) {
-      /// 提示登录失败信息
-      return;
+      /// 提示登录成功。关闭对话框，重新初始化信息
+      ///
+      Navigator.pop(context);
+    } catch (e) {
+      closeLoading();
+      throw e;
     }
-
-    await AuthHelper.processLoginByResponseData(resp.data, state: state);
-
-    /// 提示登录成功。关闭对话框，重新初始化信息
-    ///
-    Navigator.pop(context);
   }
 }

@@ -14,7 +14,7 @@ class AppConfigurations {
     "fontWidthFactor": 0.95,
     "showPerformanceOverlay": false,
     "autoplay": true,
-    "hideContentRequirePayments": false,
+    "hideContentRequirePayments": true,
   };
 
   Future<bool> update(

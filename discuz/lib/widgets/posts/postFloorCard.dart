@@ -195,6 +195,7 @@ class PostFloorCard extends StatelessWidget {
                     DiscuzText(
                       user.attributes.username,
                       fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
                     ),
 
                     /// 显示回复给谁
@@ -242,11 +243,8 @@ class PostFloorCard extends StatelessWidget {
                       title: '提示',
                       message: '是否删除评论？',
                       onConfirm: () async {
-                        final Function close =
-                            DiscuzToast.loading(context: context);
                         final bool result = await PostsAPI(context: context)
                             .delete(postID: post.id);
-                        close();
                         if (result && onDelete != null) {
                           /// 删除成功，隐藏该项目
                           onDelete();
@@ -267,7 +265,7 @@ class PostFloorCard extends StatelessWidget {
           /// 评论按钮
           IconButton(
             icon: DiscuzIcon(
-              SFSymbols.bubble_left_bubble_right,
+              0xe65f,
               size: 20,
               color: DiscuzApp.themeOf(context).greyTextColor,
             ),
@@ -288,7 +286,7 @@ class PostFloorCard extends StatelessWidget {
           IconButton(
             icon: DiscuzIcon(
               SFSymbols.flag,
-              size: 20,
+              size: 22,
               color: DiscuzApp.themeOf(context).greyTextColor,
             ),
             onPressed: () => DiscuzRoute.open(

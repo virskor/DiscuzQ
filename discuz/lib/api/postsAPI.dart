@@ -19,7 +19,6 @@ class PostsAPI {
 
   PostsAPI({@required this.context});
 
-
   ///
   /// 创建回复
   /// data 用于提交到接口的数据，数据将被用来创建回复
@@ -27,40 +26,45 @@ class PostsAPI {
   Future<DiscuzEditorRequestResult> create({@required dynamic data}) async {
     final Function close = DiscuzToast.loading(context: context);
 
-    /// 开始请求
-    Response resp =
-        await Request(context: context).postJson(url: Urls.posts, data: data);
+    try {
+      /// 开始请求
+      Response resp =
+          await Request(context: context).postJson(url: Urls.posts, data: data);
 
-    close();
+      close();
 
-    /// 数据提交后，如果成功，会获取到一个Post模型数据
-    /// 此外，还有用户信息，要将这些数据push到threadCacher，这样UI便会渲染出刚才我发送的数据
-    if (resp == null) {
-      return Future.value(null);
+      /// 数据提交后，如果成功，会获取到一个Post模型数据
+      /// 此外，还有用户信息，要将这些数据push到threadCacher，这样UI便会渲染出刚才我发送的数据
+      if (resp == null) {
+        return Future.value(null);
+      }
+
+      ///
+      /// 将输入加入threadCacher，之后再返回成功的结果，这样UI便可以自动渲染刚才用户发布的信息
+      final PostModel post = PostModel.fromMap(maps: resp.data['data']);
+
+      /// 匹配用户
+      List<UserModel> users = [];
+      final List<dynamic> included = resp.data['included'];
+      if (included != null && included.length > 0) {
+        included.forEach((it) {
+          ///
+          /// 仅取用户信息
+          if (it['type'] == 'users') {
+            users.add(UserModel.fromMap(maps: it));
+          }
+        });
+      }
+
+      /// 好了，将数据加入threadCacher
+      return Future.value(DiscuzEditorRequestResult(
+        posts: [post],
+        users: users,
+      ));
+    } catch (e) {
+      close();
+      throw e;
     }
-
-    ///
-    /// 将输入加入threadCacher，之后再返回成功的结果，这样UI便可以自动渲染刚才用户发布的信息
-    final PostModel post = PostModel.fromMap(maps: resp.data['data']);
-
-    /// 匹配用户
-    List<UserModel> users = [];
-    final List<dynamic> included = resp.data['included'];
-    if (included != null && included.length > 0) {
-      included.forEach((it) {
-        ///
-        /// 仅取用户信息
-        if (it['type'] == 'users') {
-          users.add(UserModel.fromMap(maps: it));
-        }
-      });
-    }
-
-    /// 好了，将数据加入threadCacher
-    return Future.value(DiscuzEditorRequestResult(
-      posts: [post],
-      users: users,
-    ));
   }
 
   ///

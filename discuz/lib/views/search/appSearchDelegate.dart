@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -10,6 +9,7 @@ import 'package:discuzq/views/search/searchThreadDelegate.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 enum DiscuzAppSearchType {
   ///
@@ -38,13 +38,21 @@ class _AppSearchDelegateState extends State<AppSearchDelegate>
 
   @override
   Widget build(BuildContext context) {
+    if (!mounted) {
+      return const SizedBox();
+    }
+
     super.build(context);
 
     return ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => Scaffold(
         appBar: DiscuzAppBar(title: '发现与话题', actions: <Widget>[..._actions]),
-        body: SizedBox.expand(),
+        body: SizedBox.expand(
+          child: const Center(
+            child: const DiscuzText('暂无推荐的话题'),
+          ),
+        ),
       ),
     );
   }

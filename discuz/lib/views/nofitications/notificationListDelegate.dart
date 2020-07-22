@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/users/userLinkDetector.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -155,8 +156,12 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                       : Container(
                           child: DiscuzListTile(
                             contentPadding: const EdgeInsets.all(0),
-                            leading: DiscuzAvatar(
-                                url: n.attributes.userAvatar, size: 40),
+                            leading: GestureDetector(
+                              child: DiscuzAvatar(
+                                  url: n.attributes.userAvatar, size: 40),
+                              onTap: () => UserLinkDetector(context: context)
+                                  .showUser(uid: n.attributes.userID),
+                            ),
                             title: Row(
                               children: <Widget>[
                                 // todo 点击查看用户
@@ -253,9 +258,16 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     final Function process = () async {
       final Function close = DiscuzToast.loading(context: context);
 
-      Response _ = await Request(context: context)
-          .delete(url: "${Urls.notifications}/${id.toString()}");
+      try {
+        Response _ = await Request(context: context)
+            .delete(url: "${Urls.notifications}/${id.toString()}");
+      } catch (e) {
+        close();
+        throw e;
+      }
+
       close();
+      
       DiscuzToast.toast(context: context, message: '删除成功');
     };
 

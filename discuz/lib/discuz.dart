@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -78,29 +77,22 @@ class _DiscuzState extends State<Discuz> {
                     //print("change language");
                     return locale;
                   },
-                  onGenerateRoute: (RouteSettings settings) {
-                    switch (settings.name) {
-                      case '/':
-                        return MaterialWithModalsPageRoute(
-                            builder: (_) => Builder(
+                  onGenerateRoute: (RouteSettings settings) =>
+                      MaterialWithModalsPageRoute(
+                          builder: (_) => Builder(
 
-                                /// 不在 MaterialApp 使用theme属性
-                                /// 这里rebuild的时候会有问题，所以使用Theme去包裹
-                                /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
-                                /// 这样会造成黑暗模式切换时有问题
-                                builder: (BuildContext context) => MediaQuery(
-                                      data: MediaQuery.of(context).copyWith(
-                                          boldText: false,
-                                          textScaleFactor:
-                                              state.appConf['fontWidthFactor']),
-                                      child: const _DiscuzAppDelegate(),
-                                    )),
-                            settings: settings);
-                    }
-                    return MaterialPageRoute(
-                      builder: (context) => Container(),
-                    );
-                  }));
+                              /// 不在 MaterialApp 使用theme属性
+                              /// 这里rebuild的时候会有问题，所以使用Theme去包裹
+                              /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
+                              /// 这样会造成黑暗模式切换时有问题
+                              builder: (BuildContext context) => MediaQuery(
+                                    data: MediaQuery.of(context).copyWith(
+                                        boldText: false,
+                                        textScaleFactor:
+                                            state.appConf['fontWidthFactor']),
+                                    child: const _DiscuzAppDelegate(),
+                                  )),
+                          settings: settings)));
         });
   }
 
@@ -193,7 +185,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
             child: Scaffold(
               key: _scaffoldKey,
               body: _buildAppElement(state),
-              resizeToAvoidBottomPadding: true,
+              resizeToAvoidBottomPadding: false,
               bottomNavigationBar: DiscuzBottomNavigator(
                 items: _items,
                 onItemSelected: (index) => setState(() {

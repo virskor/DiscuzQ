@@ -24,6 +24,7 @@ class DiscuzLink extends StatelessWidget {
           padding: padding,
           child: Text(
             label,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: DiscuzApp.themeOf(context).primaryColor,
                 fontSize:

@@ -2,7 +2,6 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
@@ -46,8 +45,9 @@ class ThreadCardQuickActions extends StatelessWidget {
           ///
           /// 评论
           _ThreadCardQuickActionsItem(
-            icon: SFSymbols.bubble_left_bubble_right,
+            icon: 0xe65f,
             count: thread.attributes.postCount - 1,
+            iconSize: 20,
             onPressed: () async {
               final DiscuzEditorRequestResult res =
                   await DiscuzEditorHelper(context: context)
@@ -63,8 +63,9 @@ class ThreadCardQuickActions extends StatelessWidget {
           ///
           /// 分享按钮
           _ThreadCardQuickActionsItem(
-            icon: Icons.share,
+            icon: 0xe692,
             hideCounter: true,
+            iconSize: 22,
             onPressed: () => ShareNative.shareThread(thread: thread),
           )
         ],
@@ -79,11 +80,12 @@ class _ThreadCardQuickActionsItem extends StatelessWidget {
       @required this.icon,
       @required this.onPressed,
       this.count = 0,
+      this.iconSize,
       this.hideCounter = false})
       : super(key: key);
 
   /// icon
-  final IconData icon;
+  final dynamic icon;
 
   /// onPressed
   final Function onPressed;
@@ -94,6 +96,10 @@ class _ThreadCardQuickActionsItem extends StatelessWidget {
   /// hide counter
   final bool hideCounter;
 
+  ///
+  /// iconSize
+  final double iconSize;
+
   @override
   Widget build(BuildContext context) => Expanded(
         child: IconButton(
@@ -103,7 +109,7 @@ class _ThreadCardQuickActionsItem extends StatelessWidget {
             children: <Widget>[
               DiscuzIcon(
                 icon,
-                size: _kIconsize,
+                size: iconSize,
                 color: DiscuzApp.themeOf(context).greyTextColor,
               ),
               const SizedBox(

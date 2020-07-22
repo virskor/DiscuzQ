@@ -96,56 +96,60 @@ class _AccountDelegateState extends State<AccountDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '个人中心',
-              actions: <Widget>[
-                const NightModeSwitcher(
-                  color: Colors.white,
-                ),
-                const _SettingButton()
-              ],
-            ),
-            body: state.user == null
-                ? const YetNotLogon()
-                : DiscuzRefresh(
-                    controller: _controller,
-                    enablePullDown: true,
-                    onRefresh: () async {
-                      await AuthHelper.refreshUser(
-                          context: context, state: state);
-                      _controller.refreshCompleted();
-                    },
-                    child: ListView(
-                      children: <Widget>[
-                        /// 构造登录信息页
-                        const _MyAccountCard(),
-
-                        ///
-                        /// 用户交互组件
-                        /// 包含发布信息的按钮和邀请按钮
-                        const UserInterationBar(),
-
-                        /// 菜单构造
-                        Container(
-                          margin: const EdgeInsets.only(top: 5),
-                          child: Column(
-                            children: _buildMenus(state),
-                          ),
-                        )
-                      ],
+  Widget build(BuildContext context) => !mounted
+      ? const SizedBox()
+      : ScopedStateModelDescendant<AppState>(
+          rebuildOnChange: false,
+          builder: (context, child, state) => Scaffold(
+                appBar: DiscuzAppBar(
+                  title: '个人中心',
+                  actions: <Widget>[
+                    const NightModeSwitcher(
+                      color: Colors.white,
                     ),
-                  ),
-          ));
+                    const _SettingButton()
+                  ],
+                ),
+                body: state.user == null
+                    ? const YetNotLogon()
+                    : DiscuzRefresh(
+                        controller: _controller,
+                        enablePullDown: true,
+                        onRefresh: () async {
+                          await AuthHelper.refreshUser(
+                              context: context, state: state);
+                          _controller.refreshCompleted();
+                        },
+                        child: ListView(
+                          children: <Widget>[
+                            /// 构造登录信息页
+                            const _MyAccountCard(),
+
+                            ///
+                            /// 用户交互组件
+                            /// 包含发布信息的按钮和邀请按钮
+                            const UserInterationBar(),
+
+                            /// 菜单构造
+                            Container(
+                              margin: const EdgeInsets.only(top: 5),
+                              child: Column(
+                                children: _buildMenus(state),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+              ));
 
   ///
   /// 生成个人中心滑动菜单
   ///
   List<Widget> _buildMenus(AppState state) => _menus
       .map((el) => Container(
+            margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
+                border: const Border(bottom: Global.border, top: Global.border),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Column(
               children: <Widget>[

@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -26,11 +27,11 @@ class SettingGroupWrapper extends StatelessWidget {
     rebuildChildren.insert(0, const SizedBox(height: 10));
 
     return Container(
-      padding: const EdgeInsets.only(bottom: 10),
       alignment: Alignment.centerLeft,
+      margin: const EdgeInsets.only(top: 10),
       decoration: BoxDecoration(
-        color: DiscuzApp.themeOf(context).backgroundColor,
-      ),
+          border: const Border(bottom: Global.border, top: Global.border),
+          color: DiscuzApp.themeOf(context).backgroundColor),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

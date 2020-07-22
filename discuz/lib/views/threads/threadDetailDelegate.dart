@@ -1,4 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/views/reports/reportsDelegate.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -144,6 +147,25 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
               title: widget.thread.attributes.title != ''
                   ? widget.thread.attributes.title
                   : '详情',
+              actions: <Widget>[
+                IconButton(
+                  icon: DiscuzIcon(
+                    SFSymbols.flag,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => DiscuzRoute.open(
+                    context: context,
+                    shouldLogin: true,
+                    fullscreenDialog: true,
+                    widget: Builder(
+                      builder: (context) => ReportsDelegate(
+                        type: ReportType.thread,
+                        thread: widget.thread,
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: Stack(

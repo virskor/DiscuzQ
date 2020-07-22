@@ -40,7 +40,7 @@ class _PostLikeButtonState extends State<PostLikeButton> {
             size: widget.size,
             likeCount: widget.post.attributes.likeCount,
             likeBuilder: (bool isLiked) => DiscuzIcon(
-              Icons.thumb_up,
+              0xe608,
               color: isLiked
                   ? Colors.pinkAccent
                   : DiscuzApp.themeOf(context).greyTextColor,
