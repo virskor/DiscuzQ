@@ -7,7 +7,7 @@ import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/userFollowModel.dart';
-import 'package:discuzq/widgets/users/userFollowRequest.dart';
+import 'package:discuzq/api/usersAPI.dart';
 
 class UserFollowListTile extends StatefulWidget {
   ///
@@ -138,8 +138,10 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
                     UserModel.copyWith(userModel: _user, follow: _follow());
 
                 /// 请求关注接口
-                final result = await UserFollowRequest.requestFollow(
-                    context: context, user: resetUser);
+                final result = await UsersAPI.requestFollow(
+                    context: context,
+                    user: resetUser,
+                    isUnfollow: _user.attributes.follow == 1);
                 if (!result) {
                   return;
                 }
@@ -153,7 +155,9 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
               },
             ),
           ),
-          const DiscuzDivider(padding: 0,)
+          const DiscuzDivider(
+            padding: 0,
+          )
         ],
       ),
     );

@@ -9,7 +9,6 @@ import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/users/userFollowRequest.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
 
 ///
