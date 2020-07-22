@@ -101,7 +101,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
                           fullscreenDialog: true,
                           widget: Builder(
                             builder: (context) => ReportsDelegate(
-                                type: ReportType.thread, user: _user),
+                                type: ReportType.homepage, user: _user),
                           ),
                         ),
                       )

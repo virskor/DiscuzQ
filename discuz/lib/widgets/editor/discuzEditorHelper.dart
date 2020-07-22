@@ -55,27 +55,19 @@ class DiscuzEditorHelper {
       throw e;
     }
 
-    await showCupertinoModalPopup(
+    await DiscuzRoute.open(
         context: context,
-        semanticsDismissible: false,
-        useRootNavigator: false,
-        filter: ImageFilter.blur(
-          sigmaX: 5,
-          sigmaY: 5,
-        ),
-        builder: (BuildContext context) => Container(
-              margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Editor(
-                type: DiscuzEditorInputTypes.reply,
-                post: post,
-                thread: thread,
-                onPostSuccess: (DiscuzEditorRequestResult res) {
-                  ///
-                  /// 用户成功回复，取得回复时接口反馈的数据
-                  result = res;
-                },
-              ),
-            ));
+        isModal: true,
+        widget: Editor(
+          type: DiscuzEditorInputTypes.reply,
+          post: post,
+          thread: thread,
+          onPostSuccess: (DiscuzEditorRequestResult res) {
+            ///
+            /// 用户成功回复，取得回复时接口反馈的数据
+            result = res;
+          },
+        ));
     return Future.value(result);
   }
 
@@ -92,6 +84,7 @@ class DiscuzEditorHelper {
         context: context,
         fullscreenDialog: true,
         shouldLogin: true,
+        isModal: false,
         widget: Editor(
           type: type,
           defaultCategory: category,

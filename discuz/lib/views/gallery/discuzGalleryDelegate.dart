@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:photo_view/photo_view.dart';
@@ -89,7 +90,10 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
         children: <Widget>[
           DiscuzText(
             _indexPage.toString(),
-            color: Colors.white,
+            color: DiscuzApp.themeOf(context).primaryColor,
+            fontFamily: 'Roboto Condensed',
+            fontWeight: FontWeight.bold,
+            fontSize: DiscuzApp.themeOf(context).largeTextSize,
           ),
           DiscuzText(
             '/',
@@ -98,6 +102,8 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
           DiscuzText(
             widget.gallery == null ? '0' : widget.gallery.length.toString(),
             color: Colors.white,
+            fontFamily: 'Roboto Condensed',
+            fontSize: DiscuzApp.themeOf(context).smallTextSize,
           ),
           const SizedBox(width: 20),
         ],

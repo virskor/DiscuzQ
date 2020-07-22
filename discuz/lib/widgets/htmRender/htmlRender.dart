@@ -51,6 +51,7 @@ class HtmlRender extends StatelessWidget {
           ? () => false
           : DiscuzRoute.open(
               context: context,
+              isModal: true,
               widget: TopicDelegate(
                 topicID: topicID,
               )),

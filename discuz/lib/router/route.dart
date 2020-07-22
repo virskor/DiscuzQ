@@ -28,7 +28,7 @@ class DiscuzRoute {
 
     ///
     /// PresentModal
-    bool isModal = false,
+    bool isModal = true,
     @required Widget widget,
   }) async {
     ///
@@ -54,7 +54,23 @@ class DiscuzRoute {
           backgroundColor: Colors.transparent,
           context: context,
           builder: (BuildContext context, ScrollController scrollController) =>
-              widget);
+              Theme(
+                data: Theme.of(context).copyWith(
+                    // This makes the visual density adapt to the platform that you run
+                    // the app on. For desktop platforms, the controls will be smaller and
+                    // closer together (more dense) than on mobile platforms.
+                    visualDensity: VisualDensity.adaptivePlatformDensity,
+                    primaryColor: DiscuzApp.themeOf(context).primaryColor,
+                    backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+                    scaffoldBackgroundColor:
+                        DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+                    canvasColor:
+                        DiscuzApp.themeOf(context).scaffoldBackgroundColor),
+                child: CupertinoPageScaffold(
+                  resizeToAvoidBottomInset: false,
+                  child: widget,
+                ),
+              ));
     }
 
     return Navigator.of(context).push(CupertinoPageRoute(

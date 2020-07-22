@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:badges/badges.dart';
@@ -65,86 +66,89 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '消息通知',
-            ),
-            body: DiscuzRefresh(
-              enablePullDown: true,
-              enablePullUp: false,
-              // header: WaterDropHeader(),
-              controller: _controller,
-              onRefresh: () async {
-                await _refreshMessageList(context: context, state: state);
-                _controller.refreshCompleted();
-              },
-              child: Column(
-                children: <Widget>[
-                  ///
-                  /// @我的
-                  ///
-                  _notificationsSelection(
-                    item: _NotificationMenuItem(
-                        label: '提及我的',
-                        icon: SFSymbols.at,
-                        child: const NotificationListDelegate(
-                            type: NotificationTypes.related),
-                        badges: _typeUnreadNotifications.replied),
-                  ),
-                  ///
-                  /// 回复我的
-                  ///
-                  _notificationsSelection(
-                    item: _NotificationMenuItem(
-                        label: '回复我的',
-                        icon: SFSymbols.bubble_left_bubble_right,
-                        child: const NotificationListDelegate(
-                            type: NotificationTypes.replies),
-                        badges: _typeUnreadNotifications.replied),
-                  ),
+  Widget build(BuildContext context) => !mounted
+      ? const SizedBox()
+      : ScopedStateModelDescendant<AppState>(
+          rebuildOnChange: false,
+          builder: (context, child, state) => Scaffold(
+                appBar: DiscuzAppBar(
+                  title: '消息通知',
+                ),
+                body: DiscuzRefresh(
+                  enablePullDown: true,
+                  enablePullUp: false,
+                  // header: WaterDropHeader(),
+                  controller: _controller,
+                  onRefresh: () async {
+                    await _refreshMessageList(context: context, state: state);
+                    _controller.refreshCompleted();
+                  },
+                  child: Column(
+                    children: <Widget>[
+                      ///
+                      /// @我的
+                      ///
+                      _notificationsSelection(
+                        item: _NotificationMenuItem(
+                            label: '提及我的',
+                            icon: SFSymbols.at,
+                            child: const NotificationListDelegate(
+                                type: NotificationTypes.related),
+                            badges: _typeUnreadNotifications.replied),
+                      ),
 
-                  ///
-                  /// 金融相关功能
-                  /// 打赏通知
-                  ///
-                  BuildInfo().info().financial
-                      ? _notificationsSelection(
-                          item: _NotificationMenuItem(
-                              label: '财务通知',
-                              icon: SFSymbols.money_yen_circle,
-                              child: const NotificationListDelegate(
-                                  type: NotificationTypes.rewarded),
-                              badges: _typeUnreadNotifications.rewarded),
-                        )
-                      : const SizedBox(),
+                      ///
+                      /// 回复我的
+                      ///
+                      _notificationsSelection(
+                        item: _NotificationMenuItem(
+                            label: '回复我的',
+                            icon: SFSymbols.bubble_left_bubble_right,
+                            child: const NotificationListDelegate(
+                                type: NotificationTypes.replies),
+                            badges: _typeUnreadNotifications.replied),
+                      ),
 
-                  ///
-                  /// 点赞我的
-                  _notificationsSelection(
-                    item: _NotificationMenuItem(
-                        label: '点赞我的',
-                        icon: SFSymbols.heart,
-                        child: const NotificationListDelegate(
-                            type: NotificationTypes.liked),
-                        badges: _typeUnreadNotifications.liked),
+                      ///
+                      /// 金融相关功能
+                      /// 打赏通知
+                      ///
+                      BuildInfo().info().financial
+                          ? _notificationsSelection(
+                              item: _NotificationMenuItem(
+                                  label: '财务通知',
+                                  icon: SFSymbols.money_yen_circle,
+                                  child: const NotificationListDelegate(
+                                      type: NotificationTypes.rewarded),
+                                  badges: _typeUnreadNotifications.rewarded),
+                            )
+                          : const SizedBox(),
+
+                      ///
+                      /// 点赞我的
+                      _notificationsSelection(
+                        item: _NotificationMenuItem(
+                            label: '点赞我的',
+                            icon: SFSymbols.heart,
+                            child: const NotificationListDelegate(
+                                type: NotificationTypes.liked),
+                            badges: _typeUnreadNotifications.liked),
+                      ),
+
+                      ///
+                      /// 系统通知
+                      _notificationsSelection(
+                        item: _NotificationMenuItem(
+                            label: '系统通知',
+                            child: const NotificationListDelegate(
+                                type: NotificationTypes.system),
+                            icon: SFSymbols.bell,
+                            badges: _typeUnreadNotifications.system),
+                      )
+                    ],
                   ),
-
-                  ///
-                  /// 系统通知
-                  _notificationsSelection(
-                    item: _NotificationMenuItem(
-                        label: '系统通知',
-                        child: const NotificationListDelegate(
-                            type: NotificationTypes.system),
-                        icon: SFSymbols.bell,
-                        badges: _typeUnreadNotifications.system),
-                  )
-                ],
-              ),
-            ),
-          ));
+                ),
+              ));
 
   ///
   /// 生成通知列表
@@ -152,15 +156,17 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   /// 具体的更新逻辑，参考 _refreshMessageList
   ///
   Widget _notificationsSelection({_NotificationMenuItem item}) => Container(
-        decoration:
-            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+        margin: const EdgeInsets.only(top: 10),
+        decoration: BoxDecoration(
+            border: const Border(bottom: Global.border, top: Global.border),
+            color: DiscuzApp.themeOf(context).backgroundColor),
         child: Column(
           children: <Widget>[
             DiscuzListTile(
               leading: DiscuzIcon(item.icon,
                   color: DiscuzApp.themeOf(context).primaryColor),
               title: DiscuzText(item.label),
-              
+
               ///
               /// 点击查看消息
               ///

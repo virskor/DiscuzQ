@@ -87,9 +87,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             ///
             /// 回复
             const _ThreadExtendBottomBarItem(
-                attributes: SFSymbols.bubble_left_bubble_right,
-                caption: '回复',
-                uniqueId: _tapReplyButton),
+                attributes: 0xe65f, caption: '回复', uniqueId: _tapReplyButton),
 
             ///
             /// 点赞
@@ -126,9 +124,11 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
                           onTap: () => _onItemTapped(uniqueId: el.uniqueId),
                           child: Row(
                             children: <Widget>[
-                              el.attributes.runtimeType == IconData
+                              el.attributes.runtimeType == IconData ||
+                                      el.attributes.runtimeType == int
                                   ? DiscuzIcon(
                                       el.attributes,
+                                      size: 20,
                                       color:
                                           DiscuzApp.themeOf(context).textColor,
                                     )

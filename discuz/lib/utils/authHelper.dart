@@ -21,6 +21,7 @@ class AuthHelper {
       context: context,
       builder: (BuildContext context, ScrollController scrollController) =>
           CupertinoPageScaffold(
+            resizeToAvoidBottomInset: false,
             child: const LoginDelegate(),
           ));
 
@@ -38,8 +39,14 @@ class AuthHelper {
     }
 
     await showCupertinoModalBottomSheet(
+        expand: true,
+        backgroundColor: Colors.transparent,
         context: context,
-        builder: (BuildContext context, _) => const LoginDelegate());
+        builder: (BuildContext context, ScrollController scrollController) =>
+            CupertinoPageScaffold(
+              resizeToAvoidBottomInset: false,
+              child: const LoginDelegate(),
+            ));
 
     return Future.value(success);
   }

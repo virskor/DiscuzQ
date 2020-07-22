@@ -193,7 +193,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
             child: Scaffold(
               key: _scaffoldKey,
               body: _buildAppElement(state),
-              resizeToAvoidBottomPadding: true,
+              resizeToAvoidBottomPadding: false,
               bottomNavigationBar: DiscuzBottomNavigator(
                 items: _items,
                 onItemSelected: (index) => setState(() {

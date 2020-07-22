@@ -1,9 +1,10 @@
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:discuzq/models/threadVideoModel.dart';
-import 'package:discuzq/widgets/player/discuzPlayerAppbar.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
@@ -15,7 +16,6 @@ import 'package:discuzq/api/videoAPI.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-
 
 class DiscuzPlayer extends StatefulWidget {
   ///
@@ -78,36 +78,37 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
     _controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: false,
-        builder: (context, child, state) => Material(
-              color: Colors.black,
-              child: Stack(
-                children: <Widget>[
-                  ///
-                  /// 是否需要支付才能查看
-                  _requiredPaymentToPlay
-                      ? Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: SizedBox(
-                              height: 200,
-                              child: ThreadRequiredPayments(
-                                thread: widget.thread,
+        builder: (context, child, state) => Scaffold(
+              appBar: DiscuzAppBar(
+                title: '短视频',
+                backgroundColor: Global.scaffoldBackgroundColorDark,
+              ),
+              body: Material(
+                color: Colors.black,
+                child: Stack(
+                  children: <Widget>[
+                    ///
+                    /// 是否需要支付才能查看
+                    _requiredPaymentToPlay
+                        ? Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: SizedBox(
+                                height: 200,
+                                child: ThreadRequiredPayments(
+                                  thread: widget.thread,
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      : _buildPlayer(),
-
-                  DiscuzPlayerAppbar(
-                    onClose: () {
-                      Navigator.pop(context);
-                    },
-                  )
-                ],
+                          )
+                        : _buildPlayer(),
+                  ],
+                ),
               ),
             ));
   }
@@ -131,7 +132,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
         return;
       }
 
-      if(!mounted){
+      if (!mounted) {
         return;
       }
 
@@ -215,7 +216,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
     }
 
     return _controller.value.initialized
-        ? Stack(alignment: Alignment.bottomCenter, children: <Widget>[
+        ? Stack(alignment: Alignment.topCenter, children: <Widget>[
             Center(
                 child: AspectRatio(
                     aspectRatio: _controller.value.aspectRatio,

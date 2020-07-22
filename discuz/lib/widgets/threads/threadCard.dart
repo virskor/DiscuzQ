@@ -107,6 +107,7 @@ class _ThreadCardState extends State<ThreadCard> {
               onTap: () => DiscuzRoute.open(
                   context: context,
                   //shouldLogin: true,
+                  isModal: true,
                   widget: ThreadDetailDelegate(
                     author: _author,
                     thread: widget.thread,

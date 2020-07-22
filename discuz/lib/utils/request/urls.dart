@@ -91,6 +91,12 @@ class Urls {
   static String attachments = "$_apiPath/attachments";
 
   /// -----------------------------------
+  /// 短信
+  /// 发送短信
+  /// 验证短信
+  static String sms = "$_apiPath/sms";
+
+  /// -----------------------------------
   /// 举报
   /// 创建举报数据 post
   /// 举报列表数据 get
