@@ -2,6 +2,9 @@ import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/models/forumModel.dart';
+import 'package:discuzq/utils/debouncer.dart';
+
+final Debouncer _debouncer = Debouncer(milliseconds: 400);
 
 class AppState extends StateModel {
   ///
@@ -11,16 +14,7 @@ class AppState extends StateModel {
   ForumModel get forum => _forum;
   void updateForum(ForumModel forum) {
     _forum = forum;
-    notifyListeners();
-  }
-
-  ///
-  /// 用户当前悬停的分类
-  CategoryModel _focusedCategory;
-  CategoryModel get focusedCategory => _focusedCategory;
-  void updateFocusedCategories(CategoryModel cat) {
-    _focusedCategory = cat;
-    notifyListeners();
+    _noticeRebuild();
   }
 
   ///
@@ -30,7 +24,7 @@ class AppState extends StateModel {
   get categories => _categories;
   void updateCategories(List<CategoryModel> categories) {
     _categories = categories;
-    notifyListeners();
+    _noticeRebuild();
   }
 
   ///
@@ -40,7 +34,7 @@ class AppState extends StateModel {
   UserModel get user => _user;
   void updateUser(UserModel user) {
     _user = user;
-    notifyListeners();
+    _noticeRebuild();
   }
 
   ///
@@ -57,7 +51,7 @@ class AppState extends StateModel {
       return;
     }
     _appConf = conf;
-    notifyListeners();
+    _noticeRebuild();
   }
 
   ///
@@ -65,6 +59,15 @@ class AppState extends StateModel {
   ///
   void updateAppConfByKeyName(String key, dynamic val) {
     _appConf[key] = val;
-    notifyListeners();
+    _noticeRebuild();
+  }
+
+
+  /// 通知组件重构
+
+  void _noticeRebuild() {
+    _debouncer.run(() {
+      notifyListeners();
+    });
   }
 }
