@@ -1,3 +1,4 @@
+import 'package:discuzq/views/users/blackListDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -56,12 +57,12 @@ class _AccountDelegateState extends State<AccountDelegate> {
         icon: SFSymbols.lasso,
         separate: true,
         child: const FollowingDelegate()),
-    // const _AccountMenuItem(
-    //     label: '投诉举报记录',
-    //     icon: SFSymbols.flag,
-    //     separate: true,
+    const _AccountMenuItem(
+        label: '黑名单',
+        icon: SFSymbols.multiply_circle,
+        separate: true,
 
-    //     child: const ReportHistoryDelegate()),
+        child: const BlackListDelegate()),
 
     /// 请求退出账户
     _AccountMenuItem(

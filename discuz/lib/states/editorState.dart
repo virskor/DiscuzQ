@@ -1,6 +1,9 @@
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/utils/debouncer.dart';
+
+final Debouncer _debouncer = Debouncer(milliseconds: 400);
 
 class EditorState extends StateModel {
   ///
@@ -58,7 +61,7 @@ class EditorState extends StateModel {
       return;
     }
     _attachements.add(addAttachment);
-    notifyListeners();
+    _noticeRebuild();
   }
 
   ///
@@ -66,7 +69,7 @@ class EditorState extends StateModel {
   /// 根据ID进行删除
   void removeAttachment(int id) {
     _attachements = _attachements.where((a) => a.id != id).toList();
-    notifyListeners();
+    _noticeRebuild();
   }
 
   ///
@@ -74,6 +77,12 @@ class EditorState extends StateModel {
   ///
   void clearAttachments() {
     _attachements.clear();
-    notifyListeners();
+    _noticeRebuild();
+  }
+
+  void _noticeRebuild() {
+    _debouncer.run(() {
+      notifyListeners();
+    });
   }
 }

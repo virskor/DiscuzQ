@@ -123,9 +123,9 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
                   children: _menus
                       .map((e) => GestureDetector(
                             onTap: () => _showEditor(
-                                context: context,
-                                type: e.type,
-                                category: state.focusedCategory),
+                              context: context,
+                              type: e.type,
+                            ),
                             child: Container(
                               margin: const EdgeInsets.only(top: 10),
                               padding: const EdgeInsets.all(10),

@@ -48,6 +48,7 @@ class _DiscuzState extends State<Discuz> {
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: true,
         builder: (context, child, state) {
+          debugPrint('---------APP WIDGET TREE HAS BEEN REBUILT--------');
           return DiscuzApp(
               theme: _buildTheme(state),
               child: MaterialApp(

@@ -15,7 +15,6 @@ class ForumDelegate extends StatefulWidget {
 
 class _ForumDelegateState extends State<ForumDelegate>
     with AutomaticKeepAliveClientMixin {
-
   @override
   bool get wantKeepAlive => true;
 
@@ -44,12 +43,11 @@ class _ForumDelegateState extends State<ForumDelegate>
 
   @override
   Widget build(BuildContext context) {
-    if(!mounted){
+    if (!mounted) {
       return const SizedBox();
     }
-    
+
     super.build(context);
-    
 
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: true,
@@ -59,12 +57,9 @@ class _ForumDelegateState extends State<ForumDelegate>
                 overflow: Overflow.clip,
                 children: <Widget>[
                   /// 显示论坛分类和分类下内容列表
-                  state.forum == null
-                      ? const SizedBox()
-                      : ForumCategoryTab(
-                          onAppbarState: (bool show) {
-                          },
-                        ),
+                  ForumCategoryTab(
+                    onAppbarState: (bool show) {},
+                  ),
 
                   /// 显示底部悬浮登录提示组件
                   Positioned(
