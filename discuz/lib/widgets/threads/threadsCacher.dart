@@ -1,3 +1,4 @@
+import 'package:discuzq/models/topicModel.dart';
 import 'package:flutter/foundation.dart';
 
 import 'package:discuzq/models/attachmentsModel.dart';
@@ -160,6 +161,21 @@ class _ThreadBaseCacher {
   }
 
   ///
+  /// 话题列表
+  ///
+  List<TopicModel> _topics = [];
+  List<TopicModel> get topics => _topics;
+
+  ///
+  /// 使用隔离的内存，自动运算模型转换
+  /// 将响应中的模型数据自动转换为UI模型
+  /// threads需为数组
+  Future<void> computeTopics({@required List<dynamic> topics}) async {
+    List<TopicModel> topicsResult = await compute(transformTopics, topics);
+    _topics.addAll(topicsResult);
+  }
+
+  ///
   /// 使用隔离的内存，自动运算模型转换
   /// 将响应中的模型数据自动转换为UI模型
   /// threads需为数组
@@ -214,6 +230,7 @@ class _ThreadBaseCacher {
     _users.clear();
     _videos.clear();
     _attachments.clear();
+    _topics.clear();
   }
 }
 
@@ -226,8 +243,26 @@ Future<List<ThreadModel>> transformThreads(List<dynamic> data) {
   if (data == null || data.length == 0) {
     return Future.value(const []);
   }
-  List<ThreadModel> result =
-      data.map<ThreadModel>((t) => ThreadModel.fromMap(maps: t)).toList();
+  final List<ThreadModel> result = data
+      .where((inc) => inc['type'] == 'threads')
+      .map((u) => ThreadModel.fromMap(maps: u))
+      .toList();
+  return Future.value(result);
+}
+
+///
+/// transformTopics
+/// dynamic 转化为Topicmodel
+/// 注意，这个方法不能置于class成员，否则将导致数据无法转化
+///
+Future<List<TopicModel>> transformTopics(List<dynamic> data) {
+  if (data == null || data.length == 0) {
+    return Future.value(const []);
+  }
+  final List<TopicModel> result = data
+      .where((inc) => inc['type'] == 'topics')
+      .map((u) => TopicModel.fromMap(maps: u))
+      .toList();
   return Future.value(result);
 }
 
@@ -240,11 +275,11 @@ Future<List<UserModel>> transformUsers(List<dynamic> data) {
   if (data == null || data.length == 0) {
     return Future.value(const []);
   }
-  final List<UserModel> reulst = data
+  final List<UserModel> result = data
       .where((inc) => inc['type'] == 'users')
       .map((u) => UserModel.fromMap(maps: u))
       .toList();
-  return Future.value(reulst);
+  return Future.value(result);
 }
 
 ///

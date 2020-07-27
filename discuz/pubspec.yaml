@@ -11,7 +11,7 @@ description: A new Flutter application for discuzQ
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.1+56
+version: 1.0.1+57
 
 environment:
   sdk: ">=2.8.0 <3.0.0"
@@ -25,8 +25,10 @@ dependencies:
   pretty_dio_logger: ^1.1.1
   package_info: ^0.4.0+17
   device_info: ^0.4.2+3
+  should_rebuild: ^0.1.3
   flutter_des: ^1.1.1
   sqflite: ^1.3.0+1
+  nine_grid_view: ^1.0.5
   cached_network_image: ^2.2.0+1
   flutter_sfsymbols: ^1.0.0
   badges: ^1.1.1

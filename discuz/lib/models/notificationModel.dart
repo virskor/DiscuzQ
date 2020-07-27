@@ -105,6 +105,11 @@ class NotificationAttributesModel {
   final String threadTitle;
 
   ///
+  /// thread_is_approved
+  /// 关联的主题是否通过审核
+  final int threadIsApproved;
+
+  ///
   /// title
   /// 通知标题
   final String title;
@@ -124,6 +129,7 @@ class NotificationAttributesModel {
       this.postID = 0,
       this.threadID = 0,
       this.userID = 0,
+      this.threadIsApproved = 0,
       this.createdAt = '',
       this.readAt = '',
       this.threadTitle = '',
@@ -171,6 +177,7 @@ class NotificationAttributesModel {
               ? int.tryParse(data['thread_id'])
               : data['thread_id'],
       threadTitle: data['thread_title'] ?? '',
+      threadIsApproved: data['thread_is_approved'] ?? '',
       userAvatar: data['user_avatar'] ?? '',
       username: data['user_name'] ?? '',
       createdAt: data['created_at'] ?? '',

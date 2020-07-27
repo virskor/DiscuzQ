@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nine_grid_view/nine_grid_view.dart';
 
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
@@ -71,33 +72,31 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
         attachmentsModels.map((e) => e.attributes.url).toList();
 
     return RepaintBoundary(
-      child: Container(
-        child: Wrap(
-          children: attachmentsModels
+      child: NineGridView(
+        padding: const EdgeInsets.all(2),
+        space: 3,
+        type: NineGridType.normal, /// normal only
+        itemCount: attachmentsModels.length >= 8 ? 9 : attachmentsModels.length,
+        itemBuilder: (BuildContext context, int index) {
+          if (index > 8) {
+            return const SizedBox();
+          }
 
-              /// inde 0-8 最对只显示9张，形成9宫格
-              .map((e) => attachmentsModels.indexOf(e) > 8
-                  ? SizedBox()
-                  : Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: DiscuzImage(
-                          attachment: e,
-                          enbleShare: true,
-                          thread: thread,
-                          onWantOriginalImage: (String targetUrl) {
-                            /// 显示原图图集
-                            /// targetUrl是用户点击到的要查看的图片
-                            /// 调整数组，将targetUrl置于第一个，然后传入图集组件
-                            originalImageUrls.remove(targetUrl);
-                            originalImageUrls.insert(0, targetUrl);
-                            return DiscuzRoute.open(
-                                context: context,
-                                widget: DiscuzGalleryDelegate(
-                                    gallery: originalImageUrls));
-                          }),
-                    ))
-              .toList(),
-        ),
+          return DiscuzImage(
+              attachment: attachmentsModels[index],
+              enbleShare: true,
+              thread: thread,
+              onWantOriginalImage: (String targetUrl) {
+                /// 显示原图图集
+                /// targetUrl是用户点击到的要查看的图片
+                /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                originalImageUrls.remove(targetUrl);
+                originalImageUrls.insert(0, targetUrl);
+                return DiscuzRoute.open(
+                    context: context,
+                    widget: DiscuzGalleryDelegate(gallery: originalImageUrls));
+              });
+        },
       ),
     );
   }

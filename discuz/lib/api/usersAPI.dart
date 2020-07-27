@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+
+import 'package:discuzq/utils/request/urls.dart';
+import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:flutter/material.dart';
-
-import 'package:discuzq/utils/request/urls.dart';
-import 'package:discuzq/states/appState.dart';
 
 class UsersAPI {
   ///

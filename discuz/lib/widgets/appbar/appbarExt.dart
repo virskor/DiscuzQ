@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
@@ -620,9 +621,10 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
             child: Material(
               shadowColor: widget.shadowColor,
               color: buildBackgroundColor,
-              elevation: widget.elevation ??
-                  appBarTheme.elevation ??
-                  _defaultElevation,
+              elevation:
+                  widget.elevation ?? appBarTheme.elevation ?? (Platform.isIOS
+                      ? double.tryParse('0')
+                      : _defaultElevation),
               shape: widget.shape,
               child: Semantics(
                 explicitChildNodes: true,

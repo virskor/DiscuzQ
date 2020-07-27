@@ -1,7 +1,4 @@
-import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
-import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
@@ -14,6 +11,8 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:discuzq/widgets/posts/postLikeButton.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/widgets/threads/threadsCacher.dart';
 
 const int _tapReplyButton = 1;
 const int _tapFavoriteButton = 2;
@@ -87,7 +86,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             ///
             /// 回复
             const _ThreadExtendBottomBarItem(
-                attributes: 0xe65f, caption: '回复', uniqueId: _tapReplyButton),
+                attributes: 0xe65f, uniqueId: _tapReplyButton),
 
             ///
             /// 点赞
@@ -95,7 +94,6 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
                 attributes: PostLikeButton(
                   post: widget.firstPost,
                 ),
-                caption: '点赞',
                 uniqueId: _tapFavoriteButton),
 
             ///
@@ -103,7 +101,6 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             ///
             // const _ThreadExtendBottomBarItem(
             //     attributes: SFSymbols.money_yen_circle,
-            //     caption: '打赏',
             //     uniqueId: _tapRewardButton),
           ];
           return Container(
@@ -133,8 +130,6 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
                                           DiscuzApp.themeOf(context).textColor,
                                     )
                                   : el.attributes,
-                              const SizedBox(width: 5),
-                              DiscuzText(el.caption),
                             ],
                           ),
                         ))
@@ -176,11 +171,6 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
 
 class _ThreadExtendBottomBarItem {
   ///
-  /// item标题
-  ///
-  final String caption;
-
-  ///
   /// item图标
   /// 类型限制 IconData || Widget
   ///
@@ -198,8 +188,7 @@ class _ThreadExtendBottomBarItem {
   final bool selected;
 
   const _ThreadExtendBottomBarItem(
-      {this.caption = '',
-      @required this.attributes,
+      {@required this.attributes,
       @required this.uniqueId,
       this.selected = false});
 }

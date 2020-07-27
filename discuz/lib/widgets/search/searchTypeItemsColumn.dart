@@ -3,8 +3,8 @@ import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/views/search/searchThreadDelegate.dart';
-import 'package:discuzq/views/search/searchUserDelegate.dart';
+import 'package:discuzq/views/searchAndExplore/searchThreadDelegate.dart';
+import 'package:discuzq/views/searchAndExplore/searchUserDelegate.dart';
 import 'package:discuzq/router/route.dart';
 
 class SearchTypeItemsColumn extends StatelessWidget {

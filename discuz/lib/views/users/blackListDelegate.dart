@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 class BlackListDelegate extends StatefulWidget {
   const BlackListDelegate({Key key}) : super(key: key);
@@ -38,5 +39,6 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
               title: '黑名单',
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+            body: const Center(child: const DiscuzText('暂无黑名单记录')),
           ));
 }

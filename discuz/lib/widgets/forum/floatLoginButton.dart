@@ -16,7 +16,6 @@ class FloatLoginButton extends StatelessWidget {
         if (state.user != null) {
           return SizedBox();
         }
-
         return Center(
           child: SizedBox(
             width: 200,

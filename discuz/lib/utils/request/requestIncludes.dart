@@ -61,6 +61,21 @@ class RequestIncludes {
   static const String lastThreePosts = 'lastThreePosts';
 
   ///
+  /// lastThread
+  /// 最后发布的主题
+  static const String lastThread = 'lastThread';
+
+  ///
+  /// lastThread
+  /// 最后发布的主题
+  static const String lastThreadFirstPost = 'lastThread.firstPost';
+
+  ///
+  /// lastThread
+  /// 最后发布的主题
+  static const String lastThreadFirstPostImages = 'lastThread.firstPost.images';
+
+  ///
   /// lastThreePosts.user
   /// 最后三条回复的用户信息
   static const String lastThreePostsUser = 'lastThreePosts.user';
