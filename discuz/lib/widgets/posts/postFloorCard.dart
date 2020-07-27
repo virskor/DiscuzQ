@@ -27,7 +27,7 @@ import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/views/reports/reportsDelegate.dart';
 
-class PostFloorCard extends StatelessWidget {
+class PostFloorCard extends StatefulWidget {
   ///
   /// 关联的用户
   final PostModel post;
@@ -52,30 +52,41 @@ class PostFloorCard extends StatelessWidget {
       this.onDelete});
 
   @override
+  _PostFloorCardState createState() => _PostFloorCardState();
+}
+
+class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
+
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     ///
     /// post.relationships.user会存在为null的情况，这是因为数据中存在fistPost,但这不是一个回复
     ///
-    if (post.relationships.user == null) {
+    if (widget.post.relationships.user == null) {
       return SizedBox();
     }
 
-    final List<UserModel> user = threadsCacher.users
+    final List<UserModel> user = widget.threadsCacher.users
         .where((UserModel u) =>
-            u.id == int.tryParse(post.relationships.user['data']['id']))
+            u.id == int.tryParse(widget.post.relationships.user['data']['id']))
         .toList();
 
-    final List<UserModel> replyUser = threadsCacher.users
-        .where((UserModel u) => u.id == post.attributes.replyUserID)
+    final List<UserModel> replyUser = widget.threadsCacher.users
+        .where((UserModel u) => u.id == widget.post.attributes.replyUserID)
         .toList();
 
     /// 遍历图片
-    final List<dynamic> getPostImages = post.relationships.images;
+    final List<dynamic> getPostImages = widget.post.relationships.images;
     List<AttachmentsModel> attachmentsModels = [];
     if (getPostImages.length > 0) {
       getPostImages.forEach((e) {
         final int id = int.tryParse(e['id']);
-        final AttachmentsModel attachment = threadsCacher.attachments
+        final AttachmentsModel attachment = widget.threadsCacher.attachments
             .where((AttachmentsModel find) => find.id == id)
             .toList()[0];
         if (attachment != null) {
@@ -114,7 +125,7 @@ class PostFloorCard extends StatelessWidget {
           ///
           /// 显示评论的内容
           HtmlRender(
-            html: post.attributes.contentHtml,
+            html: widget.post.attributes.contentHtml,
           ),
 
           /// 显示图片
@@ -125,7 +136,7 @@ class PostFloorCard extends StatelessWidget {
                         attachment: a,
                         enbleShare: true,
                         isThumb: false,
-                        thread: thread,
+                        thread: widget.thread,
                         onWantOriginalImage: (String targetUrl) {
                           /// 显示原图图集
                           /// targetUrl是用户点击到的要查看的图片
@@ -218,7 +229,8 @@ class PostFloorCard extends StatelessWidget {
                     ///
                     /// 格式化时间
                     DateUtil.formatDate(
-                        DateTime.parse(post.attributes.createdAt).toLocal(),
+                        DateTime.parse(widget.post.attributes.createdAt)
+                            .toLocal(),
                         format: "yyyy-MM-dd HH:mm"),
                     color: DiscuzApp.themeOf(context).greyTextColor,
                     fontSize: DiscuzApp.themeOf(context).smallTextSize,
@@ -231,7 +243,7 @@ class PostFloorCard extends StatelessWidget {
           ),
 
           /// 是否有删除不编辑权限
-          post.attributes.canEdit
+          widget.post.attributes.canEdit
               ? IconButton(
                   padding: const EdgeInsets.only(top: 2),
                   icon: DiscuzIcon(
@@ -244,10 +256,10 @@ class PostFloorCard extends StatelessWidget {
                       message: '是否删除评论？',
                       onConfirm: () async {
                         final bool result = await PostsAPI(context: context)
-                            .delete(postID: post.id);
-                        if (result && onDelete != null) {
+                            .delete(postID: widget.post.id);
+                        if (result && widget.onDelete != null) {
                           /// 删除成功，隐藏该项目
-                          onDelete();
+                          widget.onDelete();
                         }
                       }),
                 )
@@ -257,7 +269,7 @@ class PostFloorCard extends StatelessWidget {
           /// 显示点赞按钮
           ///
           PostLikeButton(
-            post: post,
+            post: widget.post,
             size: 20,
           ),
 
@@ -272,10 +284,10 @@ class PostFloorCard extends StatelessWidget {
             onPressed: () async {
               final DiscuzEditorRequestResult res =
                   await DiscuzEditorHelper(context: context)
-                      .reply(post: post, thread: thread);
+                      .reply(post: widget.post, thread: widget.thread);
               if (res != null) {
-                threadsCacher.posts = res.posts;
-                threadsCacher.users = res.users;
+                widget.threadsCacher.posts = res.posts;
+                widget.threadsCacher.users = res.users;
                 DiscuzToast.toast(context: context, message: '回复成功');
               }
             },
@@ -295,7 +307,7 @@ class PostFloorCard extends StatelessWidget {
               fullscreenDialog: true,
               widget: Builder(
                 builder: (context) =>
-                    ReportsDelegate(type: ReportType.thread, post: post),
+                    ReportsDelegate(type: ReportType.thread, post: widget.post),
               ),
             ),
           )

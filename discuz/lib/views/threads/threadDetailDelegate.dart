@@ -131,9 +131,8 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                   threadsCacher: _threadsCacher,
                   thread: widget.thread,
                   onDelete: () {
-                    setState(() {
-                      _threadsCacher.removePostByID(postID: p.id);
-                    });
+                    _threadsCacher.removePostByID(postID: p.id);
+                    setState(() {});
                   })
             ],
           ))
@@ -196,6 +195,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                           child: ListView.builder(
                               itemCount: commentsTree.length,
                               addRepaintBoundaries: true,
+                              addAutomaticKeepAlives: true,
                               padding: const EdgeInsets.only(bottom: 80),
                               itemBuilder: (BuildContext context, index) {
                                 // if (_threadsCacher.posts.length == 1) {

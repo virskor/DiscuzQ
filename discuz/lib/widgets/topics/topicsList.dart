@@ -1,11 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
-import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
@@ -14,11 +11,20 @@ import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/threads/threadCard.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/topics/topicCard.dart';
+
+enum TopicListSortType {
+  ///
+  /// 查看次数排序(热度)
+  viewCount,
+
+  ///
+  /// 帖子数量排序
+  threadCount
+}
 
 ///
 /// 注意：
@@ -30,38 +36,23 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 ///
 ///
 
-class ThreadsList extends StatefulWidget {
-  ThreadsList(
-      {Key key,
-      this.category,
-      this.onAppbarState,
-      @required this.filter,
-      this.topicID,
-      this.keyword})
+class TopicsList extends StatefulWidget {
+  const TopicsList(
+      {Key key, this.keyword, this.sort = TopicListSortType.viewCount})
       : super(key: key);
-
-  /// 要显示的分类
-  final CategoryModel category;
 
   /// 要关联查询的关键子
   /// filter[q]=
   final String keyword;
 
-  ///
-  /// onAppbarState
-  final Function onAppbarState;
-
-  /// 用户查询的筛选条件
-  final ForumCategoryFilterItem filter;
-
-  /// 关联话题ID
-  final int topicID;
+  /// 排序
+  final TopicListSortType sort;
 
   @override
   _ForumCategoryState createState() => _ForumCategoryState();
 }
 
-class _ForumCategoryState extends State<ThreadsList>
+class _ForumCategoryState extends State<TopicsList>
     with AutomaticKeepAliveClientMixin {
   ///
   /// _controller refresh
@@ -78,10 +69,7 @@ class _ForumCategoryState extends State<ThreadsList>
   /// 当数据更新的时候，数据会存储到 _threadsCacher
   /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
-  final ThreadsCacher _threadsCacher = ThreadsCacher();
-
-  /// debouncer
-  final Debouncer _debouncer = Debouncer(milliseconds: 470);
+  final ThreadsCacher _threadsCacher = ThreadsCacher(singleton: true);
 
   /// states
   ///
@@ -113,7 +101,7 @@ class _ForumCategoryState extends State<ThreadsList>
   }
 
   @override
-  void didUpdateWidget(ThreadsList oldWidget) {
+  void didUpdateWidget(TopicsList oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget == null) {
@@ -121,12 +109,7 @@ class _ForumCategoryState extends State<ThreadsList>
     }
 
     ///
-    /// 如果 filter 发生变化，和上次filter不同那么就是发生变化
-    /// 这时候刷新请求变化
-    if (oldWidget.filter != widget.filter) {
-      Future.delayed(Duration(milliseconds: 450))
-          .then((_) async => await _requestData(pageNumber: 1));
-    }
+    /// 如果用户切换了排序方式
 
     ///
     /// 如果keyword 证明用户重新输入了关键字，那么久执行重新请求
@@ -139,10 +122,6 @@ class _ForumCategoryState extends State<ThreadsList>
   @override
   void initState() {
     super.initState();
-
-    ///
-    /// 绑定列表移动时间观察
-    this._watchScrollOffset();
 
     Future.delayed(Duration(milliseconds: 450))
         .then((_) async => await _requestData(pageNumber: 1));
@@ -163,25 +142,6 @@ class _ForumCategoryState extends State<ThreadsList>
     /// 清空缓存的主题列表数据
     /// do not forget to dispose _controller
     super.dispose();
-  }
-
-  ///
-  /// 观察列表移动
-  /// 观察移动要传递变化时候的值并减少传递，避免UI渲染过程中的Loop造成性能消耗
-  ///
-  void _watchScrollOffset() {
-    bool showAppbar = true;
-
-    _scrollController.addListener(() {
-      _debouncer.run(() {
-        final bool wantHide = _scrollController.offset >= 300 ? false : true;
-
-        if (widget.onAppbarState != null && wantHide != showAppbar) {
-          widget.onAppbarState(wantHide);
-          showAppbar = wantHide;
-        }
-      });
-    });
   }
 
   ///
@@ -243,11 +203,11 @@ class _ForumCategoryState extends State<ThreadsList>
     /// Listview.builder可以仅构建屏幕内的Item，而不是构建整个listview tree
     return ListView.builder(
         controller: _scrollController,
-        itemCount: _threadsCacher.threads.length,
+        itemCount: _threadsCacher.topics.length,
         addAutomaticKeepAlives: true,
-        itemBuilder: (BuildContext context, index) => ThreadCard(
+        itemBuilder: (BuildContext context, index) => TopicCard(
               threadsCacher: _threadsCacher,
-              thread: _threadsCacher.threads[index],
+              topic: _threadsCacher.topics[index],
             ));
   }
 
@@ -270,40 +230,17 @@ class _ForumCategoryState extends State<ThreadsList>
 
     List<String> includes = [
       RequestIncludes.user,
-      RequestIncludes.firstPost,
-      RequestIncludes.firstPostLikedUsers,
-      RequestIncludes.firstPostImages,
-      RequestIncludes.lastThreePosts,
-      RequestIncludes.lastThreePostsUser,
-      RequestIncludes.lastThreePostsReplyUser,
-      RequestIncludes.threadVideo,
-      RequestIncludes.rewardedUsers
+      RequestIncludes.lastThread,
+      RequestIncludes.lastThreadFirstPost,
+      RequestIncludes.lastThreadFirstPostImages
     ];
-
-    Map<String, dynamic> filters = {};
-    widget.filter.filter.forEach((element) => filters
-        .addAll({"filter[${element.keys.first}]": element.values.first}));
-
-    ///
-    /// 关联话题
-    if (widget.topicID != null) {
-      filters.addAll({"filter[topicId]": widget.topicID});
-    }
 
     dynamic data = {
       "page[limit]": Global.requestPageLimit,
       "page[number]": pageNumber ?? _pageNumber,
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
-
-      /// ext filters
-      ...filters
+      'sort': '-viewCount'
     };
-
-    /// 有的时候widget.category并不会传入，如查询帖子列表的时候
-    /// 这种时候不需要提供categoryId
-    if (widget.category != null) {
-      data.addAll({"filter[categoryId]": widget.category.id});
-    }
 
     /// 查询列表的时候，有时候用户会提供keyword来查询，这个时候要增加filter查询条件
     if (widget.keyword != null && widget.keyword != '') {
@@ -311,7 +248,7 @@ class _ForumCategoryState extends State<ThreadsList>
     }
 
     Response resp = await Request(context: context)
-        .getUrl(url: Urls.threads, queryParameters: data);
+        .getUrl(url: Urls.topics, queryParameters: data);
     if (resp == null) {
       setState(() {
         _loading = false;
@@ -324,12 +261,13 @@ class _ForumCategoryState extends State<ThreadsList>
     /// 更新数据
     /// 更新ThreadsCacher中的数据
     /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来���构Widget tree便会展示最新数据
-    final List<dynamic> threads = resp.data['data'] ?? [];
+    List<dynamic> topics = resp.data['data'] ?? [];
     final List<dynamic> included = resp.data['included'] ?? [];
 
     /// 关联的数据，包含user, post，attachments 需要在缓存前进行转义
     try {
-      await _threadsCacher.computeThreads(threads: threads);
+      await _threadsCacher.computeTopics(topics: topics);
+      await _threadsCacher.computeThreads(threads: included);
       await _threadsCacher.computeUsers(include: included);
       await _threadsCacher.computePosts(include: included);
       await _threadsCacher.computeAttachements(include: included);

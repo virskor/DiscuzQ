@@ -6,6 +6,7 @@ class TopicModel {
   const TopicModel(
       {this.id = 0,
       this.type = 'topics',
+      this.relationships = const TopicRelationshipModel(),
       this.attributes = const TopicAttributeModel()});
 
   ///
@@ -17,6 +18,9 @@ class TopicModel {
   /// 主题类型
   ///
   final String type;
+
+  /// 关联的数据
+  final TopicRelationshipModel relationships;
 
   ///
   /// 关联的数据
@@ -48,6 +52,9 @@ class TopicModel {
                 ? int.tryParse(data['id'])
                 : data['id'],
         type: data['type'] ?? 'thread-video',
+        relationships: data['relationships'] == null
+            ? const TopicRelationshipModel()
+            : TopicRelationshipModel.formMap(maps: data['relationships']),
         attributes: data['attributes'] == null
             ? const TopicAttributeModel()
             : TopicAttributeModel.fromMap(maps: data['attributes']));
@@ -130,5 +137,37 @@ class TopicAttributeModel {
       createdAt: data['create_at'] ?? '',
       updatedAt: data['updated_at'] ?? '',
     );
+  }
+}
+
+class TopicRelationshipModel {
+  const TopicRelationshipModel({this.lastThread, this.user});
+
+  final dynamic lastThread;
+
+  final dynamic user;
+
+  
+
+  static TopicRelationshipModel formMap({@required dynamic maps}) {
+    ///
+    /// 返回一个空的模型，如果为空的话
+    ///
+    if (maps == null) {
+      return const TopicRelationshipModel();
+    }
+
+    dynamic data = maps;
+
+    /// 数据来自json
+    if (maps.runtimeType == String) {
+      data = jsonDecode(data);
+    }
+    
+    if(maps['user'] == null || maps['lastThread'] == null){
+      return const TopicRelationshipModel();
+    }
+    return TopicRelationshipModel(
+        lastThread: maps['lastThread']['data'][0] ?? null, user: maps['user']['data'] ?? null);
   }
 }

@@ -23,7 +23,7 @@ class SearchAppbar extends StatefulWidget implements PreferredSizeWidget {
   final String placeholder;
 
   SearchAppbar(
-      {this.contentHeight = 45, this.placeholder = '输入关键字搜索', this.onSubmit});
+      {this.contentHeight = 55, this.placeholder = '输入关键字搜索', this.onSubmit});
 
   @override
   _SearchAppbarState createState() => _SearchAppbarState();
@@ -75,7 +75,6 @@ class _SearchAppbarState extends State<SearchAppbar> {
           overflow: Overflow.visible,
           children: <Widget>[
             const Positioned(
-              top: -6,
               child: const AppbarLeading(
                 removePreviousPageTitle: true,
               ),
@@ -89,6 +88,8 @@ class _SearchAppbarState extends State<SearchAppbar> {
                 right: _showButton ? 50 : 0,
               ),
               margin: EdgeInsets.only(
+                right: 15,
+                top: 5,
                   left: ModalRoute.of(context).canPop == true &&
                           ModalRoute.of(context).isFirst == false
                       ? 50
@@ -156,8 +157,8 @@ class _SearchAppbarState extends State<SearchAppbar> {
   /// 点击按钮的时候要移除输入框焦点
   ///
   Widget _searchButton() => Positioned(
-        right: 5,
-        top: 8,
+        right: 25,
+        top: 13,
         child: Row(
           children: <Widget>[
             DiscuzLink(

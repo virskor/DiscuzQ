@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -14,6 +16,7 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ForumAddButton extends StatefulWidget {
   ///
@@ -60,21 +63,11 @@ class _ForumAddButtonState extends State<ForumAddButton> {
   ///
   /// show pop
   ///
-  Future<bool> _showPop() => showCupertinoModalPopup(
+  Future<bool> _showPop() => showMaterialModalBottomSheet(
       context: context,
-      semanticsDismissible: true,
-      filter: ImageFilter.blur(
-        sigmaX: 5,
-        sigmaY: 5,
-      ),
-      builder: (BuildContext context) {
-        return SizedBox(
-          height: 300,
-          child: const Material(
-              color: Colors.transparent,
-              child: const _ForumCreateThreadDialog()),
-        );
-      });
+      backgroundColor: Colors.transparent,
+      builder: (BuildContext context, _) => const Material(
+          color: Colors.transparent, child: const _ForumCreateThreadDialog()));
 }
 
 /// 创建帖子的对话框
@@ -113,58 +106,33 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
   @override
   Widget build(BuildContext context) {
     return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: true,
-        builder: (context, child, state) => SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
+        rebuildOnChange: false,
+        builder: (context, child, state) => Container(
+              height: 250,
+              decoration: BoxDecoration(
+                  color: DiscuzApp.themeOf(context).backgroundColor),
+              child: SafeArea(
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   children: _menus
                       .map((e) => GestureDetector(
                             onTap: () => _showEditor(
                               context: context,
                               type: e.type,
                             ),
-                            child: Container(
-                              margin: const EdgeInsets.only(top: 10),
-                              padding: const EdgeInsets.all(10),
-                              width: MediaQuery.of(context).size.width / 1.5,
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(10)),
-                                  color: DiscuzApp.themeOf(context)
-                                      .backgroundColor),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  const SizedBox(width: 20),
-                                  DiscuzIcon(e.icon),
-
-                                  ///
-                                  /// 制造间距
-                                  const SizedBox(width: 20),
-
-                                  /// 制造间距
-                                  ///
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      DiscuzText(
-                                        e.caption,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      DiscuzText(
-                                        e.subTitle,
-                                        color: DiscuzApp.themeOf(context)
-                                            .greyTextColor,
-                                      ),
-                                    ],
-                                  )
-                                ],
+                            child: DiscuzListTile(
+                              leading: Center(
+                                widthFactor: 2,
+                                child: DiscuzIcon(e.icon),
+                              ),
+                              title: DiscuzText(
+                                e.caption,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              subtitle: DiscuzText(
+                                e.subTitle,
+                                color: DiscuzApp.themeOf(context).greyTextColor,
                               ),
                             ),
                           ))

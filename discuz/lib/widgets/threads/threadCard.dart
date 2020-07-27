@@ -14,8 +14,6 @@ import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
@@ -60,7 +58,8 @@ class ThreadCard extends StatefulWidget {
   _ThreadCardState createState() => _ThreadCardState();
 }
 
-class _ThreadCardState extends State<ThreadCard> {
+class _ThreadCardState extends State<ThreadCard>
+    with AutomaticKeepAliveClientMixin {
   /// 当前帖子的作者
   UserModel _author = UserModel();
 
@@ -77,44 +76,47 @@ class _ThreadCardState extends State<ThreadCard> {
   @override
   void initState() {
     super.initState();
-    _author = widget.threadsCacher.users
-            .where((UserModel it) =>
-                it.id ==
-                int.tryParse(widget.thread.relationships.user['data']['id']))
-            .toList()[0] ??
+    _author = widget.threadsCacher.users.lastWhere((UserModel it) =>
+            it.id ==
+            int.tryParse(widget.thread.relationships.user['data']['id'])) ??
         UserModel();
 
     /// 查找firstPost
-    _firstPost = widget.threadsCacher.posts
-            .where((PostModel it) =>
-                it.id ==
-                int.tryParse(
-                    widget.thread.relationships.firstPost['data']['id']))
-            .toList()[0] ??
+    _firstPost = widget.threadsCacher.posts.lastWhere((PostModel it) =>
+            it.id ==
+            int.tryParse(
+                widget.thread.relationships.firstPost['data']['id'])) ??
         PostModel();
 
     /// 查找附件图片
   }
 
+  @override
+  bool get wantKeepAlive => true;
+
   ///
   /// Build 卡片的的过程中需要注意的是，如果主题顶置，则需要支持收起
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => RepaintBoundary(
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => DiscuzRoute.open(
-                  context: context,
-                  //shouldLogin: true,
-                  isModal: true,
-                  widget: ThreadDetailDelegate(
-                    author: _author,
-                    thread: widget.thread,
-                  )),
-              child: _buildCard(state: state, context: context),
-            ),
-          ));
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return ScopedStateModelDescendant<AppState>(
+        rebuildOnChange: false,
+        builder: (context, child, state) => RepaintBoundary(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => DiscuzRoute.open(
+                    context: context,
+                    //shouldLogin: true,
+                    isModal: true,
+                    widget: ThreadDetailDelegate(
+                      author: _author,
+                      thread: widget.thread,
+                    )),
+                child: _buildCard(state: state, context: context),
+              ),
+            ));
+  }
 
   ///
   /// 生成内容
@@ -284,11 +286,6 @@ class _ThreadCardState extends State<ThreadCard> {
                       child: Row(
                         children: <Widget>[
                           DiscuzText('发布了：'),
-                          const DiscuzIcon(
-                            SFSymbols.link,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 5),
                           DiscuzText(
                             widget.thread.attributes.title.length <=
                                     _kFlatTitleLength

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/threads/threadsDetector.dart';
 import 'package:discuzq/widgets/users/userLinkDetector.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -145,8 +146,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+              padding: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -155,58 +155,37 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                       ? const SizedBox()
                       : Container(
                           child: DiscuzListTile(
-                            contentPadding: const EdgeInsets.all(0),
-                            leading: GestureDetector(
-                              child: DiscuzAvatar(
-                                  url: n.attributes.userAvatar, size: 40),
-                              onTap: () => UserLinkDetector(context: context)
-                                  .showUser(uid: n.attributes.userID),
-                            ),
-                            title: Row(
-                              children: <Widget>[
-                                // todo 点击查看用户
-                                DiscuzText('${n.attributes.username}回复了我')
-                              ],
-                            ),
-                            subtitle: DiscuzText(
-                              DateUtil.formatDate(
-                                  DateTime.parse(n.attributes.createdAt)
-                                      .toLocal(),
-                                  format: "yyyy-MM-dd HH:mm"),
-                              fontSize: 14,
-                              color: DiscuzApp.themeOf(context).greyTextColor,
-                            ),
-                            trailing: SizedBox(
-                              width: 100,
-                              child: Row(
+                              contentPadding: const EdgeInsets.all(0),
+                              leading: GestureDetector(
+                                child: DiscuzAvatar(
+                                    url: n.attributes.userAvatar, size: 40),
+                                onTap: () => UserLinkDetector(context: context)
+                                    .showUser(uid: n.attributes.userID),
+                              ),
+                              title: Row(
                                 children: <Widget>[
-                                  DiscuzLink(
-                                    label: '回复',
-                                    onTap: () => DiscuzToast.show(
-                                        context: context, message: '即将支持'),
+                                  DiscuzText(
+                                    '${n.attributes.username}',
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  DiscuzLink(
-                                    label: '删除',
-                                    onTap: () async {
-                                      final bool deleted =
-                                          await _deleteNotification(id: n.id);
-                                      if (deleted) {
-                                        setState(() {
-                                          ///
-                                          /// 用户进行了删除， 隐藏当前选项
-                                          /// 只需要删除通知列表中的数据就可以了
-                                          /// 没有必要重新请求接口的
-                                          _notifications = _notifications
-                                              .where((it) => it.id != n.id)
-                                              .toList();
-                                        });
-                                      }
-                                    },
+                                  const SizedBox(width: 5),
+                                  // todo 点击查看用户
+                                  DiscuzText(
+                                    '回复了我',
+                                    color: DiscuzApp.themeOf(context)
+                                        .greyTextColor,
                                   )
                                 ],
                               ),
-                            ),
-                          ),
+                              subtitle: DiscuzText(
+                                DateUtil.formatDate(
+                                    DateTime.parse(n.attributes.createdAt)
+                                        .toLocal(),
+                                    format: "yyyy-MM-dd HH:mm"),
+                                fontSize: 14,
+                                color: DiscuzApp.themeOf(context).greyTextColor,
+                              ),
+                              trailing: const SizedBox()),
                         ),
 
                   /// 仅系统通知显示标题
@@ -235,11 +214,45 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                         ? n.attributes.postContent
                         : n.attributes.content,
                   ),
-                  const SizedBox(height: 5),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      DiscuzLink(
+                          label: '查看帖子',
+                          onTap: () => ThreadsDetector(context: context)
+                              .showThread(
+                                  threadID: n.attributes.threadID,
+                                  uid: n.attributes.userID)),
+                      DiscuzLink(
+                        label: '回复',
+                        onTap: () =>
+                            DiscuzToast.show(context: context, message: '即将支持'),
+                      ),
+                      DiscuzLink(
+                        label: '删除',
+                        onTap: () async {
+                          final bool deleted =
+                              await _deleteNotification(id: n.id);
+                          if (deleted) {
+                            setState(() {
+                              ///
+                              /// 用户进行了删除， 隐藏当前选项
+                              /// 只需要删除通知列表中的数据就可以了
+                              /// 没有必要重新请求接口的
+                              _notifications = _notifications
+                                  .where((it) => it.id != n.id)
+                                  .toList();
+                            });
+                          }
+                        },
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 10),
                   const DiscuzDivider(
                     padding: 0,
                   ),
-                  const SizedBox(height: 5),
                 ],
               ),
             ));
@@ -267,7 +280,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
       }
 
       close();
-      
+
       DiscuzToast.toast(context: context, message: '删除成功');
     };
 

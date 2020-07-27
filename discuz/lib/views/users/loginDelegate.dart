@@ -64,12 +64,12 @@ class _LoginDelegateState extends State<LoginDelegate> {
             appBar: DiscuzAppBar(
               title: '登录',
               actions: <Widget>[
-                IconButton(
-                  tooltip: '无法登陆',
-                  icon: const DiscuzIcon(SFSymbols.question_circle_fill,
-                      color: Colors.white),
-                  onPressed: () => null,
-                )
+                // IconButton(
+                //   tooltip: '无法登陆',
+                //   icon: const DiscuzIcon(SFSymbols.question_circle_fill,
+                //       color: Colors.white),
+                //   onPressed: () => null,
+                // )
               ],
             ),
             body: _buildLoginForm(state),

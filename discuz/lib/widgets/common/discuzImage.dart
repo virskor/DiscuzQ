@@ -115,20 +115,24 @@ class _DiscuzImageState extends State<DiscuzImage> {
       ],
       child: GestureDetector(
         onTap: () => onWantOriginalImage(attachment.attributes.url),
-        child: DiscuzCachedNetworkImage(
-          imageUrl: widget.isThumb
-              ? attachment.attributes.thumbUrl
-              : attachment.attributes.url,
-          ///
-          /// 请求图片时要带Referer
-          fit: BoxFit.cover,
-          width: widget.isThumb ? imageSize : null,
-          height: widget.isThumb ? imageSize : null,
-          errorWidget: (context, url, error) => Image.asset(
-            'assets/images/errimage.png',
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(const Radius.circular(5)),
+          child: DiscuzCachedNetworkImage(
+            imageUrl: widget.isThumb
+                ? attachment.attributes.thumbUrl
+                : attachment.attributes.url,
+
+            ///
+            /// 请求图片时要带Referer
+            fit: BoxFit.cover,
             width: widget.isThumb ? imageSize : null,
             height: widget.isThumb ? imageSize : null,
-            fit: BoxFit.contain,
+            errorWidget: (context, url, error) => Image.asset(
+              'assets/images/errimage.png',
+              width: widget.isThumb ? imageSize : null,
+              height: widget.isThumb ? imageSize : null,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
       ),

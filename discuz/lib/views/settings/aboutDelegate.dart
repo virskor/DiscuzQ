@@ -49,6 +49,7 @@ class _AboutDelegateState extends State<AboutDelegate> {
             appBar: DiscuzAppBar(
               title: '关于APP',
             ),
+
             /// 这里直接使用一致的颜色
             body: RepaintBoundary(
               child: Stack(
@@ -60,17 +61,13 @@ class _AboutDelegateState extends State<AboutDelegate> {
 
                   ///
                   /// app logo
-                  ListView(
-                    padding: const EdgeInsets.only(top: 100),
+                  Column(
+                    //padding: const EdgeInsets.only(top: 100),
                     children: <Widget>[
-                      SizedBox(
-                          width: 120,
-                          child: state.forum.attributes.setSite.siteLogo == ''
-                              ? const DiscuzAppLogo()
-                              : CachedNetworkImage(
-                                  imageUrl:
-                                      state.forum.attributes.setSite.siteLogo,
-                                )),
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      const SizedBox(width: 120, child: const DiscuzAppLogo()),
                       const SizedBox(
                         height: 50,
                       ),
