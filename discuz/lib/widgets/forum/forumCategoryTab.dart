@@ -11,7 +11,6 @@ import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/threads/theadsList.dart';
 import 'package:discuzq/widgets/categories/discuzCategories.dart';
-import 'package:discuzq/utils/debouncer.dart';
 import 'package:discuzq/widgets/forum/forumCategoryTabWrapper.dart';
 
 /// 注意：
@@ -29,7 +28,6 @@ class ForumCategoryTab extends StatefulWidget {
 
 class _ForumCategoryTabState extends State<ForumCategoryTab>
     with SingleTickerProviderStateMixin {
-  final Debouncer _debouncer = Debouncer();
 
   /// states
   /// tab controller

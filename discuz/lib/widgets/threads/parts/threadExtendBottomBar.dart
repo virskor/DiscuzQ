@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/models/threadModel.dart';

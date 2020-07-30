@@ -22,7 +22,7 @@ class AuthorizationHelper {
   ///
   /// 获取api token
   Future<String> getToken({int key = authorizationKey}) async {
-    if (Device.isWeb) {
+    if (FlutterDevice.isWeb) {
       return DiscuzLocalStorage.getString(key.toString());
     }
 
@@ -41,7 +41,7 @@ class AuthorizationHelper {
   /// 取得用户信息
   ///
   Future<dynamic> getUser({int key = userKey}) async {
-    if (Device.isWeb) {
+    if (FlutterDevice.isWeb) {
       final dynamic data = await DiscuzLocalStorage.getString(key.toString());
       return Future.value(jsonDecode(data));
     }
@@ -61,7 +61,7 @@ class AuthorizationHelper {
   /// 刷新token
   ///
   Future<UserDBModel> update({dynamic data, int key = authorizationKey}) async {
-    if (Device.isWeb) {
+    if (FlutterDevice.isWeb) {
       final dynamic u =
           await DiscuzLocalStorage.setString(key.toString(), jsonEncode(data));
       return Future.value(jsonDecode(u));
@@ -78,7 +78,7 @@ class AuthorizationHelper {
   /// 清除token
   ///
   Future<bool> clear({int key = authorizationKey}) async {
-    if (Device.isWeb) {
+    if (FlutterDevice.isWeb) {
       return DiscuzLocalStorage.clear();
     }
     await _userDataSqlite.openSqlite();
@@ -91,7 +91,7 @@ class AuthorizationHelper {
   /// 保存认证
   ///
   Future<UserDBModel> save({dynamic data, int key = authorizationKey}) async {
-    if (Device.isWeb) {
+    if (FlutterDevice.isWeb) {
       final dynamic a =
           await DiscuzLocalStorage.setString(key.toString(), jsonEncode(data));
       return Future.value(jsonDecode(a));
@@ -116,7 +116,7 @@ class AuthorizationHelper {
   }
 
   Future<void> clearAll() async {
-    if (Device.isWeb) {
+    if (FlutterDevice.isWeb) {
       return DiscuzLocalStorage.clear();
     }
     await _userDataSqlite.clearAll();

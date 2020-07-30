@@ -70,13 +70,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
             appBar: DiscuzAppBar(
               title: '注册',
             ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: DiscuzText('APP 暂不支持注册，请到${Global.domain}注册'),
-                )
-              ],
-            ),
+            body: _buildRegisterForm(state),
           ));
 
   /// 生成用于登录的表单

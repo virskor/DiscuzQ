@@ -12,7 +12,7 @@ class Analysis {
   static Future<bool> initUmengAnalysis() {
     ///
     /// web不使用移动统计进行统计
-    if(Device.isWeb){
+    if(FlutterDevice.isWeb){
       return Future.value(false);
     }
 

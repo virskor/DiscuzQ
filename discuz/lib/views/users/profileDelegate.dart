@@ -11,7 +11,6 @@ import 'package:discuzq/widgets/common/avatarPicker.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
 
 class ProfileDelegate extends StatefulWidget {

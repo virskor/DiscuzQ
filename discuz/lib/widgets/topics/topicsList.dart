@@ -15,16 +15,7 @@ import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/topics/topicCard.dart';
-
-enum TopicListSortType {
-  ///
-  /// 查看次数排序(热度)
-  viewCount,
-
-  ///
-  /// 帖子数量排序
-  threadCount
-}
+import 'package:discuzq/widgets/topics/topicSortTypes.dart';
 
 ///
 /// 注意：
@@ -110,6 +101,11 @@ class _ForumCategoryState extends State<TopicsList>
 
     ///
     /// 如果用户切换了排序方式
+    if (widget.sort != null && oldWidget.sort != widget.sort) {
+      Future.delayed(Duration(milliseconds: 450))
+          .then((_) async => await _requestData(pageNumber: 1));
+      return;
+    }
 
     ///
     /// 如果keyword 证明用户重新输入了关键字，那么久执行重新请求
@@ -238,8 +234,9 @@ class _ForumCategoryState extends State<TopicsList>
     dynamic data = {
       "page[limit]": Global.requestPageLimit,
       "page[number]": pageNumber ?? _pageNumber,
+      "filter[content]": widget.keyword,
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
-      'sort': '-viewCount'
+      'sort': TopicListSortTypeMapper.map(type: widget.sort)
     };
 
     /// 查询列表的时候，有时候用户会提供keyword来查询，这个时候要增加filter查询条件

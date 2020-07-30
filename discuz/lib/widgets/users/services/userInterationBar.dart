@@ -7,10 +7,7 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/router/route.dart';
 import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/views/editor.dart';
-import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 
 class UserInterationBar extends StatefulWidget {
   const UserInterationBar();
@@ -29,19 +26,8 @@ class _UserServicesState extends State<UserInterationBar> {
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                _UserInterationBarItem(
-                  icon: 0xe8b1,
-                  label: '发布主题',
-                  onPressed: () => DiscuzRoute.open(
-                      context: context,
-                      fullscreenDialog: true,
-                      shouldLogin: true,
-                      widget: Editor(
-                        type: DiscuzEditorInputTypes.text,
-                      )),
-                ),
                 _UserInterationBarItem(
                   icon: SFSymbols.square_arrow_up,
                   label: '邀请朋友',

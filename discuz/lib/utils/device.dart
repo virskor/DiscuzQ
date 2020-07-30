@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_user_agent/flutter_user_agent.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class Device {
+class FlutterDevice {
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
   /// 判断当前环境是release还是开发调试

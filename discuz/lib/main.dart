@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:sentry/sentry.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -10,64 +12,108 @@ import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/widgets/emoji/emojiSync.dart';
 import 'package:discuzq/utils/analysis.dart';
+import 'package:discuzq/utils/device.dart';
 
 ///
 /// 执行
-void main() => runApp(DiscuzQ());
+void main() {
+  /// runApp(DiscuzQ());
+
+  /// Run the whole app in a zone to capture all uncaught errors.
+  runZoned(
+    () => runApp(DiscuzQ()),
+    onError: (Object error, StackTrace stackTrace) async {
+      if(FlutterDevice.isDevelopment){
+        return;
+      }
+      
+      /// 初始化buildInfo
+      await BuildInfo().init();
+
+      try {
+        var sentry = SentryClient(dsn: BuildInfo().info().sentry);
+        sentry.captureException(
+          exception: error,
+          stackTrace: stackTrace,
+        );
+        debugPrint('Error sent to sentry.io: $error');
+      } catch (e) {
+        debugPrint('Sending report to sentry.io failed: $e');
+        debugPrint('Original error: $error');
+      }
+    },
+  );
+}
 
 class DiscuzQ extends StatelessWidget {
-  final AppState appState = AppState();
+  final AppState _appState = AppState();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) => ScopedStateModel<AppState>(
-      model: appState,
+      model: _appState,
       child: ScopedStateModelDescendant<AppState>(
-          builder: (context, child, state) {
-        return AppWrapper(
-          onDispose: () {},
-          onInit: () async {
-            /// 初始化buildInfo
-            /// 这个非常重要的！
-            /// 一定要在最开始
-            await BuildInfo().init();
+          rebuildOnChange: true,
+          builder: (context, child, state) => AppWrapper(
+                onDispose: () {},
+                onInit: () async {
+                  /// 初始化buildInfo
+                  /// 这个非常重要的！
+                  /// 一定要在最开始
+                  await BuildInfo().init();
 
-            // 加载配置文件
-            await this.initAppSettings();
+                  await _initApp(state);
 
-            ///
-            /// 如果appconf还没有成功加载则创建初始化页面 并执行APP初始化
-            /// 初始化页面会有loading 圈圈
-            if (state.appConf == null) {
-              _initAppState(state);
-            }
+                  ///
+                  ///
+                  /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
+                  Future.delayed(Duration.zero)
+                      .then((_) => EmojiSync().getEmojis());
 
-            /// 加载本地的用户信息
-            AuthHelper.getUserFromLocal(state: state);
+                  ///
+                  /// 异步加载统计
+                  Analysis.initUmengAnalysis();
+                },
 
-            ///
-            ///
-            /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
-            Future.delayed(Duration.zero).then((_) => EmojiSync().getEmojis());
+                /// 创建入口APP
+                child: state.appConf == null
+                    ? const _DiscuzAppIndicator()
+                    : const Discuz(),
+              )));
 
-            ///
-            /// 异步加载统计
-            Analysis.initUmengAnalysis();
-          },
+  ///
+  /// Init app and states
+  /// Future builder to makesure appstate init only once
+  Future<void> _initApp(AppState state) async {
+    await _initAppSettings();
 
-          /// 创建入口APP
-          child: state.appConf == null
-              ? const Center(child: const DiscuzIndicator())
-              : const Discuz(),
-        );
-      }));
-
-  /// 将本地的配置转换为APP的状态
-  Future<void> _initAppState(AppState state) async =>
+    ///
+    /// 如果appconf还没有成功加载则创建初始化页面 并执行APP初始化
+    /// 初始化页面会有loading 圈圈
+    if (state.appConf == null) {
       state.initAppConf(await AppConfigurations()
           .getLocalAppSetting(returnDefaultValueIfNotExits: true));
+    }
+
+    /// 加载本地的用户信息
+    await AuthHelper.getUserFromLocal(state: state);
+  }
 
   /// 加载本地的配置
-  Future<void> initAppSettings() async =>
+  Future<bool> _initAppSettings() async =>
       await AppConfigurations().initAppSetting();
+}
+
+///
+/// loading
+class _DiscuzAppIndicator extends StatelessWidget {
+  const _DiscuzAppIndicator();
+
+  @override
+  Widget build(BuildContext context) => const MaterialApp(
+        color: Colors.white,
+        home: const DiscuzIndicator(
+          brightness: Brightness.dark,
+        ),
+      );
 }

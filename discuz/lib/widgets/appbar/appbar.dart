@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
@@ -34,7 +36,7 @@ class AppbarLeading extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         icon: Icon(
-          codePoint,
+          Platform.isIOS ? SFSymbols.chevron_left : codePoint,
           size: size,
           color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
         ),

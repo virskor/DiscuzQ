@@ -1,4 +1,3 @@
-import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:badges/badges.dart';
@@ -18,6 +17,7 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/models/typeUnreadNotificationsModel.dart';
 import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/views/nofitications/notificationListDelegate.dart';
+import 'package:discuzq/utils/global.dart';
 
 class NotificationsDelegate extends StatefulWidget {
   const NotificationsDelegate({Key key}) : super(key: key);
@@ -205,7 +205,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       {BuildContext context, AppState state}) async {
     if (state == null) {
       try {
-        state = ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
+        state = ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
       } catch (e) {
         throw e;
       }

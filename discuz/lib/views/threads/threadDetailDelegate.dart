@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/views/reports/reportsDelegate.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,6 +36,8 @@ import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/threads/payments/threadRequiredPayments.dart';
+import 'package:discuzq/views/reports/reportsDelegate.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///

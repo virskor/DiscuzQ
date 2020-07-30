@@ -8,12 +8,21 @@ import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/topics/topicDelegate.dart';
 
-///
-/// 渲染HTML
-class HtmlRender extends StatelessWidget {
+class HtmlRender extends StatefulWidget {
+  HtmlRender({@required this.html});
+
   ///
   /// 用于渲染的html 字符串
   final String html;
+
+  @override
+  _HtmlRenderState createState() => _HtmlRenderState();
+}
+
+class _HtmlRenderState extends State<HtmlRender>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
 
   ///
   /// 处理表情渲染
@@ -28,44 +37,45 @@ class HtmlRender extends StatelessWidget {
             )));
     },
   );
-
-  HtmlRender({@required this.html});
-
   @override
-  Widget build(BuildContext context) => HtmlWidget(html,
-      bodyPadding: const EdgeInsets.all(0),
-      tableCellPadding: const EdgeInsets.all(2),
-      enableCaching: true,
-      webView: false,
-      webViewJs: false,
-      hyperlinkColor: DiscuzApp.themeOf(context).primaryColor,
-      textStyle: TextStyle(
-          color: DiscuzApp.themeOf(context).textColor,
-          fontSize: DiscuzApp.themeOf(context).normalTextSize),
+  Widget build(BuildContext context) {
+    super.build(context);
 
-      /// todo: 需要完成Uri parse的过程，如果是站内连接直接调用app组件呈现
-      onTapUrl: (url) async => await WebviewHelper.launchUrl(url: url),
+    return HtmlWidget(widget.html,
+        bodyPadding: const EdgeInsets.all(0),
+        tableCellPadding: const EdgeInsets.all(2),
+        enableCaching: true,
+        webView: false,
+        webViewJs: false,
+        hyperlinkColor: DiscuzApp.themeOf(context).primaryColor,
+        textStyle: TextStyle(
+            color: DiscuzApp.themeOf(context).textColor,
+            fontSize: DiscuzApp.themeOf(context).normalTextSize),
 
-      /// onTapSharpUrl 点击话题
-      onTapSharpUrl: (int topicID) => topicID == 0
-          ? () => false
-          : DiscuzRoute.open(
-              context: context,
-              isModal: true,
-              widget: TopicDelegate(
-                topicID: topicID,
-              )),
+        /// todo: 需要完成Uri parse的过程，如果是站内连接直接调用app组件呈现
+        onTapUrl: (url) async => await WebviewHelper.launchUrl(url: url),
 
-      /// onTapUserAtUrl 用户点击@someone
-      onTapUserAtUrl: (uid) =>
-          UserLinkDetector(context: context).showUser(uid: uid),
+        /// onTapSharpUrl 点击话题
+        onTapSharpUrl: (int topicID) => topicID == 0
+            ? () => false
+            : DiscuzRoute.open(
+                context: context,
+                isModal: true,
+                widget: TopicDelegate(
+                  topicID: topicID,
+                )),
 
-      /// 处理表情渲染
-      builderCallback: (meta, e) {
-        if (e.classes.contains('qq-emotion')) {
-          return lazySet(null, buildOp: emojiOp);
-        }
+        /// onTapUserAtUrl 用户点击@someone
+        onTapUserAtUrl: (uid) =>
+            UserLinkDetector(context: context).showUser(uid: uid),
 
-        return meta;
-      });
+        /// 处理表情渲染
+        builderCallback: (meta, e) {
+          if (e.classes.contains('qq-emotion')) {
+            return lazySet(null, buildOp: emojiOp);
+          }
+
+          return meta;
+        });
+  }
 }

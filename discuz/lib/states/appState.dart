@@ -12,8 +12,11 @@ class AppState extends StateModel {
   ///
   ForumModel _forum;
   ForumModel get forum => _forum;
-  void updateForum(ForumModel forum) {
+  void updateForum(ForumModel forum, {bool prevent = false}) {
     _forum = forum;
+    if (prevent) {
+      return;
+    }
     _noticeRebuild();
   }
 
@@ -24,6 +27,9 @@ class AppState extends StateModel {
   get categories => _categories;
   void updateCategories(List<CategoryModel> categories) {
     _categories = categories;
+    if (_categories != null) {
+      return;
+    }
     _noticeRebuild();
   }
 
@@ -61,7 +67,6 @@ class AppState extends StateModel {
     _appConf[key] = val;
     _noticeRebuild();
   }
-
 
   /// 通知组件重构
 

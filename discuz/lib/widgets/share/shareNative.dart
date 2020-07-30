@@ -15,7 +15,7 @@ class ShareNative {
       return;
     }
 
-    final String webUrl = '${Global.domain}/details/${thread.id.toString()}';
+    final String webUrl = '${Global.domain}/pages/topic/index?id=${thread.id.toString()}';
     final String shareContent = '''
     ${thread.attributes.title}
     $webUrl

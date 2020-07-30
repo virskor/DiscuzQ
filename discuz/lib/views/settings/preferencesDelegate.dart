@@ -84,7 +84,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                       label: '不看受保护的内容',
                     ),
                     SettingTile(
-                      icon: SFSymbols.square_stack_3d_down_dottedline,
+                      icon: 0xe66b,
                       label: '清除缓存',
                       onPressed: () {
                         ClearCacheDialog.build(context: context);

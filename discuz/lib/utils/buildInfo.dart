@@ -47,7 +47,7 @@ class BuildInfo {
       return _buildInfo;
     }
 
-    final String mode = Device.isDevelopment ? 'development' : 'production';
+    final String mode = FlutterDevice.isDevelopment ? 'development' : 'production';
     var yml = loadYaml(_yaml);
     if (yml[mode] == null) {
       return const BuildInfoModel();

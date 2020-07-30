@@ -1,8 +1,5 @@
-import 'package:discuzq/widgets/topics/topicsList.dart';
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/views/searchAndExplore/searchSuggestion.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/views/searchAndExplore/searchUserDelegate.dart';
@@ -11,6 +8,9 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/topics/topicsList.dart';
+import 'package:discuzq/widgets/topics/topicListBar.dart';
+import 'package:discuzq/widgets/topics/topicSortTypes.dart';
 
 enum DiscuzAppSearchType {
   ///
@@ -34,6 +34,9 @@ class AppSearchDelegate extends StatefulWidget {
 
 class _AppSearchDelegateState extends State<AppSearchDelegate>
     with AutomaticKeepAliveClientMixin {
+  String _keyword = '';
+
+  TopicListSortType _sortType = TopicListSortType.viewCount;
 
   @override
   bool get wantKeepAlive => true;
@@ -42,11 +45,29 @@ class _AppSearchDelegateState extends State<AppSearchDelegate>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-        appBar: DiscuzAppBar(title: '发现与话题', actions: <Widget>[..._actions]),
-        body: const TopicsList(),
+    return Scaffold(
+      appBar: DiscuzAppBar(title: '发现与话题', actions: <Widget>[..._actions]),
+      body: Column(
+        children: <Widget>[
+          TopicListBar(
+            onKeyWordChanged: (String val) {
+              setState(() {
+                _keyword = val;
+              });
+            },
+            onSortChanged: (TopicListSortType val) {
+              setState(() {
+                _sortType = val;
+              });
+            },
+          ),
+          Expanded(
+            child: TopicsList(
+              keyword: _keyword,
+              sort: _sortType,
+            ),
+          )
+        ],
       ),
     );
   }

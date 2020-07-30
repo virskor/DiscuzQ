@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/utils/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -18,7 +17,7 @@ import 'package:discuzq/widgets/threads/threadCard.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/utils/debouncer.dart';
 
 ///
 /// 注意：
