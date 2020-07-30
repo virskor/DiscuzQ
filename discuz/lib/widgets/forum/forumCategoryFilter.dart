@@ -131,8 +131,8 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
         //child: DiscuzText(_selected.label),
         color: DiscuzApp.themeOf(context).backgroundColor,
         icon: DiscuzIcon(
-          SFSymbols.slider_horizontal_3,
-          color: DiscuzApp.themeOf(context).primaryColor,
+          Icons.more_horiz,
+          color: DiscuzApp.themeOf(context).textColor,
         ),
         onSelected: (ForumCategoryFilterItem val) {
           /// 先拷贝过滤参数

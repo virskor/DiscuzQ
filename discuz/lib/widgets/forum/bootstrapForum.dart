@@ -21,16 +21,14 @@ class BootstrapForum {
   ///
   ///
   Future<bool> getForum({bool force = false}) async {
-    Response resp;
-
-    final Function closeLoading = DiscuzToast.loading(context: context);
-
     try {
       final AppState state =
           ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
 
-      resp = await Request(context: context, autoAuthorization: false).getUrl(url: Urls.forum);
-      closeLoading();
+      final Response resp =
+          await Request(context: context, autoAuthorization: false)
+              .getUrl(url: Urls.forum);
+
       if (resp == null) {
         return Future.value(false);
       }
@@ -39,7 +37,7 @@ class BootstrapForum {
         final ForumModel forum = ForumModel.fromMap(maps: resp.data['data']);
 
         /// 更新状态
-        state.updateForum(forum);
+        state.updateForum(forum, prevent: state.forum != null);
       } catch (e) {
         throw e;
       }
@@ -47,7 +45,6 @@ class BootstrapForum {
       /// 返回成功
       return Future.value(true);
     } catch (e) {
-      closeLoading();
       return Future.value(false);
     }
   }

@@ -39,7 +39,7 @@ class Request {
     /// Verify Cert
     /// DefaultHttpClientAdapter 不要在web下添加
     /// web下browser会自动托管HTTP请求
-    if (!Device.isWeb) {
+    if (!FlutterDevice.isWeb) {
       (_dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
           (client) {
         client.badCertificateCallback =
@@ -85,9 +85,9 @@ class Request {
 
         ///
         /// web下不调用原生API
-        if (!Device.isWeb) {
-          final String deviceAgent = await Device.getDeviceAgentString();
-          final String userAgent = await Device.getWebviewUserAgent();
+        if (!FlutterDevice.isWeb) {
+          final String deviceAgent = await FlutterDevice.getDeviceAgentString();
+          final String userAgent = await FlutterDevice.getWebviewUserAgent();
           options.headers['user-agent'] = userAgent;
           options.headers['user-device'] =
               deviceAgent.split(';')[0]; // not important
@@ -97,7 +97,7 @@ class Request {
         options.connectTimeout = (1000 * 20);
         options.receiveTimeout = (1000 * 20);
         options.headers['client-type'] = 'app'; // not important
-        if (!Device.isWeb) {
+        if (!FlutterDevice.isWeb) {
           options.headers['referer'] = Global.domain;
         }
 

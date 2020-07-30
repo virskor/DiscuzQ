@@ -1,3 +1,8 @@
+import 'package:discuzq/api/blackListAPI.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -90,26 +95,54 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
                 ///
                 /// 举报按钮仅在查看其它用户时显示
                 state.user != null && state.user.id != widget.user.id
-                    ? IconButton(
-                        icon: DiscuzIcon(
-                          SFSymbols.flag,
-                          color: Colors.white,
-                        ),
-                        onPressed: () => DiscuzRoute.open(
-                          context: context,
-                          shouldLogin: true,
-                          fullscreenDialog: true,
-                          widget: Builder(
-                            builder: (context) => ReportsDelegate(
-                                type: ReportType.homepage, user: _user),
-                          ),
-                        ),
-                      )
+                    ? _normalPopMenu()
                     : const SizedBox()
               ],
             ),
             body: _buildBody(context: context),
           ));
+
+  Widget _normalPopMenu() => Theme(
+        data: Theme.of(context).copyWith(
+          cardColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+        ),
+        child: PopupMenuButton<String>(
+            icon: DiscuzIcon(Icons.more_vert, color: Colors.white),
+            itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+                  PopupMenuItem<String>(
+                      value: 'report', child: const DiscuzText('举报')),
+                  PopupMenuItem<String>(
+                      value: 'blackList', child: const DiscuzText('拉黑'))
+                ],
+            onSelected: (String value) {
+              if (value == 'report') {
+                DiscuzRoute.open(
+                  context: context,
+                  shouldLogin: true,
+                  fullscreenDialog: true,
+                  widget: Builder(
+                    builder: (context) =>
+                        ReportsDelegate(type: ReportType.homepage, user: _user),
+                  ),
+                );
+                return;
+              }
+
+              DiscuzDialog.confirm(
+                  context: context,
+                  title: '拉黑用户',
+                  message: '您确定拉黑该用户吗?',
+                  onConfirm: () async {
+                    final bool result =
+                        await BlackListAPI(context: context).add(uid: _user.id);
+                    if (result && Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  });
+
+              /// add user into black list
+            }),
+      );
 
   ///
   /// Title
@@ -123,7 +156,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
         child: const DiscuzNoMoreData(),
       );
     }
-    
+
     return UserRecentThreads(
       user: _user,
       userGroup: _userGroup,

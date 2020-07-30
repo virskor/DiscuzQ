@@ -609,7 +609,7 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
             : SystemUiOverlayStyle.dark;
 
         final Color buildBackgroundColor = state.appConf['darkTheme']
-            ? DiscuzApp.themeOf(context).scaffoldBackgroundColor
+            ? DiscuzApp.themeOf(context).primaryColor.withOpacity(.34)
             : widget.backgroundColor ??
                 appBarTheme.color ??
                 DiscuzApp.themeOf(context).primaryColor;

@@ -73,13 +73,13 @@ class AppConfigurations {
 
   /// call initAppSetting when Appliation start to run
   /// this methods only available for running application at first time
-  Future<void> initAppSetting() async {
+  Future<bool> initAppSetting() async {
     final dynamic appconf = await getLocalAppSetting();
     if (appconf != null) {
-      return;
+      return Future.value(false);
     }
 
-    await DiscuzLocalStorage.setString(
+    return DiscuzLocalStorage.setString(
         _appConfKey, jsonEncode(defaultAppSetting));
   }
 

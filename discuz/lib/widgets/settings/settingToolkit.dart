@@ -39,7 +39,7 @@ class SettingSwitcher extends StatelessWidget {
 ///
 class SettingTile extends StatelessWidget {
   final Function onPressed;
-  final IconData icon;
+  final dynamic icon;
   final String label;
 
   const SettingTile(

@@ -52,7 +52,7 @@ class _PostLikeButtonState extends State<PostLikeButton> {
   /// 用户点赞
   Future<bool> _onLikeButtonTapped(isLike) async {
     /// 震动
-    Device.emitVibration();
+    FlutterDevice.emitVibration();
 
     final dynamic data = {
       "data": {

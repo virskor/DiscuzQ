@@ -65,12 +65,12 @@ class DiscuzRefresh extends StatelessWidget {
           // header: WaterDropHeader(),
           controller: controller,
           onRefresh: () {
-            Device.emitVibration();
+            FlutterDevice.emitVibration();
             // Sounds.play(Sounds.refresh);
             onRefresh();
           },
           onLoading: () {
-            Device.emitVibration();
+            FlutterDevice.emitVibration();
             // Sounds.play(Sounds.refresh);
             onLoading();
           },

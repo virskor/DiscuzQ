@@ -19,7 +19,7 @@ class FloatLoginButton extends StatelessWidget {
         return Center(
           child: SizedBox(
             width: 200,
-            child: FlatButton(
+            child: MaterialButton(
               color: DiscuzApp.themeOf(context).primaryColor,
               child: const DiscuzText('登录/注册', color: Colors.white),
               onPressed: () => AuthHelper.login(context: context),

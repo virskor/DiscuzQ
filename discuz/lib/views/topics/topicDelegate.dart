@@ -1,6 +1,3 @@
-import 'package:discuzq/widgets/common/discuzAmount.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -12,6 +9,8 @@ import 'package:discuzq/widgets/threads/theadsList.dart';
 import 'package:discuzq/api/topicsAPI.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 class TopicDelegate extends StatefulWidget {
   TopicDelegate({@required this.topicID}) {

@@ -106,7 +106,7 @@ class DiscuzToast {
   /// 加载中
   /// 返回函数，用于关闭
   static Function loading({BuildContext context, String message}) {
-    if (Device.isWeb) {
+    if (FlutterDevice.isWeb) {
       //return WechatToast(context: context, mask: true).loading();
       return () => null;
     }

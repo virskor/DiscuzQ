@@ -19,13 +19,11 @@ import 'package:discuzq/views/settings/preferencesDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/views/users/profileDelegate.dart';
-import 'package:discuzq/views/users/walletDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
 import 'package:discuzq/views/users/follows/followingDelegate.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/widgets/users/services/userInterationBar.dart';
-import 'package:discuzq/views/reports/reportsHistoryDelegate.dart';
 import 'package:discuzq/utils/global.dart';
 
 class AccountDelegate extends StatefulWidget {
@@ -49,17 +47,17 @@ class _AccountDelegateState extends State<AccountDelegate> {
     //     child: const WalletDelegate()),
     const _AccountMenuItem(
         label: '我的收藏',
-        icon: SFSymbols.star,
+        icon: 0xe699,
         separate: true,
         child: const MyCollectionDelegate()),
     const _AccountMenuItem(
         label: '我的关注',
-        icon: SFSymbols.lasso,
+        icon: 0xe680,
         separate: true,
         child: const FollowingDelegate()),
     const _AccountMenuItem(
         label: '黑名单',
-        icon: SFSymbols.multiply_circle,
+        icon: 0xe6d2,
         separate: true,
 
         child: const BlackListDelegate()),
@@ -74,7 +72,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
                 title: '提示',
                 message: '是否退出登录？',
                 onConfirm: () => AuthHelper.logout(state: state)),
-        icon: SFSymbols.arrow_right_square),
+        icon: 0xe6d0),
   ];
 
   @override
@@ -198,7 +196,7 @@ class _AccountMenuItem {
   final bool separate;
 
   /// 图标
-  final IconData icon;
+  final dynamic icon;
 
   /// 函数
   final Function method;
