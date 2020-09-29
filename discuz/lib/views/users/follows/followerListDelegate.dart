@@ -4,7 +4,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/appbar/searchAppbar.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/request/request.dart';

@@ -5,7 +5,6 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/models/forumModel.dart';
 
 class BootstrapForum {

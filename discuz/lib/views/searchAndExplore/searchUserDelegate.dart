@@ -17,7 +17,7 @@ import 'package:discuzq/widgets/ui/ui.dart';
 /// 搜索用户
 ///
 class SearchUserDelegate extends StatefulWidget {
-  SearchUserDelegate({this.keyword});
+  const SearchUserDelegate({this.keyword});
 
   final String keyword;
 

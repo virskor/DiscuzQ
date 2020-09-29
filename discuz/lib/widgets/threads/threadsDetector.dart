@@ -4,7 +4,6 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/views/threads/threadDetailDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:flutter/material.dart';

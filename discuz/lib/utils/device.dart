@@ -1,6 +1,5 @@
 import 'package:device_info/device_info.dart';
 import 'dart:io';
-import 'package:udid/udid.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_user_agent/flutter_user_agent.dart';
@@ -37,16 +36,15 @@ class FlutterDevice {
   /// getDeviceAgentString 获取设备标识符
   /// 现在还用不到的在DZ当中，不过我提前封装了
   static Future<String> getDeviceAgentString() async {
-    String uuid = await Udid.udid;
     DeviceInfoPlugin deviceInfo = new DeviceInfoPlugin();
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
       return Future.value(
-          "$uuid;${Uri.encodeFull(androidInfo.brand)};${Uri.encodeFull(androidInfo.model)}");
+          "${Uri.encodeFull(androidInfo.brand)};${Uri.encodeFull(androidInfo.model)}");
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       return Future.value(
-          "$uuid;${Uri.encodeFull(iosInfo.name)};${iosInfo.utsname.machine} ${iosInfo.systemVersion}");
+          "${Uri.encodeFull(iosInfo.name)};${iosInfo.utsname.machine} ${iosInfo.systemVersion}");
     }
     return Future.value("unknown");
   }

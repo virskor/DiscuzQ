@@ -37,7 +37,7 @@ class DataFormats {
 }
 
 /// month->days.
-Map<int, int> MONTH_DAY = {
+const Map<int, int> MONTH_DAY = {
   1: 31,
   2: 28,
   3: 31,

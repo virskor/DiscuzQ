@@ -11,7 +11,6 @@ import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/widgets/emoji/emojiSync.dart';
-import 'package:discuzq/utils/analysis.dart';
 import 'package:discuzq/utils/device.dart';
 
 ///
@@ -69,10 +68,6 @@ class DiscuzQ extends StatelessWidget {
                   /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
                   Future.delayed(Duration.zero)
                       .then((_) => EmojiSync().getEmojis());
-
-                  ///
-                  /// 异步加载统计
-                  Analysis.initUmengAnalysis();
                 },
 
                 /// 创建入口APP

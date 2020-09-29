@@ -11,7 +11,7 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorCategorySelector.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:discuzq/widgets/editor/toolbar/discuzEditorToolbarMarkdownItems.dart';
+// import 'package:discuzq/widgets/editor/toolbar/discuzEditorToolbarMarkdownItems.dart';
 import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 
 class DiscuzEditorToolbar extends StatefulWidget {
