@@ -135,55 +135,55 @@ class _ThreadCardState extends State<ThreadCard>
   ///
   /// 生成简单的标题，取固定值
   ///
-  String get _flatTitle => widget.thread.attributes.title != ''
-      ? widget.thread.attributes.title
-      : _firstPost.attributes.content.length <= _kFlatTitleLength
-          ? _firstPost.attributes.content
-          : "${_firstPost.attributes.content.substring(0, _kFlatTitleLength)}...";
+  // String get _flatTitle => widget.thread.attributes.title != ''
+  //     ? widget.thread.attributes.title
+  //     : _firstPost.attributes.content.length <= _kFlatTitleLength
+  //         ? _firstPost.attributes.content
+  //         : "${_firstPost.attributes.content.substring(0, _kFlatTitleLength)}...";
 
   ///
   /// 可收起的主题
   ///
-  Widget _buildStickyThreadTitle(BuildContext context) {
-    final Widget stickyIcon = SizedBox(
-      width: 60,
-      height: 25,
-      child: Container(
-        alignment: Alignment.center,
-        margin: const EdgeInsets.only(right: 10),
-        decoration: const BoxDecoration(
-            color: Global.scaffoldBackgroundColorLight,
-            border: const Border(top: Global.border, bottom: Global.border)),
-        child: const DiscuzText('置顶', color: Colors.black),
-      ),
-    );
+  // Widget _buildStickyThreadTitle(BuildContext context) {
+  //   final Widget stickyIcon = SizedBox(
+  //     width: 60,
+  //     height: 25,
+  //     child: Container(
+  //       alignment: Alignment.center,
+  //       margin: const EdgeInsets.only(right: 10),
+  //       decoration: const BoxDecoration(
+  //           color: Global.scaffoldBackgroundColorLight,
+  //           border: const Border(top: Global.border, bottom: Global.border)),
+  //       child: const DiscuzText('置顶', color: Colors.black),
+  //     ),
+  //   );
 
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      child: Container(
-        margin: const EdgeInsets.only(top: 5),
-        padding: kMarginAllContent,
-        decoration: BoxDecoration(
-          color: DiscuzApp.themeOf(context).backgroundColor,
-        ),
-        child: Row(
-          children: <Widget>[
-            stickyIcon,
-            DiscuzText(
-              _flatTitle,
-            )
-          ],
-        ),
-      ),
-      onTap: () => DiscuzRoute.open(
-          context: context,
-          shouldLogin: true,
-          widget: ThreadDetailDelegate(
-            author: _author,
-            thread: widget.thread,
-          )),
-    );
-  }
+  //   return GestureDetector(
+  //     behavior: HitTestBehavior.translucent,
+  //     child: Container(
+  //       margin: const EdgeInsets.only(top: 5),
+  //       padding: kMarginAllContent,
+  //       decoration: BoxDecoration(
+  //         color: DiscuzApp.themeOf(context).backgroundColor,
+  //       ),
+  //       child: Row(
+  //         children: <Widget>[
+  //           stickyIcon,
+  //           DiscuzText(
+  //             _flatTitle,
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //     onTap: () => DiscuzRoute.open(
+  //         context: context,
+  //         shouldLogin: true,
+  //         widget: ThreadDetailDelegate(
+  //           author: _author,
+  //           thread: widget.thread,
+  //         )),
+  //   );
+  // }
 
   ///
   /// 构建帖子卡片

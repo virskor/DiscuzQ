@@ -5,7 +5,7 @@ import 'package:discuzq/widgets/threads/theadsList.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 
 class SearchThreadDelegate extends StatefulWidget {
-  SearchThreadDelegate({this.keyword});
+  const SearchThreadDelegate({this.keyword});
 
   final String keyword;
 

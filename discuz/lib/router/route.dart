@@ -28,7 +28,7 @@ class DiscuzRoute {
 
     ///
     /// PresentModal
-    bool isModal = true,
+    bool isModal = false,
     @required Widget widget,
   }) async {
     ///
