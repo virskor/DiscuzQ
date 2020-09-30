@@ -60,7 +60,6 @@ class _HtmlRenderState extends State<HtmlRender>
             ? () => false
             : DiscuzRoute.open(
                 context: context,
-                isModal: true,
                 widget: TopicDelegate(
                   topicID: topicID,
                 )),

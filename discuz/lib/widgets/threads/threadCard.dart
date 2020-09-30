@@ -107,8 +107,6 @@ class _ThreadCardState extends State<ThreadCard>
                 behavior: HitTestBehavior.opaque,
                 onTap: () => DiscuzRoute.open(
                     context: context,
-                    //shouldLogin: true,
-                    isModal: true,
                     widget: ThreadDetailDelegate(
                       author: _author,
                       thread: widget.thread,
