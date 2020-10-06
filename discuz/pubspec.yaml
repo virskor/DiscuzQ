@@ -43,7 +43,7 @@ dependencies:
   url_launcher: ^5.4.5
   file_picker: ^1.9.0+1
   share: ^0.6.4+1
-  extended_text_field: ^4.0.0
+  extended_text_field: ^5.0.0
   flutter_picker: ^1.1.4
   yaml: ^2.2.1
   webview_flutter: ^0.3.22+1
