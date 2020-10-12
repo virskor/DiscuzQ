@@ -6,7 +6,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/widgets/appbar/nightModeSwitcher.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
@@ -59,7 +58,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
         label: '黑名单',
         icon: 0xe6d2,
         separate: true,
-
         child: const BlackListDelegate()),
 
     /// 请求退出账户
@@ -102,10 +100,8 @@ class _AccountDelegateState extends State<AccountDelegate> {
           builder: (context, child, state) => Scaffold(
                 appBar: DiscuzAppBar(
                   title: '个人中心',
+                  brightness: Brightness.light,
                   actions: <Widget>[
-                    const NightModeSwitcher(
-                      color: Colors.white,
-                    ),
                     const _SettingButton()
                   ],
                 ),
@@ -146,7 +142,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
   ///
   List<Widget> _buildMenus(AppState state) => _menus
       .map((el) => Container(
-            margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
                 border: const Border(bottom: Global.border, top: Global.border),
                 color: DiscuzApp.themeOf(context).backgroundColor),
@@ -178,7 +173,8 @@ class _SettingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: const DiscuzIcon(SFSymbols.gear_alt_fill, color: Colors.white),
+        icon: DiscuzIcon(SFSymbols.gear_alt_fill,
+            color: DiscuzApp.themeOf(context).textColor),
         onPressed: () => DiscuzRoute.open(
             context: context, widget: const PreferencesDelegate()),
       );

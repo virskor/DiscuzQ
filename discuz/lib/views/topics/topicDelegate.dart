@@ -56,6 +56,7 @@ class _TopicDelegateState extends State<TopicDelegate> {
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: _appbarTitle,
+               brightness: Brightness.light,
               centerTitle: true,
               bottom: _currentTopic == null
                   ? null
@@ -161,13 +162,11 @@ class _BuilderAppbarBottom extends StatelessWidget with PreferredSizeWidget {
           children: <Widget>[
             DiscuzText(
               "$label：",
-              color: Colors.white,
               fontSize: DiscuzApp.themeOf(context).normalTextSize,
             ),
             DiscuzText(
               number.toString(),
               fontFamily: 'Roboto Condensed',
-              color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: DiscuzApp.themeOf(context).mediumTextSize,
             ),

@@ -22,7 +22,7 @@ class DiscuzIcon extends StatelessWidget {
   }
 
   Color _iconColor(BuildContext context){
-    final Color iconColor = color ?? DiscuzApp.themeOf(context).primaryColor;
+    final Color iconColor = color ?? DiscuzApp.themeOf(context).textColor;
     if(withOpacity){
       return iconColor.withOpacity(.73);
     }

@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -15,13 +17,31 @@ class DiscuzWebview extends StatefulWidget {
   ///
   final String title;
 
-  const DiscuzWebview(this.url, {this.title = '浏览'});
+  ///
+  /// 是否是app和网站交互模式
+  /// 交互模式下，APP会自动在webview同步accesstoken
+  ///
+  final bool isInteract;
+
+  const DiscuzWebview(
+    this.url, {
+    this.title = '浏览',
+    this.isInteract = true,
+  });
 
   @override
   _DiscuzWebviewState createState() => _DiscuzWebviewState();
 }
 
 class _DiscuzWebviewState extends State<DiscuzWebview> {
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,14 +55,30 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
             child: WebView(
               javascriptMode: JavascriptMode.unrestricted,
               initialUrl: widget.url,
-              onWebViewCreated: (WebViewController webViewController) {
-                /// webViewController.evaluateJavascript(_evaluateJS);
+              onWebViewCreated: (WebViewController webViewController) async {
+                _controller.complete(webViewController);
+                await _initWebviewJSBirdge();
               },
+              onWebResourceError: (error) => debugPrint(error.description),
               onPageFinished: (url) {},
             ),
           )
         ],
       ),
     );
+  }
+
+  /*
+   * 初始化
+   */
+  Future<void> _initWebviewJSBirdge() async {
+    if (!widget.isInteract) {
+      return;
+    }
+
+    // final String authorization = await AuthorizationHelper().getToken();
+
+    // final String result = await _controller.evaluateJavascript(
+    //     'window.localstorage.setitem("access_token", "$authorization");');
   }
 }

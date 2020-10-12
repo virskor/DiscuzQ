@@ -62,6 +62,7 @@ class _UsernameModifyDelegateState extends State<UsernameModifyDelegate> {
         builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '修改用户名',
+              brightness: Brightness.light,
             ),
             body: Padding(
                 padding: kBodyPaddingAll,

@@ -6,8 +6,6 @@ import 'package:discuzq/views/searchAndExplore/searchUserDelegate.dart';
 import 'package:discuzq/views/searchAndExplore/searchThreadDelegate.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/topics/topicsList.dart';
 import 'package:discuzq/widgets/topics/topicListBar.dart';
 import 'package:discuzq/widgets/topics/topicSortTypes.dart';
@@ -46,7 +44,11 @@ class _AppSearchDelegateState extends State<AppSearchDelegate>
     super.build(context);
 
     return Scaffold(
-      appBar: DiscuzAppBar(title: '发现与话题', actions: <Widget>[..._actions]),
+      appBar: DiscuzAppBar(
+        title: '发现与话题',
+        actions: <Widget>[..._actions],
+        brightness: Brightness.light,
+      ),
       body: Column(
         children: <Widget>[
           TopicListBar(
@@ -101,7 +103,7 @@ class _DiscuzAppSearchActionButton extends StatelessWidget {
           constraints: BoxConstraints(maxHeight: 45),
           alignment: Alignment.centerRight,
           decoration: const BoxDecoration(
-              color: const Color(0xFF00000),
+              color: const Color(0xF000000),
               borderRadius: const BorderRadius.all(Radius.circular(30))),
           child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
@@ -109,16 +111,7 @@ class _DiscuzAppSearchActionButton extends StatelessWidget {
                 children: <Widget>[
                   DiscuzText(
                     caption,
-                    color: const Color(0xFFDEDEDE),
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  const DiscuzIcon(
-                    SFSymbols.chevron_right,
-                    size: 14,
-                    color: const Color(0xFFDEDEDE),
-                  )
                 ],
               )),
         ),

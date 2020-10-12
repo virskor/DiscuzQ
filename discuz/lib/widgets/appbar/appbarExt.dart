@@ -190,6 +190,7 @@ class DiscuzAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.titleSpacing = NavigationToolbar.kMiddleSpacing,
     this.toolbarOpacity = 1.0,
     this.bottomOpacity = 1.0,
+    this.dark = false,
   })  : assert(automaticallyImplyLeading != null),
         assert(elevation == null || elevation >= 0.0),
         assert(primary != null),
@@ -241,6 +242,7 @@ class DiscuzAppBar extends StatefulWidget implements PreferredSizeWidget {
   ///  * [Scaffold.drawer], in which the [Drawer] is usually placed.
   final Widget leading;
   final double leadingWidth;
+  final bool dark;
 
   /// Controls whether we should try to imply the leading widget if null.
   ///
@@ -469,10 +471,12 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
           } else {
             if (canPop)
               leading = useCloseButton
-                  ? const CloseButton()
-                  : const AppbarLeading(
-                      dark: true,
-                    );
+                  ? CloseButton(
+                      color: widget.dark
+                          ? Colors.white
+                          : DiscuzApp.themeOf(context).textColor,
+                    )
+                  : const AppbarLeading();
           }
         }
         if (leading != null) {
@@ -483,7 +487,7 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
         }
 
         Widget title = widget.title.runtimeType == String
-            ? DiscuzText(widget.title, color: Colors.white, fontSize: 20)
+            ? DiscuzText(widget.title, fontSize: 20)
             : widget.title;
 
         if (title != null) {
@@ -612,7 +616,7 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
             ? DiscuzApp.themeOf(context).primaryColor.withOpacity(.34)
             : widget.backgroundColor ??
                 appBarTheme.color ??
-                DiscuzApp.themeOf(context).primaryColor;
+                DiscuzApp.themeOf(context).scaffoldBackgroundColor;
 
         return Semantics(
           container: true,
@@ -621,10 +625,9 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
             child: Material(
               shadowColor: widget.shadowColor,
               color: buildBackgroundColor,
-              elevation:
-                  widget.elevation ?? appBarTheme.elevation ?? (Platform.isIOS
-                      ? double.tryParse('0')
-                      : _defaultElevation),
+              elevation: widget.elevation ??
+                  appBarTheme.elevation ??
+                  (Platform.isIOS ? double.tryParse('0') : _defaultElevation),
               shape: widget.shape,
               child: Semantics(
                 explicitChildNodes: true,

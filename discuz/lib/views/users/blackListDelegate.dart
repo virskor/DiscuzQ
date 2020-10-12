@@ -37,6 +37,7 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '黑名单',
+              brightness: Brightness.light,
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: const Center(child: const DiscuzText('暂无黑名单记录')),

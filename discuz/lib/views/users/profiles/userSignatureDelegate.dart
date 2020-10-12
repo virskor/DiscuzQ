@@ -62,6 +62,7 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
         builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '编辑个性签名',
+              brightness: Brightness.light,
             ),
             body: Padding(
                 padding: kBodyPaddingAll,

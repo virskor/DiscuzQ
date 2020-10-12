@@ -38,7 +38,7 @@ class AppbarLeading extends StatelessWidget {
         icon: Icon(
           Platform.isIOS ? SFSymbols.chevron_left : codePoint,
           size: size,
-          color: dark ? Colors.white : DiscuzApp.themeOf(context).primaryColor,
+          color: dark ? Colors.white : DiscuzApp.themeOf(context).textColor,
         ),
         onPressed: () {
           Navigator.pop(context);

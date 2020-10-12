@@ -1,3 +1,4 @@
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -8,8 +9,6 @@ import 'package:discuzq/widgets/settings/settingToolkit.dart';
 import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
 import 'package:discuzq/widgets/settings/clearCache.dart';
 import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/settings/aboutDelegate.dart';
 import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/webview/webviewHelper.dart';
@@ -45,6 +44,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '偏好设置',
+              brightness: Brightness.light,
             ),
             body: ListView(
               children: <Widget>[
@@ -111,8 +111,8 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                     SettingTile(
                         icon: SFSymbols.info_circle,
                         label: '关于APP',
-                        onPressed: () => DiscuzRoute.open(
-                            context: context, widget: const AboutDelegate())),
+                        onPressed: () => WebviewHelper.open(context,
+                            url: "${Global.domain}/pages/site/index", title: '关于')),
                   ],
                 ),
               ],

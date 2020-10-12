@@ -69,6 +69,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '注册',
+              brightness: Brightness.light,
             ),
             body: _buildRegisterForm(state),
           ));

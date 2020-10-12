@@ -17,7 +17,7 @@ dependencies:
   html: ^0.14.0+3
   url_launcher: ^5.4.2
   video_player: ^0.10.8+1
-  webview_flutter: ^0.3.19+9
+  webview_flutter: ^1.0.1
 
 dev_dependencies:
   flutter_test:

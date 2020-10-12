@@ -60,6 +60,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '登录',
+              brightness: Brightness.light,
               actions: <Widget>[
                 // IconButton(
                 //   tooltip: '无法登陆',

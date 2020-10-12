@@ -75,7 +75,9 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
       child: NineGridView(
         padding: const EdgeInsets.all(2),
         space: 3,
-        type: NineGridType.normal, /// normal only
+        type: NineGridType.normal,
+
+        /// normal only
         itemCount: attachmentsModels.length >= 8 ? 9 : attachmentsModels.length,
         itemBuilder: (BuildContext context, int index) {
           if (index > 8) {
@@ -93,6 +95,7 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                 originalImageUrls.remove(targetUrl);
                 originalImageUrls.insert(0, targetUrl);
                 return DiscuzRoute.open(
+                    fullscreenDialog: true,
                     context: context,
                     widget: DiscuzGalleryDelegate(gallery: originalImageUrls));
               });
