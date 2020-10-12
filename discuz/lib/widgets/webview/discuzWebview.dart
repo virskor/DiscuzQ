@@ -1,10 +1,11 @@
 import 'dart:async';
-import 'package:discuzq/utils/authorizationHelper.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
+import 'package:discuzq/utils/authorizationHelper.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 class DiscuzWebview extends StatefulWidget {
   ///
@@ -34,8 +35,7 @@ class DiscuzWebview extends StatefulWidget {
 }
 
 class _DiscuzWebviewState extends State<DiscuzWebview> {
-  final Completer<WebViewController> _controller =
-      Completer<WebViewController>();
+  InAppWebViewController _webView;
 
   @override
   void initState() {
@@ -47,22 +47,29 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
     return Scaffold(
       appBar: DiscuzAppBar(
         title: widget.title,
+        brightness: Brightness.light,
       ),
       backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
-            child: WebView(
-              javascriptMode: JavascriptMode.unrestricted,
-              initialUrl: widget.url,
-              onWebViewCreated: (WebViewController webViewController) async {
-                _controller.complete(webViewController);
-                await _initWebviewJSBirdge();
-              },
-              onWebResourceError: (error) => debugPrint(error.description),
-              onPageFinished: (url) {},
-            ),
-          )
+              child: InAppWebView(
+            initialUrl: widget.url,
+            initialOptions:
+                InAppWebViewGroupOptions(crossPlatform: InAppWebViewOptions()),
+            /*
+            * Webview created
+            */
+            onWebViewCreated: (InAppWebViewController controller) {
+              _webView = controller;
+              _initWebviewJSBirdge();
+            },
+            /*
+             * webview 调试信息
+             */
+            onConsoleMessage: (controller, consoleMessage) =>
+                print(consoleMessage),
+          ))
         ],
       ),
     );
@@ -76,9 +83,19 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
       return;
     }
 
-    // final String authorization = await AuthorizationHelper().getToken();
+    try {
+      final String authorization = await AuthorizationHelper().getToken();
+      await _webView.webStorage.localStorage
+          .setItem(key: 'access_token', value: authorization);
 
-    // final String result = await _controller.evaluateJavascript(
-    //     'window.localstorage.setitem("access_token", "$authorization");');
+      // await _webView.evaluateJavascript(source: '''
+      //         document.ready = function(){
+      //           document.querySelector(".content").style.padding = 0;
+      //           document.querySelector(".qui-back").style.display = "none";
+      //         }
+      //         ''');
+    } catch (e) {
+      print(e);
+    }
   }
 }

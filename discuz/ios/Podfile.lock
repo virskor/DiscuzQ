@@ -46,6 +46,8 @@ PODS:
     - Flutter
     - Mantle
     - SDWebImageWebPCoder
+  - flutter_inappwebview (0.0.1):
+    - Flutter
   - flutter_native_dialog (0.0.1):
     - Flutter
   - flutter_native_loading (0.0.1):
@@ -116,6 +118,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_des (from `.symlinks/plugins/flutter_des/ios`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
+  - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - flutter_native_dialog (from `.symlinks/plugins/flutter_native_dialog/ios`)
   - flutter_native_loading (from `.symlinks/plugins/flutter_native_loading/ios`)
   - flutter_user_agent (from `.symlinks/plugins/flutter_user_agent/ios`)
@@ -162,6 +165,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_des/ios"
   flutter_image_compress:
     :path: ".symlinks/plugins/flutter_image_compress/ios"
+  flutter_inappwebview:
+    :path: ".symlinks/plugins/flutter_inappwebview/ios"
   flutter_native_dialog:
     :path: ".symlinks/plugins/flutter_native_dialog/ios"
   flutter_native_loading:
@@ -207,6 +212,7 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_des: af0bb83f27f1468ad652d907958b1d42d5644544
   flutter_image_compress: 082f8daaf6c1b0c9fe798251c750ef0ecd98d7ae
+  flutter_inappwebview: 69dfbac46157b336ffbec19ca6dfd4638c7bf189
   flutter_native_dialog: dd322cb82cdb53801cad92a3becca4de2dfdf4ef
   flutter_native_loading: fd0c759a3e4fbc8e26336d4fa372dc5c67141c86
   flutter_user_agent: 73414e04725e8332d4a61d4b1d4153971d7a2349
