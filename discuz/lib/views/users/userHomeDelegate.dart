@@ -96,6 +96,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
                     ? _normalPopMenu()
                     : const SizedBox()
               ],
+              brightness: Brightness.light,
             ),
             body: _buildBody(context: context),
           ));

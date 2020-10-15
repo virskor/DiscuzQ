@@ -42,6 +42,7 @@ class _UserPasswordModifyState extends State<UserPasswordModify> {
         builder: (context, child, state) => Scaffold(
           appBar: DiscuzAppBar(
             title: '修改密码',
+            brightness: Brightness.light,
           ),
           body: _buildBody(),
         ),

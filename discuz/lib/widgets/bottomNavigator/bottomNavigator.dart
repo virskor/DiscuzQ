@@ -41,7 +41,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
         builder: (context, child, state) => Material(
               elevation: _kBottomNavigationElevation,
               child: Container(
-                constraints: const BoxConstraints(maxHeight: 70),
+                constraints: const BoxConstraints(maxHeight: 75),
                 padding: EdgeInsets.only(
                     left: 20,
                     right: 20,

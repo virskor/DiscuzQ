@@ -73,6 +73,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
           builder: (context, child, state) => Scaffold(
                 appBar: DiscuzAppBar(
                   title: '消息通知',
+                  brightness: Brightness.light,
                 ),
                 body: DiscuzRefresh(
                   enablePullDown: true,
@@ -156,15 +157,13 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   /// 具体的更新逻辑，参考 _refreshMessageList
   ///
   Widget _notificationsSelection({_NotificationMenuItem item}) => Container(
-        margin: const EdgeInsets.only(top: 10),
         decoration: BoxDecoration(
             border: const Border(bottom: Global.border, top: Global.border),
             color: DiscuzApp.themeOf(context).backgroundColor),
         child: Column(
           children: <Widget>[
             DiscuzListTile(
-              leading: DiscuzIcon(item.icon,
-                  color: DiscuzApp.themeOf(context).primaryColor),
+              leading: DiscuzIcon(item.icon),
               title: DiscuzText(item.label),
 
               ///

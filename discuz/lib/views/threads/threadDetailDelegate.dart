@@ -117,8 +117,11 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
   ///
   /// 是否允许加载更多
-  bool get _enablePullUp =>
-      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+  bool get _enablePullUp => _meta == null
+      ? false
+      : _meta.pageCount > _pageNumber
+          ? true
+          : false;
 
   ///
   /// 评论组件数
@@ -146,11 +149,11 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
               title: widget.thread.attributes.title != ''
                   ? widget.thread.attributes.title
                   : '详情',
+              brightness: Brightness.light,
               actions: <Widget>[
                 IconButton(
-                  icon: DiscuzIcon(
+                  icon: const DiscuzIcon(
                     SFSymbols.flag,
-                    color: Colors.white,
                   ),
                   onPressed: () => DiscuzRoute.open(
                     context: context,

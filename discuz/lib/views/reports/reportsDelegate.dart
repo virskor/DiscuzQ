@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -79,6 +80,21 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
   /// controller
   final TextEditingController _controller = TextEditingController();
 
+  /*
+   * preset reasons
+   */
+  final List<String> _presetReasons = [
+    '广告垃圾',
+    '恶意灌水',
+    '违规内容',
+    '重复发帖',
+    '语言攻击',
+    '暴恐谣言',
+    '其他'
+  ];
+
+  String _selectedReason = '其他';
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -104,22 +120,45 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
       builder: (context, child, state) => Scaffold(
             appBar: DiscuzAppBar(
               title: '投诉举报',
+              brightness: Brightness.light,
             ),
-            body: Padding(
+            body: ListView(
               padding: kBodyPaddingAll,
-              child: Column(
-                children: <Widget>[
-                  _reasonEditor(),
-                  DiscuzButton(
-                    label: '提交',
-                    onPressed: _submitReport,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const DiscuzText(_kReportNotice)
-                ],
-              ),
+              children: <Widget>[
+                const DiscuzText(
+                  '请选择原因：',
+                  fontWeight: FontWeight.bold,
+                ),
+                const SizedBox(height: 15),
+                ..._presetReasons
+                    .map((String item) => RadioListTile(
+                          groupValue: _selectedReason,
+                          title: DiscuzText(item),
+                          value: item,
+                          dense: true,
+                          onChanged: (String val) {
+                            print(val);
+                            setState(() {
+                              _selectedReason = val;
+                            });
+                          },
+                        ))
+                    .toList(),
+                const DiscuzText(
+                  '详细的描述：',
+                  fontWeight: FontWeight.bold,
+                ),
+                const SizedBox(height: 15),
+                _reasonEditor(),
+                DiscuzButton(
+                  label: '提交',
+                  onPressed: _submitReport,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const DiscuzText(_kReportNotice)
+              ],
             ),
           ));
 
@@ -128,7 +167,7 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
   /// 举报理由
   Widget _reasonEditor() => DiscuzTextfiled(
         controller: _controller,
-        placeHolder: '请输入举报的原因',
+        placeHolder: '请输入举报的详细描述，便于我们审核',
         maxLines: 10,
         maxLength: 200,
       );
@@ -151,7 +190,7 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
     try {
       final bool result = await ReportsAPI(context: context).createReports(
           type: widget.type,
-          reason: _controller.text,
+          reason: "$_selectedReason - ${_controller.text}",
           userID: widget.user == null ? 0 : widget.user.id,
           threadID: widget.thread == null ? 0 : widget.thread.id,
           postID: widget.post == null ? 0 : widget.post.id);

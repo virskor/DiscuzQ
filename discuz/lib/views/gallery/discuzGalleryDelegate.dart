@@ -80,6 +80,7 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
         backgroundColor: Colors.black,
         brightness: Brightness.dark,
         elevation: 1,
+        dark: true,
         actions: <Widget>[_action(context: context)],
       ),
       body: _buildBody(context: context),

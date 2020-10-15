@@ -36,6 +36,7 @@ class _ReportHistoryDelegateState extends State<ReportHistoryDelegate> {
         builder: (context, child, state) => Scaffold(
           appBar: DiscuzAppBar(
             title: '我的投诉举报',
+            brightness: Brightness.light,
           ),
           body: Center(
             child: const DiscuzText('暂无记录'),

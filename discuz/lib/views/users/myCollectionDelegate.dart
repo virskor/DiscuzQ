@@ -88,6 +88,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       builder: (context, child, state) => Scaffold(
           appBar: DiscuzAppBar(
             title: '我的收藏',
+            brightness: Brightness.light,
           ),
           body: _body(state: state)));
 

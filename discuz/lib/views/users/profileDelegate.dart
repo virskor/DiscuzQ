@@ -44,6 +44,7 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
         builder: (context, child, state) => Scaffold(
           appBar: DiscuzAppBar(
             title: '我的资料',
+            brightness: Brightness.light,
           ),
           body: Column(
             children: <Widget>[
