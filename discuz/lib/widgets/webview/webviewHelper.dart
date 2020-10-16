@@ -20,9 +20,12 @@ class WebviewHelper {
   /// 使用内置webview打开
   ///
   static Future<bool> open(BuildContext context,
-          {@required String url, String title = '浏览'}) =>
+          {@required String url,
+          String title = '浏览',
+          bool shouldLogin = false}) =>
       DiscuzRoute.open(
           context: context,
+          shouldLogin: shouldLogin,
           widget: DiscuzWebview(
             Uri.encodeFull(url),
             title: title,
