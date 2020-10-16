@@ -51,6 +51,7 @@ dependencies:
   modal_bottom_sheet: ^0.2.0+1
   flutter_markdown: ^0.4.2
   sentry: 3.0.1
+  webview_flutter: ^1.0.3
 
   # flutter
   flutter:
@@ -141,6 +142,8 @@ flutter:
   assets:
     - assets/images/
     - assets/sounds/
+    - assets/js/
+    - assets/css/
     # 腾讯云验证码相关资源
     - assets/captcha/
     - build.yaml

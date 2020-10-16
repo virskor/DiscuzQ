@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -55,14 +54,16 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
           Expanded(
               child: InAppWebView(
             initialUrl: widget.url,
-            initialOptions:
-                InAppWebViewGroupOptions(crossPlatform: InAppWebViewOptions()),
+            initialOptions: InAppWebViewGroupOptions(
+                crossPlatform: InAppWebViewOptions(),
+                ios: IOSInAppWebViewOptions(
+                    allowsBackForwardNavigationGestures: false)),
             /*
             * Webview created
             */
-            onWebViewCreated: (InAppWebViewController controller) {
+            onWebViewCreated: (InAppWebViewController controller) async {
               _webView = controller;
-              _initWebviewJSBirdge();
+              await _initWebviewJSBirdge();
             },
             /*
              * webview 调试信息
@@ -76,7 +77,8 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
   }
 
   /*
-   * 初始化
+   * 初始化JS bridge
+   * 仅在 isInteract 交互模式时支持，否则不支持，避免泄露重要数据
    */
   Future<void> _initWebviewJSBirdge() async {
     if (!widget.isInteract) {
@@ -84,18 +86,47 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
     }
 
     try {
-      final String authorization = await AuthorizationHelper().getToken();
-      await _webView.webStorage.localStorage
-          .setItem(key: 'access_token', value: authorization);
+      await _webView.injectJavascriptFileFromAsset(
+          assetFilePath: 'assets/js/bridge.js');
+      await _webView.injectCSSFileFromAsset(assetFilePath: 'assets/css/h5.css');
 
-      // await _webView.evaluateJavascript(source: '''
-      //         document.ready = function(){
-      //           document.querySelector(".content").style.padding = 0;
-      //           document.querySelector(".qui-back").style.display = "none";
-      //         }
-      //         ''');
+      await _addHandlers();
     } catch (e) {
       print(e);
     }
+  }
+
+  /*
+   * 添加JS交互逻辑
+   */
+  Future<void> _addHandlers() async {
+    /*
+     * 请求获取accessToken
+     */
+    _webView.addJavaScriptHandler(
+        handlerName: 'getAccessToken',
+        callback: (List<dynamic> arguments) async {
+          final String authorization = await AuthorizationHelper().getToken();
+          return authorization ?? '';
+        });
+
+    /*
+     * 请求登录用户的信息
+     */
+    _webView.addJavaScriptHandler(
+        handlerName: 'getCurrentUser',
+        callback: (List<dynamic> arguments) async {
+          try {
+            final dynamic user = await AuthorizationHelper().getUser();
+            if (user == null) {
+              return '';
+            }
+
+            return user;
+          } catch (e) {
+            print(e);
+            return '';
+          }
+        });
   }
 }
