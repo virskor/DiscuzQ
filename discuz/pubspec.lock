@@ -804,12 +804,12 @@ packages:
     source: hosted
     version: "0.1.4+1"
   webview_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.3"
   xml:
     dependency: transitive
     description:

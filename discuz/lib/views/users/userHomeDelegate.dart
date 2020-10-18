@@ -106,7 +106,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
           cardColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
         ),
         child: PopupMenuButton<String>(
-            icon: DiscuzIcon(Icons.more_vert, color: Colors.white),
+            icon: DiscuzIcon(Icons.more_vert),
             itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
                   PopupMenuItem<String>(
                       value: 'report', child: const DiscuzText('举报')),

@@ -43,7 +43,7 @@ jobs:
     - name: Initialization Flutter
       uses: subosito/flutter-action@v1.3.1
       with:
-        flutter-version: '1.17.0'
+        flutter-version: '1.22.2'
         channel: 'stable'
 
     - name: Clone source code
