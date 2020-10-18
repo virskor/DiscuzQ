@@ -10,7 +10,11 @@ class MetaModel {
   /// 页面总数
   final int pageCount;
 
-  MetaModel({this.threadCount = 0, this.pageCount = 0});
+  ///
+  /// 记录总数
+  final int total;
+
+  MetaModel({this.threadCount = 0, this.pageCount = 0, this.total = 0});
 
   ///
   /// fromMap
@@ -32,6 +36,11 @@ class MetaModel {
     }
 
     return MetaModel(
+      total: data['total'] == null
+          ? 0
+          : data['total'].runtimeType == String
+              ? int.tryParse(data['total'])
+              : data['total'],
       threadCount: data['threadCount'] == null
           ? 0
           : data['threadCount'].runtimeType == String
