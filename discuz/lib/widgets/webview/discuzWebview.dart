@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:discuzq/utils/debouncer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -34,11 +35,22 @@ class DiscuzWebview extends StatefulWidget {
 }
 
 class _DiscuzWebviewState extends State<DiscuzWebview> {
+  final Debouncer _debouncer = Debouncer();
+
   InAppWebViewController _webView;
+  /*
+   * loading process
+   */
+  double progress = 0;
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -51,6 +63,13 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
       backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
       body: Column(
         children: [
+          progress < 1.0
+              ? LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: Colors.transparent,
+                  minHeight: 2,
+                )
+              : const SizedBox(),
           Expanded(
               child: InAppWebView(
             initialUrl: widget.url,
@@ -64,6 +83,12 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
             onWebViewCreated: (InAppWebViewController controller) async {
               _webView = controller;
               await _initWebviewJSBirdge();
+            },
+            onProgressChanged:
+                (InAppWebViewController controller, int progress) {
+              setState(() {
+                this.progress = progress / 100;
+              });
             },
             /*
              * webview 调试信息
