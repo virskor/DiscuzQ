@@ -37,7 +37,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
     const _AccountMenuItem(
         label: '我的资料',
         icon: SFSymbols.wand_stars,
-        separate: true,
         child: const ProfileDelegate()),
     // const _AccountMenuItem(
     //     label: '我的钱包',
@@ -46,17 +45,14 @@ class _AccountDelegateState extends State<AccountDelegate> {
     const _AccountMenuItem(
         label: '我的收藏',
         icon: 0xe699,
-        separate: true,
         child: const MyCollectionDelegate()),
     const _AccountMenuItem(
         label: '我的关注',
         icon: 0xe680,
-        separate: true,
         child: const FollowingDelegate()),
     const _AccountMenuItem(
         label: '黑名单',
         icon: 0xe6d2,
-        separate: true,
         child: const BlackListDelegate()),
 
     /// 请求退出账户
@@ -100,7 +96,10 @@ class _AccountDelegateState extends State<AccountDelegate> {
                 appBar: DiscuzAppBar(
                   title: '个人中心',
                   brightness: Brightness.light,
-                  actions: <Widget>[const _ShareAppButton(), const _SettingButton()],
+                  actions: <Widget>[
+                    const _ShareAppButton(),
+                    const _SettingButton()
+                  ],
                   backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
                 ),
                 body: state.user == null
@@ -116,14 +115,21 @@ class _AccountDelegateState extends State<AccountDelegate> {
                         child: ListView(
                           children: <Widget>[
                             /// 构造登录信息页
-                            UserAccountBanner(),
+                            const UserAccountBanner(),
+
+                            /// 常用功能
+                            /// _Recommends(),
 
                             /// 菜单构造
+
                             Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Column(
-                                children: _buildMenus(state),
-                              ),
+                              margin: kBodyPaddingAll,
+                              child: ClipRRect(
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(10)),
+                                  child: Column(
+                                    children: _buildMenus(state),
+                                  )),
                             )
                           ],
                         ),
@@ -136,14 +142,13 @@ class _AccountDelegateState extends State<AccountDelegate> {
   List<Widget> _buildMenus(AppState state) => _menus
       .map((el) => Container(
             decoration: BoxDecoration(
-                border: const Border(bottom: Global.border, top: Global.border),
+                border: const Border(bottom: Global.border),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Column(
               children: <Widget>[
                 DiscuzListTile(
                   title: DiscuzText(el.label),
                   leading: DiscuzIcon(el.icon),
-
                   /// 如果item中设置了运行相关的方法，则运行相关的方法，如果有child的话则在路由中打开
                   onTap: () => el.method != null
                       ? el.method(state, context: context)
@@ -159,6 +164,18 @@ class _AccountDelegateState extends State<AccountDelegate> {
       .toList();
 }
 
+/// 常用功能
+class _Recommends extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container(
+                              margin: kBodyPaddingAll,
+                              child: ClipRRect(
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(10)),
+                                  child: Column(children: [],)),
+                            );
+}
+
 ///
 /// 设置按钮
 class _SettingButton extends StatelessWidget {
@@ -169,10 +186,14 @@ class _SettingButton extends StatelessWidget {
         icon: DiscuzIcon(SFSymbols.gear_alt,
             color: DiscuzApp.themeOf(context).textColor),
         onPressed: () => DiscuzRoute.open(
-            context: context, widget: const PreferencesDelegate()),
+            context: context,
+            fullscreenDialog: true,
+            widget: const PreferencesDelegate()),
       );
 }
 
+///
+/// 分享APP按钮
 class _ShareAppButton extends StatelessWidget {
   const _ShareAppButton();
 
@@ -194,9 +215,6 @@ class _AccountMenuItem {
   /// 路由跳转
   final Widget child;
 
-  /// 是否添加分割
-  final bool separate;
-
   /// 图标
   final dynamic icon;
 
@@ -209,7 +227,6 @@ class _AccountMenuItem {
   const _AccountMenuItem(
       {@required this.label,
       @required this.icon,
-      this.separate = false,
       this.method,
       this.showDivider = true,
       this.child});

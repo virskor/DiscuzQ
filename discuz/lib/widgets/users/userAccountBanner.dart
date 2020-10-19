@@ -9,6 +9,8 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 
 class UserAccountBanner extends StatefulWidget {
+  const UserAccountBanner();
+  
   @override
   _UserAccountBannerState createState() => _UserAccountBannerState();
 }
