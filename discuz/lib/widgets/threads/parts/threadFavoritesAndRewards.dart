@@ -84,9 +84,9 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
       /// 增加心形状 图标
       rewardedUsersWidgets.insert(
           0,
-          Padding(
-            padding: EdgeInsets.only(top: 1, right: 10, left: 0),
-            child: DiscuzIcon(
+          const Padding(
+            padding: const EdgeInsets.only(top: 1, right: 10, left: 0),
+            child: const DiscuzIcon(
               SFSymbols.money_yen_circle_fill,
               color: Colors.redAccent,
               size: 20,
@@ -106,11 +106,12 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
       /// 增加心形状 图标
       likedUsersWidgets.insert(
           0,
-          Padding(
-            padding: EdgeInsets.only(top: 1, right: 10, left: 0),
-            child: DiscuzIcon(
+          const Padding(
+            padding: const EdgeInsets.only(top: 1, right: 10, left: 0),
+            child: const DiscuzIcon(
               SFSymbols.suit_heart_fill,
               size: 20,
+              color: Colors.pinkAccent,
             ),
           ));
     }

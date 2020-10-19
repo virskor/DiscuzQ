@@ -22,7 +22,11 @@ class ForumAddButton extends StatefulWidget {
   /// 图标颜色永远渲染白色
   final bool awalysDark;
 
-  const ForumAddButton({Key key, this.awalysDark = false}) : super(key: key);
+  final EdgeInsetsGeometry padding;
+
+  const ForumAddButton({Key key, this.awalysDark = false, this.padding}) : super(key: key);
+
+
   @override
   _ForumAddButtonState createState() => _ForumAddButtonState();
 }
@@ -49,6 +53,7 @@ class _ForumAddButtonState extends State<ForumAddButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      padding: widget.padding ?? const EdgeInsets.all(8.0),
       icon: DiscuzIcon(
         SFSymbols.plus,
         color: widget.awalysDark
