@@ -1,17 +1,18 @@
 import 'dart:typed_data';
-import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/utils/permissionHepler.dart';
 import 'package:discuzq/widgets/common/discuzContextMenu.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/share/shareNative.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 
 class DiscuzImage extends StatefulWidget {
   ///

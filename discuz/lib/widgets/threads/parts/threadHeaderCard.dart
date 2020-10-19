@@ -1,3 +1,4 @@
+import 'package:discuzq/widgets/common/discuzChip.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/common/discuzAvatar.dart';
@@ -83,10 +84,8 @@ class ThreadHeaderCard extends StatelessWidget {
 
           /// isSticky
           thread.attributes.isSticky
-              ? const DiscuzIcon(
-                  0xe70f,
-                  size: 20,
-                  withOpacity: true,
+              ? const DiscuzChip(
+                  label: '顶置',
                 )
               : const SizedBox(),
 
@@ -96,10 +95,9 @@ class ThreadHeaderCard extends StatelessWidget {
                   padding: const EdgeInsets.only(
                     left: 2,
                   ),
-                  child: const DiscuzIcon(
-                    0xe60e,
-                    size: 22,
-                    withOpacity: true,
+                  child: const DiscuzChip(
+                    label: '精华',
+                    color: Colors.pink,
                   ))
               : const SizedBox(),
         ],
