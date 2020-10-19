@@ -13,17 +13,17 @@ class DiscuzIcon extends StatelessWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Icon(
-      icon.runtimeType == int ? IconData(icon, fontFamily: 'iconfont') : icon,
-      size: size,
-      color: _iconColor(context),
-    );
-  }
+  Widget build(BuildContext context) => Icon(
+        icon.runtimeType == int ? IconData(icon, fontFamily: 'iconfont') : icon,
+        size: size,
+        color: _iconColor(context),
+      );
 
-  Color _iconColor(BuildContext context){
+  ///
+  /// 图标颜色
+  Color _iconColor(BuildContext context) {
     final Color iconColor = color ?? DiscuzApp.themeOf(context).textColor;
-    if(withOpacity){
+    if (withOpacity) {
       return iconColor.withOpacity(.73);
     }
     return iconColor;

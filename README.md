@@ -98,7 +98,7 @@ targetSdkVersion 29
 ```
 你可以使用命令行开启调试，如果你使用android studio，你可以直接运行。  
 不过在此之前值得说明的是，如果你的网络不能正常快速访问一些技术类网站，建议你使用pub国内源，你可以搜索找到配置的方式。  
-请使用最新版的Flutter，即Flutter v1.17 +
+请使用最新版的Flutter，即Flutter v1.22 +
 ```sh
 cd ./discuz
 flutter run
