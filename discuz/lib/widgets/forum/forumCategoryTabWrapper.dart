@@ -7,7 +7,7 @@ import 'package:discuzq/views/searchAndExplore/appSearchDelegate.dart';
 import 'package:discuzq/widgets/search/searchActionButton.dart';
 
 class ForumCategoryTabWrapper extends StatelessWidget {
-  ForumCategoryTabWrapper({Key key, this.tabBar});
+  const ForumCategoryTabWrapper({Key key, this.tabBar});
 
   /// child tab
   final TabBar tabBar;
@@ -23,19 +23,27 @@ class ForumCategoryTabWrapper extends StatelessWidget {
                   : DiscuzApp.themeOf(context).primaryColor),
           child: Stack(
             children: <Widget>[
-              SafeArea(top: true, bottom: false, child: tabBar),
+              SafeArea(
+                  top: true,
+                  bottom: false,
+                  child: Padding(
+                      padding: const EdgeInsets.only(right: 50),
+                      child: tabBar)),
               Positioned(
                 right: 0,
-                child: _actionButtons,
+                child: _actionButtons(state: state, context: context),
               )
             ],
           )));
 
-  Widget get _actionButtons => Container(
+  ///
+  /// 分类
+  Widget _actionButtons({AppState state, BuildContext context}) => Container(
         alignment: Alignment.bottomCenter,
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(.4),
-        ),
+            color: state.appConf['darkTheme']
+                ? DiscuzApp.themeOf(context).scaffoldBackgroundColor
+                : DiscuzApp.themeOf(context).primaryColor),
         child: SafeArea(
           top: true,
           bottom: false,
