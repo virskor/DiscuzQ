@@ -127,6 +127,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   static const List<Widget> _views = [
     const ForumDelegate(),
     const AppSearchDelegate(),
+    const SizedBox(), /// 发布按钮占位
     const NotificationsDelegate(),
     const AccountDelegate()
   ];
@@ -135,6 +136,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   final List<NavigatorItem> _items = [
     const NavigatorItem(icon: 0xe63e),
     const NavigatorItem(icon: 0xe605, shouldLogin: true),
+    const NavigatorItem(isPublishButton: true),
     const NavigatorItem(icon: 0xe677, shouldLogin: true),
     const NavigatorItem(icon: 0xe7c7, size: 23, shouldLogin: true)
   ];

@@ -7,8 +7,11 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/widgets/forum/forumAddButton.dart';
 
 const double _kBottomNavigationElevation = 15;
+
+const double _kPublishButtonSize = 35;
 
 class DiscuzBottomNavigator extends StatefulWidget {
   final ValueChanged<int> onItemSelected;
@@ -58,7 +61,12 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
   Widget _buildItems({AppState state}) => Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: widget.items.map<Widget>((it) {
+        if (it.isPublishButton) {
+          return const _PublishButton();
+        }
+
         final int index = widget.items.indexOf(it);
+
         return IconButton(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -87,6 +95,24 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
       }).toList());
 }
 
+class _PublishButton extends StatelessWidget {
+  const _PublishButton();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: _kPublishButtonSize,
+        height: _kPublishButtonSize,
+        margin: EdgeInsets.only(top: 4),
+        decoration: BoxDecoration(
+            color: DiscuzApp.themeOf(context).primaryColor,
+            borderRadius: const BorderRadius.all(const Radius.circular(60))),
+        child: const ForumAddButton(
+          padding: const EdgeInsets.all(0),
+          awalysDark: true,
+        ),
+      );
+}
+
 class NavigatorItem {
   /// 图标
   final dynamic icon;
@@ -100,6 +126,13 @@ class NavigatorItem {
   /// 图标大小
   final double size;
 
+  /// 是否是发布按钮
+  final bool isPublishButton;
+
   const NavigatorItem(
-      {this.icon, this.color, this.shouldLogin = false, this.size = 25.0});
+      {this.icon,
+      this.color,
+      this.shouldLogin = false,
+      this.size = 25.0,
+      this.isPublishButton = false});
 }

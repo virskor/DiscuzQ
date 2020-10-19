@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/views/searchAndExplore/searchSuggestion.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
-import 'package:discuzq/views/searchAndExplore/searchUserDelegate.dart';
-import 'package:discuzq/views/searchAndExplore/searchThreadDelegate.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/topics/topicsList.dart';
 import 'package:discuzq/widgets/topics/topicListBar.dart';
 import 'package:discuzq/widgets/topics/topicSortTypes.dart';
@@ -46,7 +41,6 @@ class _AppSearchDelegateState extends State<AppSearchDelegate>
     return Scaffold(
       appBar: DiscuzAppBar(
         title: '发现与话题',
-        actions: <Widget>[..._actions],
         brightness: Brightness.light,
       ),
       body: Column(
@@ -72,119 +66,5 @@ class _AppSearchDelegateState extends State<AppSearchDelegate>
         ],
       ),
     );
-  }
-
-  ///
-  /// search Icon Button
-  List<Widget> get _actions => [
-        const _DiscuzAppSearchActionButton(
-          type: DiscuzAppSearchType.thread,
-          caption: '搜主题',
-        ),
-        const _DiscuzAppSearchActionButton(
-          type: DiscuzAppSearchType.user,
-          caption: '搜用户',
-        ),
-      ];
-}
-
-class _DiscuzAppSearchActionButton extends StatelessWidget {
-  const _DiscuzAppSearchActionButton(
-      {this.type = DiscuzAppSearchType.thread, this.caption = '搜主题'});
-
-  final DiscuzAppSearchType type;
-
-  final String caption;
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        child: Container(
-          margin: const EdgeInsets.only(right: 5, top: 10, bottom: 10),
-          constraints: BoxConstraints(maxHeight: 45),
-          alignment: Alignment.centerRight,
-          decoration: const BoxDecoration(
-              color: const Color(0xF000000),
-              borderRadius: const BorderRadius.all(Radius.circular(30))),
-          child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                children: <Widget>[
-                  DiscuzText(
-                    caption,
-                  ),
-                ],
-              )),
-        ),
-        onTap: () => showSearch(
-            context: context, delegate: _DiscuzAppSearchDelegate(type: type)),
-      );
-}
-
-class _DiscuzAppSearchDelegate extends SearchDelegate<String> {
-  _DiscuzAppSearchDelegate({this.type = DiscuzAppSearchType.thread});
-
-  final DiscuzAppSearchType type;
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    ///显示在最右边的控件列表
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = "";
-
-          ///搜索建议的内容
-          this.showSuggestions(context);
-        },
-      ),
-      IconButton(
-        icon: Icon(Icons.search),
-        onPressed: () {
-          this.showResults(context);
-        },
-      )
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) => IconButton(
-        icon: AnimatedIcon(
-            icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
-        onPressed: () {
-          close(context, null);
-        },
-      );
-
-  @override
-  String searchFieldLabel = '输入关键字来继续';
-
-  @override
-  Widget buildResults(BuildContext context) {
-    if (type == DiscuzAppSearchType.user) {
-      return SizedBox.expand(
-          child: SearchUserDelegate(
-        keyword: this.query,
-      ));
-    }
-
-    if (type == DiscuzAppSearchType.thread) {
-      return SizedBox.expand(
-          child: SearchThreadDelegate(
-        keyword: this.query,
-      ));
-    }
-
-    return Center(
-      child: Text('暂不支持'),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) => const SearchSuggestion();
-
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    return ThemeData(primaryColor: DiscuzApp.themeOf(context).primaryColor);
   }
 }

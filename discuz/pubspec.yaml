@@ -48,7 +48,7 @@ dependencies:
   yaml: ^2.2.1
   flutter_inappwebview: ^4.0.0+4
   video_player: ^0.10.10
-  modal_bottom_sheet: ^0.2.0+1
+  modal_bottom_sheet: ^0.2.2
   flutter_markdown: ^0.4.2
   sentry: 3.0.1
   webview_flutter: ^1.0.3
