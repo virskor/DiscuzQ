@@ -81,7 +81,7 @@ production:
   enableHttp2: false
   onBadCertificate: true 
   http2idleTimeout: 15000
-  financial: false 
+  financial: true 
   # Appkey for Android devices
   umengAndroidAppkey: 5eb7ab6f895cca574f00009e
   # Appkey for Apple IOS devices
