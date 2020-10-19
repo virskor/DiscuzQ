@@ -79,7 +79,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
     /// 加载数据
     ///
     Future.delayed(Duration(milliseconds: 450))
-        .then((_) async => await _requestData(pageNumber: 1));
+        .then((_) async => await _requestData(pageNumber: 1, context: context));
   }
 
   @override
@@ -121,14 +121,14 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
         // header: WaterDropHeader(),
         controller: _controller,
         onRefresh: () async {
-          await _requestData(pageNumber: 1);
+          await _requestData(pageNumber: 1, context: context);
           _controller.refreshCompleted();
         },
         onLoading: () async {
           if (_loading) {
             return;
           }
-          await _requestData(pageNumber: _pageNumber + 1);
+          await _requestData(pageNumber: _pageNumber + 1, context: context);
           _controller.loadComplete();
         },
         child: _buildUsersList(state: state),
@@ -147,9 +147,10 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
       );
     }
 
-    if (_users.length == 0) {
+    if (_users.length == 0 || _userFollows.length == 0) {
       return const DiscuzNoMoreData();
     }
+
     return ListView.builder(
         itemCount: _userFollows.length,
         itemBuilder: (context, index) {
@@ -182,8 +183,11 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
 
   ///
   /// 是否允许加载更多
-  bool get _enablePullUp =>
-      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+  bool get _enablePullUp => _meta == null
+      ? false
+      : _meta.pageCount > _pageNumber
+          ? true
+          : false;
 
   ///
   /// 查找关注我的用户
@@ -198,43 +202,50 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
       _loading = true;
     });
 
-    List<String> includes = [
-      widget.isToUser ? RequestIncludes.toUser : RequestIncludes.fromUser,
-    ];
-
-    final dynamic data = {
-      "filter[type]": widget.isToUser ? 1 : 2,
-      "page[limit]": Global.requestPageLimit,
-      "page[number]": pageNumber ?? _pageNumber,
-      "filter[username]": _username,
-      "include": RequestIncludes.toGetRequestQueries(includes: includes),
-    };
-
-    Response resp = await Request(context: context)
-        .getUrl(url: Urls.follow, queryParameters: data);
-
-    final List<dynamic> usersData = resp.data['included'] ?? [];
-    final List<dynamic> userFollowsData = resp.data['data'] ?? [];
-
     try {
+      final AppState state =
+          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
+
+      List<String> includes = [
+        widget.isToUser ? RequestIncludes.toUser : RequestIncludes.fromUser,
+        widget.isToUser
+            ? RequestIncludes.toUserGroups
+            : RequestIncludes.fromUserGroups,
+      ];
+
+      final dynamic data = {
+        "filter[type]": widget.isToUser ? 1 : 2,
+        "page[limit]": Global.requestPageLimit,
+        "page[number]": pageNumber ?? _pageNumber,
+        "filter[username]": _username,
+        "filter[user_id]": state.user.id ?? 0,
+        "include": RequestIncludes.toGetRequestQueries(includes: includes),
+      };
+
+      Response resp = await Request(context: context)
+          .getUrl(url: Urls.follow, queryParameters: data);
+
+      final List<dynamic> usersData = resp.data['included'] ?? [];
+      final List<dynamic> userFollowsData = resp.data['data'] ?? [];
+
       _users = usersData
           .where((u) => u['type'] == 'users')
           .map((p) => UserModel.fromMap(maps: p))
           .toList();
       _userFollows = userFollowsData
-          .where((uf) => uf['type'] == 'user_follow')
+          .where((uf) => uf['type'] == 'follow')
           .map((p) => UserFollowModel.fromMap(maps: p))
           .toList();
+
+      setState(() {
+        _loading = false;
+        _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+
+        /// pageNumber 在onload传入时已经自动加1
+        _meta = MetaModel.fromMap(maps: resp.data['meta']);
+      });
     } catch (e) {
       throw e;
     }
-
-    setState(() {
-      _loading = false;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
-
-      /// pageNumber 在onload传入时已经自动加1
-      _meta = MetaModel.fromMap(maps: resp.data['meta']);
-    });
   }
 }
