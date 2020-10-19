@@ -323,6 +323,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                           originalImageUrls.insert(0, a.attributes.url);
                           return DiscuzRoute.open(
                               context: context,
+                              fullscreenDialog: true,
                               widget: DiscuzGalleryDelegate(
                                   gallery: originalImageUrls));
                         }),

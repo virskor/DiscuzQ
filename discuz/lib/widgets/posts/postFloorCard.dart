@@ -155,6 +155,7 @@ class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveCl
                           originalImageUrls.insert(0, a.attributes.url);
                           return DiscuzRoute.open(
                               context: context,
+                              fullscreenDialog: true,
                               widget: DiscuzGalleryDelegate(
                                   gallery: originalImageUrls));
                         }),

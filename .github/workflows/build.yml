@@ -70,7 +70,7 @@ jobs:
         cd Discuz-Q-APP/discuz
         echo "current path: "`pwd`
         flutter pub get
-        flutter build apk
+        flutter build apk --no-tree-shake-icons
         df -lh
         ls -lha
         ls -lha build
