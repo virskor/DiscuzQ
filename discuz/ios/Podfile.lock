@@ -76,18 +76,18 @@ PODS:
   - libwebp/mux (1.1.0):
     - libwebp/demux
   - libwebp/webp (1.1.0)
-  - Mantle (2.1.1):
-    - Mantle/extobjc (= 2.1.1)
-  - Mantle/extobjc (2.1.1)
+  - Mantle (2.1.6):
+    - Mantle/extobjc (= 2.1.6)
+  - Mantle/extobjc (2.1.6)
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
     - Flutter
   - "permission_handler (4.4.0+hotfix.4)":
     - Flutter
-  - SDWebImage (5.8.3):
-    - SDWebImage/Core (= 5.8.3)
-  - SDWebImage/Core (5.8.3)
+  - SDWebImage (5.9.3):
+    - SDWebImage/Core (= 5.9.3)
+  - SDWebImage/Core (5.9.3)
   - SDWebImageWebPCoder (0.6.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.7)
@@ -100,7 +100,7 @@ PODS:
     - FMDB (~> 2.7.2)
   - SVProgressHUD (2.2.5)
   - SwiftyGif (5.3.0)
-  - TOCropViewController (2.5.3)
+  - TOCropViewController (2.5.5)
   - url_launcher (0.0.1):
     - Flutter
   - video_player (0.0.1):
@@ -222,18 +222,18 @@ SPEC CHECKSUMS:
   image_gallery_saver: 73b3cd8ad9c950c739878af9c311744d1bf5405d
   image_picker: 66aa71bc96850a90590a35d4c4a2907b0d823109
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
-  Mantle: 35238ae6f2e2b2d474fa7b67fee82a59fea71915
+  Mantle: 4c0ed6ce47c96eccc4dc3bb071deb3def0e2c3be
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   permission_handler: 8278954f2382902f63f00dd8828769c0bd6d511b
-  SDWebImage: 112503ec94a5a2a41869503844a15e8d8f1ead5c
+  SDWebImage: a31ee8e90a97303529e03fb0c333eae0eacb88e9
   SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyGif: e466e86c660d343357ab944a819a101c4127cb40
-  TOCropViewController: 20a14b6a7a098308bf369e7c8d700dc983a974e6
+  TOCropViewController: da59f531f8ac8a94ef6d6c0fc34009350f9e8bfe
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   wakelock: 0d4a70faf8950410735e3f61fb15d517c8a6efc4

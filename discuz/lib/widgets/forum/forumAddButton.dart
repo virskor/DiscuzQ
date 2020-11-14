@@ -70,7 +70,7 @@ class _ForumAddButtonState extends State<ForumAddButton> {
   Future<bool> _showPop() => showMaterialModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (BuildContext context, _) => const Material(
+      builder: (BuildContext context) => const Material(
           color: Colors.transparent, child: const _ForumCreateThreadDialog()));
 }
 

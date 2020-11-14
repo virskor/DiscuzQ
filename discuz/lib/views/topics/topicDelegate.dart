@@ -6,7 +6,7 @@ import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/models/topicModel.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/widgets/threads/theadsList.dart';
-import 'package:discuzq/api/topicsAPI.dart';
+import 'package:discuzq/api/topics.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';

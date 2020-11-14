@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/api/usersAPI.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/userModel.dart';
@@ -10,6 +9,7 @@ import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
+import 'package:discuzq/api/users.dart';
 
 ///
 /// 关注用户

@@ -7,7 +7,7 @@ import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/models/userFollowModel.dart';
-import 'package:discuzq/api/usersAPI.dart';
+import 'package:discuzq/api/users.dart';
 
 class UserFollowListTile extends StatefulWidget {
   ///

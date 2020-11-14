@@ -1,4 +1,3 @@
-import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
@@ -10,8 +9,8 @@ import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
 import 'package:discuzq/widgets/settings/clearCache.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/buildInfo.dart';
-import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/webview/webviewHelper.dart';
+import 'package:discuzq/utils/global.dart';
 
 class PreferencesDelegate extends StatefulWidget {
   const PreferencesDelegate({Key key}) : super(key: key);
@@ -95,11 +94,6 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                 SettingGroupWrapper(
                   label: '信息',
                   children: <Widget>[
-                    SettingTile(
-                        icon: SFSymbols.upload_circle,
-                        label: '历史版本记录',
-                        onPressed: () =>
-                            WebviewHelper.launchUrl(url: Urls.changelog)),
                     SettingTile(
                         icon: SFSymbols.info_circle,
                         label: '关于APP',

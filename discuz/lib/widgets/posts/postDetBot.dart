@@ -1,8 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/api/threadsAPI.dart';
-import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/reports/reportsDelegate.dart';
-import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/threadModel.dart';
@@ -14,6 +10,10 @@ import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/api/threads.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/reports/reportsDelegate.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
 
 class PostDetBot extends StatefulWidget {
   ///

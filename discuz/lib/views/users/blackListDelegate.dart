@@ -6,7 +6,7 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/api/blackListAPI.dart';
+import 'package:discuzq/api/blackList.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzAvatar.dart';

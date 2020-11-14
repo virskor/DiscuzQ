@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:discuzq/models/qCloudModel.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/setSiteModel.dart';
 import 'package:discuzq/models/siteRegModel.dart';
+import 'package:discuzq/models/agreementsModel.dart';
+import 'package:discuzq/models/qCloudModel.dart';
 
 ///
 /// 站点信息
@@ -55,9 +56,14 @@ class ForumAttributesModel {
   /// qcloud
   final QCloudModel qcloud;
 
+  /// 条款
+  /// agreement
+  final AgreementsModel agreements;
+
   const ForumAttributesModel(
       {this.setSite = const SetSiteModel(),
       this.siteReg = const SiteRegModel(),
+      this.agreements = const AgreementsModel(),
       this.qcloud = const QCloudModel()});
 
   ///
@@ -83,6 +89,7 @@ class ForumAttributesModel {
       setSite: SetSiteModel.fromMap(maps: data['set_site'] ?? null),
       siteReg: SiteRegModel.fromMap(maps: data['set_reg'] ?? null),
       qcloud: QCloudModel.fromMap(maps: data['qcloud'] ?? null),
+      agreements: AgreementsModel.fromMap(maps: data['agreement'] ?? null)
     );
   }
 }

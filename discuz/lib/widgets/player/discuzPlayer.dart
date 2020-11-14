@@ -12,7 +12,7 @@ import 'package:discuzq/widgets/threads/payments/threadRequiredPayments.dart';
 import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
-import 'package:discuzq/api/videoAPI.dart';
+import 'package:discuzq/api/videos.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
