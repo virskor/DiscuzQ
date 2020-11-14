@@ -40,7 +40,7 @@ class ThreadHeaderCard extends StatelessWidget {
           ///
           /// user avatar
           GestureDetector(
-            onTap: () => DiscuzRoute.open(
+            onTap: () => DiscuzRoute.navigate(
                 context: context,
                 shouldLogin: true,
                 widget: UserHomeDelegate(

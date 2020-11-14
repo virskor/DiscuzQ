@@ -130,7 +130,7 @@ class _TopicCardState extends State<TopicCard>
                 )
               ],
             )),
-        onTap: () => DiscuzRoute.open(
+        onTap: () => DiscuzRoute.navigate(
           context: context,
           widget: Builder(
               builder: (context) => TopicDelegate(

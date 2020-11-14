@@ -54,7 +54,7 @@ class DiscuzEditorHelper {
       throw e;
     }
 
-    await DiscuzRoute.open(
+    await DiscuzRoute.navigate(
         context: context,
         isModal: true,
         widget: Editor(
@@ -79,7 +79,7 @@ class DiscuzEditorHelper {
   Future<DiscuzEditorRequestResult> createThread(
       {CategoryModel category, DiscuzEditorInputType type}) async {
     DiscuzEditorRequestResult result;
-    await DiscuzRoute.open(
+    await DiscuzRoute.navigate(
         context: context,
         fullscreenDialog: true,
         shouldLogin: true,

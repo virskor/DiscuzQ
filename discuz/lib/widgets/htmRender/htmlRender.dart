@@ -58,7 +58,7 @@ class _HtmlRenderState extends State<HtmlRender>
         /// onTapSharpUrl 点击话题
         onTapSharpUrl: (int topicID) => topicID == 0
             ? () => false
-            : DiscuzRoute.open(
+            : DiscuzRoute.navigate(
                 context: context,
                 widget: TopicDelegate(
                   topicID: topicID,

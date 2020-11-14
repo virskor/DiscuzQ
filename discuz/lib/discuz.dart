@@ -1,8 +1,10 @@
+import 'package:discuzq/router/routers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:fluro/fluro.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/buildInfo.dart';
@@ -25,6 +27,12 @@ class Discuz extends StatefulWidget {
 }
 
 class _DiscuzState extends State<Discuz> {
+  _DiscuzState() {
+    final router = FluroRouter();
+    Routers.configureRoutes(router);
+    Routers.router = router;
+  }
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -82,17 +90,22 @@ class _DiscuzState extends State<Discuz> {
                       MaterialWithModalsPageRoute(
                           builder: (_) => Builder(
 
-                              /// 不在 MaterialApp 使用theme属性
-                              /// 这里rebuild的时候会有问题，所以使用Theme去包裹
-                              /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
-                              /// 这样会造成黑暗模式切换时有问题
-                              builder: (BuildContext context) => MediaQuery(
-                                    data: MediaQuery.of(context).copyWith(
-                                        boldText: false,
-                                        textScaleFactor:
-                                            state.appConf['fontWidthFactor']),
-                                    child: const _DiscuzAppDelegate(),
-                                  )),
+                                  /// 不在 MaterialApp 使用theme属性
+                                  /// 这里rebuild的时候会有问题，所以使用Theme去包裹
+                                  /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
+                                  /// 这样会造成黑暗模式切换时有问题
+                                  /// https://github.com/lukepighetti/fluro/blob/master/example/lib/components/app/app_component.dart
+                                  builder: (BuildContext context) {
+                                /// 初始化Fluro路由
+                                Routers.router.generator(settings);
+
+                                /// 首屏应用
+                                return MediaQuery(
+                                  data: MediaQuery.of(context).copyWith(
+                                      boldText: false, textScaleFactor: 1),
+                                  child: const _DiscuzAppDelegate(),
+                                );
+                              }),
                           settings: settings)));
         });
   }
@@ -202,7 +215,6 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
 
   /// 创建网络错误提示组件，尽在加载失败的时候提示
   Widget _buildAppElement(AppState state) {
-
     /// 站点关闭时提醒用户
 
     return _loaded && state.forum == null

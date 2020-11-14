@@ -126,7 +126,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
             label: '没有账号，立即注册',
             labelColor: DiscuzApp.themeOf(context).primaryColor,
             color: Colors.transparent,
-            onPressed: () => DiscuzRoute.open(
+            onPressed: () => DiscuzRoute.navigate(
                 context: context, widget: const RegisterDelegate()),
           ),
 

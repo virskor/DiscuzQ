@@ -1,5 +1,7 @@
+import 'package:discuzq/router/routers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluro/fluro.dart';
 
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/states/scopedState.dart';
@@ -8,18 +10,13 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DiscuzRoute {
-  static Future<bool> open({
+  static Future<bool> navigate({
     @required BuildContext context,
 
     ///
     /// fullscreenDialog
     /// 是否以对话框方式弹出
     bool fullscreenDialog = false,
-
-    ///
-    /// maintainState
-    /// maintainState 去除后，会防止widget tree重构，但既然不重构，那么一些页面的状态也将丢失，所以慎用
-    bool maintainState = true,
 
     ///
     /// shouldLogin
@@ -29,7 +26,13 @@ class DiscuzRoute {
     ///
     /// PresentModal
     bool isModal = false,
-    @required Widget widget,
+
+    /// Path
+    /// 使用Fluro路由时，传入Path
+    final String path,
+
+    /// 要加载的widget，当传入的path为空时生效
+    Widget widget,
   }) async {
     ///
     /// 有的页面可能需要登录后才能查看
@@ -48,13 +51,23 @@ class DiscuzRoute {
       }
     }
 
+    if (path != null) {
+      /// 路由过度效果，默认使用native
+      TransitionType transition = TransitionType.native;
+
+      if (fullscreenDialog) {
+        transition = TransitionType.cupertinoFullScreenDialog;
+      }
+
+      return Routers.router.navigateTo(context, path, transition: transition);
+    }
+
     if (isModal) {
       return showCupertinoModalBottomSheet(
           expand: true,
           backgroundColor: Colors.transparent,
           context: context,
-          builder: (BuildContext context) =>
-              Theme(
+          builder: (BuildContext context) => Theme(
                 data: Theme.of(context).copyWith(
                     // This makes the visual density adapt to the platform that you run
                     // the app on. For desktop platforms, the controls will be smaller and
@@ -74,7 +87,6 @@ class DiscuzRoute {
     }
 
     return Navigator.of(context).push(CupertinoPageRoute(
-        maintainState: maintainState,
         fullscreenDialog: fullscreenDialog,
         builder: (_) => Theme(
             data: Theme.of(context).copyWith(

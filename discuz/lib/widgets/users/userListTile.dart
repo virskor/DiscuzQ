@@ -35,7 +35,7 @@ class UserListTile extends StatelessWidget {
               user.attributes.username,
               fontWeight: FontWeight.bold,
             ),
-            onTap: () => DiscuzRoute.open(
+            onTap: () => DiscuzRoute.navigate(
                 context: context,
                 widget: UserHomeDelegate(
                   user: user,

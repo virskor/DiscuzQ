@@ -69,7 +69,7 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                         return false;
                       }
 
-                      return DiscuzRoute.open(
+                      return DiscuzRoute.navigate(
                           context: context,
                           fullscreenDialog: true,
                           shouldLogin: true,
@@ -80,7 +80,7 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                   ),
                   DiscuzListTile(
                     title: const DiscuzText('个性签名'),
-                    onTap: () => DiscuzRoute.open(
+                    onTap: () => DiscuzRoute.navigate(
                         context: context,
                         fullscreenDialog: true,
                         shouldLogin: true,
@@ -90,7 +90,7 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                   ),
                   DiscuzListTile(
                     title: const DiscuzText('修改密码'),
-                    onTap: () => DiscuzRoute.open(
+                    onTap: () => DiscuzRoute.navigate(
                         context: context,
                         fullscreenDialog: true,
                         shouldLogin: true,

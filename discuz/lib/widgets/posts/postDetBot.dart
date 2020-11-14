@@ -76,7 +76,7 @@ class _PostDetBotState extends State<PostDetBot> {
             children: <Widget>[
               DiscuzLink(
                   label: '举报',
-                  onTap: () => DiscuzRoute.open(
+                  onTap: () => DiscuzRoute.navigate(
                         context: context,
                         shouldLogin: true,
                         fullscreenDialog: true,

@@ -50,7 +50,7 @@ class _UserAccountBannerState extends State<UserAccountBanner> {
               ],
             ),
           ),
-          onTap: () => DiscuzRoute.open(
+          onTap: () => DiscuzRoute.navigate(
               context: context,
               shouldLogin: true,
               widget: UserHomeDelegate(

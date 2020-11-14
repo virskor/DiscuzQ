@@ -105,7 +105,7 @@ class _ThreadCardState extends State<ThreadCard>
         builder: (context, child, state) => RepaintBoundary(
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => DiscuzRoute.open(
+                onTap: () => DiscuzRoute.navigate(
                     context: context,
                     widget: ThreadDetailDelegate(
                       author: _author,
@@ -173,7 +173,7 @@ class _ThreadCardState extends State<ThreadCard>
   //         ],
   //       ),
   //     ),
-  //     onTap: () => DiscuzRoute.open(
+  //     onTap: () => DiscuzRoute.navigate(
   //         context: context,
   //         shouldLogin: true,
   //         widget: ThreadDetailDelegate(
@@ -269,7 +269,7 @@ class _ThreadCardState extends State<ThreadCard>
           ? <Widget>[]
           : <Widget>[
               GestureDetector(
-                onTap: () => DiscuzRoute.open(
+                onTap: () => DiscuzRoute.navigate(
                     context: context,
                     shouldLogin: true,
                     widget: ThreadDetailDelegate(

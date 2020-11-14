@@ -24,7 +24,7 @@ class WebviewHelper {
           String title = '浏览',
           bool isInteract = true,
           bool shouldLogin = false}) =>
-      DiscuzRoute.open(
+      DiscuzRoute.navigate(
           context: context,
           shouldLogin: shouldLogin,
           widget: DiscuzWebview(

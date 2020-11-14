@@ -21,7 +21,7 @@ class PrivacyBar extends StatelessWidget {
             ),
             DiscuzLink(
               label: '隐私协议',
-              onTap: () => DiscuzRoute.open(
+              onTap: () => DiscuzRoute.navigate(
                   context: context,
                   widget: const PrivaciesDelegate(
                     isPrivacy: true,
@@ -30,7 +30,7 @@ class PrivacyBar extends StatelessWidget {
             const DiscuzText('和'),
             DiscuzLink(
               label: '用户协议',
-              onTap: () => DiscuzRoute.open(
+              onTap: () => DiscuzRoute.navigate(
                   context: context,
                   widget: const PrivaciesDelegate(
                     isPrivacy: false,

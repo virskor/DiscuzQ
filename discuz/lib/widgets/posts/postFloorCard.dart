@@ -152,7 +152,7 @@ class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveCl
                           /// 调整数组，将targetUrl置于第一个，然后传入图集组件
                           originalImageUrls.remove(a.attributes.url);
                           originalImageUrls.insert(0, a.attributes.url);
-                          return DiscuzRoute.open(
+                          return DiscuzRoute.navigate(
                               context: context,
                               fullscreenDialog: true,
                               widget: DiscuzGalleryDelegate(
@@ -180,7 +180,7 @@ class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveCl
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           GestureDetector(
-            onTap: () => DiscuzRoute.open(
+            onTap: () => DiscuzRoute.navigate(
                 context: context,
                 shouldLogin: true,
                 widget: UserHomeDelegate(
@@ -301,7 +301,7 @@ class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveCl
               size: 22,
               color: DiscuzApp.themeOf(context).greyTextColor,
             ),
-            onPressed: () => DiscuzRoute.open(
+            onPressed: () => DiscuzRoute.navigate(
               context: context,
               shouldLogin: true,
               fullscreenDialog: true,

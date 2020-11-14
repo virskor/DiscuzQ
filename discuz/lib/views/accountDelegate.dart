@@ -1,3 +1,4 @@
+import 'package:discuzq/router/routers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -152,7 +153,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
                       : el.child == null
                           ? DiscuzToast.failed(
                               context: context, message: '暂时不支持')
-                          : DiscuzRoute.open(
+                          : DiscuzRoute.navigate(
                               context: context, widget: el.child),
                 ),
               ],
@@ -170,10 +171,10 @@ class _SettingButton extends StatelessWidget {
   Widget build(BuildContext context) => IconButton(
         icon: DiscuzIcon(CupertinoIcons.gear_alt,
             color: DiscuzApp.themeOf(context).textColor),
-        onPressed: () => DiscuzRoute.open(
+        onPressed: () => DiscuzRoute.navigate(
             context: context,
             fullscreenDialog: true,
-            widget: const PreferencesDelegate()),
+            path: Routers.preferences,),
       );
 }
 
