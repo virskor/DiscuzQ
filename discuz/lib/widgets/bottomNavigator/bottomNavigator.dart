@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -8,6 +9,7 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 const double _kBottomNavigationElevation = 15;
 
@@ -39,12 +41,17 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
       {@required this.onItemSelected, this.height = 40});
   @override
   Widget build(BuildContext context) {
+    final double additionalBottomPadding =
+        math.max(MediaQuery.of(context).padding.bottom - 12 / 2.0, 0.0);
+
     return ScopedStateModelDescendant<AppState>(
         rebuildOnChange: false,
         builder: (context, child, state) => Material(
               elevation: _kBottomNavigationElevation,
               child: Container(
-                constraints: const BoxConstraints(maxHeight: 75),
+                constraints: BoxConstraints(
+                    maxHeight:
+                        kBottomNavigationBarHeight + additionalBottomPadding),
                 padding: EdgeInsets.only(
                     left: 20,
                     right: 20,
@@ -67,17 +74,28 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
 
         final int index = widget.items.indexOf(it);
 
-        return IconButton(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          icon: DiscuzIcon(
-            it.icon,
-            size: it.size,
-            color: selectedIndex == index
-                ? Theme.of(context).primaryColor
-                : const Color(0xFF657786),
+        return GestureDetector(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DiscuzIcon(
+                it.icon,
+                size: it.size,
+                color: selectedIndex == index
+                    ? Theme.of(context).primaryColor
+                    :const Color(0xFF657786),
+              ),
+              DiscuzText(
+                it.title,
+                color: selectedIndex == index
+                    ? Theme.of(context).primaryColor
+                    :const Color(0xFF657786),
+                    fontSize: DiscuzApp.themeOf(context).smallTextSize,
+              )
+            ],
           ),
-          onPressed: () async {
+          onTap: () async {
             if (it.shouldLogin == true) {
               bool success = await AuthHelper.requsetShouldLogin(
                   context: context, state: state);
@@ -126,6 +144,9 @@ class NavigatorItem {
   /// 图标大小
   final double size;
 
+  /// 图标大小
+  final String title;
+
   /// 是否是发布按钮
   final bool isPublishButton;
 
@@ -134,5 +155,6 @@ class NavigatorItem {
       this.color,
       this.shouldLogin = false,
       this.size = 25.0,
+      this.title = "",
       this.isPublishButton = false});
 }
