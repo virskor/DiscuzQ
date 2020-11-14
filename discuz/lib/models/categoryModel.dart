@@ -136,8 +136,8 @@ class CategoryModelAttributes {
       this.updatedAt = "",
       this.ip = "",
       this.canCreateThread = false,
-      this.canReplyThread = false,
-      this.canViewThreads = false,
+      this.canReplyThread = true,
+      this.canViewThreads = true,
       this.property = 0});
 
   ///
@@ -169,8 +169,8 @@ class CategoryModelAttributes {
         createdAt: data['created_at'] ?? '',
         updatedAt: data['updated_at'] ?? '',
         canCreateThread: data['canCreateThread'] ?? false,
-        canReplyThread: data['canReplyThread'] ?? false,
-        canViewThreads: data['canViewThreads'] ?? false,
+        canReplyThread: data['canReplyThread'] ?? true,
+        canViewThreads: data['canViewThreads'] ?? true,
         ip: data['ip'] ?? '');
   }
 }

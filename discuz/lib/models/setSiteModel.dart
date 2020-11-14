@@ -19,11 +19,6 @@ class SetSiteModel {
   final String siteMode;
 
   ///
-  /// site_close
-  /// 站点是否关闭
-  final bool siteClose;
-
-  ///
   /// site_logo
   /// 站点LOGO Url
   final String siteLogo;
@@ -94,7 +89,6 @@ class SetSiteModel {
       this.siteICP = '',
       this.siteStat = '',
       this.siteInstall = '',
-      this.siteClose = false,
       this.siteMode = 'public'});
 
   ///
@@ -127,7 +121,6 @@ class SetSiteModel {
         siteICP: data['site_icp'] ?? '',
         siteStat: data['site_stat'] ?? '',
         siteInstall: data['site_install'] ?? '',
-        siteClose: data['site_close'] ?? '',
         siteMode: data['site_mode'] ?? '',
         siteMasterScale: double.tryParse(data['site_master_scale'] ?? '0.00'),
         siteAuthorScale: double.tryParse(data['site_author_scale'] ?? '0.00'));
