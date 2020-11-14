@@ -127,18 +127,20 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   static const List<Widget> _views = [
     const ForumDelegate(),
     const AppSearchDelegate(),
-    const SizedBox(), /// 发布按钮占位
+    const SizedBox(),
+
+    /// 发布按钮占位
     const NotificationsDelegate(),
     const AccountDelegate()
   ];
 
   /// 底部按钮菜单
   final List<NavigatorItem> _items = [
-    const NavigatorItem(icon: 0xe63e),
-    const NavigatorItem(icon: 0xe605, shouldLogin: true),
+    const NavigatorItem(icon: 0xe63e, title: "首页"),
+    const NavigatorItem(icon: 0xe605, title: "发现", shouldLogin: true),
     const NavigatorItem(isPublishButton: true),
-    const NavigatorItem(icon: 0xe677, shouldLogin: true),
-    const NavigatorItem(icon: 0xe7c7, size: 23, shouldLogin: true)
+    const NavigatorItem(icon: 0xe677, title: "消息", shouldLogin: true),
+    const NavigatorItem(icon: 0xe7c7, title: "我的", size: 23, shouldLogin: true)
   ];
 
   /// 使用global key
@@ -199,13 +201,18 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
           ));
 
   /// 创建网络错误提示组件，尽在加载失败的时候提示
-  Widget _buildAppElement(AppState state) => _loaded && state.forum == null
-      ? Center(
-          child: DiscuzNetworkError(
-            onRequestRefresh: () => _getForumData(force: true),
-          ),
-        )
-      : _views.elementAt(_selected);
+  Widget _buildAppElement(AppState state) {
+
+    /// 站点关闭时提醒用户
+
+    return _loaded && state.forum == null
+        ? Center(
+            child: DiscuzNetworkError(
+              onRequestRefresh: () => _getForumData(force: true),
+            ),
+          )
+        : _views.elementAt(_selected);
+  }
 
   /// 获取论坛启动信息
   /// force 为true时，会忽略_loaded

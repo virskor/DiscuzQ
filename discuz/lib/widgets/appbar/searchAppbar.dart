@@ -1,8 +1,8 @@
-import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 
+import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
@@ -98,7 +98,7 @@ class _SearchAppbarState extends State<SearchAppbar> {
                   color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
               child: DiscuzTextfiled(
                 controller: _controller,
-                prefixIcon: const DiscuzIcon(SFSymbols.search),
+                prefixIcon: const DiscuzIcon(CupertinoIcons.search),
                 placeHolder: widget.placeholder,
                 borderColor: Colors.transparent,
                 bottomMargin: 10,

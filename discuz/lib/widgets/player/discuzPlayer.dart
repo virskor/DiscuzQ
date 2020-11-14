@@ -1,7 +1,7 @@
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:discuzq/models/threadVideoModel.dart';
@@ -232,7 +232,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
                           color: Colors.black26,
                           child: Center(
                             child: const DiscuzIcon(
-                              SFSymbols.play_fill,
+                              CupertinoIcons.play_fill,
                               color: Colors.white,
                               size: 60.0,
                             ),

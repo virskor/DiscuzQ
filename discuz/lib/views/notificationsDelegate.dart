@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:badges/badges.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -92,7 +92,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                       _notificationsSelection(
                         item: _NotificationMenuItem(
                             label: '提及我的',
-                            icon: SFSymbols.at,
+                            icon: CupertinoIcons.at,
                             child: const NotificationListDelegate(
                                 type: NotificationTypes.related),
                             badges: _typeUnreadNotifications.replied),
@@ -104,7 +104,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                       _notificationsSelection(
                         item: _NotificationMenuItem(
                             label: '回复我的',
-                            icon: SFSymbols.bubble_left_bubble_right,
+                            icon: CupertinoIcons.bubble_left_bubble_right,
                             child: const NotificationListDelegate(
                                 type: NotificationTypes.replies),
                             badges: _typeUnreadNotifications.replied),
@@ -118,7 +118,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                           ? _notificationsSelection(
                               item: _NotificationMenuItem(
                                   label: '财务通知',
-                                  icon: SFSymbols.money_yen_circle,
+                                  icon: CupertinoIcons.money_yen_circle,
                                   child: const NotificationListDelegate(
                                       type: NotificationTypes.rewarded),
                                   badges: _typeUnreadNotifications.rewarded),
@@ -130,7 +130,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                       _notificationsSelection(
                         item: _NotificationMenuItem(
                             label: '点赞我的',
-                            icon: SFSymbols.heart,
+                            icon: CupertinoIcons.heart,
                             child: const NotificationListDelegate(
                                 type: NotificationTypes.liked),
                             badges: _typeUnreadNotifications.liked),
@@ -143,7 +143,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                             label: '系统通知',
                             child: const NotificationListDelegate(
                                 type: NotificationTypes.system),
-                            icon: SFSymbols.bell,
+                            icon: CupertinoIcons.bell,
                             badges: _typeUnreadNotifications.system),
                       )
                     ],

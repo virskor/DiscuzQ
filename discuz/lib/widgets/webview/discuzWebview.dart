@@ -35,8 +35,6 @@ class DiscuzWebview extends StatefulWidget {
 }
 
 class _DiscuzWebviewState extends State<DiscuzWebview> {
-  final Debouncer _debouncer = Debouncer();
-
   InAppWebViewController _webView;
   /*
    * loading process

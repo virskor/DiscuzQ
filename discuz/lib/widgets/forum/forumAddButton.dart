@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -55,7 +54,7 @@ class _ForumAddButtonState extends State<ForumAddButton> {
     return IconButton(
       padding: widget.padding ?? const EdgeInsets.all(8.0),
       icon: DiscuzIcon(
-        SFSymbols.plus,
+        CupertinoIcons.plus,
         color: widget.awalysDark
             ? Colors.white
             : DiscuzApp.themeOf(context).textColor,
@@ -94,17 +93,17 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
         caption: '发布主题',
         subTitle: '一些简单的想法',
         type: DiscuzEditorInputTypes.text,
-        icon: SFSymbols.pencil_ellipsis_rectangle),
+        icon: CupertinoIcons.pencil_ellipsis_rectangle),
     const _ForumCreateThreadDialogItem(
         type: DiscuzEditorInputTypes.markdown,
         caption: '发布长文',
         subTitle: '发布我的文章',
-        icon: SFSymbols.pencil_outline),
+        icon: CupertinoIcons.pencil_outline),
     // const _ForumCreateThreadDialogItem(
     //     type: DiscuzEditorInputTypes.video,
     //     caption: '发布视频',
     //     subTitle: '发布我的小视频',
-    //     icon: SFSymbols.videocam_fill),
+    //     icon: CupertinoIcons.videocam_fill),
   ];
 
   @override

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/router/route.dart';
@@ -248,7 +247,7 @@ class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveCl
               ? IconButton(
                   padding: const EdgeInsets.only(top: 2),
                   icon: DiscuzIcon(
-                    SFSymbols.trash,
+                    CupertinoIcons.trash,
                     size: 20,
                   ),
                   onPressed: () => DiscuzDialog.confirm(
@@ -298,7 +297,7 @@ class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveCl
           /// 举报按钮
           IconButton(
             icon: DiscuzIcon(
-              SFSymbols.flag,
+              CupertinoIcons.flag,
               size: 22,
               color: DiscuzApp.themeOf(context).greyTextColor,
             ),

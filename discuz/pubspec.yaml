@@ -30,7 +30,6 @@ dependencies:
   sqflite: ^1.3.0+1
   nine_grid_view: ^1.0.5
   cached_network_image: ^2.2.0+1
-  flutter_sfsymbols: ^1.0.0
   badges: ^1.1.1
   pull_to_refresh: ^1.6.2
   image_picker: ^0.6.6+1
@@ -51,6 +50,7 @@ dependencies:
   modal_bottom_sheet: ^1.0.0+1
   flutter_markdown: ^0.4.2
   sentry: 3.0.1
+  cupertino_icons: ^1.0.0
   webview_flutter: ^1.0.3
 
   # flutter
@@ -76,10 +76,6 @@ dependencies:
     path: ../packages/flutter_clipboardManager
   status_alert: 
     path: ../packages/flutter_status_alert
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.7.5
@@ -148,9 +144,6 @@ flutter:
     - assets/captcha/
     - build.yaml
   fonts:
-    - family: sficonsets
-      fonts:
-        - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
     - family: iconfont
       fonts:
         - asset: assets/fonts/iconfont.ttf

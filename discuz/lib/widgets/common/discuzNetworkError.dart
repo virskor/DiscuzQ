@@ -18,7 +18,7 @@ class DiscuzNetworkError extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Image.asset(
-              "assets/images/sad.png",
+              "assets/images/error.png",
               width: 100,
             ),
             const SizedBox(
@@ -27,7 +27,7 @@ class DiscuzNetworkError extends StatelessWidget {
             DiscuzButton(
               label: label,
               color: Colors.transparent,
-              labelColor: DiscuzApp.themeOf(context).primaryColor,
+              labelColor: DiscuzApp.themeOf(context).textColor,
               onPressed: onRequestRefresh,
             )
           ],

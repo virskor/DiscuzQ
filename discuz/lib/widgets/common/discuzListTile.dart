@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 
 /// Defines the title font used for [DiscuzListTile] descendants of a [DiscuzListTileTheme].
@@ -1489,7 +1489,7 @@ class DiscuzListTileTrailing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const DiscuzIcon(
-      SFSymbols.chevron_right,
+      CupertinoIcons.chevron_right,
       color: const Color(0xFFDEDEDE),
       size: 20,
     );

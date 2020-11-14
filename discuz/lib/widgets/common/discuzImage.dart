@@ -4,7 +4,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
@@ -82,7 +81,7 @@ class _DiscuzImageState extends State<DiscuzImage> {
       actions: <Widget>[
         DiscuzContextMenuAction(
           child: const Text('保存原图'),
-          trailingIcon: SFSymbols.tray_arrow_down,
+          trailingIcon: CupertinoIcons.tray_arrow_down,
           onPressed: () async {
             final bool havePermission =
                 await PermissionHelper.checkWithNotice(PermissionGroup.photos);
@@ -107,7 +106,7 @@ class _DiscuzImageState extends State<DiscuzImage> {
             ? const SizedBox()
             : DiscuzContextMenuAction(
                 child: const Text('分享'),
-                trailingIcon: SFSymbols.square_arrow_up,
+                trailingIcon: CupertinoIcons.square_arrow_up,
                 onPressed: () async {
                   await ShareNative.shareThread(thread: widget.thread);
                   Navigator.pop(context);

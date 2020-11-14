@@ -40,7 +40,6 @@ class ForumAPI {
       } catch (e) {
         throw e;
       }
-
       /// 返回成功
       return Future.value(true);
     } catch (e) {

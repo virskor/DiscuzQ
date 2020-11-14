@@ -99,7 +99,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
             /// 打赏
             ///
             // const _ThreadExtendBottomBarItem(
-            //     attributes: SFSymbols.money_yen_circle,
+            //     attributes: CupertinoIcons.money_yen_circle,
             //     uniqueId: _tapRewardButton),
           ];
           return Container(

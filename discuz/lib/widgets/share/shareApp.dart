@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clipboard_manager/clipboard_manager.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
@@ -56,7 +55,7 @@ class _ShareAppView extends StatelessWidget {
               DiscuzButton(
                 label: '复制邀请信息',
                 icon: const DiscuzIcon(
-                  SFSymbols.square_on_square,
+                  CupertinoIcons.square_on_square,
                   color: Colors.white,
                 ),
                 onPressed: () async {
