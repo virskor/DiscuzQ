@@ -1,33 +1,126 @@
-# 快速构建一个APP
-构建一个APP非常简单，只需要按照Flutter的编译方式来进行编译即可。但是需要注意的是，如果你之前没有过Flutter的开发经验，那么您可以参照下面的过程来完成构建。
+<p align="center">
+<img width="200px" src="./snapshots/logo.png"/> 
+<img width="160px" src="./snapshots/tencentCloud.png"/> 
+</p> 
+<p align="center">
+<a href="https://github.com/virskor/DiscuzQ/actions"><img src="https://github.com/virskor/DiscuzQ/workflows/Build%20Discuz-Q-APP/badge.svg"></a> 
+<a href="https://github.com/virskor/DiscuzQ/releases"><img src="https://badgen.net/github/release/virskor/DiscuzQ"></a> 
+<a href="https://github.com/virskor/DiscuzQ/blob/master/LICENSE"><img src="https://badgen.net/github/license/virskor/DiscuzQ"></a> 
+</p> 
+<p align="center">该项目的诞生，离不开Discuz DNSPod TencentCloud 的贡献</p>
 
-## 使用Github CI
-试试GitHub CI [奶罩大佬 提供了自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
+### 说明
+最近我没有按时更新给大家带来的不便还希望大家体谅。后续会逐渐恢复更新的，说明于2020年11月14日。
+下方虽然会有些说明，但是仅用于快速启动一个APP，对部分功能的描述和开启，请参考文档。  
+https://discuzapp.xyz  
+
+### 计划
+最近会计划恢复并完成下面的项目， ✅代表以及完成
+**用户隐私政策，协议**  
+**站点关闭提示**  
+**用户注册验证码校验支持**  
+**支持商品**  
+**使用路由**  
+**UI将与uniApp保持一致**  
+**将ScopedModels更改为Provider** 
+**微信登录**  
+**权限购买** 
+
+## About DiscuzQ Flutter  
+这是一个基于DiscuzQ 第三方开发的Flutter跨平台APP，要知道使用这些代码是免费的。但基于你取得DiscuzQ的授权。
+
+### 实现目标
+基本上和官方版本是保持一致的，只是会增加黑暗模式，主题颜色，字体大小等设置罢了。
+
+## 限制
+现在的版本还有一些限制，并且这些限制需要后续的版本中逐渐更新来解决，不意味着不会被解决。这是因为APP上架策略，或者现有的SDK暂时不能支持，需要自行封装等。  
+不支持付费模式的站点  
+不支持打赏，钱包等金融相关的功能  
+
+## 版权说明
+第三方APP，不代表Discuz团队，仅做个人学习使用。该Flutter APP将不考虑支持Web。  
+该APP现在处于开发阶段，暂时不推荐clone并编译，后续编排改动都很大，直到release前暂不要使用这些代码。  
+
+### 贡献
+他们参与了这个项目，并为此做出贡献，排名不分先后  
+#### 编译相关
+[奶罩大佬 提供了自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
+
+### 开发提示
+现在，我们的仓库每日都有新的commit，这样一来代码变动都是很大的，并且很多功能都没有完成，你可能跑步起来或者跑起来了还有很多问题。我们将在基础功能完成后，进行很大的Code Review工作和测试工作，现在请不要将代码用于生产环境的构建。  
+
+详细关注Release Tags  
+后续我们会给出一个Release文档，在代码Review后，我们会做一些改变和文档，让你知道如何复用组件，以及继续开发自己想要的功能。  
+
+## 最近UI截屏
+<p> 
+<img width="200px" src="./snapshots/snapshot.png"/> 
+<img width="200px" src="./snapshots/snapshot_me.png"/>  
+<img width="200px" src="./snapshots/snapshot_notifications.png"/>  
+<img width="200px" src="./snapshots/snapshot_collection.png"/>  
+<img width="200px" src="./snapshots/snapshot_darkmode_1.png"/>    
+<img width="200px" src="./snapshots/snapshot_skeleton.png"/>  
+<img width="200px" src="./snapshots/snapshot_create.png"/>  
+<img width="200px" src="./snapshots/snapshot_detail.png">
+<img width="200px" src="./snapshots/snapshot_editor.png">
+</p> 
+
+### 一起开发
+了解开发进度，或者有疑问，可以加我微信奥
+<p><img width="200px" src="./snapshots/wechat.jpeg"/> </p>
+<p><img width="200px" src="./snapshots/wechat.png"/> </p>
 
 
-## Flutter安装
-你需要安装Flutter的开发环境。下载[Flutter](http://flutter.dev/)时你可以直接下载Stable，或者Beta。而我们要用到的可能是Beta，若Flutter当前的稳定版本大于V1.15，那么你可以直接使用稳定版，而无需切换到Beta版本。  
-如果您下载的版本是Stable，那么请参照下面的命令行切换到Beta
+## 注意
+This application dose not have released any version. checkout dev branch to get latest version or contribute it. Thanks.  
+This is an third party software.  
+Find API document at: https://discuz.chat/api-docs/v1/
+
+Please add this code into your stateful widget  
+```dart
+@override
+void setState(fn) {
+    if (!mounted) {
+        return;
+    }
+    super.setState(fn);
+}
+
+@override
+void initState() {
+    super.initState();
+}
+
+@override
+void dispose() {
+    super.dispose();
+}
+```
+
+## 启动调试
+### 调试前请了解
+首先，要确认你的Flutter版本
+```yaml
+environment:
+  sdk: ">=2.8.0 <3.0.0"
+```
+
+```
+minSdkVersion 20
+targetSdkVersion 29
+```
+你可以使用命令行开启调试，如果你使用android studio，你可以直接运行。  
+不过在此之前值得说明的是，如果你的网络不能正常快速访问一些技术类网站，建议你使用pub国内源，你可以搜索找到配置的方式。  
+请使用最新版的Flutter，即Flutter v1.22 +
 ```sh
-flutter channel beta
+cd ./discuz
+flutter run
 ```
-现在，如果您是在中国国内的网络环境下使用Flutter，那么您有必要阅读下面[这些提示](https://www.jianshu.com/p/2bb9e155cc8c)来将Pub包管理工具的源切换。  
-此外，在项目中的Gradle源也推荐切换，后面我们会提到。
+项目中的 ./packages 本地化了一些依赖，这些依赖有改动所以没有直接使用pub.dev中的进行安装。 
 
-## Clone代码
-您可以到[Github](https://github.com/virskor/DiscuzQ)克隆源代码到您的本机，但请确保已经安装GIT.
-```
-git clone https://github.com/virskor/DiscuzQ
-```
-现在我们进入源代码目录，注意：项目代码在 ./DiscuzQ/discuz 目录下，其他目录不用理会，编译或者开发时参考的代码在此目录。  
-安装依赖，这个过程可能漫长但取决于你的网络环境
-```
-cd DiscuzQ/discuz
-flutter pub get
-```
-
-## 修改build.yaml
+### 使用不同的信息来作用在开发和生产环境
 在生产或者开发时你可能需要访问不同的业务后端域名。现在你可以更改或者输入下面的信息到 ./discuz/build.yaml。但在这之前请先打开 ./discuz/build.yaml中的文件描述，来确定这些设置的作用或者关于风险的描述。   
+你可能需要在git repo上面的discuz/build.yaml查找更多可以支持的设置，下面的代码仅展示部分设置。  
 每个项目都不可以缺少下面的配置信息，其他的信息可以忽略，或者在后面不断开发的过程中你可以自定义。  
 实际上build的过程中，你可以在build script构建过程中重新生成一个build.yaml完成快速构建，这个build.yaml在生产时仅需要包含production 下配置描述，或者只选其中一个选项来覆盖APP默认BuildInfo模型的数据。  
 https://self-signed.badssl.com/
@@ -62,57 +155,45 @@ production:
 ### 金融相关的功能
 实际上，现在我们还不支援这些特性，不过预先设计您可以在Build时，抹去这些功能和您实际情况所相符。  
 现在不建议开启financial。
+
 ```yaml
 production:
   # 钱包，等金融数字等功能都会被隐藏
   financial: false 
 ```
 
-### 统计代码
-您可以使用Umeng.com的统计代码进行APP移动统计， 在https://mobile.umeng.com 申请账号并为Android APP和IOS分别创建appKey。  
-之后再build.yaml中写入以下信息：  
-```yml
-# 推荐仅生产环境下统计
-production:
-  # Appkey for Android devices
-  umengAndroidAppkey: 
-  # Appkey for Apple IOS devices
-  umengIOSAppkey: 
-  umengChannel: channel
-  umengReportCrash: true
-  umengLogEnable: true
-  umengEncrypt: true
-```
+### 使用移动统计代码
+参考：设置文档(https://discuzapp.xyz/docs/build.html#%E7%BB%9F%E8%AE%A1%E4%BB%A3%E7%A0%81)
 
-## 如何自定义主体颜色，字体大小
-App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.dart修改对应的参数，在lib/utils/global.dart中修改对应的参数完整定制。  
-使用命令行一键生成APP的图标和启动图(todo)。
-
-## 生成应用图标
-我们使用了flutter_launcher_icons， 这使得你可以快速生成一个自己的App图标，但是这样一来你就不可以改变默认的工程配置。   
-详细的办法参考：https://pub.dev/packages/flutter_launcher_icons   
-我们已经在pubspec.yaml添加了相关配置，你需要做的就是替换 assets/images/app.png
-注意，图片不能包含alpha通道否则会导致Appstore上架失败等，生成图标时，在项目目录运行命令即可自动生成，无需其他操作。   
-```sh
-flutter pub run flutter_launcher_icons:main
-# or
-# cd ./discuz
-# bash icon
-```
-
-## 生成启动图
-和生成图标一样，超级简单。我们已经在pubspec.yaml添加了相关配置，你需要做的就是替换 assets/images/splash.png。然后在运行下面的命令行就可以啦！ 
-
-```sh
-flutter pub pub run flutter_native_splash:create
-# or
-# cd ./discuz
-# bash splas
-```
-
-## Android 编译
+### Android Release or debug
 我们推荐使用IOS模拟器开始你的调试，如果你Build Android版本，首先你需要生成一个keystore文件，存储到 ./discuz/android/目录下，并命名为android.keystore   
 接下来，将同目录下的 key.properties.example 文件修改为 key.properties 并更新里面的签名配置内容。切记不要将其提交到Git，这些签名文件是涉及安全的。其次你还可以根据需要修改gradle文件，我们默认下使用了国内的源。
+
+### IOS Release or debug
+需要修改Xcode 中的Team, 这样来完成签名，之后，不用做太多你便可以Build。 如果你Pod无法执行install，请使用国内源或者代理(推荐)。 其次
+```sh
+cd ./discuz
+flutter clean
+flutter pub get
+cd /ios
+sudo rm -rf Podfile.lock
+pod install #手动安装IOS相关依赖
+```
+推荐直接打开discuz目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看discuz目录下的PROBLEMS
+
+## 生成发布
+可能有的开发者刚开始接触Flutter按照上面的指引运行起来APP后顿时感觉卡顿，实际上flutter run是运行的Debug模式，Debug下性能表现和Release是有很大差异的。如果体验用于生产的，应该使用下面的命令。
+R8 是谷歌推出的最新代码压缩器，当你打包 release 版本的 APK 或者 AAB 时会默认开启。要关闭 R8，请向 flutter build apk 或 flutter build appbundle 传 --no-shrink 标志。
+```
+flutter build apk --release --no-shrink
+```
+
+因IOS为提供签名flutter build ios无法build,这时需要使用xcode来archive，而不是使用Flutter build. 而IOS 参考自动化构建所需要的。
+
+[参考编译文档](https://discuzapp.xyz/docs/build.html#ios%E7%BC%96%E8%AF%91)在之前，还是推荐使用[奶罩大佬的CI](https://github.com/naizhao/Build-Discuz-Q-Flutter)进行编译。
+
+
+### 源相关
 如果你无法Build，那么你可能需要更改Gradle 源 pub源，关于Pub源，建议搜索 flutter China相关内容。 gradle源，则需要注意下面的信息。  
 我们使用了默认的源配置，但是我们也增加了国内源，建议根据情况修改 ./discuz/andorid/build.gradle 。 你可能需要重复尝试很多次，才能正常build，这取决于你的网络情况。
 ```gradle
@@ -125,32 +206,29 @@ repositories {
 }
 ```
 
-之后运行下面的命令行，将会生成APK，便可以用来发布。当然如果有需要你还可以加固。
-```
-flutter build apk --release
+## 如何自定义主体颜色，字体大小
+App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.dart修改对应的参数，在lib/utils/global.dart中修改对应的参数完整定制。  
+使用命令行一键生成APP的图标和启动图(todo)。
+
+### 如何自动生成Android 和 IOS 的应用图标
+我们使用了flutter_launcher_icons， 这使得你可以快速生成一个自己的App图标，但是这样一来你就不可以改变默认的工程配置。   
+详细的办法参考：https://pub.dev/packages/flutter_launcher_icons   
+我们已经在pubspec.yaml添加了相关配置，你需要做的就是替换 assets/images/app.png
+注意，图片不能包含alpha通道否则会导致Appstore上架失败等，生成图标时，在项目目录运行命令即可自动生成，无需其他操作。   
+```sh
+flutter pub run flutter_launcher_icons:main
+# or
+# cd ./discuz
+# bash icon
 ```
 
-## IOS编译
-值得注意，IOS编译时推荐使用Xcode进行Archive后上传，这样可以自动管理签名。当然也可以build，但这个过程繁琐。
-首先你需要安装pod, xcode。
-之后运行下面的命令
-```
-cd ./discuz
-flutter build ios --release --flavor production --no-codesign --verbose
+### 如何自动生成Android 和 IOS的启动图
+和生成图标一样，超级简单。我们已经在pubspec.yaml添加了相关配置，你需要做的就是替换 assets/images/splash.png。然后在运行下面的命令行就可以啦！ 
+如果要修改包名，需要在生成前进行修改防止启动时闪退
 
-cd ./discuz/ios
-xcodebuild -workspace ./Runner.xcworkspace -configuration Release-production -scheme production -destination 'generic/platform=iOS' -archivePath build/ios/iphoneos/Runner.xcarchive archive -allowProvisioningUpdates
-
-xcodebuild -exportArchive -archivePath build/ios/iphoneos/Runner.xcarchive -exportPath build/ios/iphoneos -exportOptionsPlist Runner/info.plist
+```sh
+flutter pub pub run flutter_native_splash:create
+# or
+# cd ./discuz
+# bash splas
 ```
-
-如果使用Xcode进行编译则
-```
-flutter clean
-flutter pub get
-```
-之后再Xcode中，管理签名后，直接archive即可，当然你可以直接编译
-```
-flutter build ios --release --no-codesign
-```
-直接编译不签名时，需要注意设置use_frameworks!相关处理，在搜索引擎搜索，否则这个命令行将无法产出app

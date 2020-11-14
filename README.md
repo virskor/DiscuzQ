@@ -9,9 +9,22 @@
 </p> 
 <p align="center">该项目的诞生，离不开Discuz DNSPod TencentCloud 的贡献</p>
 
-### 详细的文档
+### 说明
+最近我没有按时更新给大家带来的不便还希望大家体谅。后续会逐渐恢复更新的，说明于2020年11月14日。
 下方虽然会有些说明，但是仅用于快速启动一个APP，对部分功能的描述和开启，请参考文档。  
-https://discuzapp.xyz
+https://discuzapp.xyz  
+
+### 计划
+最近会计划恢复并完成下面的项目， ✅代表以及完成
+**用户隐私政策，协议**  
+**站点关闭提示**  
+**用户注册验证码校验支持**  
+**支持商品**  
+**使用路由**  
+**UI将与uniApp保持一致**  
+**将ScopedModels更改为Provider** 
+**微信登录**  
+**权限购买** 
 
 ## About DiscuzQ Flutter  
 这是一个基于DiscuzQ 第三方开发的Flutter跨平台APP，要知道使用这些代码是免费的。但基于你取得DiscuzQ的授权。
@@ -211,26 +224,11 @@ flutter pub run flutter_launcher_icons:main
 
 ### 如何自动生成Android 和 IOS的启动图
 和生成图标一样，超级简单。我们已经在pubspec.yaml添加了相关配置，你需要做的就是替换 assets/images/splash.png。然后在运行下面的命令行就可以啦！ 
+如果要修改包名，需要在生成前进行修改防止启动时闪退
 
 ```sh
 flutter pub pub run flutter_native_splash:create
 # or
 # cd ./discuz
 # bash splas
-```
-### 自定义隐私政策和条款
-默认情况下，会考虑自动加载DZ中设置的隐私政策和条款。现在DZ API还没有这个功能，后续会加入。但是除了使用默认的DZ后台设置的协议，你还可以指定。  
-如果你指定了隐私政策协议，那么你可以再 ./utils/global.dart中设置下面的代码。
-```dart
-  /// 
-  /// 隐私政策和用户协议常规不需要设置
-  /// 若设置后将指定打开链接内的用户协议
-  /// 默认情况下，程序设计自动加载dz中设置的协议
-  /// 该配置项根据需要来开启
-  /// 
-  /// 隐私协议
-  static const String privacyUri = '';
-
-  ///用户协议
-  static const String policiesUri = '';
 ```
