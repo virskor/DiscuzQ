@@ -115,7 +115,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
   ///
   Future<bool> _play(
           {@required BuildContext context, @required ThreadVideoModel video}) =>
-      DiscuzRoute.open(
+      DiscuzRoute.navigate(
           context: context,
           widget: DiscuzPlayer(
             video: video,

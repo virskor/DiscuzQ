@@ -30,7 +30,7 @@ class YetNotLogon extends StatelessWidget {
           const SizedBox(height: 30),
           DiscuzButton(
             label: '登录来继续',
-            onPressed: () => DiscuzRoute.open(
+            onPressed: () => DiscuzRoute.navigate(
                 context: context, widget: const LoginDelegate()),
           )
         ],

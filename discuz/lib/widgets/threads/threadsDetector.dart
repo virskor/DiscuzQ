@@ -41,7 +41,7 @@ class ThreadsDetector {
         return;
       }
 
-      return DiscuzRoute.open(
+      return DiscuzRoute.navigate(
           context: context,
           widget: Builder(
             builder: (context) => ThreadDetailDelegate(

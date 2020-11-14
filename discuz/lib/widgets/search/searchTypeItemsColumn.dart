@@ -18,7 +18,7 @@ class SearchTypeItemsColumn extends StatelessWidget {
         /// 打开用户搜索
         ///
         GestureDetector(
-          onTap: () => DiscuzRoute.open(
+          onTap: () => DiscuzRoute.navigate(
               context: context,
               shouldLogin: true,
               fullscreenDialog: true,
@@ -34,7 +34,7 @@ class SearchTypeItemsColumn extends StatelessWidget {
         /// 打开帖子搜索
         ///
         GestureDetector(
-          onTap: () => DiscuzRoute.open(
+          onTap: () => DiscuzRoute.navigate(
               context: context,
               shouldLogin: true,
               fullscreenDialog: true,

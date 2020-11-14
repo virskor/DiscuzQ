@@ -171,7 +171,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
               ///
               onTap: () => item.child == null
                   ? DiscuzToast.failed(context: context, message: '暂不支持')
-                  : DiscuzRoute.open(context: context, widget: item.child),
+                  : DiscuzRoute.navigate(context: context, widget: item.child),
               trailing: item.badges != null && item.badges > 0
                   ? Badge(
                       /// 显示消息条目长度

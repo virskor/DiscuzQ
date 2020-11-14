@@ -179,7 +179,7 @@ class ThreadPostSnapshot extends StatelessWidget {
                           DiscuzLink(
                             padding: const EdgeInsets.only(top: 5),
                             label: '查看全部${(replyCounts - 1).toString()}条回复',
-                            onTap: () => DiscuzRoute.open(
+                            onTap: () => DiscuzRoute.navigate(
                                 context: context,
                                 shouldLogin: true,
                                 widget: ThreadDetailDelegate(

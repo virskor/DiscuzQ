@@ -48,7 +48,7 @@ class _FollowingDelegateState extends State<FollowingDelegate> {
                 children: <Widget>[
                   DiscuzListTile(
                     title: const DiscuzText('我关注的人'),
-                    onTap: () => DiscuzRoute.open(
+                    onTap: () => DiscuzRoute.navigate(
                         shouldLogin: true,
                         context: context,
                         widget: const FollowerListDelegate(
@@ -60,7 +60,7 @@ class _FollowingDelegateState extends State<FollowingDelegate> {
                   ),
                   DiscuzListTile(
                     title: const DiscuzText('关注我的人'),
-                    onTap: () => DiscuzRoute.open(
+                    onTap: () => DiscuzRoute.navigate(
                         shouldLogin: true,
                         context: context,
                         widget: const FollowerListDelegate(

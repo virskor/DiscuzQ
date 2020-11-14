@@ -94,7 +94,7 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
                 /// 调整数组，将targetUrl置于第一个，然后传入图集组件
                 originalImageUrls.remove(targetUrl);
                 originalImageUrls.insert(0, targetUrl);
-                return DiscuzRoute.open(
+                return DiscuzRoute.navigate(
                     fullscreenDialog: true,
                     context: context,
                     widget: DiscuzGalleryDelegate(gallery: originalImageUrls));

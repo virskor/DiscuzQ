@@ -115,7 +115,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
                 ],
             onSelected: (String value) {
               if (value == 'report') {
-                DiscuzRoute.open(
+                DiscuzRoute.navigate(
                   context: context,
                   shouldLogin: true,
                   fullscreenDialog: true,
