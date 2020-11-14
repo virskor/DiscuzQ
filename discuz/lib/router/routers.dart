@@ -3,10 +3,11 @@ import 'package:fluro/fluro.dart';
 
 import 'package:discuzq/views/settings/preferencesDelegate.dart';
 
+/// 前期没有使用Router 后期会将页面逐渐全部完成由路由管理
 class Routers {
   static FluroRouter router;
 
-  /// 最近浏览
+  /// 偏好设置
   static const String preferences = "/preferences";
 
   static void configureRoutes(FluroRouter router) {
