@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/categories/discuzCategories.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
@@ -164,7 +163,7 @@ class _DiscuzEditorCategorySelectorState
                                     trailing: _selectedCategory != null &&
                                             _selectedCategory.id == c.id
                                         ? const DiscuzIcon(
-                                            SFSymbols.checkmark_circle_fill)
+                                            CupertinoIcons.checkmark_circle_fill)
                                         : const DiscuzListTileTrailing(),
                                     onTap: () {
                                       setState(() {

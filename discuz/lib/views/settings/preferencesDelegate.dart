@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
@@ -53,7 +53,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                     const ThemeColorSetting(),
                     const SettingSwitcher(
                       settinKey: 'darkTheme',
-                      icon: SFSymbols.moon,
+                      icon: CupertinoIcons.moon,
                       label: '黑暗模式',
                     ),
 
@@ -63,7 +63,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                     BuildInfo().info().enablePerformanceOverlay
                         ? const SettingSwitcher(
                             settinKey: 'showPerformanceOverlay',
-                            icon: SFSymbols.graph_circle,
+                            icon: CupertinoIcons.graph_circle,
                             label: '性能调试工具',
                           )
                         : const SizedBox()
@@ -74,12 +74,12 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                   children: <Widget>[
                     const SettingSwitcher(
                       settinKey: 'autoplay',
-                      icon: SFSymbols.videocam_circle,
+                      icon: CupertinoIcons.videocam_circle,
                       label: '自动播放视频',
                     ),
                     const SettingSwitcher(
                       settinKey: 'hideContentRequirePayments',
-                      icon: SFSymbols.money_dollar_circle,
+                      icon: CupertinoIcons.money_dollar_circle,
                       label: '不看受保护的内容',
                     ),
                     SettingTile(
@@ -95,7 +95,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                   label: '信息',
                   children: <Widget>[
                     SettingTile(
-                        icon: SFSymbols.info_circle,
+                        icon: CupertinoIcons.info_circle,
                         label: '关于APP',
                         onPressed: () => WebviewHelper.open(context,
                             url: "${Global.domain}/pages/site/index",

@@ -10,7 +10,7 @@ import 'package:discuzq/states/editorState.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/utils/permissionHepler.dart';
 import 'package:discuzq/utils/request/request.dart';
@@ -236,7 +236,7 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(50)),
                               color: Colors.white),
                           child: const DiscuzIcon(
-                            SFSymbols.minus_circle_fill,
+                            CupertinoIcons.minus_circle_fill,
                             size: 15,
                             color: Colors.redAccent,
                           ),

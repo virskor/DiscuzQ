@@ -10,7 +10,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorCategorySelector.dart';
 import 'package:discuzq/models/categoryModel.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 // import 'package:discuzq/widgets/editor/toolbar/discuzEditorToolbarMarkdownItems.dart';
 import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 
@@ -175,7 +175,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                                 ? GestureDetector(
                                     onTap: _closeKeyboard,
                                     child: const ToolbarIconButton(
-                                        icon: SFSymbols
+                                        icon: CupertinoIcons
                                             .keyboard_chevron_compact_down),
                                   )
                                 : const SizedBox(),
@@ -217,7 +217,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                 ? GestureDetector(
                     onTap: () => _callbackInput(toolbarEvt: ToolbarEvt.emoji),
                     child: const ToolbarIconButton(
-                      icon: SFSymbols.smiley,
+                      icon: CupertinoIcons.smiley,
                     ),
                   )
                 : const SizedBox(),
@@ -243,7 +243,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                     child: GestureDetector(
                       onTap: () => _callbackInput(toolbarEvt: ToolbarEvt.image),
                       child: const ToolbarIconButton(
-                        icon: SFSymbols.camera,
+                        icon: CupertinoIcons.camera,
                       ),
                     ),
                   )

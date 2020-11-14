@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:discuzq/widgets/editor/toolbar/toolbarEvt.dart';
 import 'package:discuzq/widgets/editor/toolbar/toolbarIconButton.dart';
@@ -15,7 +15,7 @@ class DiscuzEditorToolbarMarkdownItems {
             toolbarEvt: ToolbarEvt.formatBold,
             formatValue: '** **',
             asNewLine: false),
-        child: const ToolbarIconButton(icon: SFSymbols.bold),
+        child: const ToolbarIconButton(icon: CupertinoIcons.bold),
       ),
 
       ///
@@ -25,7 +25,7 @@ class DiscuzEditorToolbarMarkdownItems {
             toolbarEvt: ToolbarEvt.formatItalic,
             formatValue: '_ _',
             asNewLine: false),
-        child: const ToolbarIconButton(icon: SFSymbols.italic),
+        child: const ToolbarIconButton(icon: CupertinoIcons.italic),
       ),
 
       ///
@@ -44,7 +44,7 @@ class DiscuzEditorToolbarMarkdownItems {
             toolbarEvt: ToolbarEvt.formatQuote,
             formatValue: '>  ',
             asNewLine: true),
-        child: const ToolbarIconButton(icon: SFSymbols.quote_bubble),
+        child: const ToolbarIconButton(icon: CupertinoIcons.quote_bubble),
       ),
 
       /// 插入超链接
@@ -53,7 +53,7 @@ class DiscuzEditorToolbarMarkdownItems {
             toolbarEvt: ToolbarEvt.formatUrl,
             formatValue: '[ ]( )',
             asNewLine: false),
-        child: const ToolbarIconButton(icon: SFSymbols.link),
+        child: const ToolbarIconButton(icon: CupertinoIcons.link),
       ),
 
       ///
@@ -63,7 +63,7 @@ class DiscuzEditorToolbarMarkdownItems {
             toolbarEvt: ToolbarEvt.formatListDash,
             formatValue: '-  ',
             asNewLine: true),
-        child: const ToolbarIconButton(icon: SFSymbols.list_dash),
+        child: const ToolbarIconButton(icon: CupertinoIcons.list_dash),
       ),
 
       ///
@@ -73,7 +73,7 @@ class DiscuzEditorToolbarMarkdownItems {
             toolbarEvt: ToolbarEvt.formatListNumber,
             formatValue: '1.  ',
             asNewLine: true),
-        child: const ToolbarIconButton(icon: SFSymbols.list_number),
+        child: const ToolbarIconButton(icon: CupertinoIcons.list_number),
       )
     ];
     return show ? items : [];

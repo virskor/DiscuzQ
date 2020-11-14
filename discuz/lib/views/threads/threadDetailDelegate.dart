@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/attachmentsModel.dart';
@@ -153,7 +152,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
               actions: <Widget>[
                 IconButton(
                   icon: const DiscuzIcon(
-                    SFSymbols.flag,
+                    CupertinoIcons.flag,
                   ),
                   onPressed: () => DiscuzRoute.open(
                     context: context,

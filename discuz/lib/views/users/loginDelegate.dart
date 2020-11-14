@@ -64,7 +64,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
               actions: <Widget>[
                 // IconButton(
                 //   tooltip: '无法登陆',
-                //   icon: const DiscuzIcon(SFSymbols.question_circle_fill,
+                //   icon: const DiscuzIcon(CupertinoIcons.question_circle_fill,
                 //       color: Colors.white),
                 //   onPressed: () => null,
                 // )

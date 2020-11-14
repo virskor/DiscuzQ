@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
@@ -26,7 +26,7 @@ class SearchTypeItemsColumn extends StatelessWidget {
           child: const _SearchTypeItem(
             label: '搜索用户',
             colors: <Color>[Color(0xff0c6ae4), Color(0xff0f57b5)],
-            icon: SFSymbols.person_crop_circle_badge_plus,
+            icon: CupertinoIcons.person_crop_circle_badge_plus,
           ),
         ),
 
@@ -42,7 +42,7 @@ class SearchTypeItemsColumn extends StatelessWidget {
           child: const _SearchTypeItem(
             label: '搜索主题',
             colors: <Color>[Color(0xff444444), Color(0xff888888)],
-            icon: SFSymbols.search_circle_fill,
+            icon: CupertinoIcons.search_circle_fill,
           ),
         )
       ],

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
@@ -193,7 +193,7 @@ class ThreadPostSnapshot extends StatelessWidget {
                           const Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: const DiscuzIcon(
-                                SFSymbols.chevron_compact_right,
+                                CupertinoIcons.chevron_compact_right,
                                 size: 16),
                           ),
                         ],

@@ -4,7 +4,7 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/users/userLink.dart';
@@ -87,7 +87,7 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
           const Padding(
             padding: const EdgeInsets.only(top: 1, right: 10, left: 0),
             child: const DiscuzIcon(
-              SFSymbols.money_yen_circle_fill,
+              CupertinoIcons.money_yen_circle_fill,
               color: Colors.redAccent,
               size: 20,
             ),
@@ -109,7 +109,7 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
           const Padding(
             padding: const EdgeInsets.only(top: 1, right: 10, left: 0),
             child: const DiscuzIcon(
-              SFSymbols.suit_heart_fill,
+              CupertinoIcons.suit_heart_fill,
               size: 20,
               color: Colors.pinkAccent,
             ),

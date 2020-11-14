@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
@@ -19,8 +19,8 @@ class NightModeSwitcher extends StatelessWidget {
           return IconButton(
             icon: DiscuzIcon(
               state.appConf['darkTheme'] == false
-                  ? SFSymbols.sun_max_fill
-                  : SFSymbols.moon_fill,
+                  ? CupertinoIcons.sun_max_fill
+                  : CupertinoIcons.moon_fill,
               color: color ?? DiscuzApp.themeOf(context).textColor,
             ),
             onPressed: () => AppConfigurations().update(

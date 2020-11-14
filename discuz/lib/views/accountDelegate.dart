@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -36,11 +36,11 @@ class _AccountDelegateState extends State<AccountDelegate> {
   final List<_AccountMenuItem> _menus = [
     const _AccountMenuItem(
         label: '我的资料',
-        icon: SFSymbols.wand_stars,
+        icon: CupertinoIcons.wand_stars,
         child: const ProfileDelegate()),
     // const _AccountMenuItem(
     //     label: '我的钱包',
-    //     icon: SFSymbols.money_yen_circle,
+    //     icon: CupertinoIcons.money_yen_circle,
     //     child: const WalletDelegate()),
     const _AccountMenuItem(
         label: '我的收藏',
@@ -117,9 +117,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
                             /// 构造登录信息页
                             const UserAccountBanner(),
 
-                            /// 常用功能
-                            /// _Recommends(),
-
                             /// 菜单构造
 
                             Container(
@@ -164,18 +161,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
       .toList();
 }
 
-/// 常用功能
-class _Recommends extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) => Container(
-                              margin: kBodyPaddingAll,
-                              child: ClipRRect(
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(10)),
-                                  child: Column(children: [],)),
-                            );
-}
-
 ///
 /// 设置按钮
 class _SettingButton extends StatelessWidget {
@@ -183,7 +168,7 @@ class _SettingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: DiscuzIcon(SFSymbols.gear_alt,
+        icon: DiscuzIcon(CupertinoIcons.gear_alt,
             color: DiscuzApp.themeOf(context).textColor),
         onPressed: () => DiscuzRoute.open(
             context: context,
@@ -201,7 +186,7 @@ class _ShareAppButton extends StatelessWidget {
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
       builder: (context, child, state) => IconButton(
-            icon: DiscuzIcon(SFSymbols.square_arrow_up,
+            icon: DiscuzIcon(CupertinoIcons.square_arrow_up,
                 color: DiscuzApp.themeOf(context).textColor),
             onPressed: () => ShareApp.show(context: context, user: state.user),
           ));

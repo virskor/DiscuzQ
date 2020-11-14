@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/utils/global.dart';
@@ -55,7 +55,7 @@ class ThreadRequiredPayments extends StatelessWidget {
             width: 140,
             height: 35,
             icon: const DiscuzIcon(
-              SFSymbols.doc_text_search,
+              CupertinoIcons.doc_text_search,
               color: Colors.white,
             ),
             onPressed: () {
