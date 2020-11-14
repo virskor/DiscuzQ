@@ -16,9 +16,9 @@ import 'package:discuzq/widgets/captcha/tencentCloudCaptcha.dart';
 import 'package:discuzq/models/captchaModel.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/models/threadModel.dart';
-import 'package:discuzq/api/threadsAPI.dart';
+import 'package:discuzq/api/threads.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
-import 'package:discuzq/api/postsAPI.dart';
+import 'package:discuzq/api/posts.dart';
 
 ///
 /// 发帖编辑器

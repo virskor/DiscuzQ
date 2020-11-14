@@ -21,7 +21,7 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/api/postsAPI.dart';
+import 'package:discuzq/api/posts.dart';
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:discuzq/utils/global.dart';

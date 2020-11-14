@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/api/usersAPI.dart';
+import 'package:discuzq/api/users.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';

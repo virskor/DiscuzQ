@@ -11,7 +11,7 @@ import 'package:discuzq/widgets/common/discuzButton.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/api/reportsAPI.dart';
+import 'package:discuzq/api/reports.dart';
 import 'package:discuzq/models/userModel.dart';
 
 enum ReportType {

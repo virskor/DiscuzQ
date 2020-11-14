@@ -53,7 +53,7 @@ class DiscuzRoute {
           expand: true,
           backgroundColor: Colors.transparent,
           context: context,
-          builder: (BuildContext context, ScrollController scrollController) =>
+          builder: (BuildContext context) =>
               Theme(
                 data: Theme.of(context).copyWith(
                     // This makes the visual density adapt to the platform that you run

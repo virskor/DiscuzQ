@@ -1,12 +1,13 @@
-import 'package:discuzq/api/threadsAPI.dart';
-import 'package:discuzq/api/usersAPI.dart';
+import 'package:flutter/material.dart';
+
+import 'package:discuzq/api/threads.dart';
+import 'package:discuzq/api/users.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/threads/threadDetailDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:flutter/material.dart';
 
 class ThreadsDetector {
   const ThreadsDetector({this.context});
