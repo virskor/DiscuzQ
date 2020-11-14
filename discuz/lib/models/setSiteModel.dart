@@ -2,6 +2,22 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 class SetSiteModel {
+  
+  const SetSiteModel(
+      {this.siteName = '',
+      this.siteIntroduction = '',
+      this.siteLogo = '',
+      this.siteCloseMsg = '',
+      this.sitePrice = 0.01,
+      this.siteAuthorScale = 10,
+      this.siteMasterScale = 0,
+      this.siteAuthor,
+      this.siteExpire = '',
+      this.siteICP = '',
+      this.siteStat = '',
+      this.siteInstall = '',
+      this.siteMode = 'public'});
+
   ///
   /// site_name
   /// 站点名称
@@ -75,21 +91,6 @@ class SetSiteModel {
   /// site_install
   /// 站点安装时间
   final String siteInstall;
-
-  const SetSiteModel(
-      {this.siteName = '',
-      this.siteIntroduction = '',
-      this.siteLogo = '',
-      this.siteCloseMsg = '',
-      this.sitePrice = 0.01,
-      this.siteAuthorScale = 10,
-      this.siteMasterScale = 0,
-      this.siteAuthor,
-      this.siteExpire = '',
-      this.siteICP = '',
-      this.siteStat = '',
-      this.siteInstall = '',
-      this.siteMode = 'public'});
 
   ///
   /// fromMap

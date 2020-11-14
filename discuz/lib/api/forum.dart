@@ -25,16 +25,16 @@ class ForumAPI {
           ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
 
       final Response resp =
-          await Request(context: context, autoAuthorization: false)
-              .getUrl(url: Urls.forum);
+          await Request(context: context, autoAuthorization: false).getUrl(
+              url: Urls.forum, queryParameters: {"filter[tag]": "agreement"});
 
       if (resp == null) {
         return Future.value(false);
       }
 
-
       try {
         final ForumModel forum = ForumModel.fromMap(maps: resp.data['data']);
+
         /// 更新状态
         state.updateForum(forum, prevent: state.forum != null);
       } catch (e) {
