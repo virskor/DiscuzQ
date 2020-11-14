@@ -201,13 +201,18 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
           ));
 
   /// 创建网络错误提示组件，尽在加载失败的时候提示
-  Widget _buildAppElement(AppState state) => _loaded && state.forum == null
-      ? Center(
-          child: DiscuzNetworkError(
-            onRequestRefresh: () => _getForumData(force: true),
-          ),
-        )
-      : _views.elementAt(_selected);
+  Widget _buildAppElement(AppState state) {
+
+    /// 站点关闭时提醒用户
+
+    return _loaded && state.forum == null
+        ? Center(
+            child: DiscuzNetworkError(
+              onRequestRefresh: () => _getForumData(force: true),
+            ),
+          )
+        : _views.elementAt(_selected);
+  }
 
   /// 获取论坛启动信息
   /// force 为true时，会忽略_loaded

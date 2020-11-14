@@ -1,5 +1,6 @@
 class RequestErrors {
   static const Map<String, dynamic> errors = {
+    "site_closed": "站点关闭维护中",
     "unknown_error": "未知错误(公共错误名)",
     "category_not_found": "分类未找到",
     "censor_not_passed": "检查未通过",
@@ -64,10 +65,8 @@ class RequestErrors {
 
   /// 获取对应的错误提示信息
   static String mapError(String key, {dynamic err}) {
-    if(err == null || err['detail'] == null){
-      return errors[key] ?? '未知错误';
-    }
-    
-    return err['detail'].map((it) => it).join('\r\n').toString();
+    return errors[key] ??
+        err['detail'].map((it) => it).join('\r\n').toString() ??
+        "未知错误";
   }
 }

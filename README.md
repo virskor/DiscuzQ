@@ -172,7 +172,7 @@ production:
 ```
 
 ### 使用移动统计代码
-参考：设置文档(https://discuzapp.xyz/docs/build.html#%E7%BB%9F%E8%AE%A1%E4%BB%A3%E7%A0%81)
+修改build.yaml中的Umeng相关配置即可
 
 ### Android Release or debug
 我们推荐使用IOS模拟器开始你的调试，如果你Build Android版本，首先你需要生成一个keystore文件，存储到 ./discuz/android/目录下，并命名为android.keystore   
