@@ -147,8 +147,6 @@ flutter:
     # 腾讯云验证码相关资源
     - assets/captcha/
     - build.yaml
-    - policy.md
-    - privacy.md
   fonts:
     - family: sficonsets
       fonts:

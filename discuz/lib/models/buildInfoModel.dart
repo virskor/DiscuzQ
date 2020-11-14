@@ -60,17 +60,11 @@ class BuildInfoModel {
   final bool umengEncrypt;
 
   ///
-  /// tuixiaochao
-  /// 兔小巢
-  final String tuxiaochao;
-
-  ///
   /// sentry
   final String sentry;
 
   const BuildInfoModel(
       {this.domain = 'https://discuz.chat',
-      this.tuxiaochao = '',
       this.appname = 'DiscuzQ',
       this.enableHttp2 = false,
       this.onBadCertificate = true,
@@ -116,7 +110,6 @@ class BuildInfoModel {
         umengReportCrash: data['umengReportCrash'] ?? true,
         umengLogEnable: data['umengLogEnable'] ?? true,
         umengEncrypt: data['umengEncrypt'] ?? true,
-        tuxiaochao: data['tuxiaochao'] ?? true,
         sentry: data['sentry'] ?? '',
         umengAppkey: Platform.isIOS
             ? data['umengIOSAppkey']

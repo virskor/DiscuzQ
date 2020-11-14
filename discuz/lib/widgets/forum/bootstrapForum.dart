@@ -32,9 +32,9 @@ class BootstrapForum {
         return Future.value(false);
       }
 
+
       try {
         final ForumModel forum = ForumModel.fromMap(maps: resp.data['data']);
-
         /// 更新状态
         state.updateForum(forum, prevent: state.forum != null);
       } catch (e) {

@@ -100,14 +100,6 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                         label: '历史版本记录',
                         onPressed: () =>
                             WebviewHelper.launchUrl(url: Urls.changelog)),
-                    BuildInfo().info().tuxiaochao == ''
-                        ? const SizedBox()
-                        : SettingTile(
-                            icon: SFSymbols.text_bubble,
-                            label: '吐槽',
-                            onPressed: () => WebviewHelper.open(context,
-                                url: BuildInfo().info().tuxiaochao,
-                                title: '反馈')),
                     SettingTile(
                         icon: SFSymbols.info_circle,
                         label: '关于APP',

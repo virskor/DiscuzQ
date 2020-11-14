@@ -9,6 +9,12 @@ class SiteRegModel {
   final bool registerClose;
 
   ///
+  /// register_captcha
+  /// 1允许0不允许
+  /// 是否开启注册验证码
+  final bool registerCaptcha;
+
+  ///
   /// register_validate
   /// 1开启 0关闭
   /// 是否开启注册审核
@@ -30,6 +36,7 @@ class SiteRegModel {
   const SiteRegModel(
       {this.registerClose = false,
       this.registerValidate = false,
+      this.registerCaptcha = false,
       this.passwordStrength = const [],
       this.passwordLength = 6});
 
@@ -55,6 +62,7 @@ class SiteRegModel {
     return SiteRegModel(
         registerClose: data['register_close'] ?? false,
         registerValidate: data['register_close'] ?? false,
+        registerCaptcha: data['register_captcha'] ?? false,
         passwordLength: data['password_length'] == null
             ? 0
             : data['password_length'].runtimeType == String

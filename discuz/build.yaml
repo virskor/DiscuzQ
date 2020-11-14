@@ -61,9 +61,6 @@ development:
   # umeng encrypt
   # bool
   umengEncrypt: true
-  # Tuxiaochao
-  # Get your account https://txc.qq.com/
-  tuxiaochao: https://support.qq.com/embed/phone/152424
   # Sentry
   sentry: https://e60cedb74f404ff3a2bd4a0ff364d8f0@o426897.ingest.sentry.io/5371662
 
@@ -81,7 +78,7 @@ production:
   enableHttp2: false
   onBadCertificate: true 
   http2idleTimeout: 15000
-  financial: false 
+  financial: true 
   # Appkey for Android devices
   umengAndroidAppkey: 5eb7ab6f895cca574f00009e
   # Appkey for Apple IOS devices
@@ -90,6 +87,5 @@ production:
   umengReportCrash: true
   umengLogEnable: true
   umengEncrypt: true
-  tuxiaochao: https://support.qq.com/embed/phone/152424
   sentry: https://e60cedb74f404ff3a2bd4a0ff364d8f0@o426897.ingest.sentry.io/5371662
 

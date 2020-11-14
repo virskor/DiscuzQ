@@ -1,4 +1,3 @@
-import 'package:discuzq/views/users/blackListDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -12,18 +11,18 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/authHelper.dart';
-import 'package:discuzq/widgets/common/discuzAvatar.dart';
 import 'package:discuzq/widgets/users/yetNotLogon.dart';
 import 'package:discuzq/views/settings/preferencesDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/views/users/userHomeDelegate.dart';
 import 'package:discuzq/views/users/profileDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
 import 'package:discuzq/views/users/follows/followingDelegate.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
-import 'package:discuzq/widgets/users/services/userInterationBar.dart';
 import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/views/users/blackListDelegate.dart';
+import 'package:discuzq/widgets/share/shareApp.dart';
+import 'package:discuzq/widgets/users/userAccountBanner.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -38,7 +37,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
     const _AccountMenuItem(
         label: '我的资料',
         icon: SFSymbols.wand_stars,
-        separate: true,
         child: const ProfileDelegate()),
     // const _AccountMenuItem(
     //     label: '我的钱包',
@@ -47,17 +45,14 @@ class _AccountDelegateState extends State<AccountDelegate> {
     const _AccountMenuItem(
         label: '我的收藏',
         icon: 0xe699,
-        separate: true,
         child: const MyCollectionDelegate()),
     const _AccountMenuItem(
         label: '我的关注',
         icon: 0xe680,
-        separate: true,
         child: const FollowingDelegate()),
     const _AccountMenuItem(
         label: '黑名单',
         icon: 0xe6d2,
-        separate: true,
         child: const BlackListDelegate()),
 
     /// 请求退出账户
@@ -102,8 +97,10 @@ class _AccountDelegateState extends State<AccountDelegate> {
                   title: '个人中心',
                   brightness: Brightness.light,
                   actions: <Widget>[
+                    const _ShareAppButton(),
                     const _SettingButton()
                   ],
+                  backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
                 ),
                 body: state.user == null
                     ? const YetNotLogon()
@@ -118,19 +115,21 @@ class _AccountDelegateState extends State<AccountDelegate> {
                         child: ListView(
                           children: <Widget>[
                             /// 构造登录信息页
-                            const _MyAccountCard(),
+                            const UserAccountBanner(),
 
-                            ///
-                            /// 用户交互组件
-                            /// 包含发布信息的按钮和邀请按钮
-                            const UserInterationBar(),
+                            /// 常用功能
+                            /// _Recommends(),
 
                             /// 菜单构造
+
                             Container(
-                              margin: const EdgeInsets.only(top: 5),
-                              child: Column(
-                                children: _buildMenus(state),
-                              ),
+                              margin: kBodyPaddingAll,
+                              child: ClipRRect(
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(10)),
+                                  child: Column(
+                                    children: _buildMenus(state),
+                                  )),
                             )
                           ],
                         ),
@@ -143,14 +142,13 @@ class _AccountDelegateState extends State<AccountDelegate> {
   List<Widget> _buildMenus(AppState state) => _menus
       .map((el) => Container(
             decoration: BoxDecoration(
-                border: const Border(bottom: Global.border, top: Global.border),
+                border: const Border(bottom: Global.border),
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Column(
               children: <Widget>[
                 DiscuzListTile(
                   title: DiscuzText(el.label),
                   leading: DiscuzIcon(el.icon),
-
                   /// 如果item中设置了运行相关的方法，则运行相关的方法，如果有child的话则在路由中打开
                   onTap: () => el.method != null
                       ? el.method(state, context: context)
@@ -166,6 +164,18 @@ class _AccountDelegateState extends State<AccountDelegate> {
       .toList();
 }
 
+/// 常用功能
+class _Recommends extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container(
+                              margin: kBodyPaddingAll,
+                              child: ClipRRect(
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(10)),
+                                  child: Column(children: [],)),
+                            );
+}
+
 ///
 /// 设置按钮
 class _SettingButton extends StatelessWidget {
@@ -173,11 +183,28 @@ class _SettingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: DiscuzIcon(SFSymbols.gear_alt_fill,
+        icon: DiscuzIcon(SFSymbols.gear_alt,
             color: DiscuzApp.themeOf(context).textColor),
         onPressed: () => DiscuzRoute.open(
-            context: context, widget: const PreferencesDelegate()),
+            context: context,
+            fullscreenDialog: true,
+            widget: const PreferencesDelegate()),
       );
+}
+
+///
+/// 分享APP按钮
+class _ShareAppButton extends StatelessWidget {
+  const _ShareAppButton();
+
+  @override
+  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
+      rebuildOnChange: false,
+      builder: (context, child, state) => IconButton(
+            icon: DiscuzIcon(SFSymbols.square_arrow_up,
+                color: DiscuzApp.themeOf(context).textColor),
+            onPressed: () => ShareApp.show(context: context, user: state.user),
+          ));
 }
 
 /// 菜单列表
@@ -187,9 +214,6 @@ class _AccountMenuItem {
 
   /// 路由跳转
   final Widget child;
-
-  /// 是否添加分割
-  final bool separate;
 
   /// 图标
   final dynamic icon;
@@ -203,106 +227,7 @@ class _AccountMenuItem {
   const _AccountMenuItem(
       {@required this.label,
       @required this.icon,
-      this.separate = false,
       this.method,
       this.showDivider = true,
       this.child});
-}
-
-/// 我的账号头部信息
-class _MyAccountCard extends StatelessWidget {
-  const _MyAccountCard({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: true,
-      builder: (context, child, state) => Container(
-            padding: const EdgeInsets.only(top: 15, bottom: 15),
-            decoration: BoxDecoration(
-                color: DiscuzApp.themeOf(context).backgroundColor),
-            child: DiscuzListTile(
-              leading: Hero(
-                tag: 'heroAvatar',
-                child: DiscuzAvatar(
-                  size: 55,
-                ),
-              ),
-              title: DiscuzText(
-                state.user.attributes.username ?? '',
-                fontSize: DiscuzApp.themeOf(context).largeTextSize,
-                fontWeight: FontWeight.bold,
-              ),
-
-              subtitle: const _SimpleUserFollowDescribe(),
-              trailing: SizedBox(
-                width: 100,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    DiscuzText(
-                      '个人主页',
-                      fontWeight: FontWeight.w400,
-                      color: DiscuzApp.themeOf(context).greyTextColor,
-                    ),
-                    const DiscuzListTileTrailing()
-                  ],
-                ),
-              ),
-
-              /// todo: 增加bio显示，待接口口反馈
-              onTap: () => DiscuzRoute.open(
-                  context: context,
-                  shouldLogin: true,
-                  widget: UserHomeDelegate(
-                    user: state.user,
-                  )),
-            ),
-          ));
-}
-
-///
-/// 用户粉丝，和关注信息简单描述
-///
-class _SimpleUserFollowDescribe extends StatelessWidget {
-  const _SimpleUserFollowDescribe();
-
-  @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: true,
-      builder: (context, child, state) => Container(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                DiscuzText(
-                  '关注',
-                  fontWeight: FontWeight.w400,
-                  color: DiscuzApp.themeOf(context).greyTextColor,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                DiscuzText(
-                  state.user.attributes.followCount.toString(),
-                  fontFamily: 'Roboto Condensed',
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                DiscuzText(
-                  '粉丝',
-                  fontWeight: FontWeight.w400,
-                  color: DiscuzApp.themeOf(context).greyTextColor,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                DiscuzText(
-                  state.user.attributes.fansCount.toString(),
-                  fontFamily: 'Roboto Condensed',
-                )
-              ],
-            ),
-          ));
 }

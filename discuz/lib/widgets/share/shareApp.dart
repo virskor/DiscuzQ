@@ -54,7 +54,7 @@ class _ShareAppView extends StatelessWidget {
                 height: 35,
               ),
               DiscuzButton(
-                label: '复制我的邀请口令',
+                label: '复制邀请信息',
                 icon: const DiscuzIcon(
                   SFSymbols.square_on_square,
                   color: Colors.white,
