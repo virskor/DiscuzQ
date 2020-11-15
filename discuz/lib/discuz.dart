@@ -16,8 +16,8 @@ import 'package:discuzq/views/forumDelegate.dart';
 import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';
 import 'package:discuzq/views/notificationsDelegate.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
-import 'package:discuzq/views/searchAndExplore/appSearchDelegate.dart';
 import 'package:discuzq/api/forum.dart';
+import 'package:discuzq/views/topics/appTopicsDelegate.dart';
 
 class Discuz extends StatefulWidget {
   const Discuz({Key key}) : super(key: key);
@@ -139,7 +139,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 页面集合
   static const List<Widget> _views = [
     const ForumDelegate(),
-    const AppSearchDelegate(),
+    const AppTopicsDelegate(),
     const SizedBox(),
 
     /// 发布按钮占位

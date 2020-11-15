@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/users/userLinkDetector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
@@ -6,7 +5,8 @@ import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/webview/webviewHelper.dart';
 import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 import 'package:discuzq/router/route.dart';
-import 'package:discuzq/views/topics/topicDelegate.dart';
+import 'package:discuzq/views/topics/topicDetailDelegate.dart';
+import 'package:discuzq/widgets/users/userLinkDetector.dart';
 
 class HtmlRender extends StatefulWidget {
   HtmlRender({@required this.html});
@@ -60,7 +60,7 @@ class _HtmlRenderState extends State<HtmlRender>
             ? () => false
             : DiscuzRoute.navigate(
                 context: context,
-                widget: TopicDelegate(
+                widget: TopicDetailDelegate(
                   topicID: topicID,
                 )),
 

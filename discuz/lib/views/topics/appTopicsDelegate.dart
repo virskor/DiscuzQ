@@ -5,27 +5,13 @@ import 'package:discuzq/widgets/topics/topicsList.dart';
 import 'package:discuzq/widgets/topics/topicListBar.dart';
 import 'package:discuzq/widgets/topics/topicSortTypes.dart';
 
-enum DiscuzAppSearchType {
-  ///
-  /// Search for Thread
-  thread,
-
-  ///
-  /// Search for User
-  user,
-
-  ///
-  /// Search for topics
-  topic
-}
-
-class AppSearchDelegate extends StatefulWidget {
-  const AppSearchDelegate();
+class AppTopicsDelegate extends StatefulWidget {
+  const AppTopicsDelegate();
   @override
-  _AppSearchDelegateState createState() => _AppSearchDelegateState();
+  _AppTopicsDelegateState createState() => _AppTopicsDelegateState();
 }
 
-class _AppSearchDelegateState extends State<AppSearchDelegate>
+class _AppTopicsDelegateState extends State<AppTopicsDelegate>
     with AutomaticKeepAliveClientMixin {
   String _keyword = '';
 

@@ -3,9 +3,24 @@ import 'package:flutter/cupertino.dart';
 
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/views/searchAndExplore/searchThreadDelegate.dart';
-import 'package:discuzq/views/searchAndExplore/searchUserDelegate.dart';
+import 'package:discuzq/views/search/searchThreadDelegate.dart';
+import 'package:discuzq/views/search/searchUserDelegate.dart';
 import 'package:discuzq/router/route.dart';
+
+enum DiscuzAppSearchType {
+  ///
+  /// Search for Thread
+  thread,
+
+  ///
+  /// Search for User
+  user,
+
+  ///
+  /// Search for topics
+  topic
+}
+
 
 class SearchTypeItemsColumn extends StatelessWidget {
   const SearchTypeItemsColumn();

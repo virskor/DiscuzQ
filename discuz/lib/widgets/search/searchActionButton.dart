@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/views/searchAndExplore/searchSuggestion.dart';
-import 'package:discuzq/views/searchAndExplore/appSearchDelegate.dart';
-import 'package:discuzq/views/searchAndExplore/searchUserDelegate.dart';
-import 'package:discuzq/views/searchAndExplore/searchThreadDelegate.dart';
+import 'package:discuzq/views/search/searchSuggestion.dart';
+import 'package:discuzq/views/search/searchUserDelegate.dart';
+import 'package:discuzq/views/search/searchThreadDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/search/searchTypeItemsColumn.dart';
 
 class DiscuzAppSearchActionButton extends StatelessWidget {
   const DiscuzAppSearchActionButton(

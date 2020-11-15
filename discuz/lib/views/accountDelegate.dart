@@ -44,17 +44,11 @@ class _AccountDelegateState extends State<AccountDelegate> {
     //     icon: CupertinoIcons.money_yen_circle,
     //     child: const WalletDelegate()),
     const _AccountMenuItem(
-        label: '我的收藏',
-        icon: 0xe699,
-        child: const MyCollectionDelegate()),
+        label: '我的收藏', icon: 0xe699, child: const MyCollectionDelegate()),
     const _AccountMenuItem(
-        label: '我的关注',
-        icon: 0xe680,
-        child: const FollowingDelegate()),
+        label: '我的关注', icon: 0xe680, child: const FollowingDelegate()),
     const _AccountMenuItem(
-        label: '黑名单',
-        icon: 0xe6d2,
-        child: const BlackListDelegate()),
+        label: '黑名单', icon: 0xe6d2, child: const BlackListDelegate()),
 
     /// 请求退出账户
     _AccountMenuItem(
@@ -122,12 +116,9 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
                             Container(
                               margin: kBodyPaddingAll,
-                              child: ClipRRect(
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(10)),
-                                  child: Column(
-                                    children: _buildMenus(state),
-                                  )),
+                              child: Column(
+                                children: _buildMenus(state),
+                              ),
                             )
                           ],
                         ),
@@ -147,6 +138,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
                 DiscuzListTile(
                   title: DiscuzText(el.label),
                   leading: DiscuzIcon(el.icon),
+
                   /// 如果item中设置了运行相关的方法，则运行相关的方法，如果有child的话则在路由中打开
                   onTap: () => el.method != null
                       ? el.method(state, context: context)
@@ -172,9 +164,10 @@ class _SettingButton extends StatelessWidget {
         icon: DiscuzIcon(CupertinoIcons.gear_alt,
             color: DiscuzApp.themeOf(context).textColor),
         onPressed: () => DiscuzRoute.navigate(
-            context: context,
-            fullscreenDialog: true,
-            path: Routers.preferences,),
+          context: context,
+          fullscreenDialog: true,
+          path: Routers.preferences,
+        ),
       );
 }
 

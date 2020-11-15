@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/views/searchAndExplore/appSearchDelegate.dart';
 import 'package:discuzq/widgets/search/searchActionButton.dart';
+import 'package:discuzq/widgets/search/searchTypeItemsColumn.dart';
 
 class ForumCategoryTabWrapper extends StatelessWidget {
   const ForumCategoryTabWrapper({Key key, this.tabBar});
