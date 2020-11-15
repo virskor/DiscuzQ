@@ -3,7 +3,6 @@
 <img width="160px" src="./snapshots/tencentCloud.png"/> 
 </p> 
 <p align="center">
-<a href="https://github.com/virskor/DiscuzQ/actions"><img src="https://github.com/virskor/DiscuzQ/workflows/Build%20Discuz-Q-APP/badge.svg"></a> 
 <a href="https://github.com/virskor/DiscuzQ/releases"><img src="https://badgen.net/github/release/virskor/DiscuzQ"></a> 
 <a href="https://github.com/virskor/DiscuzQ/blob/master/LICENSE"><img src="https://badgen.net/github/license/virskor/DiscuzQ"></a> 
 </p> 
@@ -23,6 +22,7 @@ Discuz! Q RC v2.1.201113
 **✅ 用户隐私政策，协议**  
 **✅ 站点关闭提示**  
 **✅ 使用路由管理页面（先新增路由管理类，后期逐渐全部路由化）**  
+**在消息评论中回复**  
 **编辑器优化**  
 **问答支持**  
 **批量传图**  
@@ -33,6 +33,7 @@ Discuz! Q RC v2.1.201113
 **微信登录**  
 **权限购买**  
 **微信登录**  
+**钱包，订单(安卓)**  
 **Flutter APP 正式版**  
 
 ## About DiscuzQ Flutter  
