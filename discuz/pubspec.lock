@@ -35,7 +35,7 @@ packages:
       name: badges
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.1"
+    version: "1.1.4"
   boolean_selector:
     dependency: transitive
     description:
