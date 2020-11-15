@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/widgets/ui/ui.dart';
-import 'package:discuzq/views/searchAndExplore/searchSuggestion.dart';
-import 'package:discuzq/views/searchAndExplore/appSearchDelegate.dart';
-import 'package:discuzq/views/searchAndExplore/searchUserDelegate.dart';
-import 'package:discuzq/views/searchAndExplore/searchThreadDelegate.dart';
+import 'package:discuzq/views/search/searchSuggestion.dart';
+import 'package:discuzq/views/search/searchUserDelegate.dart';
+import 'package:discuzq/views/search/searchThreadDelegate.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/search/searchTypeItemsColumn.dart';
 
 class DiscuzAppSearchActionButton extends StatelessWidget {
   const DiscuzAppSearchActionButton(
@@ -23,12 +23,12 @@ class DiscuzAppSearchActionButton extends StatelessWidget {
   Widget build(BuildContext context) => IconButton(
         icon: DiscuzIcon(icon ?? Icons.search, color: Colors.white),
         onPressed: () => showSearch(
-            context: context, delegate: _DiscuzAppSearchDelegate(type: type)),
+            context: context, delegate: DiscuzAppSearchDelegate(type: type)),
       );
 }
 
-class _DiscuzAppSearchDelegate extends SearchDelegate<String> {
-  _DiscuzAppSearchDelegate({this.type = DiscuzAppSearchType.thread});
+class DiscuzAppSearchDelegate extends SearchDelegate<String> {
+  DiscuzAppSearchDelegate({this.type = DiscuzAppSearchType.thread});
 
   final DiscuzAppSearchType type;
 

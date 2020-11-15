@@ -38,24 +38,27 @@ class _PrivaciesDelegateState extends State<PrivaciesDelegate> {
   @override
   Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
       rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-          appBar: DiscuzAppBar(
-            title: widget.isPrivacy ? '隐私政策' : '用户协议',
-            brightness: Brightness.light,
-          ),
-          body: Column(
-            children: [
-              /// 显示内容
-              Expanded(
-                child: Padding(
-                  padding: kBodyPaddingAll,
-                  child: DiscuzText(widget.isPrivacy
-                      ? (state.forum.attributes.agreements.privacyContent ??
-                          "暂未设置")
-                      : (state.forum.attributes.agreements.registerContent ??
-                          "暂未设置")),
-                ),
-              )
-            ],
-          )));
+      builder: (context, child, state) {
+        final String _text = widget.isPrivacy
+            ? (state.forum.attributes.agreements.privacyContent ?? "暂未设置")
+            : (state.forum.attributes.agreements.registerContent ?? "暂未设置");
+        return Scaffold(
+            appBar: DiscuzAppBar(
+              title: widget.isPrivacy ? '隐私政策' : '用户协议',
+              brightness: Brightness.light,
+            ),
+            body: Column(
+              children: [
+                /// 显示内容
+                Expanded(
+                  child: Padding(
+                    padding: kBodyPaddingAll,
+                    child: SingleChildScrollView(
+                      child: DiscuzText(_text),
+                    ),
+                  ),
+                )
+              ],
+            ));
+      });
 }

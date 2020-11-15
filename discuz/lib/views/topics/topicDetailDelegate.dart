@@ -12,18 +12,18 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 
-class TopicDelegate extends StatefulWidget {
-  TopicDelegate({@required this.topicID}) {
+class TopicDetailDelegate extends StatefulWidget {
+  TopicDetailDelegate({@required this.topicID}) {
     assert(topicID != null);
   }
 
   final int topicID;
 
   @override
-  _TopicDelegateState createState() => _TopicDelegateState();
+  _TopicDetailDelegateState createState() => _TopicDetailDelegateState();
 }
 
-class _TopicDelegateState extends State<TopicDelegate> {
+class _TopicDetailDelegateState extends State<TopicDetailDelegate> {
   /// states
   TopicModel _currentTopic;
 

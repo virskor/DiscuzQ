@@ -1,4 +1,3 @@
-import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/topicModel.dart';
@@ -7,10 +6,11 @@ import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/utils/global.dart';
-import 'package:discuzq/views/topics/topicDelegate.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/views/topics/topicDetailDelegate.dart';
+import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 
 class TopicCard extends StatefulWidget {
   TopicCard({Key key, this.threadsCacher, this.topic}) : super(key: key);
@@ -133,7 +133,7 @@ class _TopicCardState extends State<TopicCard>
         onTap: () => DiscuzRoute.navigate(
           context: context,
           widget: Builder(
-              builder: (context) => TopicDelegate(
+              builder: (context) => TopicDetailDelegate(
                     topicID: widget.topic.id,
                   )),
         ),
