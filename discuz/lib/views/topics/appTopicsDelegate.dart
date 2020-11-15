@@ -26,7 +26,7 @@ class _AppTopicsDelegateState extends State<AppTopicsDelegate>
 
     return Scaffold(
       appBar: DiscuzAppBar(
-        title: '发现与话题',
+        title: '话题',
         brightness: Brightness.light,
       ),
       body: Column(

@@ -1,4 +1,5 @@
 import 'package:discuzq/router/routers.dart';
+import 'package:discuzq/views/exploreDelagate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -139,7 +140,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 页面集合
   static const List<Widget> _views = [
     const ForumDelegate(),
-    const AppTopicsDelegate(),
+    ExploreDelegate(),
     const SizedBox(),
 
     /// 发布按钮占位

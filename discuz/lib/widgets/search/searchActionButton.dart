@@ -23,12 +23,12 @@ class DiscuzAppSearchActionButton extends StatelessWidget {
   Widget build(BuildContext context) => IconButton(
         icon: DiscuzIcon(icon ?? Icons.search, color: Colors.white),
         onPressed: () => showSearch(
-            context: context, delegate: _DiscuzAppSearchDelegate(type: type)),
+            context: context, delegate: DiscuzAppSearchDelegate(type: type)),
       );
 }
 
-class _DiscuzAppSearchDelegate extends SearchDelegate<String> {
-  _DiscuzAppSearchDelegate({this.type = DiscuzAppSearchType.thread});
+class DiscuzAppSearchDelegate extends SearchDelegate<String> {
+  DiscuzAppSearchDelegate({this.type = DiscuzAppSearchType.thread});
 
   final DiscuzAppSearchType type;
 
