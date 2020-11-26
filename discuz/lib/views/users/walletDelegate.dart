@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzAmount.dart';
@@ -14,6 +13,8 @@ import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/models/walletModel.dart';
+import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class WalletDelegate extends StatefulWidget {
   const WalletDelegate({Key key}) : super(key: key);
@@ -55,9 +56,8 @@ class _WalletDelegateState extends State<WalletDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
+  Widget build(BuildContext context) =>  Consumer<UserProvider>(
+      builder: (BuildContext context, UserProvider user, Widget child) => Scaffold(
             appBar: DiscuzAppBar(
               brightness: Brightness.dark,
               backgroundColor: DiscuzApp.themeOf(context).primaryColor,
@@ -79,7 +79,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
 
                   ///
                   /// 显示钱包残额
-                  _amount(state),
+                  _amount(),
 
                   ///
                   /// 钱包详情，提现等
@@ -96,7 +96,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
                           ///
                           /// 冻结金额
                           ///
-                          _frozen(state),
+                          _frozen(),
                           const DiscuzDivider(),
                           DiscuzListTile(
                             title: DiscuzText('提现记录'),
@@ -121,7 +121,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   ///
   /// 冻结金额
   ///
-  Widget _frozen(AppState state) => DiscuzListTile(
+  Widget _frozen() => DiscuzListTile(
         title: DiscuzText('冻结金额'),
         trailing: DiscuzText(
           _wallet.freezeAmount,
@@ -131,7 +131,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
 
   ///
   /// show amounts
-  Widget _amount(AppState state) => Center(
+  Widget _amount() => Center(
         child: DiscuzAmount(
           amount: _wallet.availableAmount,
           textScaleFactor: 4,
@@ -141,15 +141,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   ///
   /// 仅刷新状态
   /// 页面initState 和 _refreshMessageList 都会刷新状态
-  Future<void> _refreshWallet({AppState state}) async {
-    if (state == null) {
-      try {
-        state = ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
-      } catch (e) {
-        throw e;
-      }
-    }
-
+  Future<void> _refreshWallet() async {
     setState(() {
       _loading = true;
     });
@@ -158,7 +150,8 @@ class _WalletDelegateState extends State<WalletDelegate> {
     /// 视图请求 接口的最新数据
     ///
     ///
-    final String userWalletUrl = "${Urls.usersWallerData}/${state.user.attributes.id}";
+    final UserModel user = context.read<UserProvider>().user;
+    final String userWalletUrl = "${Urls.usersWallerData}/${user.attributes.id}";
     Response resp = await Request(context: context).getUrl(url: userWalletUrl);
 
     if (resp == null) {

@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/searchAppbar.dart';
 import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/request/request.dart';
@@ -18,6 +17,7 @@ import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/users/userFollowListTile.dart';
 import 'package:discuzq/models/userFollowModel.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class FollowerListDelegate extends StatefulWidget {
   ///
@@ -91,9 +91,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
+  Widget build(BuildContext context) => Scaffold(
             appBar: SearchAppbar(
               placeholder: '输入要查找的用户名',
               onSubmit: (String username, bool shouldShowNoticeEmpty) async {
@@ -108,11 +106,11 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
                 await _requestData(context: context, pageNumber: 1);
               },
             ),
-            body: _body(context: context, state: state),
-          ));
+            body: _body(context: context),
+          );
 
   /// build body
-  Widget _body({@required BuildContext context, @required AppState state}) =>
+  Widget _body({@required BuildContext context}) =>
       DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
@@ -131,12 +129,12 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
           await _requestData(pageNumber: _pageNumber + 1, context: context);
           _controller.loadComplete();
         },
-        child: _buildUsersList(state: state),
+        child: _buildUsersList(),
       );
 
   ///
   /// 渲染查找到的用户列表
-  Widget _buildUsersList({AppState state}) {
+  Widget _buildUsersList() {
     ///
     /// 骨架屏仅在初始化时加载
     ///
@@ -203,9 +201,6 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
     });
 
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
-
       List<String> includes = [
         widget.isToUser ? RequestIncludes.toUser : RequestIncludes.fromUser,
         widget.isToUser
@@ -218,7 +213,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
         "page[limit]": Global.requestPageLimit,
         "page[number]": pageNumber ?? _pageNumber,
         "filter[username]": _username,
-        "filter[user_id]": state.user.id ?? 0,
+        "filter[user_id]": context.read<UserProvider>().user.id ?? 0,
         "include": RequestIncludes.toGetRequestQueries(includes: includes),
       };
 

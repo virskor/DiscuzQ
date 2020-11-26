@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:discuzq/models/userModel.dart';
-import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
 import 'package:discuzq/api/users.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 ///
 /// 关注用户
@@ -66,19 +66,18 @@ class _UserFollowState extends State<UserFollow> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) =>
-          _buildBody(context: context, state: state));
+  Widget build(BuildContext context) => Consumer<UserProvider>(builder:
+          (BuildContext context, UserProvider user, Widget child) =>
+          _buildBody(context: context, user: user.user));
 
   ///
   /// build body
-  Widget _buildBody({BuildContext context, AppState state}) {
+  Widget _buildBody({BuildContext context, UserModel user}) {
     if (_loading) {
       return DiscuzIndicator();
     }
 
-    return state.user.attributes.id == widget.user.id
+    return user.attributes.id == widget.user.id
         ? const SizedBox()
         : SizedBox(
             width: 90,

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class FloatLoginButton extends StatelessWidget {
   const FloatLoginButton({Key key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: true,
-      builder: (context, child, state) {
-        if (state.user != null) {
+  Widget build(BuildContext context) => Consumer<UserProvider>(
+          builder: (BuildContext context, UserProvider user, Widget child) {
+        if (user.hadLogined) {
           return SizedBox();
         }
         return Center(

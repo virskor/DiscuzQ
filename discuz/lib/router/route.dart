@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 
-import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -38,11 +36,8 @@ class DiscuzRoute {
     /// 有的页面可能需要登录后才能查看
     if (shouldLogin == true) {
       try {
-        final AppState state =
-            ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
-
         final logined =
-            await AuthHelper.requsetShouldLogin(context: context, state: state);
+            await AuthHelper.requsetShouldLogin(context: context);
         if (!logined) {
           return Future.value(false);
         }

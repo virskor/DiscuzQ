@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/views/users/loginDelegate.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/StringHelper.dart';
@@ -12,6 +12,7 @@ import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class AuthHelper {
   /// pop login delegate
@@ -19,22 +20,21 @@ class AuthHelper {
       expand: true,
       backgroundColor: Colors.transparent,
       context: context,
-      builder: (BuildContext context) =>
-          CupertinoPageScaffold(
+      builder: (BuildContext context) => CupertinoPageScaffold(
             resizeToAvoidBottomInset: false,
             child: const LoginDelegate(),
           ));
 
   /// requst login dialog and waiting for login result
   static Future<bool> requsetShouldLogin(
-      {BuildContext context, AppState state}) async {
+      {BuildContext context}) async {
     bool success = false;
 
     ///
     /// 如果已经登录了直接返回 true
     /// 不要再次弹出登录对话框
     ///
-    if (state.user != null) {
+    if (context.read<UserProvider>().hadLogined) {
       return Future.value(true);
     }
 
@@ -42,8 +42,7 @@ class AuthHelper {
         expand: true,
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (BuildContext context) =>
-            CupertinoPageScaffold(
+        builder: (BuildContext context) => CupertinoPageScaffold(
               resizeToAvoidBottomInset: false,
               child: const LoginDelegate(),
             ));
@@ -52,9 +51,9 @@ class AuthHelper {
   }
 
   /// 处理用户请求退出登录
-  static Future<void> logout({@required AppState state}) async {
+  static Future<void> logout({@required BuildContext context}) async {
     await AuthorizationHelper().clearAll();
-    state.updateUser(null);
+    context.read<UserProvider>().logout();
   }
 
   ///
@@ -64,26 +63,27 @@ class AuthHelper {
   /// 其实没有必要保存到本地，本地的仅需要登录时保存就可以了，因为用户信息刷新的逻辑其实很多的
   ///
   static Future<bool> refreshUser(
-      {@required BuildContext context,
-      @required AppState state,
-      UserModel data}) async {
+      {@required BuildContext context, UserModel data}) async {
     /// 有时候可能有的接口有反馈，这个时候直接用接口查询过来的数据更新
     /// 这样就避免了自己去查
     /// 其实这种方式虽然简单，但有问题
     /// todo: 最后还是要自己建立一些数据模型，来转化，防止前端出现一些难以维护的异常
     if (data != null) {
-      state.updateUser(data);
+      context.read<UserProvider>().updateUser(data);
       return Future.value(true);
     }
 
-    final String urlDataUrl = "${Urls.users}/${state.user.attributes.id}";
+    final String urlDataUrl =
+        "${Urls.users}/${context.read<UserProvider>().user.attributes.id.toString()}";
     Response resp = await Request(context: context).getUrl(url: urlDataUrl);
 
     if (resp == null) {
       return Future.value(false);
     }
 
-    state.updateUser(UserModel.fromMap(maps: resp.data['data']));
+    context
+        .read<UserProvider>()
+        .updateUser(UserModel.fromMap(maps: resp.data['data']));
     return Future.value(true);
   }
 
@@ -91,13 +91,15 @@ class AuthHelper {
   /// 从本地读取已存的用户信息
   /// 从本地获取，如果用户没有登录的情况下会为null， 但是无关紧要
   ///
-  static Future<void> getUserFromLocal({@required AppState state}) async {
+  static Future<void> getUserFromLocal({@required BuildContext context}) async {
     try {
       final dynamic user = await AuthorizationHelper().getUser();
       if (user == null) {
         return;
       }
-      state.updateUser(UserModel.fromMap(maps: jsonDecode(user)));
+      context
+          .read<UserProvider>()
+          .updateUser(UserModel.fromMap(maps: jsonDecode(user)));
     } catch (e) {
       throw e;
     }
@@ -108,7 +110,7 @@ class AuthHelper {
   /// Process login and register request
   ///
   static Future<void> processLoginByResponseData(dynamic response,
-      {@required AppState state}) async {
+      {@required BuildContext context}) async {
     ///
     /// 读取accessToken
     ///
@@ -153,6 +155,6 @@ class AuthHelper {
         .save(data: refreshToken, key: AuthorizationHelper.refreshTokenKey);
 
     /// 更新用户状态
-    state.updateUser(UserModel.fromMap(maps: user));
+    context.read<UserProvider>().logout();
   }
 }

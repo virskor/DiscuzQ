@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:discuzq/utils/request/urls.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class UsersAPI {
   ///
@@ -20,9 +21,9 @@ class UsersAPI {
   /// Modify user's profile
   /// attribute: {signature: 'ceshi'}
   Future<dynamic> updateProfile(
-      {@required dynamic attributes, @required AppState state}) async {
-    assert(state != null);
-    final int uid = state.user.id;
+      {@required dynamic attributes, @required BuildContext context}) async {
+    assert(context != null);
+    final int uid = context.read<UserProvider>().user.id;
 
     final dynamic data = {
       "data": {"type": "users", "id": uid, "attributes": attributes}
@@ -41,7 +42,8 @@ class UsersAPI {
   ///
   /// 异步的请求用户的信息，以覆盖现有的用户信息
   /// 同时更新用户组信息
-  Future<Map<UserModel, UserGroupModel>> getUserDataByID({@required int uid}) async {
+  Future<Map<UserModel, UserGroupModel>> getUserDataByID(
+      {@required int uid}) async {
     ///
     /// 关联查询的数据
     ///
@@ -75,12 +77,14 @@ class UsersAPI {
     return Future.value({user: group});
   }
 
-    ///
+  ///
   /// request follow
   /// 如果用户请求取消关注，应该发送delete请求，如果是关注则，直接发送post请求
   /// 关注
   static Future<bool> requestFollow(
-      {@required BuildContext context, @required UserModel user, bool isUnfollow = false}) async {
+      {@required BuildContext context,
+      @required UserModel user,
+      bool isUnfollow = false}) async {
     Response resp;
 
     ///
@@ -94,7 +98,7 @@ class UsersAPI {
     };
 
     final Function closeLoading = DiscuzToast.loading(context: context);
-    
+
     /// 204 直接return true DIO处理有问题
     if (isUnfollow) {
       try {
@@ -124,7 +128,7 @@ class UsersAPI {
       }
 
       DiscuzToast.toast(context: context, message: '已关注');
-      
+
       return Future.value(true);
     } catch (e) {
       closeLoading();

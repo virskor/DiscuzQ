@@ -1,15 +1,15 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 const double _kBottomNavigationElevation = 15;
 
@@ -44,9 +44,8 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
     final double additionalBottomPadding =
         math.max(MediaQuery.of(context).padding.bottom - 12 / 2.0, 0.0);
 
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) => Material(
+    return Consumer<UserProvider>(
+      builder: (BuildContext context, UserProvider user, Widget child) =>  Material(
               elevation: _kBottomNavigationElevation,
               child: Container(
                 constraints: BoxConstraints(
@@ -60,12 +59,12 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
                   color: DiscuzApp.themeOf(context).backgroundColor,
                   border: const Border(top: Global.border),
                 ),
-                child: _buildItems(state: state),
+                child: _buildItems(),
               ),
             ));
   }
 
-  Widget _buildItems({AppState state}) => Row(
+  Widget _buildItems() => Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: widget.items.map<Widget>((it) {
         if (it.isPublishButton) {
@@ -98,7 +97,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
           onTap: () async {
             if (it.shouldLogin == true) {
               bool success = await AuthHelper.requsetShouldLogin(
-                  context: context, state: state);
+                  context: context);
               if (!success) {
                 return;
               }

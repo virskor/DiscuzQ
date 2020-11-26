@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
@@ -15,6 +14,7 @@ import 'package:discuzq/api/blackList.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class UserHomeDelegate extends StatefulWidget {
   const UserHomeDelegate(
@@ -84,15 +84,15 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
+  Widget build(BuildContext context) => Consumer<UserProvider>(
+      builder: (BuildContext context, UserProvider user, Widget child) =>
+          Scaffold(
             appBar: DiscuzAppBar(
               title: _getTitle(),
               actions: <Widget>[
                 ///
                 /// 举报按钮仅在查看其它用户时显示
-                state.user != null && state.user.id != widget.user.id
+                user.user != null && user.user.id != widget.user.id
                     ? _normalPopMenu()
                     : const SizedBox()
               ],

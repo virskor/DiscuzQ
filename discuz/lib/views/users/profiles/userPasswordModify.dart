@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/api/users.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
@@ -37,15 +35,12 @@ class _UserPasswordModifyState extends State<UserPasswordModify> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) => Scaffold(
-          appBar: DiscuzAppBar(
-            title: '修改密码',
-            brightness: Brightness.light,
-          ),
-          body: _buildBody(),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: DiscuzAppBar(
+          title: '修改密码',
+          brightness: Brightness.light,
         ),
+        body: _buildBody(),
       );
 
   Widget _buildBody() => Padding(
@@ -117,11 +112,8 @@ class _UserPasswordModifyState extends State<UserPasswordModify> {
     final Function close = DiscuzToast.loading();
 
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
-
       final dynamic result = await UsersAPI(context: context)
-          .updateProfile(attributes: attributes, state: state);
+          .updateProfile(attributes: attributes, context: context);
 
       close();
 
@@ -138,7 +130,6 @@ class _UserPasswordModifyState extends State<UserPasswordModify> {
       if (Navigator.canPop(context)) {
         Navigator.pop(context);
       }
-      
     } catch (e) {
       close();
       throw e;

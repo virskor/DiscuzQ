@@ -1,5 +1,4 @@
 import 'package:discuzq/models/categoryModel.dart';
-import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/models/forumModel.dart';
 import 'package:discuzq/utils/debouncer.dart';
@@ -51,16 +50,6 @@ class AppState extends StateModel {
     if (_categories != null) {
       return;
     }
-    _noticeRebuild();
-  }
-
-  ///
-  /// 已经登录的用户
-  ///
-  UserModel _user;
-  UserModel get user => _user;
-  void updateUser(UserModel user) {
-    _user = user;
     _noticeRebuild();
   }
   

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:discuzq/models/userModel.dart';
 import 'package:path/path.dart' as path;
+import 'package:provider/provider.dart';
+
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,7 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class AvatarPicker extends StatefulWidget {
   final Widget avatar;
@@ -138,7 +142,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
         }
 
         /// 刷新用户资料
-        await AuthHelper.refreshUser(context: context, state: state);
+        await AuthHelper.refreshUser(context: context);
       }
       // should clear image success or failed
       _clearImage();
@@ -167,8 +171,10 @@ class _AvatarPickerState extends State<AvatarPicker> {
         Directory appDocDir = await getTemporaryDirectory();
         File compressedFile = await compressAndGetFile(
             imageFile, appDocDir.path + path.basename(imageFile.path));
+        
+        final UserModel user = context.read<UserProvider>().user;
         final Response resp = await Request(context: context).uploadFile(
-            url: "${Urls.users}/${state.user.id.toString()}/avatar",
+            url: "${Urls.users}/${user.id.toString()}/avatar",
             name: 'avatar',
 
             /// 上传头像

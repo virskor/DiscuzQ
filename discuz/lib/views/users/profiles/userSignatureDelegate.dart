@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/debouncer.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
@@ -12,6 +11,7 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/api/users.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/authHelper.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class UserSignatureDelegate extends StatefulWidget {
   const UserSignatureDelegate();
@@ -57,28 +57,25 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '编辑个性签名',
-              brightness: Brightness.light,
-            ),
-            body: Padding(
-                padding: kBodyPaddingAll,
-                child: Column(
-                  children: <Widget>[
-                    _UserSignatureNoticeBar(
-                      leftTextLength: _maxPermittedTextLength,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _buildTextFiled(),
-                    _buildModifyButton(),
-                  ],
-                ))),
-      );
+  Widget build(BuildContext context) => Scaffold(
+      appBar: DiscuzAppBar(
+        title: '编辑个性签名',
+        brightness: Brightness.light,
+      ),
+      body: Padding(
+          padding: kBodyPaddingAll,
+          child: Column(
+            children: <Widget>[
+              _UserSignatureNoticeBar(
+                leftTextLength: _maxPermittedTextLength,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              _buildTextFiled(),
+              _buildModifyButton(),
+            ],
+          )));
 
   /// Build Textfiled widget
   Widget _buildTextFiled() => DiscuzTextfiled(
@@ -108,10 +105,9 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
   Future<void> _initDefaultValue() async =>
       Future.delayed(Duration(milliseconds: 500)).then((_) {
         try {
-          final AppState state =
-              ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
-          if (state.user != null && state.user.attributes.signature != '') {
-            _controller.text = state.user.attributes.signature;
+          final UserModel user = context.read<UserProvider>().user;
+          if (user != null && user.attributes.signature != '') {
+            _controller.text = user.attributes.signature;
           }
         } catch (e) {
           throw e;
@@ -139,13 +135,10 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
     final Function close = DiscuzToast.loading();
 
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
-
       final dynamic attributes = {"signature": _controller.text};
 
       final dynamic result = await UsersAPI(context: context)
-          .updateProfile(attributes: attributes, state: state);
+          .updateProfile(attributes: attributes, context: context);
 
       close();
 
@@ -155,9 +148,7 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
 
       /// 更新用户信息
       await AuthHelper.refreshUser(
-          context: context,
-          state: state,
-          data: UserModel.fromMap(maps: result));
+          context: context, data: UserModel.fromMap(maps: result));
       DiscuzToast.toast(
         context: context,
         message: '个性签名修改成功',
@@ -167,7 +158,6 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
       if (Navigator.canPop(context)) {
         Navigator.pop(context);
       }
-      
     } catch (e) {
       close();
       throw e;

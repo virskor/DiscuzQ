@@ -174,7 +174,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
         return;
       }
 
-      await AuthHelper.processLoginByResponseData(resp.data, state: state);
+      await AuthHelper.processLoginByResponseData(resp.data, context: context);
 
       /// 提示登录成功。关闭对话框，重新初始化信息
       ///

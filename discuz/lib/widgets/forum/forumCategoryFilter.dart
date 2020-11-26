@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -7,6 +8,7 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/utils/request/requestIncludes.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 /// 筛选组件
 class ForumCategoryFilter extends StatefulWidget {
@@ -112,7 +114,7 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
         ForumCategoryFilter.conditions
             .map<PopupMenuItem<ForumCategoryFilterItem>>(
                 (ForumCategoryFilterItem c) =>
-                    c.shouldLogin == true && state.user == null
+                    c.shouldLogin == true && !context.read<UserProvider>().hadLogined
                         ? null
                         : PopupMenuItem<ForumCategoryFilterItem>(
                             //checked: _selected == c,
@@ -140,7 +142,7 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
           /// 构造一个全新的filter进行强制替换
           if (val.shouldLogin == true) {
             Map<String, dynamic> replacement = {
-              "fromUserId": state.user.attributes.id,
+              "fromUserId": context.read<UserProvider>().user.attributes.id,
             };
 
             /// 过滤可能发生重复的数据

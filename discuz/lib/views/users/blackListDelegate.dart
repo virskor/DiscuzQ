@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/api/blackList.dart';
@@ -15,6 +14,7 @@ import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class BlackListDelegate extends StatefulWidget {
   const BlackListDelegate({Key key}) : super(key: key);
@@ -77,9 +77,9 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
+  Widget build(BuildContext context) => Consumer<UserProvider>(
+      builder: (BuildContext context, UserProvider user, Widget child) =>
+          Scaffold(
             appBar: DiscuzAppBar(
               title: _title,
               brightness: Brightness.light,
@@ -183,11 +183,8 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
     });
 
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
-
       final Response resp = await BlackListAPI(context: context)
-          .list(uid: state.user.id, pageNumber: pageNumber ?? 1);
+          .list(uid: context.read<UserProvider>().user.id, pageNumber: pageNumber ?? 1);
 
       final List<dynamic> data = resp.data['data'] ?? [];
       final List<UserModel> users =

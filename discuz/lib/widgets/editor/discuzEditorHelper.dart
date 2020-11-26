@@ -8,8 +8,6 @@ import 'package:discuzq/views/editor.dart';
 import 'package:discuzq/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
-import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/authHelper.dart';
 
 ///
@@ -42,11 +40,8 @@ class DiscuzEditorHelper {
 
     /// 弹出前，要检测用户是否已经登录
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
-
       final logined =
-          await AuthHelper.requsetShouldLogin(context: context, state: state);
+          await AuthHelper.requsetShouldLogin(context: context);
       if (!logined) {
         return Future.value(null);
       }

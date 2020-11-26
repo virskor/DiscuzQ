@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
 
 import 'package:discuzq/models/postModel.dart';
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/utils/device.dart';
+import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 ///
 /// post（帖子，评论点赞组件）
@@ -31,22 +32,20 @@ class PostLikeButton extends StatefulWidget {
 
 class _PostLikeButtonState extends State<PostLikeButton> {
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => LikeButton(
-            padding: const EdgeInsets.all(0),
-            isLiked: _iLikedIt(state: state),
-            onTap: _onLikeButtonTapped,
-            size: widget.size,
-            likeCount: widget.post.attributes.likeCount,
-            likeBuilder: (bool isLiked) => DiscuzIcon(
-              0xe608,
-              color: isLiked
-                  ? Colors.pinkAccent
-                  : DiscuzApp.themeOf(context).greyTextColor,
-              size: widget.size,
-            ),
-          ));
+  Widget build(BuildContext context) => LikeButton(
+        padding: const EdgeInsets.all(0),
+        isLiked: _iLikedIt(),
+        onTap: _onLikeButtonTapped,
+        size: widget.size,
+        likeCount: widget.post.attributes.likeCount,
+        likeBuilder: (bool isLiked) => DiscuzIcon(
+          0xe608,
+          color: isLiked
+              ? Colors.pinkAccent
+              : DiscuzApp.themeOf(context).greyTextColor,
+          size: widget.size,
+        ),
+      );
 
   ///
   /// 用户点赞
@@ -75,10 +74,12 @@ class _PostLikeButtonState extends State<PostLikeButton> {
   ///
   /// 我是否历史点赞过
   ///
-  bool _iLikedIt({AppState state}) {
+  bool _iLikedIt() {
+    final UserModel user = context.read<UserProvider>().user;
+
     ///
     /// 没有登录，也就不存在点赞的可能
-    if (state.user == null) {
+    if (user == null) {
       return false;
     }
 
@@ -88,7 +89,7 @@ class _PostLikeButtonState extends State<PostLikeButton> {
     }
 
     final List<dynamic> users = widget.post.relationships.likedUsers
-        .where((u) => state.user.attributes.id == int.tryParse(u['id']))
+        .where((u) => user.attributes.id == int.tryParse(u['id']))
         .toList();
     return users == null || users.length == 0 ? false : true;
   }

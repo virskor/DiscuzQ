@@ -14,6 +14,7 @@ import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/widgets/emoji/emojiSync.dart';
 import 'package:discuzq/utils/device.dart';
 import 'package:discuzq/providers/appConfigProvider.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 ///
 /// 执行
@@ -27,6 +28,7 @@ void main() {
         providers: [
           /// APP 配置状态
           ChangeNotifierProvider(create: (_) => AppConfigProvider()),
+          ChangeNotifierProvider(create: (_) => UserProvider()),
         ],
         child: DiscuzQ(),
       ),
@@ -73,7 +75,7 @@ class DiscuzQ extends StatelessWidget {
                     /// 一定要在最开始
                     await BuildInfo().init();
 
-                    await _initApp(context: context, state: state);
+                    await _initApp(context: context,);
 
                     ///
                     ///
@@ -92,7 +94,7 @@ class DiscuzQ extends StatelessWidget {
   ///
   /// Init app and states
   /// Future builder to makesure appstate init only once
-  Future<void> _initApp({BuildContext context, AppState state}) async {
+  Future<void> _initApp({BuildContext context}) async {
     await _initAppSettings();
 
     ///
@@ -102,7 +104,7 @@ class DiscuzQ extends StatelessWidget {
     await context.read<AppConfigProvider>().update();
 
     /// 加载本地的用户信息
-    await AuthHelper.getUserFromLocal(state: state);
+    await AuthHelper.getUserFromLocal(context: context);
   }
 
   /// 加载本地的配置

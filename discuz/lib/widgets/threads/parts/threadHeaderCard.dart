@@ -1,3 +1,4 @@
+
 import 'package:discuzq/widgets/common/discuzChip.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,6 @@ import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/userHomeDelegate.dart';
-import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/utils/dateUtil.dart';
 
 ///

@@ -152,7 +152,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   /// _requestData will get data from backend
   /// 如果提供了pageNumber则使用指定的pageNumber加载
   /// 如果没有提供，则使用_pageNumber
-  Future<void> _requestData({int pageNumber, String keyword}) async {
+  Future<void> _requestData({int pageNumber}) async {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
     if (pageNumber == 1) {

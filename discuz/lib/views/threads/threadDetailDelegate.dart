@@ -401,7 +401,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
   ///
   /// _requestData will get data from backend
-  Future<void> _requestData({int pageNumber, String keyword}) async {
+  Future<void> _requestData({int pageNumber}) async {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
     if (pageNumber == 1) {

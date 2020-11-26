@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:provider/provider.dart';
 
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
@@ -18,6 +19,7 @@ import 'package:discuzq/models/typeUnreadNotificationsModel.dart';
 import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/views/nofitications/notificationListDelegate.dart';
 import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/providers/userProvider.dart';
 
 class NotificationsDelegate extends StatefulWidget {
   const NotificationsDelegate({Key key}) : super(key: key);
@@ -81,7 +83,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
                   // header: WaterDropHeader(),
                   controller: _controller,
                   onRefresh: () async {
-                    await _refreshMessageList(context: context, state: state);
+                    await _refreshMessageList(context: context);
                     _controller.refreshCompleted();
                   },
                   child: Column(
@@ -200,40 +202,31 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   /// typeUnreadNotifications.system	array		未读系统消息数
   /// #返回示例
   ///
-  Future<void> _refreshMessageList(
-      {BuildContext context, AppState state}) async {
-    if (state == null) {
-      try {
-        state = ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
-      } catch (e) {
-        throw e;
-      }
-    }
-
-    final bool refreshed =
-        await AuthHelper.refreshUser(context: context, state: state);
+  Future<void> _refreshMessageList({BuildContext context}) async {
+    final bool refreshed = await AuthHelper.refreshUser(context: context);
     if (!refreshed) {
       DiscuzToast.failed(context: context, message: '刷新失败');
       return;
     }
 
-    _refreshStateOnly(state: state);
+    _refreshStateOnly(context: context);
   }
 
   ///
   /// 仅刷新状态
   /// 页面initState 和 _refreshMessageList 都会刷新状态
-  void _refreshStateOnly({AppState state}) {
+  void _refreshStateOnly({BuildContext context}) {
     ///
     /// 刷新列表
     /// 数据为空则不要继续
     ///
-    if (state.user.attributes.typeUnreadNotifications == null) {
+    if (context.read<UserProvider>().user.attributes.typeUnreadNotifications ==
+        null) {
       return;
     }
 
     final TypeUnreadNotificationsModel notifications =
-        state.user.attributes.typeUnreadNotifications;
+        context.read<UserProvider>().user.attributes.typeUnreadNotifications;
     if (notifications == null) {
       return;
     }
@@ -245,7 +238,8 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 就是那么懒
     /// todo:增加消息查看组件
     setState(() {
-      _typeUnreadNotifications = state.user.attributes.typeUnreadNotifications;
+      _typeUnreadNotifications =
+          context.read<UserProvider>().user.attributes.typeUnreadNotifications;
     });
   }
 }
