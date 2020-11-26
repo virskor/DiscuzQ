@@ -114,8 +114,8 @@ class _AccountDelegateState extends State<AccountDelegate> {
                             /// 菜单构造
 
                             Container(
-                              margin: kBodyPaddingAll,
-                              child: Column(
+                      
+                              child: Wrap(
                                 children: _buildMenus(state),
                               ),
                             )

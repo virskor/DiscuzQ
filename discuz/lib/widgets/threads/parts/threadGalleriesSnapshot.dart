@@ -62,7 +62,7 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
     });
 
     /// 可能出现找不到 对应图片的问题
-    if (attachmentsModels.length == 0) {
+    if (attachmentsModels == null || attachmentsModels.length == 0) {
       return const SizedBox();
     }
 
@@ -80,7 +80,11 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
         /// normal only
         itemCount: attachmentsModels.length >= 8 ? 9 : attachmentsModels.length,
         itemBuilder: (BuildContext context, int index) {
-          if (index > 8) {
+          if (index > 8 || index > attachmentsModels.length) {
+            return const SizedBox();
+          }
+
+          if (attachmentsModels[index] == null) {
             return const SizedBox();
           }
 

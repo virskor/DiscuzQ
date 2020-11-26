@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/providers/appConfigProvider.dart';
 
@@ -29,39 +28,40 @@ class ThemeColorSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppConfigProvider>(
-      builder: (BuildContext context, AppConfigProvider conf, Widget child) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(
-                    bottom: 10, top: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Wrap(
-                        children: _themes.map((Color color) {
-                      return _colorPick(context, conf, color: color);
-                    }).toList())
-                  ],
-                ),
-              ),
-              const DiscuzDivider(padding: 0,),
-            ],
-          );
-        });
+        builder: (BuildContext context, AppConfigProvider conf, Widget child) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.only(bottom: 10, top: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Wrap(
+                    children: _themes.map((Color color) {
+                  return _colorPick(context, conf, color: color);
+                }).toList())
+              ],
+            ),
+          ),
+          const DiscuzDivider(
+            padding: 0,
+          ),
+        ],
+      );
+    });
   }
 
   ///
   /// 选择器
   ///
-  Widget _colorPick(BuildContext context, dynamic conf,
-          {Color color}) =>
+  Widget _colorPick(BuildContext context, dynamic conf, {Color color}) =>
       GestureDetector(
-        onTap: () => AppConfigurations()
-            .update(context: context, key: 'themeColor', value: color.value),
+        onTap: () => context
+            .read<AppConfigProvider>()
+            .update(key: 'themeColor', value: color.value),
         child: AnimatedContainer(
           margin: const EdgeInsets.only(left: 10, top: 5),
           duration: const Duration(

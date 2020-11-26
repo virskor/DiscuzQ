@@ -15,7 +15,7 @@ class AppConfigurations {
     "hideContentRequirePayments": true,
   };
 
-  Future<bool> update(
+  Future<dynamic> update(
       {String key,
       dynamic value,
       BuildContext context,
@@ -52,7 +52,7 @@ class AppConfigurations {
     /// modify local settings
     await _modifyLocalSetting(appConf: localAppSetting);
 
-    return Future.value(true);
+    return localAppSetting;
   }
 
   /// call initAppSetting when Appliation start to run

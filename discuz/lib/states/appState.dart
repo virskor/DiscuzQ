@@ -4,6 +4,27 @@ import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/models/forumModel.dart';
 import 'package:discuzq/utils/debouncer.dart';
 
+/*
+ * 
+ * 
+ * 
+ * 
+ * 
+ * scoped model 中的状态将在近期逐渐被清除
+ * 
+ * 异步providers
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
 final Debouncer _debouncer = Debouncer(milliseconds: 400);
 
 class AppState extends StateModel {

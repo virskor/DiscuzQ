@@ -95,13 +95,8 @@ class _DiscuzState extends State<Discuz> {
                           builder: (BuildContext context) {
                         /// 初始化Fluro路由
                         Routers.router.generator(settings);
-
-                        /// 首屏应用
-                        return MediaQuery(
-                          data: MediaQuery.of(context)
-                              .copyWith(boldText: false, textScaleFactor: 1),
-                          child: const _DiscuzAppDelegate(),
-                        );
+                        return AppMediaQueryManager(
+                            child: const _DiscuzAppDelegate());
                       }),
                   settings: settings)));
     });
@@ -119,6 +114,23 @@ class _DiscuzState extends State<Discuz> {
       : DiscuzTheme(
           primaryColor: Color(conf.appConf['themeColor']),
         );
+}
+
+/// 统一的字体管理
+/// 防止用户设置导致的字体大小不一致的问题
+class AppMediaQueryManager extends StatelessWidget {
+  const AppMediaQueryManager({this.child}) : assert(child != null);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery(
+      data: MediaQuery.of(context)
+          .copyWith(boldText: false, textScaleFactor: .95),
+      child: child,
+    );
+  }
 }
 
 ///

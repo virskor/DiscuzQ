@@ -4,13 +4,15 @@
 
 import 'dart:math' as math;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
 
 /// Defines the title font used for [DiscuzListTile] descendants of a [DiscuzListTileTheme].
 ///
@@ -861,7 +863,7 @@ class DiscuzListTile extends StatelessWidget {
     }
 
     const EdgeInsets _defaultContentPadding =
-        EdgeInsets.symmetric(horizontal: 16.0);
+        EdgeInsets.symmetric(horizontal: 10.0);
     final TextDirection textDirection = Directionality.of(context);
     final EdgeInsets resolvedContentPadding =
         contentPadding?.resolve(textDirection) ??
@@ -1091,7 +1093,7 @@ class _RenderDiscuzListTile extends RenderBox {
 
   static const double _minLeadingWidth = 20.0;
   // The horizontal gap between the titles and the leading/trailing widgets
-  static const double _horizontalTitleGap = 10.0;
+  static const double _horizontalTitleGap = 8.0;
   // The minimum padding on the top and bottom of the title and subtitle widgets.
   static const double _minVerticalPadding = 4.0;
 
@@ -1265,7 +1267,9 @@ class _RenderDiscuzListTile extends RenderBox {
     final bool isTwoLine = !isThreeLine && hasSubtitle;
     final bool isOneLine = !isThreeLine && !hasSubtitle;
 
-    if (isOneLine) return isDense ? 45.0 : 52.0; /// discuz title height
+    if (isOneLine) return isDense ? 45.0 : 52.0;
+
+    /// Chayou title height
     if (isTwoLine) return isDense ? 64.0 : 72.0;
     return isDense ? 76.0 : 88.0;
   }
@@ -1485,13 +1489,43 @@ class _RenderDiscuzListTile extends RenderBox {
 }
 
 class DiscuzListTileTrailing extends StatelessWidget {
-  const DiscuzListTileTrailing();
+  const DiscuzListTileTrailing({this.label, this.showIcon = true});
+
+  /// 拓展标签文字
+  /// 也或者是拓展组件
+  final dynamic label;
+
+  /// 是否显示图标
+  final bool showIcon;
+
   @override
   Widget build(BuildContext context) {
-    return const DiscuzIcon(
+    final Widget _trailing = const DiscuzIcon(
       CupertinoIcons.chevron_right,
       color: const Color(0xFFDEDEDE),
       size: 20,
     );
+
+    if (label == null) {
+      return _trailing;
+    }
+
+    return SizedBox(
+        width: 120,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          textBaseline: TextBaseline.alphabetic,
+          children: <Widget>[
+            label.runtimeType == String
+                ? DiscuzText(
+                    label,
+                    color: Global.greyTextColorLight,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                : label,
+            showIcon ? _trailing : const SizedBox()
+          ],
+        ));
   }
 }
