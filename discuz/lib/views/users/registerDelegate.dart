@@ -1,3 +1,5 @@
+import 'package:discuzq/models/captchaModel.dart';
+import 'package:discuzq/widgets/captcha/tencentCloudCaptcha.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/states/scopedState.dart';
@@ -150,8 +152,35 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
       return;
     }
 
-    final Function closeLoading =
-        DiscuzToast.loading(context: context, message: '登陆中');
+    ///
+    /// 启用腾讯云验证码
+    /// 初始化时 null
+    /// 注意，回复的时候，不需要传入验证码
+    CaptchaModel captchaCallbackData;
+    try {
+      final AppState state =
+          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
+
+      /// 回复的时候不需要验证码
+      ///
+      ///
+      /// 仅支持 开启腾讯云验证码的用户调用
+      ///
+      if (state.forum.attributes.qcloud.qCloudCaptcha) {
+        captchaCallbackData = await TencentCloudCaptcha.show(
+            context: context,
+
+            ///
+            /// 传入appID 进行替换，否则无法正常完成验证
+            appID: state.forum.attributes.qcloud.qCloudCaptchaAppID);
+        if (captchaCallbackData == null) {
+          DiscuzToast.failed(context: context, message: '验证失败');
+          return;
+        }
+      }
+    } catch (e) {
+      throw e;
+    }
 
     final data = {
       "data": {
@@ -159,26 +188,37 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
           "username": _usernameTextfiledController.text,
           "password": _passwordTextfiledController.text,
           "register_reason": _register_reason,
+          "captcha_rand_str":
+              captchaCallbackData == null ? "" : captchaCallbackData.randSTR,
+          "captcha_ticket":
+              captchaCallbackData == null ? "" : captchaCallbackData.ticket,
         }
       }
     };
 
-    Response resp = await Request(context: context, autoAuthorization: false)
-        .postJson(url: Urls.usersRegister, data: data);
+    final Function closeLoading =
+        DiscuzToast.loading(context: context, message: '登陆中');
 
-    closeLoading();
+    try {
+      Response resp = await Request(context: context, autoAuthorization: false)
+          .postJson(url: Urls.usersRegister, data: data);
+          
+      closeLoading();
 
-    if (resp == null) {
-      /// 提示注册失败信息
-      return;
+      if (resp == null) {
+        /// 提示注册失败信息
+        return;
+      }
+
+      /// 注册成功
+      ///
+      /// await AuthHelper.processLoginByResponseData(resp.data, state: state);
+
+      DiscuzToast.toast(context: context, message: '注册成功，请登陆');
+      Navigator.pop(context);
+    } catch (e) {
+      closeLoading();
+      throw e;
     }
-
-    /// 注册成功
-    ///
-    /// await AuthHelper.processLoginByResponseData(resp.data, state: state);
-
-    DiscuzToast.toast(context: context, message: '注册成功，请登陆');
-
-    Navigator.pop(context);
   }
 }
