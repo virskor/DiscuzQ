@@ -42,32 +42,7 @@ class AppState extends StateModel {
     _user = user;
     _noticeRebuild();
   }
-
-  ///
-  /// 本地设置项
-  ///
-  dynamic _appConf;
-  get appConf => _appConf;
-
-  ///
-  /// 初始化配置状态
-  ///
-  void initAppConf(dynamic conf) {
-    if (conf == null) {
-      return;
-    }
-    _appConf = conf;
-    _noticeRebuild();
-  }
-
-  ///
-  /// 使用key 更新配置状态
-  ///
-  void updateAppConfByKeyName(String key, dynamic val) {
-    _appConf[key] = val;
-    _noticeRebuild();
-  }
-
+  
   /// 通知组件重构
 
   void _noticeRebuild() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/appConfigurations.dart';
@@ -6,30 +7,30 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/states/scopedState.dart';
+import 'package:discuzq/providers/appConfigProvider.dart';
 
 ///
 /// notice: 使用SettingSwitcher 进行设置的选项，值必须是bool，否则将出错
 ///
 class SettingSwitcher extends StatelessWidget {
-  final String settinKey;
+  final String settingKey;
   final IconData icon;
   final String label;
 
   const SettingSwitcher(
-      {@required this.settinKey, @required this.icon, @required this.label});
+      {@required this.settingKey, @required this.icon, @required this.label});
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Container(
+  Widget build(BuildContext context) => Consumer<AppConfigProvider>(
+      builder: (BuildContext context, AppConfigProvider conf, Widget child) =>
+          Container(
             child: DiscuzListTile(
                 leading: DiscuzIcon(icon),
                 title: DiscuzText(label),
                 trailing: Switch.adaptive(
-                  value: state.appConf[settinKey],
-                  onChanged: (bool val) => AppConfigurations().update(
-                      context: context,
-                      key: settinKey,
-                      value: !state.appConf[settinKey]),
+                  value: conf.appConf[settingKey],
+                  onChanged: (bool val) => conf.update(
+                      key: settingKey,
+                      value: !conf.appConf[settingKey]),
                 )),
           ));
 }

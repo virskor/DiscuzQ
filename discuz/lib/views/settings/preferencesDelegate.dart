@@ -52,7 +52,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                   children: <Widget>[
                     const ThemeColorSetting(),
                     const SettingSwitcher(
-                      settinKey: 'darkTheme',
+                      settingKey: 'darkTheme',
                       icon: CupertinoIcons.moon,
                       label: '黑暗模式',
                     ),
@@ -62,7 +62,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                     /// build.yaml中进行开关
                     BuildInfo().info().enablePerformanceOverlay
                         ? const SettingSwitcher(
-                            settinKey: 'showPerformanceOverlay',
+                            settingKey: 'showPerformanceOverlay',
                             icon: CupertinoIcons.graph_circle,
                             label: '性能调试工具',
                           )
@@ -73,12 +73,12 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                   label: '应用',
                   children: <Widget>[
                     const SettingSwitcher(
-                      settinKey: 'autoplay',
+                      settingKey: 'autoplay',
                       icon: CupertinoIcons.videocam_circle,
                       label: '自动播放视频',
                     ),
                     const SettingSwitcher(
-                      settinKey: 'hideContentRequirePayments',
+                      settingKey: 'hideContentRequirePayments',
                       icon: CupertinoIcons.money_dollar_circle,
                       label: '不看受保护的内容',
                     ),

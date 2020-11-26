@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/models/postModel.dart';
@@ -15,9 +16,8 @@ import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
 import 'package:discuzq/utils/StringHelper.dart';
-import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/providers/appConfigProvider.dart';
 
 ///
 /// flat title length to substr
@@ -100,9 +100,8 @@ class _ThreadCardState extends State<ThreadCard>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) => RepaintBoundary(
+    return Consumer<AppConfigProvider>(
+      builder: (BuildContext context, AppConfigProvider conf, Widget child) => RepaintBoundary(
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () => DiscuzRoute.navigate(
@@ -111,7 +110,7 @@ class _ThreadCardState extends State<ThreadCard>
                       author: _author,
                       thread: widget.thread,
                     )),
-                child: _buildCard(state: state, context: context),
+                child: _buildCard(conf: conf, context: context),
               ),
             ));
   }
@@ -120,12 +119,12 @@ class _ThreadCardState extends State<ThreadCard>
   /// 生成内容
   /// 实际上，我们会收起顶置的帖子
   /// 其次，如果用户设置了收起付费的帖子，他们也会被折叠，但用不同的颜色提示
-  Widget _buildCard({BuildContext context, AppState state}) {
+  Widget _buildCard({BuildContext context, dynamic conf}) {
     // if (widget.thread.attributes.isSticky) {
     //   return _buildStickyThreadTitle(context);
     // }
 
-    return state.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
+    return conf.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
         ? const SizedBox()
         : _buildThreadCard(context);
   }

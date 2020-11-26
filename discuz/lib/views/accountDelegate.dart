@@ -1,4 +1,3 @@
-import 'package:discuzq/router/routers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -13,7 +12,6 @@ import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/users/yetNotLogon.dart';
-import 'package:discuzq/views/settings/preferencesDelegate.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/views/users/profileDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
@@ -24,6 +22,7 @@ import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/views/users/blackListDelegate.dart';
 import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:discuzq/widgets/users/userAccountBanner.dart';
+import 'package:discuzq/router/routers.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);

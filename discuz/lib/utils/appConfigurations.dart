@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/localstorage.dart';
 
 class AppConfigurations {
@@ -53,20 +51,6 @@ class AppConfigurations {
 
     /// modify local settings
     await _modifyLocalSetting(appConf: localAppSetting);
-
-    /// notify rebuild
-    if (context != null && rebuildOnChange == true) {
-      try {
-        /// modify app state
-        final AppState state =
-            ScopedStateModel.of<AppState>(context, rebuildOnChange: true);
-        state.updateAppConfByKeyName(key, value);
-
-        return Future.value(true);
-      } catch (e) {
-        throw e;
-      }
-    }
 
     return Future.value(true);
   }

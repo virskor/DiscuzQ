@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/scopedState.dart';
-import 'package:discuzq/states/appState.dart';
 import 'package:discuzq/utils/appConfigurations.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
+import 'package:discuzq/providers/appConfigProvider.dart';
 
 class ThemeColorSetting extends StatelessWidget {
   const ThemeColorSetting({Key key}) : super(key: key);
@@ -28,9 +28,8 @@ class ThemeColorSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) {
+    return Consumer<AppConfigProvider>(
+      builder: (BuildContext context, AppConfigProvider conf, Widget child) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,7 +43,7 @@ class ThemeColorSetting extends StatelessWidget {
                   children: <Widget>[
                     Wrap(
                         children: _themes.map((Color color) {
-                      return _colorPick(context, state, color: color);
+                      return _colorPick(context, conf, color: color);
                     }).toList())
                   ],
                 ),
@@ -58,8 +57,8 @@ class ThemeColorSetting extends StatelessWidget {
   ///
   /// 选择器
   ///
-  Widget _colorPick(BuildContext context, AppState state,
-          {double width = 1.0, Color color}) =>
+  Widget _colorPick(BuildContext context, dynamic conf,
+          {Color color}) =>
       GestureDetector(
         onTap: () => AppConfigurations()
             .update(context: context, key: 'themeColor', value: color.value),
@@ -74,7 +73,7 @@ class ThemeColorSetting extends StatelessWidget {
               color: color,
               borderRadius: const BorderRadius.all(Radius.circular(50))),
           child: Center(
-            child: Color(state.appConf['themeColor']) != color
+            child: Color(conf.appConf['themeColor']) != color
                 ? const SizedBox()
                 : Container(
                     child: Icon(

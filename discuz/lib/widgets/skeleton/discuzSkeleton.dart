@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:discuzq/states/appState.dart';
-import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/widgets/skeleton/pkSkeleton.dart';
+import 'package:discuzq/providers/appConfigProvider.dart';
 
 class DiscuzSkeleton extends StatelessWidget {
   final int length;
@@ -17,20 +17,19 @@ class DiscuzSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, model) {
-          return model.appConf['darkTheme'] == true
-              ? PKDarkCardListSkeleton(
-                  isCircularImage: isCircularImage,
-                  isBottomLinesActive: isBottomLinesActive,
-                  length: length,
-                )
-              : PKCardListSkeleton(
-                  isCircularImage: isCircularImage,
-                  isBottomLinesActive: isBottomLinesActive,
-                  length: length,
-                );
-        });
+    return Consumer<AppConfigProvider>(
+        builder: (BuildContext context, AppConfigProvider conf, Widget child) {
+      return conf.appConf['darkTheme'] == true
+          ? PKDarkCardListSkeleton(
+              isCircularImage: isCircularImage,
+              isBottomLinesActive: isBottomLinesActive,
+              length: length,
+            )
+          : PKCardListSkeleton(
+              isCircularImage: isCircularImage,
+              isBottomLinesActive: isBottomLinesActive,
+              length: length,
+            );
+    });
   }
 }

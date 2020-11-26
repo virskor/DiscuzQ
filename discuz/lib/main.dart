@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:sentry/sentry.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:discuzq/states/scopedState.dart';
 import 'package:discuzq/discuz.dart';
@@ -12,6 +13,7 @@ import 'package:discuzq/widgets/common/discuzIndicater.dart';
 import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/widgets/emoji/emojiSync.dart';
 import 'package:discuzq/utils/device.dart';
+import 'package:discuzq/providers/appConfigProvider.dart';
 
 ///
 /// 执行
@@ -20,12 +22,20 @@ void main() {
 
   /// Run the whole app in a zone to capture all uncaught errors.
   runZoned(
-    () => runApp(DiscuzQ()),
+    () => runApp(
+      MultiProvider(
+        providers: [
+          /// APP 配置状态
+          ChangeNotifierProvider(create: (_) => AppConfigProvider()),
+        ],
+        child: DiscuzQ(),
+      ),
+    ),
     onError: (Object error, StackTrace stackTrace) async {
-      if(FlutterDevice.isDevelopment){
+      if (FlutterDevice.isDevelopment) {
         return;
       }
-      
+
       /// 初始化buildInfo
       await BuildInfo().init();
 
@@ -51,44 +61,45 @@ class DiscuzQ extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ScopedStateModel<AppState>(
       model: _appState,
-      child: ScopedStateModelDescendant<AppState>(
-          rebuildOnChange: true,
-          builder: (context, child, state) => AppWrapper(
-                onDispose: () {},
-                onInit: () async {
-                  /// 初始化buildInfo
-                  /// 这个非常重要的！
-                  /// 一定要在最开始
-                  await BuildInfo().init();
+      child: Consumer<AppConfigProvider>(builder:
+          (BuildContext context, AppConfigProvider conf, Widget child) {
+        return ScopedStateModelDescendant<AppState>(
+            rebuildOnChange: false,
+            builder: (context, child, state) => AppWrapper(
+                  onDispose: () {},
+                  onInit: () async {
+                    /// 初始化buildInfo
+                    /// 这个非常重要的！
+                    /// 一定要在最开始
+                    await BuildInfo().init();
 
-                  await _initApp(state);
+                    await _initApp(context: context, state: state);
 
-                  ///
-                  ///
-                  /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
-                  Future.delayed(Duration.zero)
-                      .then((_) => EmojiSync().getEmojis());
-                },
+                    ///
+                    ///
+                    /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
+                    Future.delayed(Duration.zero)
+                        .then((_) => EmojiSync().getEmojis());
+                  },
 
-                /// 创建入口APP
-                child: state.appConf == null
-                    ? const _DiscuzAppIndicator()
-                    : const Discuz(),
-              )));
+                  /// 创建入口APP
+                  child: conf.appConf == null
+                      ? const _DiscuzAppIndicator()
+                      : const Discuz(),
+                ));
+      }));
 
   ///
   /// Init app and states
   /// Future builder to makesure appstate init only once
-  Future<void> _initApp(AppState state) async {
+  Future<void> _initApp({BuildContext context, AppState state}) async {
     await _initAppSettings();
 
     ///
     /// 如果appconf还没有成功加载则创建初始化页面 并执行APP初始化
     /// 初始化页面会有loading 圈圈
-    if (state.appConf == null) {
-      state.initAppConf(await AppConfigurations()
-          .getLocalAppSetting(returnDefaultValueIfNotExits: true));
-    }
+    /// 同步本地配置状态
+    await context.read<AppConfigProvider>().update();
 
     /// 加载本地的用户信息
     await AuthHelper.getUserFromLocal(state: state);
