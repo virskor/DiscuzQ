@@ -1,5 +1,3 @@
-import 'package:discuzq/router/routers.dart';
-import 'package:discuzq/views/exploreDelagate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,7 +16,8 @@ import 'package:discuzq/widgets/bottomNavigator/bottomNavigator.dart';
 import 'package:discuzq/views/notificationsDelegate.dart';
 import 'package:discuzq/widgets/common/discuzNetworkError.dart';
 import 'package:discuzq/api/forum.dart';
-import 'package:discuzq/views/topics/appTopicsDelegate.dart';
+import 'package:discuzq/router/routers.dart';
+import 'package:discuzq/views/exploreDelagate.dart';
 
 class Discuz extends StatefulWidget {
   const Discuz({Key key}) : super(key: key);

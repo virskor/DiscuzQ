@@ -65,8 +65,9 @@ class RequestErrors {
 
   /// 获取对应的错误提示信息
   static String mapError(String key, {dynamic err}) {
-    return errors[key] ??
+    String _err = errors[key] ??
         err['detail'].map((it) => it).join('\r\n').toString() ??
         "未知错误";
+    return "$_err\r\n${err['detail'] ?? ''}";
   }
 }

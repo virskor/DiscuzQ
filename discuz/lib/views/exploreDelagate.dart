@@ -61,12 +61,21 @@ class _ExploreDelegateState extends State<ExploreDelegate>
                     children: <Widget>[
                       DiscuzListTile(
                         title: const DiscuzText(
-                          '搜索',
+                          '搜索主题',
                         ),
                         onTap: () => showSearch(
                             context: context,
                             delegate: DiscuzAppSearchDelegate(
                                 type: DiscuzAppSearchType.thread)),
+                      ),
+                      DiscuzListTile(
+                        title: const DiscuzText(
+                          '搜索用户',
+                        ),
+                        onTap: () => showSearch(
+                            context: context,
+                            delegate: DiscuzAppSearchDelegate(
+                                type: DiscuzAppSearchType.user)),
                       ),
                       DiscuzListTile(
                         title: const DiscuzText(

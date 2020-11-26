@@ -235,7 +235,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                     padding: const EdgeInsets.all(3),
                     animationType: BadgeAnimationType.fade,
                     elevation: 0,
-                    position: BadgePosition(top: 2, right: 0),
+                    position: BadgePosition(top: 2, end: 0),
                     showBadge:
                         state.galleries == null || state.galleries.length == 0
                             ? false
