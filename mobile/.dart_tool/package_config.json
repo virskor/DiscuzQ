@@ -147,7 +147,7 @@
     },
     {
       "name": "extended_text_field",
-      "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/extended_text_field-5.0.0",
+      "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/extended_text_field-5.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.6"
     },
@@ -776,7 +776,7 @@
       "languageVersion": "2.8"
     }
   ],
-  "generated": "2020-12-05T05:33:00.674368Z",
+  "generated": "2020-12-05T05:47:54.752786Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
