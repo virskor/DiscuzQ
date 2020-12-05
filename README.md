@@ -205,7 +205,12 @@ cd /ios
 sudo rm -rf Podfile.lock
 pod install #手动安装IOS相关依赖
 ```
-推荐直接打开discuz目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看discuz目录下的PROBLEMS
+推荐直接打开core目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看core目录下的PROBLEMS
+```sh
+cd ./mobile
+flutter run
+```
+
 
 ## 生成发布
 可能有的开发者刚开始接触Flutter按照上面的指引运行起来APP后顿时感觉卡顿，实际上flutter run是运行的Debug模式，Debug下性能表现和Release是有很大差异的。如果体验用于生产的，应该使用下面的命令。
@@ -216,7 +221,7 @@ flutter build apk --release --no-shrink
 
 因IOS为提供签名flutter build ios无法build,这时需要使用xcode来archive，而不是使用Flutter build. 而IOS 参考自动化构建所需要的。
 
-[参考编译文档](https://discuzapp.xyz/docs/build.html#ios%E7%BC%96%E8%AF%91)在之前，还是推荐使用[奶罩大佬的CI](https://github.com/naizhao/Build-Discuz-Q-Flutter)进行编译。
+[参考编译文档]推荐使用[奶罩大佬的CI](https://github.com/naizhao/Build-Discuz-Q-Flutter)进行编译。
 
 
 ### 源相关
@@ -244,7 +249,7 @@ App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.d
 ```sh
 flutter pub run flutter_launcher_icons:main
 # or
-# cd ./discuz
+# cd ./mobile
 # bash icon
 ```
 
@@ -255,6 +260,6 @@ flutter pub run flutter_launcher_icons:main
 ```sh
 flutter pub pub run flutter_native_splash:create
 # or
-# cd ./discuz
+# cd ./mobile
 # bash splas
 ```
