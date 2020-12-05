@@ -1,0 +1,56 @@
+# The following defines the domain and requestUrl for your application
+# These items will be packaged into your application for different environment
+# Recommended to specify your application configrations for production or development
+# Nitification for cases:
+# Build configrations works on debug and release mode
+
+# 开发环境下加载的信息
+# Parameters for development mode
+development:
+  # 
+  # Before your modification, you should know about these recommend rules:
+  # CHOOSE A HTTPS SERVER
+  # YOUR DOMAIN SHOULD NEVER RETURN 302 || 301 STATUS CODE
+  # 
+  # You are not gonna get a health application when you add a domain like https://google.com redirected into https://www.google.com
+  #
+  # YOUR DOMAIN SHOULD NEVER ENDED WITH PATH SEPARATOR LIKE : https://www.example.com/
+  domain: https://discuz.chat
+  appname: DiscuzQ
+  # Allow to show checked mode banner
+  debugShowCheckedModeBanner: true
+  # Allow and show performance overlay setting
+  enablePerformanceOverlay: true
+  # HTTP2
+  # PLEASE DO NOT SET THIS ITEM INTO TRUE
+  # Cause Flutter Http2 contains many problems
+  # We would tell you when this feature is possible for production on readme doc
+  enableHttp2: false
+  # Certificate
+  # Verify certificate is an optional handler for unverifiable certificates, set TRUE continue to request for bad certificates.
+  # works for HTTP1.0 and HTTP2
+  onBadCertificate: true 
+  # idleTimeout
+  # default is 15000ms
+  # works on HTTP2 request only
+  http2idleTimeout: 15000
+  #
+  # Financial fatures
+  # Set this item into FALSE, wallet and financial amount will be displayed
+  financial: true 
+
+  
+# 构建生产环境的APP时加载的信息
+# Parameters for building prodution package
+production:
+  domain: https://discuz.chat
+  appname: DiscuzQ
+  ## DO NOT ENABLE THIS ITEM WHEN YOU ARE BUILD AN APPLICATION FOR YOUR USERS
+  enablePerformanceOverlay: false
+  ## DO NOT ENABLE THIS ITEM WHEN YOU ARE BUILD AN APPLICATION FOR YOUR USERS
+  debugShowCheckedModeBanner: false
+  # HTTP2
+  enableHttp2: false
+  onBadCertificate: true 
+  http2idleTimeout: 15000
+  financial: true 

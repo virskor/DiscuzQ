@@ -1,0 +1,146 @@
+name: core
+description: A new Flutter application for discuzQ
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0
+
+environment:
+  sdk: ">=2.8.0 <3.0.0"
+
+# 为了防止依赖版本导致无法编译，我们将依赖全部写死的版本
+dependencies:
+  shared_preferences: 0.5.7+1
+  dio: 3.0.10
+  dio_cookie_manager: 1.0.0
+  dio_http2_adapter: 1.0.0
+  md2_tab_indicator: 1.0.2
+  pretty_dio_logger: 1.1.1
+  package_info: 0.4.0+17
+  device_info: 0.4.2+3
+  should_rebuild: 0.1.3
+  flutter_des: 1.1.1
+  fluro: 1.7.7
+  nine_grid_view: 1.0.5
+  cached_network_image: 2.2.0+1
+  badges: 1.1.4
+  pull_to_refresh: 1.6.2
+  image_picker: 0.6.6+1
+  permission_handler: 4.4.0+hotfix.4
+  image_cropper: 1.2.1
+  image_gallery_saver: 1.2.2
+  photo_view:  0.9.2
+  provider: 4.3.2+2
+  like_button: 0.2.0
+  url_launcher: 5.7.2
+  file_picker: 1.9.0+1
+  share: 0.6.4+1
+  extended_text_field: 5.0.2
+  flutter_picker: 1.1.4
+  yaml: 2.2.1
+  flutter_inappwebview: 4.0.0+4
+  video_player: 0.10.10
+  modal_bottom_sheet: 1.0.0+1
+  flutter_markdown: 0.4.2
+  cupertino_icons: 1.0.0
+  webview_flutter: 1.0.3
+
+  # flutter
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # locally stashed dependencies
+  fluttertoast:
+    path: ../packages/flutter_toast
+  flutter_native_loading:
+    path: ../packages/flutter_native_loading
+  flutter_native_dialog:
+    path: ../packages/flutter_native_dialog
+  flutter_widget_from_html:
+    path: ../packages/flutter_widget_from_html
+  flutter_user_agent:
+    path: ../packages/flutter_user_agent
+  assets_audio_player:
+    path: ../packages/flutter_assetsAudioPlayer
+  clipboard_manager:
+    path: ../packages/flutter_clipboardManager
+  status_alert: 
+    path: ../packages/flutter_status_alert
+  flutter_image_compress:
+    path: ../packages/flutter_image_compress
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+    - ../assets/images/
+    - ../assets/sounds/
+    - ../assets/js/
+    - ../assets/css/
+    # 腾讯云验证码相关资源
+    - ../assets/captcha/
+  fonts:
+    - family: iconfont
+      fonts:
+        - asset: ../assets/fonts/iconfont.ttf
+    - family: Roboto Condensed
+      fonts:
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-BoldItalic.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-Light.ttf 
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-LightItalic.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-RegularItalic.ttf
+          weight: 700

@@ -11,9 +11,9 @@ name: Build Discuz-Q-APP
 on:
   release:
     types: published
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
 #    paths:
 #      - '.config'
 #  schedule:
@@ -52,7 +52,7 @@ jobs:
     - name: Setup build environment
       run: |
         echo "current path: "`pwd`
-        cd Discuz-Q-APP/discuz
+        cd Discuz-Q-APP/mobile
         echo "::set-env name=DISCUZ_HOME::$PWD"
         cat >> android/key.properties <<EOF
         storePassword=naizhao
