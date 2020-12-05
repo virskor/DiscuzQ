@@ -159,6 +159,9 @@ class DiscuzTextfiled extends StatelessWidget {
             obscureText: obscureText,
             maxLines: maxLines,
             onChanged: (val) {
+              if(onChanged == null){
+                return;
+              }
               _debouncer.run(() {
                 onChanged(val);
               });

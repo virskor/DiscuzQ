@@ -14,6 +14,8 @@ import 'package:core/utils/request/urls.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:core/providers/userProvider.dart';
 
+import '../models/userModel.dart';
+
 class AuthHelper {
   /// pop login delegate
   static login({BuildContext context}) => showCupertinoModalBottomSheet(
@@ -112,6 +114,7 @@ class AuthHelper {
   ///
   static Future<void> processLoginByResponseData(dynamic response,
       {@required BuildContext context}) async {
+    
     ///
     /// 读取accessToken
     ///
@@ -132,8 +135,9 @@ class AuthHelper {
     /// 读取用户信息
     ///
     final List<dynamic> included = response['included'];
+    
     final dynamic user =
-        included.where((it) => it['type'] == "users").toList()[0];
+        included.firstWhere((it) => it['type'] == "users");
 
     ///
     /// 存储accessToken
@@ -143,9 +147,7 @@ class AuthHelper {
     /// 我不想写update逻辑，就这样简单粗暴无bug多完美？
     ///
     await AuthorizationHelper()
-        .clear(key: AuthorizationHelper.authorizationKey);
-    await AuthorizationHelper().clear(key: AuthorizationHelper.userKey);
-    await AuthorizationHelper().clear(key: AuthorizationHelper.refreshTokenKey);
+        .clear();
 
     /// 保存token
     await AuthorizationHelper()
@@ -156,6 +158,6 @@ class AuthHelper {
         .save(data: refreshToken, key: AuthorizationHelper.refreshTokenKey);
 
     /// 更新用户状态
-    context.read<UserProvider>().logout();
+    context.read<UserProvider>().updateUser(UserModel.fromMap(maps: user));
   }
 }

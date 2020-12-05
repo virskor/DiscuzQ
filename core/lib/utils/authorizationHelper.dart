@@ -23,6 +23,9 @@ class AuthorizationHelper {
   ///
   Future<dynamic> getUser({String key = userKey}) async {
     final dynamic data = await DiscuzLocalStorage.getString(key);
+    if (data == null) {
+      return Future.value(null);
+    }
     return Future.value(jsonDecode(data));
   }
 
@@ -30,14 +33,18 @@ class AuthorizationHelper {
   /// 刷新token
   ///
   Future<dynamic> update({dynamic data, String key = authorizationKey}) async {
-    final dynamic u = await DiscuzLocalStorage.setString(key, jsonEncode(data));
+    final dynamic u = await DiscuzLocalStorage.setString(
+        key, data.runtimeType == String ? data : jsonEncode(data));
+    if (u == null) {
+      return Future.value(null);
+    }
     return Future.value(jsonDecode(u));
   }
 
   ///
   /// 清除token
   ///
-  Future<bool> clear({String key = authorizationKey}) async {
+  Future<bool> clear() async {
     await DiscuzLocalStorage.clear();
     return Future.value(true);
   }
@@ -45,9 +52,8 @@ class AuthorizationHelper {
   ///
   /// 保存认证
   ///
-  Future<dynamic> save({dynamic data, String key = authorizationKey}) async {
-     await DiscuzLocalStorage.setString(key, jsonEncode(data));
-    return Future.value(jsonDecode(data));
+  Future<void> save({dynamic data, String key = authorizationKey}) async {
+    await DiscuzLocalStorage.setString(key, data.runtimeType == String ? data : jsonEncode(data));
   }
 
   Future<void> clearAll() async {

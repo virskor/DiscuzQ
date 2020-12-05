@@ -548,12 +548,6 @@
       "languageVersion": "2.6"
     },
     {
-      "name": "sentry",
-      "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/sentry-3.0.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.0"
-    },
-    {
       "name": "share",
       "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/share-0.6.4+1",
       "packageUri": "lib/",
@@ -698,12 +692,6 @@
       "languageVersion": "2.1"
     },
     {
-      "name": "usage",
-      "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/usage-3.4.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.2"
-    },
-    {
       "name": "uuid",
       "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/uuid-2.2.2",
       "packageUri": "lib/",
@@ -776,7 +764,7 @@
       "languageVersion": "2.8"
     }
   ],
-  "generated": "2020-12-05T06:04:02.222368Z",
+  "generated": "2020-12-05T06:08:13.544338Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }

@@ -1,7 +1,6 @@
 library core;
 
 import 'dart:async';
-import 'package:sentry/sentry.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,15 +13,12 @@ import 'package:core/utils/authHelper.dart';
 import 'package:core/widgets/common/discuzIndicater.dart';
 import 'package:core/utils/buildInfo.dart';
 import 'package:core/widgets/emoji/emojiSync.dart';
-import 'package:core/utils/device.dart';
 import 'package:core/providers/appConfigProvider.dart';
 import 'package:core/providers/userProvider.dart';
 
 ///
 /// 执行
 void runDiscuzApp() {
-  BuildInfo().init();
-
   runApp(
     MultiProvider(
       providers: [
@@ -49,6 +45,7 @@ class DiscuzQ extends StatelessWidget {
             builder: (context, child, state) => AppWrapper(
                   onDispose: () {},
                   onInit: () async {
+                    await BuildInfo().init();
                     await _initApp(
                       context: context,
                     );

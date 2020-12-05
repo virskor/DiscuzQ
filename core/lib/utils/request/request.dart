@@ -294,9 +294,7 @@ class Request {
           return Future.value(false);
         }
         await AuthorizationHelper()
-            .clear(key: AuthorizationHelper.authorizationKey);
-        await AuthorizationHelper()
-            .clear(key: AuthorizationHelper.refreshTokenKey);
+            .clear();
         await AuthorizationHelper()
             .save(data: accessToken, key: AuthorizationHelper.authorizationKey);
         await AuthorizationHelper()
