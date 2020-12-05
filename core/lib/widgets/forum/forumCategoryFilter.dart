@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:core/states/scopedState.dart';
 import 'package:core/widgets/ui/ui.dart';
 import 'package:core/utils/global.dart';
 import 'package:core/widgets/common/discuzText.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/utils/request/requestIncludes.dart';
 import 'package:core/providers/userProvider.dart';
@@ -80,94 +78,88 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Container(
-            height: 45,
-            width: MediaQuery.of(context).size.width,
-            padding: const EdgeInsets.only(
-              left: 10,
-              right: 0,
-            ),
-            decoration: BoxDecoration(
-                color: DiscuzApp.themeOf(context).backgroundColor,
-                border: const Border(top: Global.border, bottom: Global.border)),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                /// 显示当前的筛选模式
-                /// 绑定当前选中项目的label
-                DiscuzText(_selected.label),
-
-                /// 下拉筛选组件
-                _buildPopMenu(state)
-              ],
-            ),
-          ));
-
-  /// 下拉弹出菜单
-  Widget _buildPopMenu(AppState state) {
-    /// 部分条件需要用户登录的时候才显示
-    /// 先构造筛选列表
-    final List<PopupMenuItem<ForumCategoryFilterItem>> items =
-        ForumCategoryFilter.conditions
-            .map<PopupMenuItem<ForumCategoryFilterItem>>(
-                (ForumCategoryFilterItem c) =>
-                    c.shouldLogin == true && !context.read<UserProvider>().hadLogined
-                        ? null
-                        : PopupMenuItem<ForumCategoryFilterItem>(
-                            //checked: _selected == c,
-                            value: c,
-                            child: DiscuzText(
-                              c.label,
-                            ),
-                          ))
-            .toList();
-
-    ///
-    /// 构造菜单
-    return PopupMenuButton(
-        itemBuilder: (BuildContext context) => items,
-        //child: DiscuzText(_selected.label),
-        color: DiscuzApp.themeOf(context).backgroundColor,
-        icon: DiscuzIcon(
-          Icons.more_horiz,
-          color: DiscuzApp.themeOf(context).textColor,
-        ),
-        onSelected: (ForumCategoryFilterItem val) {
-          /// 先拷贝过滤参数
-          List<Map<String, dynamic>> rebuildFilterList = [...val.filter];
-
-          /// 构造一个全新的filter进行强制替换
-          if (val.shouldLogin == true) {
-            Map<String, dynamic> replacement = {
-              "fromUserId": context.read<UserProvider>().user.attributes.id,
-            };
-
-            /// 过滤可能发生重复的数据
-            rebuildFilterList = rebuildFilterList
-                .where((it) => it.keys.first != "fromUserId")
+  Widget build(BuildContext context) => Consumer<UserProvider>(
+          builder: (BuildContext context, UserProvider user, Widget child) {
+        final List<PopupMenuItem<ForumCategoryFilterItem>> items =
+            ForumCategoryFilter.conditions
+                .map<PopupMenuItem<ForumCategoryFilterItem>>(
+                    (ForumCategoryFilterItem c) =>
+                        c.shouldLogin == true && !user.hadLogined
+                            ? null
+                            : PopupMenuItem<ForumCategoryFilterItem>(
+                                //checked: _selected == c,
+                                value: c,
+                                child: DiscuzText(
+                                  c.label,
+                                ),
+                              ))
                 .toList();
-            rebuildFilterList.add(replacement);
-          }
 
-          /// 新建一个新的item对象用于反馈用户选择的条件
-          ForumCategoryFilterItem givingItem = ForumCategoryFilterItem(
-              includes: val.includes,
-              shouldLogin: val.shouldLogin,
-              label: val.label,
-              filter: rebuildFilterList);
+        final Widget _popMenu = PopupMenuButton(
+            itemBuilder: (BuildContext context) => items,
+            //child: DiscuzText(_selected.label),
+            color: DiscuzApp.themeOf(context).backgroundColor,
+            icon: DiscuzIcon(
+              Icons.more_horiz,
+              color: DiscuzApp.themeOf(context).textColor,
+            ),
+            onSelected: (ForumCategoryFilterItem val) {
+              /// 先拷贝过滤参数
+              List<Map<String, dynamic>> rebuildFilterList = [...val.filter];
 
-          setState(() {
-            _selected = givingItem;
-          });
+              /// 构造一个全新的filter进行强制替换
+              if (val.shouldLogin == true) {
+                Map<String, dynamic> replacement = {
+                  "fromUserId": context.read<UserProvider>().user.attributes.id,
+                };
 
-          if (widget.onChanged != null) {
-            widget.onChanged(givingItem);
-          }
-        });
-  }
+                /// 过滤可能发生重复的数据
+                rebuildFilterList = rebuildFilterList
+                    .where((it) => it.keys.first != "fromUserId")
+                    .toList();
+                rebuildFilterList.add(replacement);
+              }
+
+              /// 新建一个新的item对象用于反馈用户选择的条件
+              ForumCategoryFilterItem givingItem = ForumCategoryFilterItem(
+                  includes: val.includes,
+                  shouldLogin: val.shouldLogin,
+                  label: val.label,
+                  filter: rebuildFilterList);
+
+              setState(() {
+                _selected = givingItem;
+              });
+
+              if (widget.onChanged != null) {
+                widget.onChanged(givingItem);
+              }
+            });
+
+        return Container(
+          height: 45,
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.only(
+            left: 10,
+            right: 0,
+          ),
+          decoration: BoxDecoration(
+              color: DiscuzApp.themeOf(context).backgroundColor,
+              border: const Border(top: Global.border, bottom: Global.border)),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              /// 显示当前的筛选模式
+              /// 绑定当前选中项目的label
+              DiscuzText(_selected.label),
+
+              /// 下拉筛选组件
+              _popMenu
+            ],
+          ),
+        );
+      });
 }
 
 /// ForumCategoryFilterItem 过滤条件选项

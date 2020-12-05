@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/ui/ui.dart';
 import 'package:core/widgets/common/discuzAvatar.dart';
 import 'package:core/widgets/common/discuzText.dart';
@@ -58,118 +56,116 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => AnimatedContainer(
-            duration: Duration(milliseconds: 300),
-            decoration: BoxDecoration(
-                border: const Border(top: Global.border, bottom: Global.border),
-                color: DiscuzApp.themeOf(context).backgroundColor),
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width,
+  Widget build(BuildContext context) => AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        decoration: BoxDecoration(
+            border: const Border(top: Global.border, bottom: Global.border),
+            color: DiscuzApp.themeOf(context).backgroundColor),
+        padding: const EdgeInsets.all(10),
+        width: MediaQuery.of(context).size.width,
 
-            ///
-            /// 要防止overflow哦
-            child: SingleChildScrollView(
-              child: Column(
+        ///
+        /// 要防止overflow哦
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              DiscuzListTile(
+                contentPadding: kMarginLeftRightContent,
+                leading: Hero(
+                  tag: 'heroAvatar',
+                  child: DiscuzAvatar(
+                    url: widget.user.attributes.avatarUrl,
+                    size: 45,
+                  ),
+                ),
+                title: DiscuzText(
+                  widget.user.attributes.username,
+                  fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+                  fontWeight: FontWeight.bold,
+                ),
+                subtitle: DiscuzText(
+                  _userGroupLabel(),
+                  color: DiscuzApp.themeOf(context).greyTextColor,
+                ),
+                trailing: UserFollow(
+                  user: widget.user,
+                  onUserChanged: (UserModel user) => setState(() {
+                    _user = user;
+                  }),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: kMarginLeftRightContent,
+                child: DiscuzText(
+                  widget.user.attributes.signature == ''
+                      ? '暂无签名'
+                      : widget.user.attributes.signature,
+                  color: DiscuzApp.themeOf(context).greyTextColor,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  DiscuzListTile(
-                    contentPadding: kMarginLeftRightContent,
-                    leading: Hero(
-                      tag: 'heroAvatar',
-                      child: DiscuzAvatar(
-                        url: widget.user.attributes.avatarUrl,
-                        size: 45,
-                      ),
-                    ),
-                    title: DiscuzText(
-                      widget.user.attributes.username,
-                      fontSize: DiscuzApp.themeOf(context).mediumTextSize,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    subtitle: DiscuzText(
-                      _userGroupLabel(),
-                      color: DiscuzApp.themeOf(context).greyTextColor,
-                    ),
-                    trailing: UserFollow(
-                      user: widget.user,
-                      onUserChanged: (UserModel user) => setState(() {
-                        _user = user;
-                      }),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    padding: kMarginLeftRightContent,
-                    child: DiscuzText(
-                      widget.user.attributes.signature == ''
-                          ? '暂无签名'
-                          : widget.user.attributes.signature,
-                      color: DiscuzApp.themeOf(context).greyTextColor,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  Column(
                     children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          DiscuzText(
-                            widget.user.attributes.threadCount.toString(),
-                            fontWeight: FontWeight.bold,
-                          ),
-                          DiscuzText(
-                            '主题',
-                            color: DiscuzApp.themeOf(context).greyTextColor,
-                          ),
-                        ],
+                      DiscuzText(
+                        widget.user.attributes.threadCount.toString(),
+                        fontWeight: FontWeight.bold,
                       ),
-                      Column(
-                        children: <Widget>[
-                          DiscuzText(
-                            widget.user.attributes.followCount.toString(),
-                            fontWeight: FontWeight.bold,
-                          ),
-                          DiscuzText(
-                            '关注',
-                            color: DiscuzApp.themeOf(context).greyTextColor,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          DiscuzText(
-                            _user.attributes.fansCount.toString(),
-                            fontWeight: FontWeight.bold,
-                          ),
-                          DiscuzText(
-                            '粉丝',
-                            color: DiscuzApp.themeOf(context).greyTextColor,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          DiscuzText(
-                            _user.attributes.likedCount.toString(),
-                            fontWeight: FontWeight.bold,
-                          ),
-                          DiscuzText(
-                            '点赞',
-                            color: DiscuzApp.themeOf(context).greyTextColor,
-                          ),
-                        ],
+                      DiscuzText(
+                        '主题',
+                        color: DiscuzApp.themeOf(context).greyTextColor,
                       ),
                     ],
-                  )
+                  ),
+                  Column(
+                    children: <Widget>[
+                      DiscuzText(
+                        widget.user.attributes.followCount.toString(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      DiscuzText(
+                        '关注',
+                        color: DiscuzApp.themeOf(context).greyTextColor,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      DiscuzText(
+                        _user.attributes.fansCount.toString(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      DiscuzText(
+                        '粉丝',
+                        color: DiscuzApp.themeOf(context).greyTextColor,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      DiscuzText(
+                        _user.attributes.likedCount.toString(),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      DiscuzText(
+                        '点赞',
+                        color: DiscuzApp.themeOf(context).greyTextColor,
+                      ),
+                    ],
+                  ),
                 ],
-              ),
-            ),
-          ));
+              )
+            ],
+          ),
+        ),
+      );
 
   ///
   /// 用户组标签

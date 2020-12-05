@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/ui/ui.dart';
 import 'package:core/widgets/common/discuzButton.dart';
@@ -55,26 +53,24 @@ class _LoginDelegateState extends State<LoginDelegate> {
     super.dispose();
   }
 
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '登录',
-              brightness: Brightness.light,
-              actions: <Widget>[
-                // IconButton(
-                //   tooltip: '无法登陆',
-                //   icon: const DiscuzIcon(CupertinoIcons.question_circle_fill,
-                //       color: Colors.white),
-                //   onPressed: () => null,
-                // )
-              ],
-            ),
-            body: _buildLoginForm(state),
-          ));
+  Widget build(BuildContext context) => Scaffold(
+        appBar: DiscuzAppBar(
+          title: '登录',
+          brightness: Brightness.light,
+          actions: <Widget>[
+            // IconButton(
+            //   tooltip: '无法登陆',
+            //   icon: const DiscuzIcon(CupertinoIcons.question_circle_fill,
+            //       color: Colors.white),
+            //   onPressed: () => null,
+            // )
+          ],
+        ),
+        body: _loginForm,
+      );
 
   /// 生成用于登录的表单
-  Widget _buildLoginForm(AppState state) => DiscuzFormContainer(
+  Widget get _loginForm => DiscuzFormContainer(
           child: ListView(
         padding: const EdgeInsets.only(top: 60),
         children: <Widget>[
@@ -117,7 +113,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
           /// login button
           DiscuzButton(
             label: '登录',
-            onPressed: () => _requestLogin(state),
+            onPressed: _requestLogin,
           ),
 
           /// or register an account????
@@ -139,7 +135,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
   ///
   /// _requestLogin用户请求登录
   ///
-  Future<void> _requestLogin(AppState state) async {
+  Future<void> _requestLogin() async {
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");
       return;

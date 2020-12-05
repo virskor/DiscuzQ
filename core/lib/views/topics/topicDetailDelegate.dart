@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/models/topicModel.dart';
 import 'package:core/widgets/forum/forumCategoryFilter.dart';
@@ -51,9 +49,7 @@ class _TopicDetailDelegateState extends State<TopicDetailDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
+  Widget build(BuildContext context) => Scaffold(
             appBar: DiscuzAppBar(
               title: _appbarTitle,
                brightness: Brightness.light,
@@ -65,7 +61,7 @@ class _TopicDetailDelegateState extends State<TopicDetailDelegate> {
                     ),
             ),
             body: _buildBody(),
-          ));
+          );
 
   ///
   /// Create appbar title

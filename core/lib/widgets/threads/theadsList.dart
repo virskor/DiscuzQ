@@ -6,8 +6,6 @@ import 'package:core/widgets/forum/forumCategoryFilter.dart';
 import 'package:core/widgets/common/discuzRefresh.dart';
 import 'package:core/models/categoryModel.dart';
 import 'package:core/models/metaModel.dart';
-import 'package:core/states/appState.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/utils/global.dart';
 import 'package:core/utils/request/request.dart';
 import 'package:core/utils/request/requestIncludes.dart';
@@ -17,7 +15,6 @@ import 'package:core/widgets/threads/threadCard.dart';
 import 'package:core/widgets/threads/threadsCacher.dart';
 import 'package:core/widgets/skeleton/discuzSkeleton.dart';
 import 'package:core/widgets/common/discuzNomoreData.dart';
-import 'package:core/utils/debouncer.dart';
 
 ///
 /// 注意：
@@ -79,8 +76,6 @@ class _ForumCategoryState extends State<ThreadsList>
   ///
   final ThreadsCacher _threadsCacher = ThreadsCacher();
 
-  /// debouncer
-  final Debouncer _debouncer = Debouncer(milliseconds: 470);
 
   /// states
   ///
@@ -139,10 +134,6 @@ class _ForumCategoryState extends State<ThreadsList>
   void initState() {
     super.initState();
 
-    ///
-    /// 绑定列表移动时间观察
-    this._watchScrollOffset();
-
     Future.delayed(Duration(milliseconds: 450))
         .then((_) async => await _requestData(pageNumber: 1));
   }
@@ -165,41 +156,21 @@ class _ForumCategoryState extends State<ThreadsList>
   }
 
   ///
-  /// 观察列表移动
-  /// 观察移动要传递变化时候的值并减少传递，避免UI渲染过程中的Loop造成性能消耗
-  ///
-  void _watchScrollOffset() {
-    bool showAppbar = true;
-
-    _scrollController.addListener(() {
-      _debouncer.run(() {
-        final bool wantHide = _scrollController.offset >= 300 ? false : true;
-
-        if (widget.onAppbarState != null && wantHide != showAppbar) {
-          widget.onAppbarState(wantHide);
-          showAppbar = wantHide;
-        }
-      });
-    });
-  }
-
-  ///
   /// 是否允许加载更多
-  bool get _enablePullUp =>
-      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+  bool get _enablePullUp => _meta == null
+      ? false
+      : _meta.pageCount > _pageNumber
+          ? true
+          : false;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) =>
-            _body(context: context, state: state));
+    return _body();
   }
 
   /// build body
-  Widget _body({@required BuildContext context, @required AppState state}) =>
-      DiscuzRefresh(
+  Widget _body() => DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
 
@@ -217,12 +188,12 @@ class _ForumCategoryState extends State<ThreadsList>
           await _requestData(pageNumber: _pageNumber + 1);
           _controller.loadComplete();
         },
-        child: _buildContents(state: state),
+        child: _buildContents(),
       );
 
   ///
   /// 渲染内容区
-  Widget _buildContents({AppState state}) {
+  Widget _buildContents() {
     ///
     /// 骨架屏仅在初始化时加载
     ///

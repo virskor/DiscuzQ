@@ -4,9 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:core/states/scopedState.dart';
 import 'package:core/discuz.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/utils/appConfigurations.dart';
 import 'package:core/widgets/common/appWrapper.dart';
 import 'package:core/utils/authHelper.dart';
@@ -15,6 +13,8 @@ import 'package:core/utils/buildInfo.dart';
 import 'package:core/widgets/emoji/emojiSync.dart';
 import 'package:core/providers/appConfigProvider.dart';
 import 'package:core/providers/userProvider.dart';
+import 'package:core/providers/forumProvider.dart';
+import 'package:core/providers/categoriesProvider.dart';
 
 ///
 /// 执行
@@ -25,6 +25,8 @@ void runDiscuzApp() {
         /// APP 配置状态
         ChangeNotifierProvider(create: (_) => AppConfigProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ForumProvider()),
+        ChangeNotifierProvider(create: (_) => CategoriesProvider()),
       ],
       child: DiscuzQ(),
     ),
@@ -32,37 +34,31 @@ void runDiscuzApp() {
 }
 
 class DiscuzQ extends StatelessWidget {
-  final AppState _appState = AppState();
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => ScopedStateModel<AppState>(
-      model: _appState,
-      child: Consumer<AppConfigProvider>(builder:
-          (BuildContext context, AppConfigProvider conf, Widget child) {
-        return ScopedStateModelDescendant<AppState>(
-            rebuildOnChange: false,
-            builder: (context, child, state) => AppWrapper(
-                  onDispose: () {},
-                  onInit: () async {
-                    await BuildInfo().init();
-                    await _initApp(
-                      context: context,
-                    );
+  Widget build(BuildContext context) => Consumer<AppConfigProvider>(
+      builder: (BuildContext context, AppConfigProvider conf, Widget child) =>
+          AppWrapper(
+            onDispose: () {},
+            onInit: () async {
+              await BuildInfo().init();
+              await _initApp(
+                context: context,
+              );
 
-                    ///
-                    ///
-                    /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
-                    Future.delayed(Duration.zero)
-                        .then((_) => EmojiSync().getEmojis());
-                  },
+              ///
+              ///
+              /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
+              Future.delayed(Duration.zero)
+                  .then((_) => EmojiSync().getEmojis());
+            },
 
-                  /// 创建入口APP
-                  child: conf.appConf == null
-                      ? const _DiscuzAppIndicator()
-                      : const Discuz(),
-                ));
-      }));
+            /// 创建入口APP
+            child: conf.appConf == null
+                ? const _DiscuzAppIndicator()
+                : const Discuz(),
+          ));
 
   ///
   /// Init app and states

@@ -4,7 +4,6 @@ import 'package:badges/badges.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:provider/provider.dart';
 
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/common/discuzText.dart';
 import 'package:core/widgets/common/discuzListTile.dart';
@@ -13,7 +12,6 @@ import 'package:core/utils/authHelper.dart';
 import 'package:core/widgets/common/discuzToast.dart';
 import 'package:core/router/route.dart';
 import 'package:core/widgets/common/discuzRefresh.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/models/typeUnreadNotificationsModel.dart';
 import 'package:core/utils/buildInfo.dart';
@@ -70,88 +68,86 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   @override
   Widget build(BuildContext context) => !mounted
       ? const SizedBox()
-      : ScopedStateModelDescendant<AppState>(
-          rebuildOnChange: false,
-          builder: (context, child, state) => Scaffold(
-                appBar: DiscuzAppBar(
-                  title: '消息通知',
-                  brightness: Brightness.light,
+      : Scaffold(
+          appBar: DiscuzAppBar(
+            title: '消息通知',
+            brightness: Brightness.light,
+          ),
+          body: DiscuzRefresh(
+            enablePullDown: true,
+            enablePullUp: false,
+            // header: WaterDropHeader(),
+            controller: _controller,
+            onRefresh: () async {
+              await _refreshMessageList(context: context);
+              _controller.refreshCompleted();
+            },
+            child: Column(
+              children: <Widget>[
+                ///
+                /// @我的
+                ///
+                _notificationsSelection(
+                  item: _NotificationMenuItem(
+                      label: '提及我的',
+                      icon: CupertinoIcons.at,
+                      child: const NotificationListDelegate(
+                          type: NotificationTypes.related),
+                      badges: _typeUnreadNotifications.replied),
                 ),
-                body: DiscuzRefresh(
-                  enablePullDown: true,
-                  enablePullUp: false,
-                  // header: WaterDropHeader(),
-                  controller: _controller,
-                  onRefresh: () async {
-                    await _refreshMessageList(context: context);
-                    _controller.refreshCompleted();
-                  },
-                  child: Column(
-                    children: <Widget>[
-                      ///
-                      /// @我的
-                      ///
-                      _notificationsSelection(
-                        item: _NotificationMenuItem(
-                            label: '提及我的',
-                            icon: CupertinoIcons.at,
-                            child: const NotificationListDelegate(
-                                type: NotificationTypes.related),
-                            badges: _typeUnreadNotifications.replied),
-                      ),
 
-                      ///
-                      /// 回复我的
-                      ///
-                      _notificationsSelection(
-                        item: _NotificationMenuItem(
-                            label: '回复我的',
-                            icon: CupertinoIcons.bubble_left_bubble_right,
-                            child: const NotificationListDelegate(
-                                type: NotificationTypes.replies),
-                            badges: _typeUnreadNotifications.replied),
-                      ),
+                ///
+                /// 回复我的
+                ///
+                _notificationsSelection(
+                  item: _NotificationMenuItem(
+                      label: '回复我的',
+                      icon: CupertinoIcons.bubble_left_bubble_right,
+                      child: const NotificationListDelegate(
+                          type: NotificationTypes.replies),
+                      badges: _typeUnreadNotifications.replied),
+                ),
 
-                      ///
-                      /// 金融相关功能
-                      /// 打赏通知
-                      ///
-                      BuildInfo().info().financial
-                          ? _notificationsSelection(
-                              item: _NotificationMenuItem(
-                                  label: '财务通知',
-                                  icon: CupertinoIcons.money_yen_circle,
-                                  child: const NotificationListDelegate(
-                                      type: NotificationTypes.rewarded),
-                                  badges: _typeUnreadNotifications.rewarded),
-                            )
-                          : const SizedBox(),
-
-                      ///
-                      /// 点赞我的
-                      _notificationsSelection(
+                ///
+                /// 金融相关功能
+                /// 打赏通知
+                ///
+                BuildInfo().info().financial
+                    ? _notificationsSelection(
                         item: _NotificationMenuItem(
-                            label: '点赞我的',
-                            icon: CupertinoIcons.heart,
+                            label: '财务通知',
+                            icon: CupertinoIcons.money_yen_circle,
                             child: const NotificationListDelegate(
-                                type: NotificationTypes.liked),
-                            badges: _typeUnreadNotifications.liked),
-                      ),
-
-                      ///
-                      /// 系统通知
-                      _notificationsSelection(
-                        item: _NotificationMenuItem(
-                            label: '系统通知',
-                            child: const NotificationListDelegate(
-                                type: NotificationTypes.system),
-                            icon: CupertinoIcons.bell,
-                            badges: _typeUnreadNotifications.system),
+                                type: NotificationTypes.rewarded),
+                            badges: _typeUnreadNotifications.rewarded),
                       )
-                    ],
-                  ),
+                    : const SizedBox(),
+
+                ///
+                /// 点赞我的
+                _notificationsSelection(
+                  item: _NotificationMenuItem(
+                      label: '点赞我的',
+                      icon: CupertinoIcons.heart,
+                      child: const NotificationListDelegate(
+                          type: NotificationTypes.liked),
+                      badges: _typeUnreadNotifications.liked),
                 ),
-              ));
+
+                ///
+                /// 系统通知
+                _notificationsSelection(
+                  item: _NotificationMenuItem(
+                      label: '系统通知',
+                      child: const NotificationListDelegate(
+                          type: NotificationTypes.system),
+                      icon: CupertinoIcons.bell,
+                      badges: _typeUnreadNotifications.system),
+                )
+              ],
+            ),
+          ),
+        );
 
   ///
   /// 生成通知列表

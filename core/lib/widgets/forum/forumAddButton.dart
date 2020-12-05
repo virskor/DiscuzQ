@@ -9,8 +9,6 @@ import 'package:core/widgets/ui/ui.dart';
 import 'package:core/widgets/common/discuzText.dart';
 import 'package:core/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:core/models/categoryModel.dart';
-import 'package:core/states/appState.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/widgets/editor/discuzEditorHelper.dart';
 import 'package:core/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:core/widgets/common/discuzToast.dart';
@@ -23,8 +21,8 @@ class ForumAddButton extends StatefulWidget {
 
   final EdgeInsetsGeometry padding;
 
-  const ForumAddButton({Key key, this.awalysDark = false, this.padding}) : super(key: key);
-
+  const ForumAddButton({Key key, this.awalysDark = false, this.padding})
+      : super(key: key);
 
   @override
   _ForumAddButtonState createState() => _ForumAddButtonState();
@@ -108,41 +106,39 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) => Container(
-              height: 250,
-              decoration: BoxDecoration(
-                  color: DiscuzApp.themeOf(context).backgroundColor),
-              child: SafeArea(
-                child: ListView(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: _menus
-                      .map((e) => GestureDetector(
-                            onTap: () => _showEditor(
-                              context: context,
-                              type: e.type,
-                            ),
-                            child: DiscuzListTile(
-                              leading: Center(
-                                widthFactor: 2,
-                                child: DiscuzIcon(e.icon),
-                              ),
-                              title: DiscuzText(
-                                e.caption,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              subtitle: DiscuzText(
-                                e.subTitle,
-                                color: DiscuzApp.themeOf(context).greyTextColor,
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                ),
-              ),
-            ));
+    return Container(
+      height: 250,
+      decoration:
+          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+      child: SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          children: _menus
+              .map((e) => GestureDetector(
+                    onTap: () => _showEditor(
+                      context: context,
+                      type: e.type,
+                    ),
+                    child: DiscuzListTile(
+                      leading: Center(
+                        widthFactor: 2,
+                        child: DiscuzIcon(e.icon),
+                      ),
+                      title: DiscuzText(
+                        e.caption,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      subtitle: DiscuzText(
+                        e.subTitle,
+                        color: DiscuzApp.themeOf(context).greyTextColor,
+                      ),
+                    ),
+                  ))
+              .toList(),
+        ),
+      ),
+    );
   }
 
   ///

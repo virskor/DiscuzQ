@@ -27,8 +27,6 @@ import 'package:core/models/metaModel.dart';
 import 'package:core/models/postModel.dart';
 import 'package:core/widgets/posts/postFloorCard.dart';
 import 'package:core/widgets/ui/ui.dart';
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/threads/parts/threadExtendBottomBar.dart';
 import 'package:core/widgets/common/discuzImage.dart';
 import 'package:core/widgets/common/discuzNomoreData.dart';
@@ -141,9 +139,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       .toList();
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
+  Widget build(BuildContext context) => Scaffold(
             appBar: DiscuzAppBar(
               title: widget.thread.attributes.title != ''
                   ? widget.thread.attributes.title
@@ -235,7 +231,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                 _positionedBottomBar(),
               ],
             ),
-          ));
+          );
 
   ///
   /// 渲染内容

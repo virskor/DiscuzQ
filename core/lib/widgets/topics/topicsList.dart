@@ -4,8 +4,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:core/widgets/common/discuzRefresh.dart';
 import 'package:core/models/metaModel.dart';
-import 'package:core/states/appState.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/utils/global.dart';
 import 'package:core/utils/request/request.dart';
 import 'package:core/utils/request/requestIncludes.dart';
@@ -148,14 +146,11 @@ class _ForumCategoryState extends State<TopicsList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) =>
-            _body(context: context, state: state));
+    return  _body();
   }
 
   /// build body
-  Widget _body({@required BuildContext context, @required AppState state}) =>
+  Widget _body() =>
       DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
@@ -174,12 +169,12 @@ class _ForumCategoryState extends State<TopicsList>
           await _requestData(pageNumber: _pageNumber + 1);
           _controller.loadComplete();
         },
-        child: _buildContents(state: state),
+        child: _buildContents(),
       );
 
   ///
   /// 渲染内容区
-  Widget _buildContents({AppState state}) {
+  Widget _buildContents() {
     ///
     /// 骨架屏仅在初始化时加载
     ///

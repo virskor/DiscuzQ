@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/common/discuzNomoreData.dart';
 import 'package:core/widgets/common/discuzRefresh.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
@@ -79,22 +77,23 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
   ///
   /// 是否允许加载更多
-  bool get _enablePullUp =>
-      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+  bool get _enablePullUp => _meta == null
+      ? false
+      : _meta.pageCount > _pageNumber
+          ? true
+          : false;
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-          appBar: DiscuzAppBar(
-            title: '我的收藏',
-            brightness: Brightness.light,
-          ),
-          body: _body(state: state)));
+  Widget build(BuildContext context) => Scaffold(
+      appBar: DiscuzAppBar(
+        title: '我的收藏',
+        brightness: Brightness.light,
+      ),
+      body: _body());
 
   /// _body
   /// 生成Body
-  Widget _body({AppState state}) {
+  Widget _body() {
     ///
     /// 仅在第一次加载骨架屏
     if (_loading && !_continueToRead) {
