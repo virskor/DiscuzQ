@@ -146,6 +146,12 @@
       "languageVersion": "2.4"
     },
     {
+      "name": "event_bus",
+      "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/event_bus-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
+    },
+    {
       "name": "extended_text_field",
       "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/extended_text_field-5.0.2",
       "packageUri": "lib/",
@@ -770,7 +776,7 @@
       "languageVersion": "2.8"
     }
   ],
-  "generated": "2020-12-05T13:24:29.178707Z",
+  "generated": "2020-12-05T14:14:26.716998Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
