@@ -27,6 +27,7 @@ Discuz! Q RC v2.1.201113
 **✅ 用户注册验证码校验支持**  
 **✅ 核心组件抽出(部分组件已经抽出到core，后续将分离为mobile, web等)**  
 **✅ 将ScopedModels更改为Provider**   
+**✅ BUGLY运营统计**  
 **安卓更新解决方案 BUGLY**  
 **短信验证码**  
 **在消息评论中回复**  
@@ -189,7 +190,7 @@ production:
 ```
 
 ### 使用移动统计代码
-修改build.yaml中的Umeng相关配置即可
+修改build.yaml中的Umeng相关配置即可。这里为了支持BUG上报，所以仅支持腾讯全家桶BUGLY。
 
 ### Android Release or debug
 我们推荐使用IOS模拟器开始你的调试，如果你Build Android版本，首先你需要生成一个keystore文件，存储到 ./mobile/android/目录下，并命名为android.keystore   

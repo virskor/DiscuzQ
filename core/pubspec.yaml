@@ -78,6 +78,8 @@ dependencies:
     path: ../packages/flutter_status_alert
   flutter_image_compress:
     path: ../packages/flutter_image_compress
+  flutter_bugly:
+    path: ../packages/flutter_bugly
 
 dev_dependencies:
   flutter_test:

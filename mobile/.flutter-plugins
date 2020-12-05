@@ -28,6 +28,7 @@ video_player_web=/Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.d
 wakelock=/Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/wakelock-0.1.4+2/
 webview_flutter=/Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/webview_flutter-1.0.3/
 assets_audio_player=/Users/virs/DiscuzQ/packages/flutter_assetsAudioPlayer/
+flutter_bugly=/Users/virs/DiscuzQ/packages/flutter_bugly/
 clipboard_manager=/Users/virs/DiscuzQ/packages/flutter_clipboardManager/
 flutter_image_compress=/Users/virs/DiscuzQ/packages/flutter_image_compress/
 flutter_native_dialog=/Users/virs/DiscuzQ/packages/flutter_native_dialog/

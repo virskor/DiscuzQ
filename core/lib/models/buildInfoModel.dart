@@ -37,6 +37,9 @@ class BuildInfoModel {
   /// idleTimeout
   final int idleTimeout;
 
+  /// bugly配置
+  final dynamic bugly;
+
   const BuildInfoModel(
       {this.domain = 'https://discuz.chat',
       this.appname = 'DiscuzQ',
@@ -44,6 +47,7 @@ class BuildInfoModel {
       this.onBadCertificate = true,
       this.financial = false,
       this.idleTimeout = 15000,
+      this.bugly,
       this.debugShowCheckedModeBanner = false,
       this.enablePerformanceOverlay = false});
 
@@ -74,6 +78,7 @@ class BuildInfoModel {
         onBadCertificate: data['onBadCertificate'] ?? true,
         idleTimeout: data['idleTimeout'] ?? 15000,
         financial: data['financial'] ?? false,
+        bugly: data['bugly'] ?? null,
         debugShowCheckedModeBanner: data['debugShowCheckedModeBanner'] ?? false,
         enablePerformanceOverlay: data['enablePerformanceOverlay'] ?? false);
   }

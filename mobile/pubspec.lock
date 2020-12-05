@@ -237,6 +237,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bugly:
+    dependency: transitive
+    description:
+      path: "../packages/flutter_bugly"
+      relative: true
+    source: path
+    version: "0.3.0+2"
   flutter_cache_manager:
     dependency: transitive
     description:
