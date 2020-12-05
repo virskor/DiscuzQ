@@ -1,0 +1,1 @@
+flutter build ios --release --no-tree-shake-icons
