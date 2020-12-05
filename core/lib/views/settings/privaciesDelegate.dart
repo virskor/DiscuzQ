@@ -1,10 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/utils/global.dart';
 import 'package:core/widgets/common/discuzText.dart';
-import 'package:flutter/material.dart';
-
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
-import 'package:core/widgets/appbar/appbarExt.dart';
+import 'package:core/providers/forumProvider.dart';
 
 class PrivaciesDelegate extends StatefulWidget {
   ///
@@ -36,12 +36,11 @@ class _PrivaciesDelegateState extends State<PrivaciesDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) {
+  Widget build(BuildContext context) => Consumer<ForumProvider>(
+          builder: (BuildContext context, ForumProvider forum, Widget child) {
         final String _text = widget.isPrivacy
-            ? (state.forum.attributes.agreements.privacyContent ?? "暂未设置")
-            : (state.forum.attributes.agreements.registerContent ?? "暂未设置");
+            ? (forum.forum.attributes.agreements.privacyContent ?? "暂未设置")
+            : (forum.forum.attributes.agreements.registerContent ?? "暂未设置");
         return Scaffold(
             appBar: DiscuzAppBar(
               title: widget.isPrivacy ? '隐私政策' : '用户协议',

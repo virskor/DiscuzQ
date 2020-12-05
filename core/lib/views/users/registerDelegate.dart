@@ -1,6 +1,5 @@
-import 'package:core/models/captchaModel.dart';
-import 'package:core/widgets/captcha/tencentCloudCaptcha.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:core/states/scopedState.dart';
 import 'package:core/states/appState.dart';
@@ -16,6 +15,11 @@ import 'package:core/utils/request/request.dart';
 import 'package:core/utils/request/urls.dart';
 import 'package:core/widgets/common/discuzToast.dart';
 import 'package:core/widgets/users/privacyBar.dart';
+import 'package:core/providers/forumProvider.dart';
+import 'package:core/models/captchaModel.dart';
+import 'package:core/widgets/captcha/tencentCloudCaptcha.dart';
+
+import '../../models/forumModel.dart';
 
 class RegisterDelegate extends StatefulWidget {
   final Function onRequested;
@@ -66,18 +70,16 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
   //           body: _buildRegisterForm(state),
   //         ));
 
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '注册',
-              brightness: Brightness.light,
-            ),
-            body: _buildRegisterForm(state),
-          ));
+  Widget build(BuildContext context) => Scaffold(
+        appBar: DiscuzAppBar(
+          title: '注册',
+          brightness: Brightness.light,
+        ),
+        body: _buildRegisterForm,
+      );
 
   /// 生成用于登录的表单
-  Widget _buildRegisterForm(AppState state) => DiscuzFormContainer(
+  Widget get _buildRegisterForm => DiscuzFormContainer(
           child: ListView(
         padding: const EdgeInsets.only(top: 60),
         children: <Widget>[
@@ -120,7 +122,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
           /// login button
           DiscuzButton(
             label: '注册',
-            onPressed: () => _requestRegister(state),
+            onPressed: _requestRegister,
           ),
 
           /// or register an account????
@@ -141,7 +143,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
   ///
   /// 请求注册
   ///
-  Future<void> _requestRegister(AppState state) async {
+  Future<void> _requestRegister() async {
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");
       return;
@@ -158,21 +160,20 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
     /// 注意，回复的时候，不需要传入验证码
     CaptchaModel captchaCallbackData;
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
+      final ForumModel forum = context.read<ForumProvider>().forum;
 
       /// 回复的时候不需要验证码
       ///
       ///
       /// 仅支持 开启腾讯云验证码的用户调用
       ///
-      if (state.forum.attributes.qcloud.qCloudCaptcha) {
+      if (forum.attributes.qcloud.qCloudCaptcha) {
         captchaCallbackData = await TencentCloudCaptcha.show(
             context: context,
 
             ///
             /// 传入appID 进行替换，否则无法正常完成验证
-            appID: state.forum.attributes.qcloud.qCloudCaptchaAppID);
+            appID: forum.attributes.qcloud.qCloudCaptchaAppID);
         if (captchaCallbackData == null) {
           DiscuzToast.failed(context: context, message: '验证失败');
           return;
@@ -202,7 +203,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
     try {
       Response resp = await Request(context: context, autoAuthorization: false)
           .postJson(url: Urls.usersRegister, data: data);
-          
+
       closeLoading();
 
       if (resp == null) {

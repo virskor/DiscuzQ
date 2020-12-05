@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/utils/request/request.dart';
 import 'package:core/utils/request/urls.dart';
 import 'package:core/models/forumModel.dart';
+import 'package:core/providers/forumProvider.dart';
 
 class ForumAPI {
   final BuildContext context;
@@ -21,9 +21,6 @@ class ForumAPI {
   ///
   Future<bool> getForum({bool force = false}) async {
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
-
       final Response resp =
           await Request(context: context, autoAuthorization: false).getUrl(
               url: Urls.forum, queryParameters: {"filter[tag]": "agreement"});
@@ -36,10 +33,11 @@ class ForumAPI {
         final ForumModel forum = ForumModel.fromMap(maps: resp.data['data']);
 
         /// 更新状态
-        state.updateForum(forum, prevent: state.forum != null);
+        context.read<ForumProvider>().updateForum(forum);
       } catch (e) {
         throw e;
       }
+
       /// 返回成功
       return Future.value(true);
     } catch (e) {

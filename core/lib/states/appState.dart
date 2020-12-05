@@ -1,6 +1,5 @@
 import 'package:core/models/categoryModel.dart';
 import 'package:core/states/scopedState.dart';
-import 'package:core/models/forumModel.dart';
 import 'package:core/utils/debouncer.dart';
 
 /*
@@ -27,19 +26,6 @@ import 'package:core/utils/debouncer.dart';
 final Debouncer _debouncer = Debouncer(milliseconds: 400);
 
 class AppState extends StateModel {
-  ///
-  /// forum 站点信息
-  ///
-  ForumModel _forum;
-  ForumModel get forum => _forum;
-  void updateForum(ForumModel forum, {bool prevent = false}) {
-    _forum = forum;
-    if (prevent) {
-      return;
-    }
-    _noticeRebuild();
-  }
-
   ///
   /// categories 分类列表状态
   ///

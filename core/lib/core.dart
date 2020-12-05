@@ -15,6 +15,7 @@ import 'package:core/utils/buildInfo.dart';
 import 'package:core/widgets/emoji/emojiSync.dart';
 import 'package:core/providers/appConfigProvider.dart';
 import 'package:core/providers/userProvider.dart';
+import 'package:core/providers/forumProvider.dart';
 
 ///
 /// 执行
@@ -25,6 +26,7 @@ void runDiscuzApp() {
         /// APP 配置状态
         ChangeNotifierProvider(create: (_) => AppConfigProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => ForumProvider()),
       ],
       child: DiscuzQ(),
     ),

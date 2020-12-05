@@ -1,13 +1,10 @@
-import 'package:core/utils/global.dart';
-import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
+import 'package:provider/provider.dart';
 
 import 'package:core/models/threadVideoModel.dart';
 import 'package:core/models/threadModel.dart';
-import 'package:core/states/appState.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/widgets/threads/payments/threadRequiredPayments.dart';
 import 'package:core/widgets/common/discuzCachedNetworkImage.dart';
 import 'package:core/widgets/common/discuzIndicater.dart';
@@ -16,6 +13,10 @@ import 'package:core/api/videos.dart';
 import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/widgets/ui/ui.dart';
 import 'package:core/widgets/common/discuzText.dart';
+import 'package:core/utils/global.dart';
+import 'package:core/widgets/appbar/appbarExt.dart';
+import 'package:core/providers/forumProvider.dart';
+import 'package:core/models/forumModel.dart';
 
 class DiscuzPlayer extends StatefulWidget {
   ///
@@ -81,36 +82,34 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) => Scaffold(
-              appBar: DiscuzAppBar(
-                title: '短视频',
-                backgroundColor: Global.scaffoldBackgroundColorDark,
-              ),
-              body: Material(
-                color: Colors.black,
-                child: Stack(
-                  children: <Widget>[
-                    ///
-                    /// 是否需要支付才能查看
-                    _requiredPaymentToPlay
-                        ? Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: SizedBox(
-                                height: 200,
-                                child: ThreadRequiredPayments(
-                                  thread: widget.thread,
-                                ),
-                              ),
-                            ),
-                          )
-                        : _buildPlayer(),
-                  ],
-                ),
-              ),
-            ));
+    return Scaffold(
+      appBar: DiscuzAppBar(
+        title: '短视频',
+        backgroundColor: Global.scaffoldBackgroundColorDark,
+      ),
+      body: Material(
+        color: Colors.black,
+        child: Stack(
+          children: <Widget>[
+            ///
+            /// 是否需要支付才能查看
+            _requiredPaymentToPlay
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SizedBox(
+                        height: 200,
+                        child: ThreadRequiredPayments(
+                          thread: widget.thread,
+                        ),
+                      ),
+                    ),
+                  )
+                : _buildPlayer(),
+          ],
+        ),
+      ),
+    );
   }
 
   ///
@@ -155,11 +154,10 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
   ///
   Future<bool> _getPlayInfo() async {
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
+      final ForumModel forum = context.read<ForumProvider>().forum;
 
-      final dynamic playInfo = await VideoAPI(context: context).getPlayInfo(
-          qcloud: state.forum.attributes.qcloud, video: widget.video);
+      final dynamic playInfo = await VideoAPI(context: context)
+          .getPlayInfo(qcloud: forum.attributes.qcloud, video: widget.video);
 
       if (playInfo == null) {
         return Future.value(false);

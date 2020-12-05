@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:core/states/scopedState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
@@ -14,11 +15,13 @@ import 'package:core/widgets/common/discuzToast.dart';
 import 'package:core/utils/StringHelper.dart';
 import 'package:core/widgets/captcha/tencentCloudCaptcha.dart';
 import 'package:core/models/captchaModel.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/models/threadModel.dart';
 import 'package:core/api/threads.dart';
 import 'package:core/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:core/api/posts.dart';
+import 'package:core/providers/forumProvider.dart';
+
+import 'package:core/models/forumModel.dart';
 
 ///
 /// 发帖编辑器
@@ -149,8 +152,7 @@ class _EditorState extends State<Editor> {
   ///
   /// 发布内容，
   /// 将自动处理数据转化，并根据模式，调用reply，或者创建主题的接口
-  Future<void> _post() async {    
-
+  Future<void> _post() async {
     ///
     /// relationships 不可能为null
     ///
@@ -193,21 +195,20 @@ class _EditorState extends State<Editor> {
     /// 注意，回复的时候，不需要传入验证码
     CaptchaModel captchaCallbackData;
     try {
-      final AppState state =
-          ScopedStateModel.of<AppState>(context, rebuildOnChange: false);
+      final ForumModel forum = context.read<ForumProvider>().forum;
 
       /// 回复的时候不需要验证码
       ///
       ///
       /// 仅支持 开启腾讯云验证码的用户调用
       ///
-      if (state.forum.attributes.qcloud.qCloudCaptcha && !_isReply) {
+      if (forum.attributes.qcloud.qCloudCaptcha && !_isReply) {
         captchaCallbackData = await TencentCloudCaptcha.show(
             context: context,
 
             ///
             /// 传入appID 进行替换，否则无法正常完成验证
-            appID: state.forum.attributes.qcloud.qCloudCaptchaAppID);
+            appID: forum.attributes.qcloud.qCloudCaptchaAppID);
         if (captchaCallbackData == null) {
           DiscuzToast.failed(context: context, message: '验证失败');
           return;
