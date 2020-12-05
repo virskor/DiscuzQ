@@ -1,0 +1,10 @@
+/*
+* 仅用于兼容APP样式
+*/
+.qui-back{
+    display: none !important;
+}
+
+.qui-page--padding{
+    padding: 0px !important;
+}
