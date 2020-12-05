@@ -54,7 +54,8 @@ class DiscuzRoute {
         transition = TransitionType.cupertinoFullScreenDialog;
       }
 
-      return Routers.router.navigateTo(context, path, transition: transition);
+      Routers.router.navigateTo(context, path, transition: transition);
+      return Future.value(true);
     }
 
     if (isModal) {

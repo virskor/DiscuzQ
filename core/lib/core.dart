@@ -1,8 +1,10 @@
 library core;
 
 import 'dart:async';
+import 'package:core/utils/bugly.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_bugly/flutter_bugly.dart';
 
 import 'package:core/discuz.dart';
 import 'package:core/utils/appConfigurations.dart';
@@ -20,17 +22,19 @@ import 'package:core/providers/editorProvider.dart';
 ///
 /// 执行
 void runDiscuzApp() {
-  runApp(
-    MultiProvider(
-      providers: [
-        /// APP 配置状态
-        ChangeNotifierProvider(create: (_) => AppConfigProvider()),
-        ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => ForumProvider()),
-        ChangeNotifierProvider(create: (_) => CategoriesProvider()),
-        ChangeNotifierProvider(create: (_) => EditorProvider()),
-      ],
-      child: DiscuzQ(),
+  FlutterBugly.postCatchedException(
+    () => runApp(
+      MultiProvider(
+        providers: [
+          /// APP 配置状态
+          ChangeNotifierProvider(create: (_) => AppConfigProvider()),
+          ChangeNotifierProvider(create: (_) => UserProvider()),
+          ChangeNotifierProvider(create: (_) => ForumProvider()),
+          ChangeNotifierProvider(create: (_) => CategoriesProvider()),
+          ChangeNotifierProvider(create: (_) => EditorProvider()),
+        ],
+        child: DiscuzQ(),
+      ),
     ),
   );
 }
@@ -48,11 +52,16 @@ class DiscuzQ extends StatelessWidget {
                 context: context,
               );
 
+              /// 启动Bugly
+              final BuglyResultInfo result = await DiscuzBugly.init();
+              print(result.message);
+
               ///
               ///
               /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
-              Future.delayed(Duration.zero)
-                  .then((_) => EmojiSync().getEmojis());
+              Future.delayed(Duration.zero).then((_) async {
+                await EmojiSync().getEmojis();
+              });
             },
 
             /// 创建入口APP

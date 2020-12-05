@@ -38,6 +38,10 @@ development:
   # Financial fatures
   # Set this item into FALSE, wallet and financial amount will be displayed
   financial: true 
+  # Bugly
+  bugly: 
+    IOS: de3ab42b91
+    Android: b193a2f129
 
   
 # 构建生产环境的APP时加载的信息
@@ -54,3 +58,7 @@ production:
   onBadCertificate: true 
   http2idleTimeout: 15000
   financial: true 
+  # Bugly
+  bugly: 
+    IOS: de3ab42b91
+    Android: b193a2f129

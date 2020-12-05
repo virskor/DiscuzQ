@@ -18,6 +18,8 @@ import 'package:core/router/routers.dart';
 import 'package:core/views/exploreDelagate.dart';
 import 'package:core/providers/appConfigProvider.dart';
 
+import 'widgets/ui/ui.dart';
+
 class Discuz extends StatefulWidget {
   const Discuz({Key key}) : super(key: key);
 
@@ -57,48 +59,63 @@ class _DiscuzState extends State<Discuz> {
       debugPrint('---------APP WIDGET TREE HAS BEEN REBUILT--------');
       return DiscuzApp(
           theme: _buildTheme(conf),
-          child: MaterialApp(
-              title: Global.appname,
-              debugShowCheckedModeBanner:
-                  BuildInfo().info().debugShowCheckedModeBanner,
+          child: Builder(
+            builder: (BuildContext context) {
+              /// 生成主题与DiscuzApp一致
+              final ThemeData _themeData = ThemeData(
+                  primaryColor: DiscuzApp.themeOf(context).primaryColor,
+                  backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+                  scaffoldBackgroundColor:
+                      DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent);
 
-              /// 如果用户在Build.yaml禁止了这项，这直接不要允许开启
-              showPerformanceOverlay:
-                  BuildInfo().info().enablePerformanceOverlay
-                      ? conf.appConf['showPerformanceOverlay']
-                      : false,
-              localizationsDelegates: [
-                // this line is important
-                RefreshLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-                DefaultCupertinoLocalizations.delegate
-              ],
-              supportedLocales: [
-                const Locale('zh', 'CH'),
-                const Locale('en', 'US'),
-              ],
-              localeResolutionCallback:
-                  (Locale locale, Iterable<Locale> supportedLocales) {
-                //print("change language");
-                return locale;
-              },
-              onGenerateRoute: (RouteSettings settings) => MaterialWithModalsPageRoute(
-                  builder: (_) => Builder(
+              return MaterialApp(
+                  title: Global.appname,
+                  theme: _themeData,
+                  debugShowCheckedModeBanner:
+                      BuildInfo().info().debugShowCheckedModeBanner,
 
-                          /// 不在 MaterialApp 使用theme属性
-                          /// 这里rebuild的时候会有问题，所以使用Theme去包裹
-                          /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
-                          /// 这样会造成黑暗模式切换时有问题
-                          /// https://github.com/lukepighetti/fluro/blob/master/example/lib/components/app/app_component.dart
-                          builder: (BuildContext context) {
-                        /// 初始化Fluro路由
-                        Routers.router.generator(settings);
-                        return AppMediaQueryManager(
-                            child: const _DiscuzAppDelegate());
-                      }),
-                  settings: settings)));
+                  /// 如果用户在Build.yaml禁止了这项，这直接不要允许开启
+                  showPerformanceOverlay:
+                      BuildInfo().info().enablePerformanceOverlay
+                          ? conf.appConf['showPerformanceOverlay']
+                          : false,
+                  localizationsDelegates: [
+                    // this line is important
+                    RefreshLocalizations.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                    GlobalCupertinoLocalizations.delegate,
+                    DefaultCupertinoLocalizations.delegate
+                  ],
+                  supportedLocales: [
+                    const Locale('zh', 'CH'),
+                    const Locale('en', 'US'),
+                  ],
+                  localeResolutionCallback:
+                      (Locale locale, Iterable<Locale> supportedLocales) {
+                    //print("change language");
+                    return locale;
+                  },
+                  onGenerateRoute: (RouteSettings settings) =>
+                      MaterialWithModalsPageRoute(
+                          builder: (_) => Builder(
+
+                                  /// 不在 MaterialApp 使用theme属性
+                                  /// 这里rebuild的时候会有问题，所以使用Theme去包裹
+                                  /// 其实在MaterialApp里直接用theme也可以，但是flutter rebuild的时候有BUG， scaffoldBackgroundColor并未更新
+                                  /// 这样会造成黑暗模式切换时有问题
+                                  /// https://github.com/lukepighetti/fluro/blob/master/example/lib/components/app/app_component.dart
+                                  builder: (BuildContext context) {
+                                /// 初始化Fluro路由
+                                Routers.router.generator(settings);
+                                return AppMediaQueryManager(
+                                    child: const _DiscuzAppDelegate());
+                              }),
+                          settings: settings));
+            },
+          ));
     });
   }
 

@@ -1,6 +1,7 @@
 PODS:
   - assets_audio_player (0.0.1):
     - Flutter
+  - Bugly (2.5.71)
   - clipboard_manager (0.0.3):
     - Flutter
   - device_info (0.0.1):
@@ -40,6 +41,9 @@ PODS:
     - DKImagePickerController/PhotoGallery
     - Flutter
   - Flutter (1.0.0)
+  - flutter_bugly (0.0.1):
+    - Bugly
+    - Flutter
   - flutter_des (0.0.1):
     - Flutter
   - flutter_image_compress (0.0.1):
@@ -116,6 +120,7 @@ DEPENDENCIES:
   - device_info (from `.symlinks/plugins/device_info/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
+  - flutter_bugly (from `.symlinks/plugins/flutter_bugly/ios`)
   - flutter_des (from `.symlinks/plugins/flutter_des/ios`)
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
@@ -139,6 +144,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Bugly
     - DKImagePickerController
     - DKPhotoGallery
     - FMDB
@@ -161,6 +167,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/file_picker/ios"
   Flutter:
     :path: Flutter
+  flutter_bugly:
+    :path: ".symlinks/plugins/flutter_bugly/ios"
   flutter_des:
     :path: ".symlinks/plugins/flutter_des/ios"
   flutter_image_compress:
@@ -204,12 +212,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   assets_audio_player: 828c5761d1e51c569f40e622db3a2cbfd61ecb7d
+  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   clipboard_manager: f4800834e62cc26b1cc4e0a92a35cd452dd8b827
   device_info: d7d233b645a32c40dfdc212de5cf646ca482f175
   DKImagePickerController: b5eb7f7a388e4643264105d648d01f727110fc3d
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 3e6c3790de664ccf9b882732d9db5eaf6b8d4eb1
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_bugly: c9800f4d5bc5bdc27ffdde3417a26ba44266e0c3
   flutter_des: af0bb83f27f1468ad652d907958b1d42d5644544
   flutter_image_compress: 082f8daaf6c1b0c9fe798251c750ef0ecd98d7ae
   flutter_inappwebview: 69dfbac46157b336ffbec19ca6dfd4638c7bf189
