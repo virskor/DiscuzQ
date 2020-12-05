@@ -1,6 +1,4 @@
 analyzer:
-  language:
-    enableSuperMixins: true
 
 linter:
   rules:

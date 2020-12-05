@@ -1,7 +1,6 @@
 library core;
 
 import 'dart:async';
-import 'package:core/utils/bugly.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bugly/flutter_bugly.dart';
@@ -18,6 +17,7 @@ import 'package:core/providers/userProvider.dart';
 import 'package:core/providers/forumProvider.dart';
 import 'package:core/providers/categoriesProvider.dart';
 import 'package:core/providers/editorProvider.dart';
+import 'package:core/widgets/update/upgrader.dart';
 
 ///
 /// 执行
@@ -52,10 +52,6 @@ class DiscuzQ extends StatelessWidget {
                 context: context,
               );
 
-              /// 启动Bugly
-              final BuglyResultInfo result = await DiscuzBugly.init();
-              print(result.message);
-
               ///
               ///
               /// 异步加载表情数据，不用在乎结果，因为这是个单例，客户端再次调用时，会重新尝试缓存
@@ -67,7 +63,7 @@ class DiscuzQ extends StatelessWidget {
             /// 创建入口APP
             child: conf.appConf == null
                 ? const _DiscuzAppIndicator()
-                : const Discuz(),
+                : const Upgrader(child: const Discuz()),
           ));
 
   ///
