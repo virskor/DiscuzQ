@@ -26,6 +26,8 @@ Discuz! Q RC v2.1.201113
 **✅ 发现页分类**  
 **✅ 用户注册验证码校验支持**  
 **✅ 核心组件抽出(部分组件已经抽出到core，后续将分离为mobile, web等)**  
+**将ScopedModels更改为Provider (80%)**   
+**安卓更新解决方案 BUGLY**  
 **短信验证码**  
 **在消息评论中回复**  
 **编辑器优化**  
@@ -33,7 +35,6 @@ Discuz! Q RC v2.1.201113
 **批量传图**  
 **支持商品**  
 **UI将大致与h5 uniApp保持一致**  
-**将ScopedModels更改为Provider**   
 **微信登录**  
 **权限购买**  
 **微信登录**  
@@ -84,6 +85,9 @@ Discuz! Q RC v2.1.201113
 <p><img width="200px" src="./snapshots/wechat.jpeg"/> </p>
 <p><img width="200px" src="./snapshots/wechat.png"/> </p>
 
+### 在现有的Flutter项目中引用DiscuzQ
+参考mobile中，的pubspec.ymal 和 lib/main.dart 即可一步集成。！  
+
 
 ## 注意
 This application dose not have released any version. checkout dev branch to get latest version or contribute it. Thanks.  
@@ -127,7 +131,7 @@ targetSdkVersion 29
 不过在此之前值得说明的是，如果你的网络不能正常快速访问一些技术类网站，建议你使用pub国内源，你可以搜索找到配置的方式。  
 请使用最新版的Flutter，即Flutter v1.22 +
 ```sh
-cd ./discuz
+cd ./mobile
 flutter run
 ```
 项目中的 ./packages 本地化了一些依赖，这些依赖有改动所以没有直接使用pub.dev中的进行安装。 
@@ -186,7 +190,7 @@ production:
 ### IOS Release or debug
 需要修改Xcode 中的Team, 这样来完成签名，之后，不用做太多你便可以Build。 如果你Pod无法执行install，请使用国内源或者代理(推荐)。 其次
 ```sh
-cd ./discuz
+cd ./mobile
 flutter clean
 flutter pub get
 cd /ios
