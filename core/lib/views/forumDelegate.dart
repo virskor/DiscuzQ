@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:core/widgets/forum/floatLoginButton.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/forum/forumCategoryTab.dart';
-import 'package:core/states/scopedState.dart';
 
 /// 论坛首页
 class ForumDelegate extends StatefulWidget {
@@ -45,26 +43,24 @@ class _ForumDelegateState extends State<ForumDelegate>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: true,
-        builder: (context, child, state) => Scaffold(
-              body: Stack(
-                fit: StackFit.expand,
-                overflow: Overflow.clip,
-                children: <Widget>[
-                  /// 显示论坛分类和分类下内容列表
-                  ForumCategoryTab(
-                    onAppbarState: (bool show) {},
-                  ),
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        overflow: Overflow.clip,
+        children: <Widget>[
+          /// 显示论坛分类和分类下内容列表
+          ForumCategoryTab(
+            onAppbarState: (bool show) {},
+          ),
 
-                  /// 显示底部悬浮登录提示组件
-                  Positioned(
-                    bottom: 20,
-                    width: MediaQuery.of(context).size.width,
-                    child: const FloatLoginButton(),
-                  )
-                ],
-              ),
-            ));
+          /// 显示底部悬浮登录提示组件
+          Positioned(
+            bottom: 20,
+            width: MediaQuery.of(context).size.width,
+            child: const FloatLoginButton(),
+          )
+        ],
+      ),
+    );
   }
 }

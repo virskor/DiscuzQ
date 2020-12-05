@@ -1239,7 +1239,6 @@ class _SliverDiscuzAppBarState extends State<SliverDiscuzAppBar>
   void _updateSnapConfiguration() {
     if (widget.snap && widget.floating) {
       _snapConfiguration = FloatingHeaderSnapConfiguration(
-        vsync: this,
         curve: Curves.easeOut,
         duration: const Duration(milliseconds: 200),
       );

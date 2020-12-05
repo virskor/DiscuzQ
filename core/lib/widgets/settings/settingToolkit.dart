@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/widgets/common/discuzListTile.dart';
 import 'package:core/widgets/common/discuzText.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/providers/appConfigProvider.dart';
 
 ///
@@ -28,8 +26,7 @@ class SettingSwitcher extends StatelessWidget {
                 trailing: Switch.adaptive(
                   value: conf.appConf[settingKey],
                   onChanged: (bool val) => conf.update(
-                      key: settingKey,
-                      value: !conf.appConf[settingKey]),
+                      key: settingKey, value: !conf.appConf[settingKey]),
                 )),
           ));
 }
@@ -45,13 +42,11 @@ class SettingTile extends StatelessWidget {
   const SettingTile(
       {@required this.onPressed, @required this.icon, @required this.label});
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Container(
-            child: DiscuzListTile(
-              leading: DiscuzIcon(icon),
-              title: DiscuzText(label),
-              onTap: () => onPressed(),
-            ),
-          ));
+  Widget build(BuildContext context) => Container(
+        child: DiscuzListTile(
+          leading: DiscuzIcon(icon),
+          title: DiscuzText(label),
+          onTap: () => onPressed(),
+        ),
+      );
 }

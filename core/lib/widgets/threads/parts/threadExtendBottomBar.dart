@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:core/widgets/ui/ui.dart';
 import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/models/postModel.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/models/threadModel.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/utils/global.dart';
 import 'package:core/widgets/common/discuzToast.dart';
 import 'package:core/widgets/editor/discuzEditorHelper.dart';
@@ -78,65 +76,60 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
     if (widget.firstPost.id == 0) {
       return const SizedBox();
     }
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) {
-          final List<_ThreadExtendBottomBarItem> _menus = [
-            ///
-            /// 回复
-            const _ThreadExtendBottomBarItem(
-                attributes: 0xe65f, uniqueId: _tapReplyButton),
 
-            ///
-            /// 点赞
-            _ThreadExtendBottomBarItem(
-                attributes: PostLikeButton(
-                  post: widget.firstPost,
-                ),
-                uniqueId: _tapFavoriteButton),
+    final List<_ThreadExtendBottomBarItem> _menus = [
+      ///
+      /// 回复
+      const _ThreadExtendBottomBarItem(
+          attributes: 0xe65f, uniqueId: _tapReplyButton),
 
-            ///
-            /// 打赏
-            ///
-            // const _ThreadExtendBottomBarItem(
-            //     attributes: CupertinoIcons.money_yen_circle,
-            //     uniqueId: _tapRewardButton),
-          ];
-          return Container(
-            width: MediaQuery.of(context).size.width,
-            padding:
-                const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-            decoration: BoxDecoration(
-                border: Border(top: Global.border),
-                color: DiscuzApp.themeOf(context).backgroundColor),
-            child: SafeArea(
-              top: false,
-              bottom: true,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: _menus
-                    .map((el) => GestureDetector(
-                          onTap: () => _onItemTapped(uniqueId: el.uniqueId),
-                          child: Row(
-                            children: <Widget>[
-                              el.attributes.runtimeType == IconData ||
-                                      el.attributes.runtimeType == int
-                                  ? DiscuzIcon(
-                                      el.attributes,
-                                      size: 20,
-                                      color:
-                                          DiscuzApp.themeOf(context).textColor,
-                                    )
-                                  : el.attributes,
-                            ],
-                          ),
-                        ))
-                    .toList(),
-              ),
-            ),
-          );
-        });
+      ///
+      /// 点赞
+      _ThreadExtendBottomBarItem(
+          attributes: PostLikeButton(
+            post: widget.firstPost,
+          ),
+          uniqueId: _tapFavoriteButton),
+
+      ///
+      /// 打赏
+      ///
+      // const _ThreadExtendBottomBarItem(
+      //     attributes: CupertinoIcons.money_yen_circle,
+      //     uniqueId: _tapRewardButton),
+    ];
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+      decoration: BoxDecoration(
+          border: Border(top: Global.border),
+          color: DiscuzApp.themeOf(context).backgroundColor),
+      child: SafeArea(
+        top: false,
+        bottom: true,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: _menus
+              .map((el) => GestureDetector(
+                    onTap: () => _onItemTapped(uniqueId: el.uniqueId),
+                    child: Row(
+                      children: <Widget>[
+                        el.attributes.runtimeType == IconData ||
+                                el.attributes.runtimeType == int
+                            ? DiscuzIcon(
+                                el.attributes,
+                                size: 20,
+                                color: DiscuzApp.themeOf(context).textColor,
+                              )
+                            : el.attributes,
+                      ],
+                    ),
+                  ))
+              .toList(),
+        ),
+      ),
+    );
   }
 
   ///

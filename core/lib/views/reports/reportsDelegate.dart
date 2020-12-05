@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/models/postModel.dart';
 import 'package:core/models/threadModel.dart';
@@ -114,9 +112,7 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
+  Widget build(BuildContext context) => Scaffold(
             appBar: DiscuzAppBar(
               title: '投诉举报',
               brightness: Brightness.light,
@@ -159,7 +155,7 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
                 const DiscuzText(_kReportNotice)
               ],
             ),
-          ));
+          );
 
   ///
   /// Reason

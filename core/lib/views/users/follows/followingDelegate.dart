@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/router/route.dart';
 import 'package:core/views/users/follows/followerListDelegate.dart';
@@ -36,39 +34,37 @@ class _FollowingDelegateState extends State<FollowingDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: false,
-      builder: (context, child, state) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '我的关注',
-            ),
-            body: SingleChildScrollView(
-              child: SettingGroupWrapper(
-                label: '关注的用户和粉丝',
-                children: <Widget>[
-                  DiscuzListTile(
-                    title: const DiscuzText('我关注的人'),
-                    onTap: () => DiscuzRoute.navigate(
-                        shouldLogin: true,
-                        context: context,
-                        widget: const FollowerListDelegate(
-                          isToUser: true,
-                        )),
-                  ),
-                  const DiscuzDivider(
-                    padding: 0,
-                  ),
-                  DiscuzListTile(
-                    title: const DiscuzText('关注我的人'),
-                    onTap: () => DiscuzRoute.navigate(
-                        shouldLogin: true,
-                        context: context,
-                        widget: const FollowerListDelegate(
-                          isToUser: false,
-                        )),
-                  ),
-                ],
+  Widget build(BuildContext context) => Scaffold(
+        appBar: DiscuzAppBar(
+          title: '我的关注',
+        ),
+        body: SingleChildScrollView(
+          child: SettingGroupWrapper(
+            label: '关注的用户和粉丝',
+            children: <Widget>[
+              DiscuzListTile(
+                title: const DiscuzText('我关注的人'),
+                onTap: () => DiscuzRoute.navigate(
+                    shouldLogin: true,
+                    context: context,
+                    widget: const FollowerListDelegate(
+                      isToUser: true,
+                    )),
               ),
-            ),
-          ));
+              const DiscuzDivider(
+                padding: 0,
+              ),
+              DiscuzListTile(
+                title: const DiscuzText('关注我的人'),
+                onTap: () => DiscuzRoute.navigate(
+                    shouldLogin: true,
+                    context: context,
+                    widget: const FollowerListDelegate(
+                      isToUser: false,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
 }

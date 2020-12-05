@@ -86,7 +86,7 @@ Discuz! Q RC v2.1.201113
 <p><img width="200px" src="./snapshots/wechat.png"/> </p>
 
 ### 在现有的Flutter项目中引用DiscuzQ
-参考mobile中，的pubspec.ymal 和 lib/main.dart 即可一步集成。！  
+参考mobile中，的pubspec.ymal 和 lib/main.dart 即可一步集成。！ 同时也不要忘记复制mobile中的assets目录 
 
 
 ## 注意

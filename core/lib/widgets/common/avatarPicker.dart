@@ -17,8 +17,6 @@ import 'package:core/utils/permissionHepler.dart';
 import 'package:core/utils/request/urls.dart';
 import 'package:core/utils/request/request.dart';
 import 'package:core/widgets/common/discuzToast.dart';
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/utils/authHelper.dart';
 import 'package:core/providers/userProvider.dart';
 
@@ -61,13 +59,11 @@ class _AvatarPickerState extends State<AvatarPicker> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-      rebuildOnChange: true,
-      builder: (context, child, state) => GestureDetector(
+  Widget build(BuildContext context) => GestureDetector(
             onTap: () {
               // open avatar seletor
               _clearImage();
-              _pickImage(state: state);
+              _pickImage();
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -78,16 +74,16 @@ class _AvatarPickerState extends State<AvatarPicker> {
                   onTap: () {
                     // open avatar seletor
                     _clearImage();
-                    _pickImage(state: state);
+                    _pickImage();
                   },
                 ),
               ],
             ),
-          ));
+          );
 
   ///
   /// 选择图片
-  Future<Null> _pickImage({AppState state}) async {
+  Future<Null> _pickImage() async {
     final bool havePermission =
         await PermissionHelper.checkWithNotice(PermissionGroup.photos);
     if (havePermission == false) {
@@ -98,13 +94,13 @@ class _AvatarPickerState extends State<AvatarPicker> {
       setState(() {
         pickerState = PickerState.picked;
       });
-      _cropImage(state: state);
+      _cropImage();
     }
   }
 
   ///
   /// 图片剪裁
-  Future<Null> _cropImage({AppState state}) async {
+  Future<Null> _cropImage() async {
     File croppedFile = await ImageCropper.cropImage(
         sourcePath: imageFile.path,
         aspectRatioPresets: [
@@ -130,7 +126,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
       });
 
       Function close = DiscuzToast.loading();
-      final bool result = await _uploadAvatar(state: state);
+      final bool result = await _uploadAvatar();
       close();
 
       DiscuzToast.show(
@@ -165,7 +161,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
 
   ///
   /// 上传头像
-  Future<bool> _uploadAvatar({AppState state}) async {
+  Future<bool> _uploadAvatar() async {
     if (imageFile != null) {
       try {
         Directory appDocDir = await getTemporaryDirectory();

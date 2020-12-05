@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:core/states/appState.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/router/route.dart';
 import 'package:core/router/routers.dart';
 import 'package:core/utils/global.dart';
@@ -46,48 +44,45 @@ class _ExploreDelegateState extends State<ExploreDelegate>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) => Scaffold(
-              appBar: DiscuzAppBar(
-                title: "发现",
+    return Scaffold(
+      appBar: DiscuzAppBar(
+        title: "发现",
+      ),
+      body: Container(
+          decoration: BoxDecoration(
+              border: const Border(bottom: Global.border),
+              color: DiscuzApp.themeOf(context).backgroundColor),
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              DiscuzListTile(
+                title: const DiscuzText(
+                  '搜索主题',
+                ),
+                onTap: () => showSearch(
+                    context: context,
+                    delegate: DiscuzAppSearchDelegate(
+                        type: DiscuzAppSearchType.thread)),
               ),
-              body: Container(
-                  decoration: BoxDecoration(
-                      border: const Border(bottom: Global.border),
-                      color: DiscuzApp.themeOf(context).backgroundColor),
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      DiscuzListTile(
-                        title: const DiscuzText(
-                          '搜索主题',
-                        ),
-                        onTap: () => showSearch(
-                            context: context,
-                            delegate: DiscuzAppSearchDelegate(
-                                type: DiscuzAppSearchType.thread)),
-                      ),
-                      DiscuzListTile(
-                        title: const DiscuzText(
-                          '搜索用户',
-                        ),
-                        onTap: () => showSearch(
-                            context: context,
-                            delegate: DiscuzAppSearchDelegate(
-                                type: DiscuzAppSearchType.user)),
-                      ),
-                      DiscuzListTile(
-                        title: const DiscuzText(
-                          '话题',
-                        ),
-                        onTap: () {
-                          DiscuzRoute.navigate(
-                              context: context, path: Routers.topics);
-                        },
-                      )
-                    ],
-                  )),
-            ));
+              DiscuzListTile(
+                title: const DiscuzText(
+                  '搜索用户',
+                ),
+                onTap: () => showSearch(
+                    context: context,
+                    delegate: DiscuzAppSearchDelegate(
+                        type: DiscuzAppSearchType.user)),
+              ),
+              DiscuzListTile(
+                title: const DiscuzText(
+                  '话题',
+                ),
+                onTap: () {
+                  DiscuzRoute.navigate(context: context, path: Routers.topics);
+                },
+              )
+            ],
+          )),
+    );
   }
 }

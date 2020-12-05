@@ -1,9 +1,7 @@
-import 'package:core/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
+import 'package:core/widgets/common/discuzText.dart';
 
 class ReportHistoryDelegate extends StatefulWidget {
   const ReportHistoryDelegate();
@@ -31,16 +29,13 @@ class _ReportHistoryDelegateState extends State<ReportHistoryDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-        rebuildOnChange: false,
-        builder: (context, child, state) => Scaffold(
-          appBar: DiscuzAppBar(
-            title: '我的投诉举报',
-            brightness: Brightness.light,
-          ),
-          body: Center(
-            child: const DiscuzText('暂无记录'),
-          ),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: DiscuzAppBar(
+          title: '我的投诉举报',
+          brightness: Brightness.light,
+        ),
+        body: Center(
+          child: const DiscuzText('暂无记录'),
         ),
       );
 }

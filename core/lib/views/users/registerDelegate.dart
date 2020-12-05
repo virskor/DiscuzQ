@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:core/states/scopedState.dart';
-import 'package:core/states/appState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/ui/ui.dart';
 import 'package:core/widgets/common/discuzButton.dart';
@@ -18,8 +16,7 @@ import 'package:core/widgets/users/privacyBar.dart';
 import 'package:core/providers/forumProvider.dart';
 import 'package:core/models/captchaModel.dart';
 import 'package:core/widgets/captcha/tencentCloudCaptcha.dart';
-
-import '../../models/forumModel.dart';
+import 'package:core/models/forumModel.dart';
 
 class RegisterDelegate extends StatefulWidget {
   final Function onRequested;
