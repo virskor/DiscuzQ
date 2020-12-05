@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:core/states/scopedState.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/editor/discuzEditor.dart';
 import 'package:core/widgets/editor/discuzEditorInputTypes.dart';
-import 'package:core/states/editorState.dart';
 import 'package:core/widgets/appbar/appbarSaveButton.dart';
 import 'package:core/widgets/editor/formaters/discuzEditorData.dart';
 import 'package:core/models/postModel.dart';
@@ -96,22 +94,19 @@ class _EditorState extends State<Editor> {
   DiscuzEditorData _discuzEditorData;
 
   @override
-  Widget build(BuildContext context) => ScopedStateModel<EditorState>(
-        model: EditorState(),
-        child: Scaffold(
-          key: uniqueKey,
-          appBar: DiscuzAppBar(
-            title: '发布${widget.type.name}',
-            actions: <Widget>[
-              _buildSaveButton(),
-            ],
-            brightness: Brightness.light,
-          ),
-          body: Column(
-            children: <Widget>[
-              Expanded(child: _buildEditor()),
-            ],
-          ),
+  Widget build(BuildContext context) => Scaffold(
+        key: uniqueKey,
+        appBar: DiscuzAppBar(
+          title: '发布${widget.type.name}',
+          actions: <Widget>[
+            _buildSaveButton(),
+          ],
+          brightness: Brightness.light,
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(child: _buildEditor()),
+          ],
         ),
       );
 

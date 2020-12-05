@@ -26,7 +26,7 @@ Discuz! Q RC v2.1.201113
 **✅ 发现页分类**  
 **✅ 用户注册验证码校验支持**  
 **✅ 核心组件抽出(部分组件已经抽出到core，后续将分离为mobile, web等)**  
-**将ScopedModels更改为Provider (80%)**   
+**✅ 将ScopedModels更改为Provider**   
 **安卓更新解决方案 BUGLY**  
 **短信验证码**  
 **在消息评论中回复**  
@@ -62,10 +62,23 @@ Discuz! Q RC v2.1.201113
 [奶罩大佬 提供了自动化build脚本](https://github.com/naizhao/Build-Discuz-Q-Flutter)
 
 ### 开发提示
+从2020年12月5日的版本开始，我们将widgets抽出到./core下，所以，你只需要修改./core下的代码。使用vscode打开core文件夹。然后在terminal中执行下面的代码进行调试。
+```
+cd ../
+cd mobile
+flutter run
+```   
+mobile目录是用来编译调试的。而组件被抽出为flutter package.这样一来方便大家更改mobile中的包名。直接用命令行编译apk或者ipa。后续还会把core中涉及原生的API部分抽出，使得这个项目支持web。  
 现在，我们的仓库每日都有新的commit，这样一来代码变动都是很大的，并且很多功能都没有完成，你可能跑步起来或者跑起来了还有很多问题。我们将在基础功能完成后，进行很大的Code Review工作和测试工作，现在请不要将代码用于生产环境的构建。  
 
 详细关注Release Tags  
 后续我们会给出一个Release文档，在代码Review后，我们会做一些改变和文档，让你知道如何复用组件，以及继续开发自己想要的功能。  
+
+### 一起开发
+了解开发进度，或者有疑问，可以加我微信奥
+<p><img width="200px" src="./snapshots/wechat.jpeg"/> </p>
+<p><img width="200px" src="./snapshots/wechat.png"/> </p>
+
 
 ## 最近UI截屏
 <p> 
@@ -79,11 +92,6 @@ Discuz! Q RC v2.1.201113
 <img width="200px" src="./snapshots/snapshot_detail.png">
 <img width="200px" src="./snapshots/snapshot_editor.png">
 </p> 
-
-### 一起开发
-了解开发进度，或者有疑问，可以加我微信奥
-<p><img width="200px" src="./snapshots/wechat.jpeg"/> </p>
-<p><img width="200px" src="./snapshots/wechat.png"/> </p>
 
 ### 在现有的Flutter项目中引用DiscuzQ
 参考mobile中，的pubspec.ymal 和 lib/main.dart 即可一步集成。！ 同时也不要忘记复制mobile中的assets目录 
@@ -137,8 +145,8 @@ flutter run
 项目中的 ./packages 本地化了一些依赖，这些依赖有改动所以没有直接使用pub.dev中的进行安装。 
 
 ### 使用不同的信息来作用在开发和生产环境
-在生产或者开发时你可能需要访问不同的业务后端域名。现在你可以更改或者输入下面的信息到 ./discuz/build.yaml。但在这之前请先打开 ./discuz/build.yaml中的文件描述，来确定这些设置的作用或者关于风险的描述。   
-你可能需要在git repo上面的discuz/build.yaml查找更多可以支持的设置，下面的代码仅展示部分设置。  
+在生产或者开发时你可能需要访问不同的业务后端域名。现在你可以更改或者输入下面的信息到 ./mobile/build.yaml。但在这之前请先打开 ./mobile/build.yaml中的文件描述，来确定这些设置的作用或者关于风险的描述。   
+你可能需要在git repo上面的mobile/build.yaml查找更多可以支持的设置，下面的代码仅展示部分设置。  
 每个项目都不可以缺少下面的配置信息，其他的信息可以忽略，或者在后面不断开发的过程中你可以自定义。  
 实际上build的过程中，你可以在build script构建过程中重新生成一个build.yaml完成快速构建，这个build.yaml在生产时仅需要包含production 下配置描述，或者只选其中一个选项来覆盖APP默认BuildInfo模型的数据。  
 https://self-signed.badssl.com/
@@ -184,7 +192,7 @@ production:
 修改build.yaml中的Umeng相关配置即可
 
 ### Android Release or debug
-我们推荐使用IOS模拟器开始你的调试，如果你Build Android版本，首先你需要生成一个keystore文件，存储到 ./discuz/android/目录下，并命名为android.keystore   
+我们推荐使用IOS模拟器开始你的调试，如果你Build Android版本，首先你需要生成一个keystore文件，存储到 ./mobile/android/目录下，并命名为android.keystore   
 接下来，将同目录下的 key.properties.example 文件修改为 key.properties 并更新里面的签名配置内容。切记不要将其提交到Git，这些签名文件是涉及安全的。其次你还可以根据需要修改gradle文件，我们默认下使用了国内的源。
 
 ### IOS Release or debug
@@ -197,7 +205,12 @@ cd /ios
 sudo rm -rf Podfile.lock
 pod install #手动安装IOS相关依赖
 ```
-推荐直接打开discuz目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看discuz目录下的PROBLEMS
+推荐直接打开core目录进行开发，不用理会packages等目录，这些文件为第三方包，可能会有很多problems提示，这样会打扰您查看core目录下的PROBLEMS
+```sh
+cd ./mobile
+flutter run
+```
+
 
 ## 生成发布
 可能有的开发者刚开始接触Flutter按照上面的指引运行起来APP后顿时感觉卡顿，实际上flutter run是运行的Debug模式，Debug下性能表现和Release是有很大差异的。如果体验用于生产的，应该使用下面的命令。
@@ -208,12 +221,12 @@ flutter build apk --release --no-shrink
 
 因IOS为提供签名flutter build ios无法build,这时需要使用xcode来archive，而不是使用Flutter build. 而IOS 参考自动化构建所需要的。
 
-[参考编译文档](https://discuzapp.xyz/docs/build.html#ios%E7%BC%96%E8%AF%91)在之前，还是推荐使用[奶罩大佬的CI](https://github.com/naizhao/Build-Discuz-Q-Flutter)进行编译。
+[参考编译文档]推荐使用[奶罩大佬的CI](https://github.com/naizhao/Build-Discuz-Q-Flutter)进行编译。
 
 
 ### 源相关
 如果你无法Build，那么你可能需要更改Gradle 源 pub源，关于Pub源，建议搜索 flutter China相关内容。 gradle源，则需要注意下面的信息。  
-我们使用了默认的源配置，但是我们也增加了国内源，建议根据情况修改 ./discuz/andorid/build.gradle 。 你可能需要重复尝试很多次，才能正常build，这取决于你的网络情况。
+我们使用了默认的源配置，但是我们也增加了国内源，建议根据情况修改 ./mobile/andorid/build.gradle 。 你可能需要重复尝试很多次，才能正常build，这取决于你的网络情况。
 ```gradle
 repositories {
     // maven { url 'http://maven.aliyun.com/nexus/content/groups/public' }
@@ -236,7 +249,7 @@ App自设计开始就设计了支持主题模式，所以你可以在lib/ui/ui.d
 ```sh
 flutter pub run flutter_launcher_icons:main
 # or
-# cd ./discuz
+# cd ./mobile
 # bash icon
 ```
 
@@ -247,6 +260,6 @@ flutter pub run flutter_launcher_icons:main
 ```sh
 flutter pub pub run flutter_native_splash:create
 # or
-# cd ./discuz
+# cd ./mobile
 # bash splas
 ```

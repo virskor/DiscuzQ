@@ -15,6 +15,7 @@ import 'package:core/providers/appConfigProvider.dart';
 import 'package:core/providers/userProvider.dart';
 import 'package:core/providers/forumProvider.dart';
 import 'package:core/providers/categoriesProvider.dart';
+import 'package:core/providers/editorProvider.dart';
 
 ///
 /// 执行
@@ -27,6 +28,7 @@ void runDiscuzApp() {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => ForumProvider()),
         ChangeNotifierProvider(create: (_) => CategoriesProvider()),
+        ChangeNotifierProvider(create: (_) => EditorProvider()),
       ],
       child: DiscuzQ(),
     ),
@@ -34,7 +36,6 @@ void runDiscuzApp() {
 }
 
 class DiscuzQ extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) => Consumer<AppConfigProvider>(
