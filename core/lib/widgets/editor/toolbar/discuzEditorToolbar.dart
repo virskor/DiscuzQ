@@ -1,11 +1,10 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:core/widgets/editor/toolbar/toolbarIconButton.dart';
 import 'package:core/widgets/common/discuzDivider.dart';
 import 'package:core/widgets/ui/ui.dart';
-import 'package:core/states/editorState.dart';
-import 'package:core/states/scopedState.dart';
 import 'package:core/widgets/common/discuzText.dart';
 import 'package:core/utils/global.dart';
 import 'package:core/widgets/editor/toolbar/discuzEditorCategorySelector.dart';
@@ -13,6 +12,7 @@ import 'package:core/models/categoryModel.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:core/widgets/editor/toolbar/discuzEditorToolbarMarkdownItems.dart';
 import 'package:core/widgets/editor/toolbar/toolbarEvt.dart';
+import 'package:core/providers/editorProvider.dart';
 
 class DiscuzEditorToolbar extends StatefulWidget {
   final Function onTap;
@@ -119,92 +119,9 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedStateModelDescendant<EditorState>(
-      rebuildOnChange: true,
-      builder: (context, child, state) => Container(
-        width: MediaQuery.of(context).size.width,
-        decoration:
-            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
-        child: SafeArea(
-          bottom: true,
-          top: false,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const DiscuzDivider(
-                padding: 0,
-              ),
-
-              ///
-              /// toolbar menu Items
-              Container(
-                width: MediaQuery.of(context).size.width,
-                child: Stack(
-                  fit: StackFit.loose,
-                  children: [
-                    _toolbarMenu(state: state),
-                    Positioned(
-                      right: 0,
-
-                      ///
-                      /// 右侧工具条
-                      /// 有收起键盘，选择分类的按钮
-                      child: _ToolbarExt(
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ///
-                            /// 选择分类
-                            /// 用户选择了新的分类，那么就更新editor state
-                            widget.hideCategorySelector
-                                ? const SizedBox()
-                                : DiscuzEditorCategorySelector(
-                                    onChanged: (CategoryModel category) {
-                                      state.updateCategory(category);
-                                      if (widget.onRequestUpdate != null) {
-                                        widget.onRequestUpdate();
-                                      }
-                                    },
-                                    defaultCategory: widget.defaultCategory,
-                                  ),
-
-                            /// 收键盘
-                            _showHideKeyboardButton
-                                ? GestureDetector(
-                                    onTap: _closeKeyboard,
-                                    child: const ToolbarIconButton(
-                                        icon: CupertinoIcons
-                                            .keyboard_chevron_compact_down),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-
-              ///
-              /// child
-              Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: DiscuzApp.themeOf(context).backgroundColor),
-                child: widget.child ?? const SizedBox(),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  ///
-  /// 工具按按钮菜单
-  Widget _toolbarMenu({EditorState state}) => SingleChildScrollView(
+    return Consumer<EditorProvider>(
+        builder: (BuildContext context, EditorProvider editor, Widget child) {
+      final Widget _toolbarMenu = SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -229,7 +146,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
             widget.enableUploadImage
                 ? Badge(
                     badgeContent: DiscuzText(
-                      state.galleries.length.toString(),
+                      editor.galleries.length.toString(),
                       color: Colors.white,
                     ),
                     padding: const EdgeInsets.all(3),
@@ -237,7 +154,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                     elevation: 0,
                     position: BadgePosition(top: 2, end: 0),
                     showBadge:
-                        state.galleries == null || state.galleries.length == 0
+                        editor.galleries == null || editor.galleries.length == 0
                             ? false
                             : true,
                     child: GestureDetector(
@@ -275,6 +192,89 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
           ],
         ),
       );
+
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        decoration:
+            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+        child: SafeArea(
+          bottom: true,
+          top: false,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const DiscuzDivider(
+                padding: 0,
+              ),
+
+              ///
+              /// toolbar menu Items
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Stack(
+                  fit: StackFit.loose,
+                  children: [
+                    _toolbarMenu,
+                    Positioned(
+                      right: 0,
+
+                      ///
+                      /// 右侧工具条
+                      /// 有收起键盘，选择分类的按钮
+                      child: _ToolbarExt(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            ///
+                            /// 选择分类
+                            /// 用户选择了新的分类，那么就更新editor state
+                            widget.hideCategorySelector
+                                ? const SizedBox()
+                                : DiscuzEditorCategorySelector(
+                                    onChanged: (CategoryModel category) {
+                                      context
+                                          .read<EditorProvider>()
+                                          .updateCategory(category);
+                                      if (widget.onRequestUpdate != null) {
+                                        widget.onRequestUpdate();
+                                      }
+                                    },
+                                    defaultCategory: widget.defaultCategory,
+                                  ),
+
+                            /// 收键盘
+                            _showHideKeyboardButton
+                                ? GestureDetector(
+                                    onTap: _closeKeyboard,
+                                    child: const ToolbarIconButton(
+                                        icon: CupertinoIcons
+                                            .keyboard_chevron_compact_down),
+                                  )
+                                : const SizedBox(),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+
+              ///
+              /// child
+              Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: DiscuzApp.themeOf(context).backgroundColor),
+                child: widget.child ?? const SizedBox(),
+              )
+            ],
+          ),
+        ),
+      );
+    });
+  }
 
   ///
   /// callback to editor

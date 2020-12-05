@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:core/models/attachmentsModel.dart';
 import 'package:core/models/categoryModel.dart';
 import 'package:core/models/postModel.dart';
 import 'package:core/models/threadModel.dart';
+import 'package:core/providers/editorProvider.dart';
 
 class EditorDataPostType {
   ///
@@ -43,24 +45,25 @@ class DiscuzEditorData {
 
   ///
   /// 更新
-  static DiscuzEditorData fromDiscuzEditorData(DiscuzEditorData data,
-          {String captchaRandSTR,
-          captchaTicket,
-          content,
-          title,
-          ThreadModel thread,
-          PostModel post,
-          int type = EditorDataPostType.typeNormalContent,
-          @required CategoryModel cat,
-          List<AttachmentsModel> attachments = const []}) =>
+  static DiscuzEditorData fromDiscuzEditorData(
+    DiscuzEditorData data, {
+    BuildContext context,
+    String captchaRandSTR,
+    captchaTicket,
+    content,
+    title,
+    ThreadModel thread,
+    PostModel post,
+    int type = EditorDataPostType.typeNormalContent,
+  }) =>
       DiscuzEditorData(
 
           /// 发帖，还是评论？
           type: post == null ? 'threads' : 'posts',
           relationships: DiscuzEditorDataRelationships(
               thread: thread,
-              category: cat,
-              attachments: attachments ?? const []),
+              category: context.read<EditorProvider>().categories,
+              attachments: context.read<EditorProvider>().attachements),
           attributes: DiscuzEditorDataAttributes(
               captchaRandSTR: captchaRandSTR ?? '',
               captchaTicket: captchaTicket ?? '',
