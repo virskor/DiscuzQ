@@ -21,40 +21,17 @@ import 'package:core/providers/userProvider.dart';
 ///
 /// 执行
 void runDiscuzApp() {
-  /// runApp(DiscuzQ());
+  BuildInfo().init();
 
-  /// Run the whole app in a zone to capture all uncaught errors.
-  runZoned(
-    () => runApp(
-      MultiProvider(
-        providers: [
-          /// APP 配置状态
-          ChangeNotifierProvider(create: (_) => AppConfigProvider()),
-          ChangeNotifierProvider(create: (_) => UserProvider()),
-        ],
-        child: DiscuzQ(),
-      ),
+  runApp(
+    MultiProvider(
+      providers: [
+        /// APP 配置状态
+        ChangeNotifierProvider(create: (_) => AppConfigProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: DiscuzQ(),
     ),
-    onError: (Object error, StackTrace stackTrace) async {
-      if (FlutterDevice.isDevelopment) {
-        return;
-      }
-
-      /// 初始化buildInfo
-      await BuildInfo().init();
-
-      try {
-        var sentry = SentryClient(dsn: BuildInfo().info().sentry);
-        sentry.captureException(
-          exception: error,
-          stackTrace: stackTrace,
-        );
-        debugPrint('Error sent to sentry.io: $error');
-      } catch (e) {
-        debugPrint('Sending report to sentry.io failed: $e');
-        debugPrint('Original error: $error');
-      }
-    },
   );
 }
 
@@ -72,12 +49,9 @@ class DiscuzQ extends StatelessWidget {
             builder: (context, child, state) => AppWrapper(
                   onDispose: () {},
                   onInit: () async {
-                    /// 初始化buildInfo
-                    /// 这个非常重要的！
-                    /// 一定要在最开始
-                    await BuildInfo().init();
-
-                    await _initApp(context: context,);
+                    await _initApp(
+                      context: context,
+                    );
 
                     ///
                     ///

@@ -38,8 +38,6 @@ development:
   # Financial fatures
   # Set this item into FALSE, wallet and financial amount will be displayed
   financial: true 
-  # Sentry
-  sentry: https://e60cedb74f404ff3a2bd4a0ff364d8f0@o426897.ingest.sentry.io/5371662
 
   
 # 构建生产环境的APP时加载的信息
@@ -56,5 +54,3 @@ production:
   onBadCertificate: true 
   http2idleTimeout: 15000
   financial: true 
-  sentry: https://e60cedb74f404ff3a2bd4a0ff364d8f0@o426897.ingest.sentry.io/5371662
-

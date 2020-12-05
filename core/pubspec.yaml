@@ -50,7 +50,6 @@ dependencies:
   video_player: 0.10.10
   modal_bottom_sheet: 1.0.0+1
   flutter_markdown: 0.4.2
-  sentry: 3.0.1
   cupertino_icons: 1.0.0
   webview_flutter: 1.0.3
 
@@ -126,22 +125,22 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - assets/images/
-    - assets/sounds/
-    - assets/js/
-    - assets/css/
+    - ../assets/images/
+    - ../assets/sounds/
+    - ../assets/js/
+    - ../assets/css/
     # 腾讯云验证码相关资源
-    - assets/captcha/
+    - ../assets/captcha/
   fonts:
     - family: iconfont
       fonts:
-        - asset: assets/fonts/iconfont.ttf
+        - asset: ../assets/fonts/iconfont.ttf
     - family: Roboto Condensed
       fonts:
-        - asset: assets/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf
-        - asset: assets/fonts/Roboto_Condensed/RobotoCondensed-BoldItalic.ttf
-        - asset: assets/fonts/Roboto_Condensed/RobotoCondensed-Light.ttf 
-        - asset: assets/fonts/Roboto_Condensed/RobotoCondensed-LightItalic.ttf
-        - asset: assets/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf
-        - asset: assets/fonts/Roboto_Condensed/RobotoCondensed-RegularItalic.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-BoldItalic.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-Light.ttf 
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-LightItalic.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-Regular.ttf
+        - asset: ../assets/fonts/Roboto_Condensed/RobotoCondensed-RegularItalic.ttf
           weight: 700
