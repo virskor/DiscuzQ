@@ -71,7 +71,9 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
       : Scaffold(
           appBar: DiscuzAppBar(
             title: '消息通知',
-            brightness: Brightness.light,
+            brightness: Brightness.dark,
+            backgroundColor: DiscuzApp.themeOf(context).primaryColor,
+            dark: true,
           ),
           body: DiscuzRefresh(
             enablePullDown: true,
@@ -156,7 +158,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   ///
   Widget _notificationsSelection({_NotificationMenuItem item}) => Container(
         decoration: BoxDecoration(
-            border: const Border(bottom: Global.border, top: Global.border),
+            border: const Border(bottom: Global.border),
             color: DiscuzApp.themeOf(context).backgroundColor),
         child: Column(
           children: <Widget>[

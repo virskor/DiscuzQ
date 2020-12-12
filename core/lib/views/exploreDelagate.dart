@@ -47,6 +47,9 @@ class _ExploreDelegateState extends State<ExploreDelegate>
     return Scaffold(
       appBar: DiscuzAppBar(
         title: "发现",
+        dark: true,
+        backgroundColor: DiscuzApp.themeOf(context).primaryColor,
+        brightness: Brightness.dark,
       ),
       body: Container(
           decoration: BoxDecoration(

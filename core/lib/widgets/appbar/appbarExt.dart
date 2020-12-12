@@ -486,7 +486,13 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
       }
 
       Widget title = widget.title.runtimeType == String
-          ? DiscuzText(widget.title, fontSize: 20)
+          ? DiscuzText(
+              widget.title,
+              fontSize: 20,
+              color: widget.dark
+                  ? Colors.white
+                  : DiscuzApp.themeOf(context).textColor,
+            )
           : widget.title;
 
       if (title != null) {

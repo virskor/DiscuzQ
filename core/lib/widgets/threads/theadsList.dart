@@ -168,60 +168,63 @@ class _ForumCategoryState extends State<ThreadsList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return _body();
+    return _body;
   }
 
   /// build body
-  Widget _body() => DiscuzRefresh(
-        enablePullDown: true,
-        enablePullUp: _enablePullUp,
-
-        /// 允许乡下加载
-        // header: WaterDropHeader(),
-        controller: _controller,
-        onRefresh: () async {
-          await _requestData(pageNumber: 1);
-          _controller.refreshCompleted();
+  Widget get _body => Builder(
+        builder: (BuildContext context) {
+          return DiscuzRefresh(
+            enablePullDown: true,
+            enablePullUp: _enablePullUp,
+            /// 允许乡下加载
+            // header: WaterDropHeader(),
+            controller: _controller,
+            onRefresh: () async {
+              await _requestData(pageNumber: 1);
+              _controller.refreshCompleted();
+            },
+            onLoading: () async {
+              if (_loading) {
+                return;
+              }
+              await _requestData(pageNumber: _pageNumber + 1);
+              _controller.loadComplete();
+            },
+            child: _buildContents,
+          );
         },
-        onLoading: () async {
-          if (_loading) {
-            return;
-          }
-          await _requestData(pageNumber: _pageNumber + 1);
-          _controller.loadComplete();
-        },
-        child: _buildContents(),
       );
 
   ///
   /// 渲染内容区
-  Widget _buildContents() {
-    ///
-    /// 骨架屏仅在初始化时加载
-    ///
-    if (!_continueToRead && _loading) {
-      return const DiscuzSkeleton(
-        isCircularImage: false,
-        isBottomLinesActive: true,
-      );
-    }
+  Widget get _buildContents => Builder(builder: (BuildContext context) {
+        ///
+        /// 骨架屏仅在初始化时加载
+        ///
+        if (!_continueToRead && _loading) {
+          return const DiscuzSkeleton(
+            isCircularImage: false,
+            isBottomLinesActive: true,
+          );
+        }
 
-    if (_threadsCacher.threads.length == 0 && !_loading) {
-      return const DiscuzNoMoreData();
-    }
+        if (_threadsCacher.threads.length == 0 && !_loading) {
+          return const DiscuzNoMoreData();
+        }
 
-    ///
-    /// 为了保证scroll 滑动流畅，这里不要使用Listview，不然总有些奇奇怪怪的问题
-    /// Listview.builder可以仅构建屏幕内的Item，而不是构建整个listview tree
-    return ListView.builder(
-        controller: _scrollController,
-        itemCount: _threadsCacher.threads.length,
-        addAutomaticKeepAlives: true,
-        itemBuilder: (BuildContext context, index) => ThreadCard(
-              threadsCacher: _threadsCacher,
-              thread: _threadsCacher.threads[index],
-            ));
-  }
+        ///
+        /// 为了保证scroll 滑动流畅，这里不要使用Listview，不然总有些奇奇怪怪的问题
+        /// Listview.builder可以仅构建屏幕内的Item，而不是构建整个listview tree
+        return ListView.builder(
+            controller: _scrollController,
+            itemCount: _threadsCacher.threads.length,
+            addAutomaticKeepAlives: true,
+            itemBuilder: (BuildContext context, index) => ThreadCard(
+                  threadsCacher: _threadsCacher,
+                  thread: _threadsCacher.threads[index],
+                ));
+      });
 
   ///
   /// _requestData will get data from backend

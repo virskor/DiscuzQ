@@ -45,7 +45,6 @@ class _ForumDelegateState extends State<ForumDelegate>
 
     return Scaffold(
       body: Stack(
-        fit: StackFit.expand,
         overflow: Overflow.clip,
         children: <Widget>[
           /// 显示论坛分类和分类下内容列表

@@ -141,7 +141,8 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
           /// tab Content
           /// 生成帖子渲染content区域(tabviews)
           Expanded(
-            child: _ForumCategoryTabContent(
+            flex: 1,
+            child: ForumCategoryTabContent(
               controller: _tabController,
               filter: _filterItem,
               onAppbarState: widget.onAppbarState,
@@ -241,7 +242,7 @@ class _ForumCategoryTabState extends State<ForumCategoryTab>
 ///
 ///
 /// 构造ThreadList列表
-class _ForumCategoryTabContent extends StatefulWidget {
+class ForumCategoryTabContent extends StatefulWidget {
   ///
   /// 滑动控制
   final TabController controller;
@@ -254,15 +255,15 @@ class _ForumCategoryTabContent extends StatefulWidget {
   /// 状态变化
   final Function onAppbarState;
 
-  _ForumCategoryTabContent(
+  ForumCategoryTabContent(
       {@required this.controller, @required this.filter, this.onAppbarState});
 
   @override
-  __ForumCategoryTabContentState createState() =>
-      __ForumCategoryTabContentState();
+  _ForumCategoryTabContentState createState() =>
+      _ForumCategoryTabContentState();
 }
 
-class __ForumCategoryTabContentState extends State<_ForumCategoryTabContent>
+class _ForumCategoryTabContentState extends State<ForumCategoryTabContent>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -275,7 +276,6 @@ class __ForumCategoryTabContentState extends State<_ForumCategoryTabContent>
                 Widget child) =>
             TabBarView(
               controller: widget.controller,
-              physics: BouncingScrollPhysics(),
               children: cats.categories
                   .map<Widget>((CategoryModel cat) => ThreadsList(
                         category: cat,
