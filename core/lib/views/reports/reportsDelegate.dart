@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:core/widgets/appbar/appbarExt.dart';
@@ -77,6 +78,9 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
   /// controller
   final TextEditingController _controller = TextEditingController();
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   /*
    * preset reasons
    */
@@ -107,55 +111,56 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: '投诉举报',
-              brightness: Brightness.light,
+        appBar: DiscuzAppBar(
+          title: '投诉举报',
+          brightness: Brightness.light,
+        ),
+        body: ListView(
+          padding: kBodyPaddingAll,
+          children: <Widget>[
+            const DiscuzText(
+              '请选择原因：',
+              fontWeight: FontWeight.bold,
             ),
-            body: ListView(
-              padding: kBodyPaddingAll,
-              children: <Widget>[
-                const DiscuzText(
-                  '请选择原因：',
-                  fontWeight: FontWeight.bold,
-                ),
-                const SizedBox(height: 15),
-                ..._presetReasons
-                    .map((String item) => RadioListTile(
-                          groupValue: _selectedReason,
-                          title: DiscuzText(item),
-                          value: item,
-                          dense: true,
-                          onChanged: (String val) {
-                            print(val);
-                            setState(() {
-                              _selectedReason = val;
-                            });
-                          },
-                        ))
-                    .toList(),
-                const DiscuzText(
-                  '详细的描述：',
-                  fontWeight: FontWeight.bold,
-                ),
-                const SizedBox(height: 15),
-                _reasonEditor(),
-                DiscuzButton(
-                  label: '提交',
-                  onPressed: _submitReport,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const DiscuzText(_kReportNotice)
-              ],
+            const SizedBox(height: 15),
+            ..._presetReasons
+                .map((String item) => RadioListTile(
+                      groupValue: _selectedReason,
+                      title: DiscuzText(item),
+                      value: item,
+                      dense: true,
+                      onChanged: (String val) {
+                        print(val);
+                        setState(() {
+                          _selectedReason = val;
+                        });
+                      },
+                    ))
+                .toList(),
+            const DiscuzText(
+              '详细的描述：',
+              fontWeight: FontWeight.bold,
             ),
-          );
+            const SizedBox(height: 15),
+            _reasonEditor(),
+            DiscuzButton(
+              label: '提交',
+              onPressed: _submitReport,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const DiscuzText(_kReportNotice)
+          ],
+        ),
+      );
 
   ///
   /// Reason
@@ -184,6 +189,7 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
 
     try {
       final bool result = await ReportsAPI(context: context).createReports(
+          _cancelToken,
           type: widget.type,
           reason: "$_selectedReason - ${_controller.text}",
           userID: widget.user == null ? 0 : widget.user.id,

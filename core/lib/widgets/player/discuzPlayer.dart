@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:video_player/video_player.dart';
@@ -32,6 +33,8 @@ class DiscuzPlayer extends StatefulWidget {
 }
 
 class _DiscuzPlayerState extends State<DiscuzPlayer> {
+  final CancelToken _cancelToken = CancelToken();
+
   /// states
   ///
   VideoPlayerController _controller;
@@ -75,6 +78,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.pause();
     _controller.dispose();
     super.dispose();
@@ -156,8 +160,10 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
     try {
       final ForumModel forum = context.read<ForumProvider>().forum;
 
-      final dynamic playInfo = await VideoAPI(context: context)
-          .getPlayInfo(qcloud: forum.attributes.qcloud, video: widget.video);
+      final dynamic playInfo = await VideoAPI(context: context).getPlayInfo(
+          _cancelToken,
+          qcloud: forum.attributes.qcloud,
+          video: widget.video);
 
       if (playInfo == null) {
         return Future.value(false);

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:core/api/users.dart';
@@ -26,8 +27,11 @@ class _UserPasswordModifyState extends State<UserPasswordModify> {
   final TextEditingController _newPasswordConfirmationController =
       TextEditingController();
 
+  final CancelToken _cancelToken = CancelToken();
+
   @override
   void dispose() {
+    _cancelToken.cancel();
     _passwordController.dispose();
     _newPasswordController.dispose();
     _newPasswordConfirmationController.dispose();
@@ -112,8 +116,10 @@ class _UserPasswordModifyState extends State<UserPasswordModify> {
     final Function close = DiscuzToast.loading();
 
     try {
-      final dynamic result = await UsersAPI(context: context)
-          .updateProfile(attributes: attributes, context: context);
+      final dynamic result = await UsersAPI(context: context).updateProfile(
+          _cancelToken,
+          attributes: attributes,
+          context: context);
 
       close();
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/editor/discuzEditor.dart';
@@ -84,6 +85,10 @@ class Editor extends StatefulWidget {
 }
 
 class _EditorState extends State<Editor> {
+  ///DIO CancleToken
+
+  final CancelToken _cancelToken = CancelToken();
+
   ///
   /// uniqueKey
   final UniqueKey uniqueKey = UniqueKey();
@@ -92,6 +97,25 @@ class _EditorState extends State<Editor> {
   /// 编辑器数据
   /// 默认为nul
   DiscuzEditorData _discuzEditorData;
+
+  @override
+  void setState(fn) {
+    if (!mounted) {
+      return;
+    }
+    super.setState(fn);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _cancelToken.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -239,7 +263,7 @@ class _EditorState extends State<Editor> {
     /// 处理发帖
     if (!_isReply) {
       final DiscuzEditorRequestResult requestResultresult =
-          await ThreadsAPI(context: context).create(data: data);
+          await ThreadsAPI(context: context).create(_cancelToken, data: data);
       if (requestResultresult != null) {
         widget.onPostSuccess(requestResultresult);
       }
@@ -253,7 +277,7 @@ class _EditorState extends State<Editor> {
     /// 处理回复
     ///
     final DiscuzEditorRequestResult requestResultresult =
-        await PostsAPI(context: context).create(data: data);
+        await PostsAPI(context: context).create(_cancelToken, data: data);
     if (requestResultresult != null) {
       widget.onPostSuccess(requestResultresult);
     }

@@ -12,13 +12,13 @@ class TopicsAPI {
 
   ///
   /// Get topic single column
-  Future<TopicModel> getTopic({int id}) async {
+  Future<TopicModel> getTopic(CancelToken cancelToken, {int id}) async {
     if (id == null) {
       return Future.value(null);
     }
 
     Response resp = await Request(context: context)
-        .getUrl(url: "${Urls.topics}/${id.toString()}");
+        .getUrl(cancelToken, url: "${Urls.topics}/${id.toString()}");
 
     if (resp == null) {
       return Future.value(null);

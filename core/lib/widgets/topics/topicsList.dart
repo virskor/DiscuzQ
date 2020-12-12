@@ -60,6 +60,9 @@ class _ForumCategoryState extends State<TopicsList>
   ///
   final ThreadsCacher _threadsCacher = ThreadsCacher(singleton: true);
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   /// states
   ///
   /// pageNumber
@@ -133,6 +136,8 @@ class _ForumCategoryState extends State<TopicsList>
 
     _threadsCacher.clear();
 
+    _cancelToken.cancel();
+
     /// 清空缓存的主题列表数据
     /// do not forget to dispose _controller
     super.dispose();
@@ -140,18 +145,20 @@ class _ForumCategoryState extends State<TopicsList>
 
   ///
   /// 是否允许加载更多
-  bool get _enablePullUp =>
-      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+  bool get _enablePullUp => _meta == null
+      ? false
+      : _meta.pageCount > _pageNumber
+          ? true
+          : false;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return  _body();
+    return _body();
   }
 
   /// build body
-  Widget _body() =>
-      DiscuzRefresh(
+  Widget _body() => DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
 
@@ -240,7 +247,7 @@ class _ForumCategoryState extends State<TopicsList>
     }
 
     Response resp = await Request(context: context)
-        .getUrl(url: Urls.topics, queryParameters: data);
+        .getUrl(_cancelToken, url: Urls.topics, queryParameters: data);
     if (resp == null) {
       setState(() {
         _loading = false;

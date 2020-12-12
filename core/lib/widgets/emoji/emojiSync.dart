@@ -20,7 +20,6 @@ const String _localStorageKey = 'emoji';
 /// 单例 一次读取，常驻内存多处调用
 ///
 class EmojiSync {
-
   factory EmojiSync() => _getInstance();
   static EmojiSync get instance => _getInstance();
   static EmojiSync _instance;
@@ -64,6 +63,7 @@ class EmojiSync {
 
         final List<EmojiModel> emojis =
             emojiList.map((el) => EmojiModel.fromMap(maps: el)).toList();
+
         ///
         /// 缓存以供直接读取
         cachedEmojis = emojis;
@@ -73,7 +73,8 @@ class EmojiSync {
 
     ///
     /// 请求接口的表情列表
-    Response resp = await Request(context: context).getUrl(url: Urls.emoji);
+    Response resp =
+        await Request(context: context).getUrl(null, url: Urls.emoji);
     if (resp == null) {
       return Future.value(null);
     }

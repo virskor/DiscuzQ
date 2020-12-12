@@ -14,7 +14,8 @@ class ReportsAPI {
 
   ///
   /// create Reports
-  Future<dynamic> createReports({
+  Future<dynamic> createReports(
+    CancelToken cancelToken, {
     @required ReportType type,
     int threadID = 0,
     postID = 0,
@@ -42,8 +43,8 @@ class ReportsAPI {
       }
     };
 
-    final Response resp =
-        await Request(context: context).postJson(url: Urls.reports, data: data);
+    final Response resp = await Request(context: context)
+        .postJson(cancelToken, url: Urls.reports, data: data);
 
     if (resp == null) {
       return Future.value(false);

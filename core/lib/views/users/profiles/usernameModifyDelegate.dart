@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 import 'package:core/utils/debouncer.dart';
 import 'package:core/utils/global.dart';
@@ -30,6 +31,9 @@ class _UsernameModifyDelegateState extends State<UsernameModifyDelegate> {
 
   /// Text editing controller
   final TextEditingController _controller = TextEditingController();
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   ////
   /// state
   ///
@@ -52,6 +56,7 @@ class _UsernameModifyDelegateState extends State<UsernameModifyDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -136,8 +141,10 @@ class _UsernameModifyDelegateState extends State<UsernameModifyDelegate> {
     try {
       final dynamic attributes = {"username": _controller.text};
 
-      final dynamic result = await UsersAPI(context: context)
-          .updateProfile(attributes: attributes, context: context);
+      final dynamic result = await UsersAPI(context: context).updateProfile(
+          _cancelToken,
+          attributes: attributes,
+          context: context);
 
       close();
 
@@ -147,8 +154,7 @@ class _UsernameModifyDelegateState extends State<UsernameModifyDelegate> {
 
       /// 更新用户信息
       await AuthHelper.refreshUser(
-          context: context,
-          data: UserModel.fromMap(maps: result));
+          context: context, data: UserModel.fromMap(maps: result));
       DiscuzToast.toast(
         context: context,
         message: '用户名修改成功',

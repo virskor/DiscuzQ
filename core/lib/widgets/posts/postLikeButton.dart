@@ -31,22 +31,32 @@ class PostLikeButton extends StatefulWidget {
 }
 
 class _PostLikeButtonState extends State<PostLikeButton> {
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   @override
-  Widget build(BuildContext context) =>Consumer<UserProvider>(builder:
-          (BuildContext context, UserProvider user, Widget child)=> LikeButton(
-        padding: const EdgeInsets.all(0),
-        isLiked: _iLikedIt(user: user.user),
-        onTap: _onLikeButtonTapped,
-        size: widget.size,
-        likeCount: widget.post.attributes.likeCount,
-        likeBuilder: (bool isLiked) => DiscuzIcon(
-          0xe608,
-          color: isLiked
-              ? Colors.pinkAccent
-              : DiscuzApp.themeOf(context).greyTextColor,
-          size: widget.size,
-        ),
-      ));
+  void dispose() {
+    _cancelToken.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Consumer<UserProvider>(
+      builder: (BuildContext context, UserProvider user, Widget child) =>
+          LikeButton(
+            padding: const EdgeInsets.all(0),
+            isLiked: _iLikedIt(user: user.user),
+            onTap: _onLikeButtonTapped,
+            size: widget.size,
+            likeCount: widget.post.attributes.likeCount,
+            likeBuilder: (bool isLiked) => DiscuzIcon(
+              0xe608,
+              color: isLiked
+                  ? Colors.pinkAccent
+                  : DiscuzApp.themeOf(context).greyTextColor,
+              size: widget.size,
+            ),
+          ));
 
   ///
   /// 用户点赞
@@ -63,8 +73,8 @@ class _PostLikeButtonState extends State<PostLikeButton> {
       }
     };
 
-    Response resp = await Request(context: context)
-        .patch(url: "${Urls.posts}/${widget.post.id.toString()}", data: data);
+    Response resp = await Request(context: context).patch(_cancelToken,
+        url: "${Urls.posts}/${widget.post.id.toString()}", data: data);
     if (resp == null) {
       return Future.value(isLike);
     }
@@ -76,7 +86,6 @@ class _PostLikeButtonState extends State<PostLikeButton> {
   /// 我是否历史点赞过
   ///
   bool _iLikedIt({@required UserModel user}) {
-
     ///
     /// 没有登录，也就不存在点赞的可能
     if (user == null) {

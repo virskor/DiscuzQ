@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -162,6 +163,8 @@ class _DiscuzAppDelegate extends StatefulWidget {
 }
 
 class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
+  final CancelToken _cancelToken = CancelToken();
+
   /// 页面集合
   static const List<Widget> _views = [
     const ForumDelegate(),
@@ -248,7 +251,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
       return;
     }
 
-    await ForumAPI(context).getForum();
+    await ForumAPI(context).getForum(_cancelToken);
 
     /// 加载完了就可以将_loaded 设置为true了其实，因为_loaded只做是否请求过得判断依据
     setState(() {

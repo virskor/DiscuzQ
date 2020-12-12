@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/models/topicModel.dart';
@@ -28,6 +29,9 @@ class _TopicDetailDelegateState extends State<TopicDetailDelegate> {
   /// loading data
   bool _loading = true;
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -45,23 +49,24 @@ class _TopicDetailDelegateState extends State<TopicDetailDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: _appbarTitle,
-               brightness: Brightness.light,
-              centerTitle: true,
-              bottom: _currentTopic == null
-                  ? null
-                  : _BuilderAppbarBottom(
-                      topic: _currentTopic,
-                    ),
-            ),
-            body: _buildBody(),
-          );
+        appBar: DiscuzAppBar(
+          title: _appbarTitle,
+          brightness: Brightness.light,
+          centerTitle: true,
+          bottom: _currentTopic == null
+              ? null
+              : _BuilderAppbarBottom(
+                  topic: _currentTopic,
+                ),
+        ),
+        body: _buildBody(),
+      );
 
   ///
   /// Create appbar title
@@ -100,8 +105,8 @@ class _TopicDetailDelegateState extends State<TopicDetailDelegate> {
     final Function close = DiscuzToast.loading();
 
     try {
-      final TopicModel topic =
-          await TopicsAPI(context: context).getTopic(id: widget.topicID);
+      final TopicModel topic = await TopicsAPI(context: context)
+          .getTopic(_cancelToken, id: widget.topicID);
 
       close();
 

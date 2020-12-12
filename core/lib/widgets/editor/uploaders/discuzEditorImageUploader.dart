@@ -29,6 +29,9 @@ class DiscuzEditorImageUploader extends StatefulWidget {
 }
 
 class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
+  
+  final CancelToken _cancelToken = CancelToken();
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -44,6 +47,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     super.dispose();
   }
 
@@ -150,6 +154,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
   ///
   Future<AttachmentsModel> _uploadImage({@required File file}) async {
     Response resp = await Request(context: context).uploadFile(
+      _cancelToken,
         url: Urls.attachments,
         name: 'file',
 

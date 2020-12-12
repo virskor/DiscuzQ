@@ -18,13 +18,14 @@ class VideoAPI {
   /// 根据云点播APPID和视频的fileID来获取视频播放信息
   /// https://playvideo.qcloud.com/getplayinfo/v4/1400331686/5285890802666004536
   ///  https://playvideo.qcloud.com/getplayinfo/v4/ qCloudVODSubAppID file_id
-  Future<dynamic> getPlayInfo(
+  Future<dynamic> getPlayInfo(CancelToken cancelToken,
       {@required QCloudModel qcloud, @required ThreadVideoModel video}) async {
     final String url =
         '${Urls.videoPlayInfo}/${qcloud.qCloudVODSubAppID}/${video.attributes.fileID}';
 
     /// 开始请求
-    final Response resp = await Request(context: context).getUrl(url: url);
+    final Response resp =
+        await Request(context: context).getUrl(cancelToken, url: url);
     if (resp == null) {
       return Future.value(null);
     }

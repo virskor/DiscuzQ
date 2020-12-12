@@ -67,6 +67,9 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   ///
   final ThreadsCacher _threadsCacher = ThreadsCacher(singleton: false);
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   /// states
   ///
   /// pageNumber
@@ -108,6 +111,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _threadsCacher.clear();
     super.dispose();
   }
@@ -140,98 +144,98 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-            appBar: DiscuzAppBar(
-              title: widget.thread.attributes.title != ''
-                  ? widget.thread.attributes.title
-                  : '详情',
-              brightness: Brightness.light,
-              actions: <Widget>[
-                IconButton(
-                  icon: const DiscuzIcon(
-                    CupertinoIcons.flag,
+        appBar: DiscuzAppBar(
+          title: widget.thread.attributes.title != ''
+              ? widget.thread.attributes.title
+              : '详情',
+          brightness: Brightness.light,
+          actions: <Widget>[
+            IconButton(
+              icon: const DiscuzIcon(
+                CupertinoIcons.flag,
+              ),
+              onPressed: () => DiscuzRoute.navigate(
+                context: context,
+                shouldLogin: true,
+                fullscreenDialog: true,
+                widget: Builder(
+                  builder: (context) => ReportsDelegate(
+                    type: ReportType.thread,
+                    thread: widget.thread,
                   ),
-                  onPressed: () => DiscuzRoute.navigate(
-                    context: context,
-                    shouldLogin: true,
-                    fullscreenDialog: true,
-                    widget: Builder(
-                      builder: (context) => ReportsDelegate(
-                        type: ReportType.thread,
-                        thread: widget.thread,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-            body: Stack(
-              children: <Widget>[
-                ///
-                /// 内容
-                ///
-                Container(
-                  child: !_continueToRead && _loading
-
-                      /// 加载第一页时加载Loading 骨架屏
-                      ? const DiscuzSkeleton()
-                      : DiscuzRefresh(
-                          controller: _controller,
-                          enablePullDown: true,
-                          enablePullUp: _enablePullUp,
-                          onRefresh: () async {
-                            await _requestData(pageNumber: 1);
-                            _controller.refreshCompleted();
-                          },
-                          onLoading: () async {
-                            if (_loading) {
-                              return;
-                            }
-                            await _requestData(pageNumber: _pageNumber + 1);
-                            _controller.loadComplete();
-                          },
-                          child: ListView.builder(
-                              itemCount: commentsTree.length,
-                              addRepaintBoundaries: true,
-                              addAutomaticKeepAlives: true,
-                              padding: const EdgeInsets.only(bottom: 80),
-                              itemBuilder: (BuildContext context, index) {
-                                // if (_threadsCacher.posts.length == 1) {
-                                //   return const DiscuzNoMoreData();
-                                // }
-
-                                if (index == 0) {
-                                  return Column(
-                                    children: <Widget>[
-                                      _buildThreadContent(),
-                                      Container(
-                                        alignment: Alignment.centerLeft,
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10, top: 10),
-                                        child: ThreadFavoritesAndRewards(
-                                          firstPost: _firstPost,
-                                          threadsCacher: _threadsCacher,
-                                          thread: widget.thread,
-                                        ),
-                                      ),
-                                      _threadsCacher.posts.length == 1
-                                          ? const DiscuzNoMoreData()
-                                          : commentsTree[index]
-                                    ],
-                                  );
-                                }
-
-                                return commentsTree[index];
-                              }),
-                        ),
                 ),
+              ),
+            )
+          ],
+        ),
+        backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
+        body: Stack(
+          children: <Widget>[
+            ///
+            /// 内容
+            ///
+            Container(
+              child: !_continueToRead && _loading
 
-                ///
-                /// 底部点赞 回复 打赏工具栏
-                _positionedBottomBar(),
-              ],
+                  /// 加载第一页时加载Loading 骨架屏
+                  ? const DiscuzSkeleton()
+                  : DiscuzRefresh(
+                      controller: _controller,
+                      enablePullDown: true,
+                      enablePullUp: _enablePullUp,
+                      onRefresh: () async {
+                        await _requestData(pageNumber: 1);
+                        _controller.refreshCompleted();
+                      },
+                      onLoading: () async {
+                        if (_loading) {
+                          return;
+                        }
+                        await _requestData(pageNumber: _pageNumber + 1);
+                        _controller.loadComplete();
+                      },
+                      child: ListView.builder(
+                          itemCount: commentsTree.length,
+                          addRepaintBoundaries: true,
+                          addAutomaticKeepAlives: true,
+                          padding: const EdgeInsets.only(bottom: 80),
+                          itemBuilder: (BuildContext context, index) {
+                            // if (_threadsCacher.posts.length == 1) {
+                            //   return const DiscuzNoMoreData();
+                            // }
+
+                            if (index == 0) {
+                              return Column(
+                                children: <Widget>[
+                                  _buildThreadContent(),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10, top: 10),
+                                    child: ThreadFavoritesAndRewards(
+                                      firstPost: _firstPost,
+                                      threadsCacher: _threadsCacher,
+                                      thread: widget.thread,
+                                    ),
+                                  ),
+                                  _threadsCacher.posts.length == 1
+                                      ? const DiscuzNoMoreData()
+                                      : commentsTree[index]
+                                ],
+                              );
+                            }
+
+                            return commentsTree[index];
+                          }),
+                    ),
             ),
-          );
+
+            ///
+            /// 底部点赞 回复 打赏工具栏
+            _positionedBottomBar(),
+          ],
+        ),
+      );
 
   ///
   /// 渲染内容
@@ -435,7 +439,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       "filter[isDeleted]": "no",
     };
 
-    Response resp = await Request(context: context).getUrl(
+    Response resp = await Request(context: context).getUrl(_cancelToken,
         url: "${Urls.threads}/${widget.thread.id.toString()}",
         queryParameters: data);
     if (resp == null) {

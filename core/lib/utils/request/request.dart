@@ -166,21 +166,21 @@ class Request {
             if (refreshResult == true) {
               /// 继续上次请求 Get
               if (e.request.method == "GET") {
-                return await getUrl(
+                return await getUrl(e.request.cancelToken,
                     url: e.request.uri.toString(),
                     queryParameters: e.request.queryParameters);
               }
 
               /// 继续上次请求 Get
               if (e.request.method == "PATCH") {
-                return await patch(
+                return await patch(e.request.cancelToken,
                     url: e.request.uri.toString(),
                     queryParameters: e.request.queryParameters);
               }
 
               ///
               if (e.request.method == "DELETE") {
-                return await delete(
+                return await delete(e.request.cancelToken,
                     url: e.request.uri.toString(),
                     queryParameters: e.request.queryParameters);
               }
@@ -188,7 +188,7 @@ class Request {
               /// 继续上次请求 Post Json
               if (e.request.method == "POST" &&
                   e.request.contentType == ContentType.json.toString()) {
-                return await postJson(
+                return await postJson(e.request.cancelToken,
                     url: e.request.uri.toString(),
                     data: e.request.data,
                     queryParameters: e.request.queryParameters);
@@ -197,7 +197,7 @@ class Request {
               /// 继续上次文件上传
               if (e.request.method == "POST" &&
                   e.request.contentType == _contentFormData) {
-                return await uploadFile(
+                return await uploadFile(e.request.cancelToken,
                     url: e.request.uri.toString(),
                     data: e.request.data,
                     queryParameters: e.request.queryParameters);
@@ -293,8 +293,7 @@ class Request {
         if (StringHelper.isEmpty(string: accessToken) == true) {
           return Future.value(false);
         }
-        await AuthorizationHelper()
-            .clear();
+        await AuthorizationHelper().clear();
         await AuthorizationHelper()
             .save(data: accessToken, key: AuthorizationHelper.authorizationKey);
         await AuthorizationHelper()
@@ -327,7 +326,7 @@ class Request {
   ///
   /// GET
   ///
-  Future<Response> getUrl(
+  Future<Response> getUrl(CancelToken cancelToken,
       {@required String url, dynamic queryParameters}) async {
     Response resp;
     try {
@@ -346,7 +345,7 @@ class Request {
   ///
   /// POST JSON
   ///
-  Future<Response> postJson(
+  Future<Response> postJson(CancelToken cancelToken,
       {@required String url,
       dynamic data,
       dynamic queryParameters,
@@ -372,11 +371,11 @@ class Request {
   ///
   /// DELETE
   ///
-  Future<Response> delete({
+  Future<Response> delete(
+    CancelToken cancelToken, {
     @required String url,
     dynamic data,
     dynamic queryParameters,
-    CancelToken cancelToken,
   }) async {
     Response resp;
 
@@ -399,11 +398,11 @@ class Request {
   ///
   /// PATCH
   ///
-  Future<Response> patch({
+  Future<Response> patch(
+    CancelToken cancelToken, {
     @required String url,
     dynamic data,
     dynamic queryParameters,
-    CancelToken cancelToken,
   }) async {
     Response resp;
 
@@ -428,7 +427,7 @@ class Request {
   /// MultipartFile.fromFileSync("./example/upload.txt",
   ///        filename: "upload.txt"),
   ///
-  Future<Response> uploadFile(
+  Future<Response> uploadFile(CancelToken cancelToken,
       {@required String url,
       dynamic data,
       String name = 'file',

@@ -33,6 +33,8 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
    */
   final RefreshController _controller = RefreshController();
 
+  final CancelToken _cancelToken = CancelToken();
+
   /*
    * 用户列表 
    */
@@ -70,6 +72,8 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
+
     if (_controller != null) {
       _controller.dispose();
     }
@@ -159,7 +163,7 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
    */
   Future<void> _remove(UserModel u) async {
     try {
-      await BlackListAPI(context: context).delete(uid: u.id);
+      await BlackListAPI(context: context).delete(_cancelToken, uid: u.id);
     } catch (e) {
       print(e);
     }
@@ -183,8 +187,10 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
     });
 
     try {
-      final Response resp = await BlackListAPI(context: context)
-          .list(uid: context.read<UserProvider>().user.id, pageNumber: pageNumber ?? 1);
+      final Response resp = await BlackListAPI(context: context).list(
+          _cancelToken,
+          uid: context.read<UserProvider>().user.id,
+          pageNumber: pageNumber ?? 1);
 
       final List<dynamic> data = resp.data['data'] ?? [];
       final List<UserModel> users =

@@ -21,12 +21,14 @@ class ThreadsAPI {
   ///
   /// 获取帖子详情
   ///
-  Future<ThreadModel> getDetailByID({@required int threadID}) async {
+  Future<ThreadModel> getDetailByID(CancelToken cancelToken,
+      {@required int threadID}) async {
     final Function close = DiscuzToast.loading(context: context);
 
     try {
       final String uri = "${Urls.threads}/${threadID.toString()}";
-      Response resp = await Request(context: context).getUrl(url: uri);
+      Response resp =
+          await Request(context: context).getUrl(cancelToken, url: uri);
 
       ///
       /// close loading animations
@@ -47,7 +49,8 @@ class ThreadsAPI {
   /// 删除主题
   /// 仅判断删除结果
   ///
-  Future<bool> delete({@required ThreadModel thread}) async {
+  Future<bool> delete(CancelToken cancelToken,
+      {@required ThreadModel thread}) async {
     final Function close = DiscuzToast.loading(context: context);
 
     try {
@@ -60,8 +63,8 @@ class ThreadsAPI {
       };
 
       /// 开始请求
-      Response resp = await Request(context: context)
-          .patch(url: '${Urls.threads}/${thread.id.toString()}', data: data);
+      Response resp = await Request(context: context).patch(cancelToken,
+          url: '${Urls.threads}/${thread.id.toString()}', data: data);
       close();
 
       if (resp == null) {
@@ -80,13 +83,14 @@ class ThreadsAPI {
   ///
   /// 发布主题
   ///
-  Future<DiscuzEditorRequestResult> create({@required dynamic data}) async {
+  Future<DiscuzEditorRequestResult> create(CancelToken cancelToken,
+      {@required dynamic data}) async {
     final Function close = DiscuzToast.loading(context: context);
 
     try {
       /// 开始请求
       Response resp = await Request(context: context)
-          .postJson(url: Urls.threads, data: data);
+          .postJson(cancelToken, url: Urls.threads, data: data);
 
       close();
 

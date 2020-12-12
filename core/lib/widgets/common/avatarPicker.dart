@@ -4,7 +4,6 @@ import 'package:core/models/userModel.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -39,6 +38,8 @@ class _AvatarPickerState extends State<AvatarPicker> {
   PickerState pickerState;
   File imageFile;
 
+  final CancelToken _cancelToken = CancelToken();
+
   @override
   void initState() {
     super.initState();
@@ -60,26 +61,26 @@ class _AvatarPickerState extends State<AvatarPicker> {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-            onTap: () {
-              // open avatar seletor
-              _clearImage();
-              _pickImage();
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                GestureDetector(
-                  child: widget.avatar,
-                  onTap: () {
-                    // open avatar seletor
-                    _clearImage();
-                    _pickImage();
-                  },
-                ),
-              ],
+        onTap: () {
+          // open avatar seletor
+          _clearImage();
+          _pickImage();
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            GestureDetector(
+              child: widget.avatar,
+              onTap: () {
+                // open avatar seletor
+                _clearImage();
+                _pickImage();
+              },
             ),
-          );
+          ],
+        ),
+      );
 
   ///
   /// 选择图片
@@ -167,15 +168,16 @@ class _AvatarPickerState extends State<AvatarPicker> {
         Directory appDocDir = await getTemporaryDirectory();
         File compressedFile = await compressAndGetFile(
             imageFile, appDocDir.path + path.basename(imageFile.path));
-        
-        final UserModel user = context.read<UserProvider>().user;
-        final Response resp = await Request(context: context).uploadFile(
-            url: "${Urls.users}/${user.id.toString()}/avatar",
-            name: 'avatar',
 
-            /// 上传头像
-            file: MultipartFile.fromFileSync(compressedFile.path));
-        
+        final UserModel user = context.read<UserProvider>().user;
+        final Response resp =
+            await Request(context: context).uploadFile(_cancelToken,
+                url: "${Urls.users}/${user.id.toString()}/avatar",
+                name: 'avatar',
+
+                /// 上传头像
+                file: MultipartFile.fromFileSync(compressedFile.path));
+
         if (resp == null) {
           return Future.value(false);
         }

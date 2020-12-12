@@ -75,7 +75,7 @@ class DiscuzSMS {
       };
 
       final Response resp = await Request(context: context)
-          .postJson(url: "${Urls.sms}/send", data: data);
+          .postJson(null, url: "${Urls.sms}/send", data: data);
 
       close();
 
@@ -195,7 +195,7 @@ class DiscuzSMS {
     /// 发送
     try {
       final Response resp = await Request(context: context)
-          .postJson(url: "${Urls.sms}/verify", data: data);
+          .postJson(null, url: "${Urls.sms}/verify", data: data);
 
       close();
 
@@ -205,7 +205,6 @@ class DiscuzSMS {
 
       return Future.value(resp.data['data']);
     } catch (e) {
-      
       close();
       throw e;
     }
