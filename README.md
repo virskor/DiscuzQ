@@ -28,7 +28,7 @@ Discuz! Q RC v2.1.201113
 **✅ 核心组件抽出(部分组件已经抽出到core，后续将分离为mobile, web等)**  
 **✅ 将ScopedModels更改为Provider**   
 **✅ BUGLY运营统计**  
-**✅  安卓更新解决方案 BUGLY**  
+**✅ 安卓更新解决方案 BUGLY**  
 **短信验证码**  
 **在消息评论中回复**  
 **编辑器优化**  
