@@ -30,6 +30,9 @@ class _SearchUserDelegateState extends State<SearchUserDelegate>
   /// refresh controller
   final RefreshController _controller = RefreshController();
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   ///
   /// _pageNumber
   int _pageNumber = 1;
@@ -74,6 +77,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate>
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.dispose();
     _users.clear();
     super.dispose();
@@ -106,8 +110,11 @@ class _SearchUserDelegateState extends State<SearchUserDelegate>
 
   ///
   /// 是否允许加载更多
-  bool get _enablePullUp =>
-      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+  bool get _enablePullUp => _meta == null
+      ? false
+      : _meta.pageCount > _pageNumber
+          ? true
+          : false;
 
   ///
   /// 生成搜索用户的组件
@@ -181,7 +188,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate>
     });
 
     Response resp = await Request(context: context)
-        .getUrl(url: Urls.users, queryParameters: data);
+        .getUrl(_cancelToken, url: Urls.users, queryParameters: data);
     setState(() {
       _loading = false;
     });

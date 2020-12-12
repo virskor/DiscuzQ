@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 import 'package:core/utils/debouncer.dart';
 import 'package:core/utils/global.dart';
@@ -35,6 +36,9 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
   ///
   int _maxPermittedTextLength = _kSignatureLength;
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -52,6 +56,7 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -137,8 +142,10 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
     try {
       final dynamic attributes = {"signature": _controller.text};
 
-      final dynamic result = await UsersAPI(context: context)
-          .updateProfile(attributes: attributes, context: context);
+      final dynamic result = await UsersAPI(context: context).updateProfile(
+          _cancelToken,
+          attributes: attributes,
+          context: context);
 
       close();
 

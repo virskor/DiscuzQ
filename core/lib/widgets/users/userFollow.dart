@@ -29,6 +29,9 @@ class UserFollow extends StatefulWidget {
 }
 
 class _UserFollowState extends State<UserFollow> {
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   /// states
   /// 从远端获取当前查看的用户，可查询是否我已经关注他
   /// 默认数据为空，将在接口请求后，进行覆盖处理
@@ -62,12 +65,13 @@ class _UserFollowState extends State<UserFollow> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<UserProvider>(builder:
-          (BuildContext context, UserProvider user, Widget child) =>
+  Widget build(BuildContext context) => Consumer<UserProvider>(
+      builder: (BuildContext context, UserProvider user, Widget child) =>
           _buildBody(context: context, user: user.user));
 
   ///
@@ -105,7 +109,7 @@ class _UserFollowState extends State<UserFollow> {
     }
 
     Response resp = await Request(context: context)
-        .getUrl(url: "${Urls.users}/${widget.user.id}");
+        .getUrl(_cancelToken, url: "${Urls.users}/${widget.user.id}");
     if (resp == null) {
       setState(() {
         _loading = false;
@@ -126,7 +130,7 @@ class _UserFollowState extends State<UserFollow> {
   /// 如果用户请求取消关注，应该发送delete请求，如果是关注则，直接发送post请求
   /// 关注
   Future<void> _requestFollow({BuildContext context}) async {
-    final bool requetFollow = await UsersAPI.requestFollow(
+    final bool requetFollow = await UsersAPI.requestFollow(_cancelToken,
         context: context,
         user: _user,
         isUnfollow: _user.attributes.follow == 1);

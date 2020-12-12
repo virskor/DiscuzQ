@@ -38,6 +38,9 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
   ///
   final RefreshController _controller = RefreshController();
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   ///
   /// states
   String _username = '';
@@ -84,6 +87,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.dispose();
     _users.clear();
     _userFollows.clear();
@@ -92,26 +96,25 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-            appBar: SearchAppbar(
-              placeholder: '输入要查找的用户名',
-              onSubmit: (String username, bool shouldShowNoticeEmpty) async {
-                if (shouldShowNoticeEmpty &&
-                    StringHelper.isEmpty(string: username)) {
-                  DiscuzToast.failed(context: context, message: '请输入用户名');
-                  return;
-                }
-                setState(() {
-                  _username = username;
-                });
-                await _requestData(context: context, pageNumber: 1);
-              },
-            ),
-            body: _body(context: context),
-          );
+        appBar: SearchAppbar(
+          placeholder: '输入要查找的用户名',
+          onSubmit: (String username, bool shouldShowNoticeEmpty) async {
+            if (shouldShowNoticeEmpty &&
+                StringHelper.isEmpty(string: username)) {
+              DiscuzToast.failed(context: context, message: '请输入用户名');
+              return;
+            }
+            setState(() {
+              _username = username;
+            });
+            await _requestData(context: context, pageNumber: 1);
+          },
+        ),
+        body: _body(context: context),
+      );
 
   /// build body
-  Widget _body({@required BuildContext context}) =>
-      DiscuzRefresh(
+  Widget _body({@required BuildContext context}) => DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
 
@@ -218,7 +221,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
       };
 
       Response resp = await Request(context: context)
-          .getUrl(url: Urls.follow, queryParameters: data);
+          .getUrl(_cancelToken, url: Urls.follow, queryParameters: data);
 
       final List<dynamic> usersData = resp.data['included'] ?? [];
       final List<dynamic> userFollowsData = resp.data['data'] ?? [];

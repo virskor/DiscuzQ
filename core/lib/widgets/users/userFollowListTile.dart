@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 import 'package:core/models/userModel.dart';
 import 'package:core/widgets/ui/ui.dart';
@@ -42,6 +43,9 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
   /// 如果在这里改为true || false 初始化。那么_buildFollowButtonLable将直接无法生成用户操作状态决定的标签
   bool _followed;
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   ///
   /// 用于存储最新用户状态的
   UserModel _user = UserModel();
@@ -62,6 +66,7 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     super.dispose();
   }
 
@@ -138,7 +143,7 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
                     UserModel.copyWith(userModel: _user, follow: _follow());
 
                 /// 请求关注接口
-                final result = await UsersAPI.requestFollow(
+                final result = await UsersAPI.requestFollow(_cancelToken,
                     context: context,
                     user: resetUser,
                     isUnfollow: _user.attributes.follow == 1);

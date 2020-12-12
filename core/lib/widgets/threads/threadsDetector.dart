@@ -25,10 +25,10 @@ class ThreadsDetector {
     final Function close = DiscuzToast.loading();
 
     try {
-      final ThreadModel threadModel =
-          await ThreadsAPI(context: context).getDetailByID(threadID: threadID);
+      final ThreadModel threadModel = await ThreadsAPI(context: context)
+          .getDetailByID(null, threadID: threadID);
       final Map<UserModel, UserGroupModel> user =
-          await UsersAPI(context: context).getUserDataByID(uid: uid);
+          await UsersAPI(context: context).getUserDataByID(null, uid: uid);
 
       close();
 

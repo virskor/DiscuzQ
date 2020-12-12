@@ -25,7 +25,7 @@ class UserLinkDetector {
 
     try {
       Map<UserModel, UserGroupModel> userInfo =
-          await UsersAPI(context: context).getUserDataByID(uid: uid);
+          await UsersAPI(context: context).getUserDataByID(null, uid: uid);
 
       close();
 

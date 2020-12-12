@@ -33,6 +33,9 @@ class _LoginDelegateState extends State<LoginDelegate> {
   final TextEditingController _passwordTextfiledController =
       TextEditingController();
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -48,6 +51,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _usernameTextfiledController.dispose();
     _passwordTextfiledController.dispose();
     super.dispose();
@@ -160,7 +164,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
       };
 
       Response resp = await Request(context: context, autoAuthorization: false)
-          .postJson(url: Urls.usersLogin, data: data);
+          .postJson(_cancelToken, url: Urls.usersLogin, data: data);
 
       /// 一旦请求结束，就要关闭loading
       closeLoading();

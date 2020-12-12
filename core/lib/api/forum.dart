@@ -19,11 +19,13 @@ class ForumAPI {
   /// 先从本地缓存取，如果缓存里面有数据，先返回本地缓存的，然后接口获取的就存在本地，下次在使用
   ///
   ///
-  Future<bool> getForum({bool force = false}) async {
+  Future<bool> getForum(CancelToken cancelToken, {bool force = false}) async {
     try {
       final Response resp =
           await Request(context: context, autoAuthorization: false).getUrl(
-              url: Urls.forum, queryParameters: {"filter[tag]": "agreement"});
+              cancelToken,
+              url: Urls.forum,
+              queryParameters: {"filter[tag]": "agreement"});
 
       if (resp == null) {
         return Future.value(false);

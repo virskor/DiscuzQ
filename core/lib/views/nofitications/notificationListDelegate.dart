@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:core/widgets/threads/threadsDetector.dart';
-import 'package:core/widgets/users/userLinkDetector.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -23,6 +21,9 @@ import 'package:core/widgets/skeleton/discuzSkeleton.dart';
 import 'package:core/widgets/ui/ui.dart';
 import 'package:core/widgets/common/discuzToast.dart';
 import 'package:core/widgets/common/discuzDialog.dart';
+import 'package:core/widgets/threads/threadsDetector.dart';
+import 'package:core/widgets/users/userLinkDetector.dart';
+import 'package:core/api/notification.dart';
 
 ///
 /// 消息通知列表页面
@@ -39,6 +40,9 @@ class NotificationListDelegate extends StatefulWidget {
 class _NotificationDelegateState extends State<NotificationListDelegate> {
   /// refresh controller
   final RefreshController _controller = RefreshController();
+
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
 
   ///
   /// _pageNumber
@@ -81,6 +85,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -90,7 +95,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     return Scaffold(
       appBar: DiscuzAppBar(
         title: widget.type.label,
-         brightness: Brightness.light,
+        brightness: Brightness.light,
       ),
       body: _buildBody(context),
     );
@@ -98,8 +103,11 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
 
   ///
   /// 是否允许加载更多
-  bool get _enablePullUp =>
-      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+  bool get _enablePullUp => _meta == null
+      ? false
+      : _meta.pageCount > _pageNumber
+          ? true
+          : false;
 
   ///
   /// 生成搜索用户的组件
@@ -273,8 +281,8 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
       final Function close = DiscuzToast.loading(context: context);
 
       try {
-        Response _ = await Request(context: context)
-            .delete(url: "${Urls.notifications}/${id.toString()}");
+        bool _ = await NoticficationApi(context: context)
+            .deteleNotification(_cancelToken, id: id);
       } catch (e) {
         close();
         throw e;
@@ -329,7 +337,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     });
 
     Response resp = await Request(context: context)
-        .getUrl(url: Urls.notifications, queryParameters: data);
+        .getUrl(_cancelToken, url: Urls.notifications, queryParameters: data);
     setState(() {
       _loading = false;
     });

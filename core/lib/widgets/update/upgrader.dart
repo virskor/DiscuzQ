@@ -1,11 +1,12 @@
-import 'package:core/widgets/webview/webviewHelper.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bugly/flutter_bugly.dart';
 
 import 'package:core/utils/bugly.dart';
 import 'package:core/widgets/events/globalEvents.dart';
 
-import '../common/discuzDialog.dart';
+import 'package:core/widgets/common/discuzDialog.dart';
+import 'package:core/widgets/webview/webviewHelper.dart';
 
 class Upgrader extends StatefulWidget {
   const Upgrader({Key key, this.child, this.isManual = false})

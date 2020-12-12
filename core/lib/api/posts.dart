@@ -23,13 +23,14 @@ class PostsAPI {
   /// 创建回复
   /// data 用于提交到接口的数据，数据将被用来创建回复
   ///
-  Future<DiscuzEditorRequestResult> create({@required dynamic data}) async {
+  Future<DiscuzEditorRequestResult> create(CancelToken cancelToken,
+      {@required dynamic data}) async {
     final Function close = DiscuzToast.loading(context: context);
 
     try {
       /// 开始请求
-      Response resp =
-          await Request(context: context).postJson(url: Urls.posts, data: data);
+      Response resp = await Request(context: context)
+          .postJson(cancelToken, url: Urls.posts, data: data);
 
       close();
 
@@ -72,9 +73,9 @@ class PostsAPI {
   /// 传入要删除的 postID
   /// 删除回复接口[单个]
   ///
-  Future<bool> delete({@required int postID}) async {
+  Future<bool> delete(CancelToken cancelToken, {@required int postID}) async {
     final String url = "${Urls.posts}/${postID.toString()}";
-    Response _ = await Request(context: context).delete(url: url);
+    Response _ = await Request(context: context).delete(cancelToken, url: url);
 
     ///
     /// todo：检查状态码来判定删除成功与否

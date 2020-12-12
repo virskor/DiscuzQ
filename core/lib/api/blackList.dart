@@ -12,13 +12,16 @@ class BlackListAPI {
 
   ///
   /// Add black list by user's ID
-  Future<bool> add({@required int uid}) async {
+  Future<bool> add(CancelToken cancelToken, {@required int uid}) async {
     final Function close = DiscuzToast.loading();
 
     final String url = '${Urls.users}/${uid.toString()}/deny';
 
     try {
-      Response resp = await Request(context: context).postJson(url: url);
+      Response resp = await Request(context: context).postJson(
+        cancelToken,
+        url: url,
+      );
 
       close();
 
@@ -35,31 +38,31 @@ class BlackListAPI {
 
   ///
   /// Add black list by user's ID
-  Future<void> delete({@required int uid}) async {
+  Future<void> delete(CancelToken cancelToken, {@required int uid}) async {
     final Function close = DiscuzToast.loading();
 
     final String url = '${Urls.users}/${uid.toString()}/deny';
 
     try {
-      await Request(context: context).delete(url: url);
+      await Request(context: context).delete(cancelToken, url: url);
 
       close();
     } catch (e) {
-      
       close();
       throw e;
     }
   }
 
   // List all users
-  Future<Response> list({@required int uid, int pageNumber}) async {
+  Future<Response> list(CancelToken cancelToken,
+      {@required int uid, int pageNumber}) async {
     final Function close = DiscuzToast.loading();
 
     final String url = '${Urls.users}/${uid.toString()}/deny';
 
     try {
-      Response resp =
-          await Request(context: context).getUrl(url: url, queryParameters: {
+      Response resp = await Request(context: context)
+          .getUrl(cancelToken, url: url, queryParameters: {
         "page[number]": pageNumber ?? 1,
       });
 

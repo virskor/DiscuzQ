@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +38,8 @@ class UserHomeDelegate extends StatefulWidget {
 }
 
 class _UserHomeDelegateState extends State<UserHomeDelegate> {
+  final CancelToken _cancelToken = CancelToken();
+
   ///
   /// 使用用户信息的时候，不应该使用widget.user进行渲染
   /// 而应该使用_user
@@ -80,6 +83,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     super.dispose();
   }
 
@@ -132,8 +136,8 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
                   title: '拉黑用户',
                   message: '您确定拉黑该用户吗?',
                   onConfirm: () async {
-                    final bool result =
-                        await BlackListAPI(context: context).add(uid: _user.id);
+                    final bool result = await BlackListAPI(context: context)
+                        .add(_cancelToken, uid: _user.id);
                     if (result && Navigator.canPop(context)) {
                       Navigator.pop(context);
                     }
@@ -167,8 +171,8 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
   /// 同时更新用户组信息
   Future<void> _requestUserData() async {
     ///
-    Map<UserModel, UserGroupModel> userInfo =
-        await UsersAPI(context: context).getUserDataByID(uid: widget.user.id);
+    Map<UserModel, UserGroupModel> userInfo = await UsersAPI(context: context)
+        .getUserDataByID(_cancelToken, uid: widget.user.id);
 
     if (userInfo == null) {
       return;

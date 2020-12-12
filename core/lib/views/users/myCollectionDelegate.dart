@@ -36,6 +36,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   ///
   final RefreshController _controller = RefreshController();
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   /// states
   ///
   /// pagenumber
@@ -70,6 +73,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.dispose();
     _threadsCacher.clear();
     super.dispose();
@@ -187,7 +191,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     };
 
     Response resp = await Request(context: context)
-        .getUrl(url: Urls.threadsFavorites, queryParameters: data);
+        .getUrl(_cancelToken, url: Urls.threadsFavorites, queryParameters: data);
     if (resp == null) {
       setState(() {
         _loading = false;

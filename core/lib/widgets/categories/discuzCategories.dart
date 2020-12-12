@@ -50,7 +50,7 @@ class DiscuzCategories {
   ///
   Future<List<CategoryModel>> requestCategories() async {
     Response resp =
-        await Request(context: context).getUrl(url: Urls.categories);
+        await Request(context: context).getUrl(null, url: Urls.categories);
 
     if (resp == null) {
       return Future.value(const []);

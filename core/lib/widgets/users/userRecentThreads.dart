@@ -54,6 +54,8 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
   ///
   final ThreadsCacher _threadsCacher = ThreadsCacher(singleton: false);
 
+  final CancelToken _cancelToken = CancelToken();
+
   /// states
   ///
   /// pageNumber
@@ -93,6 +95,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _controller.dispose();
     _scrollController.dispose();
     _threadsCacher.clear();
@@ -101,12 +104,11 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
 
   @override
   Widget build(BuildContext context) => RepaintBoundary(
-            child: _body(),
-          );
+        child: _body(),
+      );
 
   /// build body
-  Widget _body() =>
-      DiscuzRefresh(
+  Widget _body() => DiscuzRefresh(
         enablePullDown: true,
         enablePullUp: _enablePullUp,
 
@@ -176,8 +178,11 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
 
   ///
   /// 是否允许加载更多
-  bool get _enablePullUp =>
-      _meta == null ? false : _meta.pageCount > _pageNumber ? true : false;
+  bool get _enablePullUp => _meta == null
+      ? false
+      : _meta.pageCount > _pageNumber
+          ? true
+          : false;
 
   ///
   /// _requestData will get data from backend
@@ -217,7 +222,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     };
 
     Response resp = await Request(context: context)
-        .getUrl(url: Urls.threads, queryParameters: data);
+        .getUrl(_cancelToken, url: Urls.threads, queryParameters: data);
     if (resp == null) {
       setState(() {
         _loading = false;

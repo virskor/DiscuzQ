@@ -40,6 +40,8 @@ class _PostDetBotState extends State<PostDetBot> {
 
   bool _collected;
 
+  final CancelToken _cancelToken = CancelToken();
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -55,6 +57,7 @@ class _PostDetBotState extends State<PostDetBot> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     super.dispose();
   }
 
@@ -109,9 +112,9 @@ class _PostDetBotState extends State<PostDetBot> {
                               ///
                               /// 执行删除
                               ///
-                              final bool result =
-                                  await ThreadsAPI(context: context)
-                                      .delete(thread: widget.thread);
+                              final bool result = await ThreadsAPI(
+                                      context: context)
+                                  .delete(_cancelToken, thread: widget.thread);
                               if (result && Navigator.canPop(context)) {
                                 Navigator.pop(context);
                               }
@@ -165,7 +168,7 @@ class _PostDetBotState extends State<PostDetBot> {
     final Function close = DiscuzToast.loading(context: context);
 
     try {
-      Response resp = await Request(context: context).patch(
+      Response resp = await Request(context: context).patch(_cancelToken,
           url: '${Urls.threads}/${widget.thread.id.toString()}', data: data);
 
       close();

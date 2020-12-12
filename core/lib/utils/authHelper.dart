@@ -75,7 +75,7 @@ class AuthHelper {
 
     final String urlDataUrl =
         "${Urls.users}/${context.read<UserProvider>().user.attributes.id.toString()}";
-    Response resp = await Request(context: context).getUrl(url: urlDataUrl);
+    Response resp = await Request(context: context).getUrl(null, url: urlDataUrl);
 
     if (resp == null) {
       return Future.value(false);

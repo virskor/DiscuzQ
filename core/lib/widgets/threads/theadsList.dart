@@ -59,6 +59,9 @@ class ThreadsList extends StatefulWidget {
 
 class _ForumCategoryState extends State<ThreadsList>
     with AutomaticKeepAliveClientMixin {
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   ///
   /// _controller refresh
   ///
@@ -75,7 +78,6 @@ class _ForumCategoryState extends State<ThreadsList>
   /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
   final ThreadsCacher _threadsCacher = ThreadsCacher();
-
 
   /// states
   ///
@@ -281,7 +283,7 @@ class _ForumCategoryState extends State<ThreadsList>
     }
 
     Response resp = await Request(context: context)
-        .getUrl(url: Urls.threads, queryParameters: data);
+        .getUrl(_cancelToken, url: Urls.threads, queryParameters: data);
     if (resp == null) {
       setState(() {
         _loading = false;

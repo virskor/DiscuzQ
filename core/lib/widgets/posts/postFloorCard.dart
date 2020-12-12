@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 import 'package:core/models/userModel.dart';
 import 'package:core/router/route.dart';
@@ -54,15 +55,24 @@ class PostFloorCard extends StatefulWidget {
   _PostFloorCardState createState() => _PostFloorCardState();
 }
 
-class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveClientMixin {
-
+class _PostFloorCardState extends State<PostFloorCard>
+    with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
+  @override
+  void dispose() {
+    _cancelToken.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     ///
     /// post.relationships.user会存在为null的情况，这是因为数据中存在fistPost,但这不是一个回复
     ///
@@ -256,7 +266,7 @@ class _PostFloorCardState extends State<PostFloorCard> with AutomaticKeepAliveCl
                       message: '是否删除评论？',
                       onConfirm: () async {
                         final bool result = await PostsAPI(context: context)
-                            .delete(postID: widget.post.id);
+                            .delete(_cancelToken, postID: widget.post.id);
                         if (result && widget.onDelete != null) {
                           /// 删除成功，隐藏该项目
                           widget.onDelete();

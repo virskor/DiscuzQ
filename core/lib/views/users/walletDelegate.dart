@@ -34,6 +34,8 @@ class _WalletDelegateState extends State<WalletDelegate> {
   ///
   WalletModel _wallet = WalletModel();
 
+  final CancelToken _cancelToken = CancelToken();
+
   @override
   void setState(fn) {
     if (!mounted) {
@@ -52,6 +54,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     super.dispose();
   }
 
@@ -152,7 +155,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
     ///
     final UserModel user = context.read<UserProvider>().user;
     final String userWalletUrl = "${Urls.usersWallerData}/${user.attributes.id}";
-    Response resp = await Request(context: context).getUrl(url: userWalletUrl);
+    Response resp = await Request(context: context).getUrl(_cancelToken, url: userWalletUrl);
 
     if (resp == null) {
       setState(() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/ui/ui.dart';
@@ -8,7 +9,6 @@ import 'package:core/widgets/common/discuzText.dart';
 import 'package:core/widgets/common/discuzTextfiled.dart';
 import 'package:core/utils/global.dart';
 import 'package:core/widgets/common/discuzFormContainer.dart';
-import 'package:dio/dio.dart';
 import 'package:core/utils/request/request.dart';
 import 'package:core/utils/request/urls.dart';
 import 'package:core/widgets/common/discuzToast.dart';
@@ -35,6 +35,9 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
   final TextEditingController _passwordTextfiledController =
       TextEditingController();
 
+  /// dio
+  final CancelToken _cancelToken = CancelToken();
+
   static const String _register_reason = 'mobile register';
 
   @override
@@ -52,6 +55,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
 
   @override
   void dispose() {
+    _cancelToken.cancel();
     _usernameTextfiledController.dispose();
     _passwordTextfiledController.dispose();
     super.dispose();
@@ -199,7 +203,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
 
     try {
       Response resp = await Request(context: context, autoAuthorization: false)
-          .postJson(url: Urls.usersRegister, data: data);
+          .postJson(_cancelToken, url: Urls.usersRegister, data: data);
 
       closeLoading();
 

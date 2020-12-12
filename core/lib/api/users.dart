@@ -20,7 +20,7 @@ class UsersAPI {
   ///
   /// Modify user's profile
   /// attribute: {signature: 'ceshi'}
-  Future<dynamic> updateProfile(
+  Future<dynamic> updateProfile(CancelToken cancelToken,
       {@required dynamic attributes, @required BuildContext context}) async {
     assert(context != null);
     final int uid = context.read<UserProvider>().user.id;
@@ -30,7 +30,7 @@ class UsersAPI {
     };
 
     final Response resp = await Request(context: context)
-        .patch(url: "${Urls.users}/${uid.toString()}", data: data);
+        .patch(cancelToken, url: "${Urls.users}/${uid.toString()}", data: data);
 
     if (resp == null) {
       return Future.value(null);
@@ -43,16 +43,18 @@ class UsersAPI {
   /// 异步的请求用户的信息，以覆盖现有的用户信息
   /// 同时更新用户组信息
   Future<Map<UserModel, UserGroupModel>> getUserDataByID(
+      CancelToken cancelToken,
       {@required int uid}) async {
     ///
     /// 关联查询的数据
     ///
     List<String> includes = [RequestIncludes.groups];
 
-    Response resp = await Request(context: context)
-        .getUrl(url: "${Urls.users}/${uid.toString()}", queryParameters: {
-      "include": RequestIncludes.toGetRequestQueries(includes: includes),
-    });
+    Response resp = await Request(context: context).getUrl(cancelToken,
+        url: "${Urls.users}/${uid.toString()}",
+        queryParameters: {
+          "include": RequestIncludes.toGetRequestQueries(includes: includes),
+        });
 
     ///
     /// 错误时直接返回
@@ -81,7 +83,7 @@ class UsersAPI {
   /// request follow
   /// 如果用户请求取消关注，应该发送delete请求，如果是关注则，直接发送post请求
   /// 关注
-  static Future<bool> requestFollow(
+  static Future<bool> requestFollow(CancelToken cancelToken,
       {@required BuildContext context,
       @required UserModel user,
       bool isUnfollow = false}) async {
@@ -102,8 +104,8 @@ class UsersAPI {
     /// 204 直接return true DIO处理有问题
     if (isUnfollow) {
       try {
-        resp = await Request(context: context)
-            .delete(url: "${Urls.follow}/${user.id.toString()}/1", data: data);
+        resp = await Request(context: context).delete(cancelToken,
+            url: "${Urls.follow}/${user.id.toString()}/1", data: data);
         closeLoading();
       } catch (e) {
         closeLoading();
@@ -118,7 +120,7 @@ class UsersAPI {
     ///
     try {
       resp = await Request(context: context)
-          .postJson(url: Urls.follow, data: data);
+          .postJson(cancelToken, url: Urls.follow, data: data);
 
       closeLoading();
 
