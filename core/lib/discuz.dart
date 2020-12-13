@@ -18,6 +18,7 @@ import 'package:core/api/forum.dart';
 import 'package:core/router/routers.dart';
 import 'package:core/views/exploreDelagate.dart';
 import 'package:core/providers/appConfigProvider.dart';
+import 'package:core/widgets/settings/privacyConfirm.dart';
 
 import 'widgets/ui/ui.dart';
 
@@ -257,5 +258,22 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
     setState(() {
       _loaded = true;
     });
+
+    this._userPrivaciesNotice();
+  }
+
+  /// 弹出用户隐私提示
+  void _userPrivaciesNotice() {
+    final dynamic appConf = context.read<AppConfigProvider>().appConf;
+    if (appConf['confrimedPrivacy'] != true) {
+      showModalBottomSheet(
+          context: context,
+          isDismissible: false,
+          enableDrag: false,
+          backgroundColor: Colors.transparent,
+          builder: (BuildContext context) {
+            return const PrivacyConfirm();
+          });
+    }
   }
 }

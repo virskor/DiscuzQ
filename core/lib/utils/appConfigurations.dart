@@ -13,6 +13,7 @@ class AppConfigurations {
     "showPerformanceOverlay": false,
     "autoplay": true,
     "hideContentRequirePayments": true,
+    "confrimedPrivacy": false,
   };
 
   Future<dynamic> update(
