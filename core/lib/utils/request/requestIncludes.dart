@@ -145,6 +145,27 @@ class RequestIncludes {
   /// 指定获取用户组信息
   static const String groups = 'groups';
 
+  /// replyUser
+  /// 查询回复的用户
+  static const String replyUser = "replyUser";
+
+  /// 用户组
+  /// 查询用户组
+  static const String userGroups = "user.groups";
+
+  /// 图片
+  static const String images = "images";
+
+  /// 最后三条评论(指评论中的三条回复)
+  static const String lastThreeComments = "lastThreeComments";
+
+  /// 最后三条回复的发布用户
+  static const String lastThreeCommentsUser = "lastThreeComments.user";
+
+  /// 最后三条回复回复的对象
+  static const String lastThreeCommentsReplyUser =
+      "lastThreeComments.replyUser";
+
   ///
   /// fromIncludes
   /// 使用RequestIncludes包含的可用于查询关联信息的数据构造用于请求的 queryParams

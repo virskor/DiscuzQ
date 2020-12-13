@@ -10,6 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:flutter/material.dart';
+
+
 import 'package:core/utils/global.dart';
 import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/widgets/common/discuzText.dart';
@@ -1518,11 +1520,12 @@ class DiscuzListTileTrailing extends StatelessWidget {
           textBaseline: TextBaseline.alphabetic,
           children: <Widget>[
             label.runtimeType == String
-                ? DiscuzText(
+                ? Expanded(
+                    child: DiscuzText(
                     label,
                     color: Global.greyTextColorLight,
                     overflow: TextOverflow.ellipsis,
-                  )
+                  ))
                 : label,
             showIcon ? _trailing : const SizedBox()
           ],

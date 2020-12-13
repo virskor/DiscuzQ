@@ -18,8 +18,26 @@ class ThreadsAPI {
 
   ThreadsAPI({@required this.context});
 
+  Future<Response> getDetail(CancelToken cancelToken,
+      {@required int threadID, dynamic data}) async {
+    try {
+      final String uri = "${Urls.threads}/${threadID.toString()}";
+      Response resp = await Request(context: context)
+          .getUrl(cancelToken, url: uri, queryParameters: data);
+
+      if (resp == null) {
+        return null;
+      }
+
+      return resp;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   ///
-  /// 获取帖子详情
+  /// 获取帖子详情（仅获取模型）
   ///
   Future<ThreadModel> getDetailByID(CancelToken cancelToken,
       {@required int threadID}) async {

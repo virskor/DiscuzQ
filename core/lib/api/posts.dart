@@ -82,4 +82,17 @@ class PostsAPI {
     /// 现Dio处理Delete put 有问题
     return Future.value(true);
   }
+
+  /// 取得评论列表
+  /// 返回
+  Future<Response> getPostList(CancelToken cancelToken, {@required dynamic data}) async {
+    final String url = Urls.posts;
+    Response resp = await Request(context: context)
+        .getUrl(cancelToken, url: url, queryParameters: data);
+
+    ///
+    /// todo：检查状态码来判定删除成功与否
+    /// 现Dio处理Delete put 有问题
+    return Future.value(resp);
+  }
 }

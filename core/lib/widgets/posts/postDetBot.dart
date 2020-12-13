@@ -69,12 +69,13 @@ class _PostDetBotState extends State<PostDetBot> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          DiscuzText(
+          Expanded(
+              child: DiscuzText(
             ///
             /// 由于 postCount 包含 fristpost 所以要进行减除
             "${(widget.thread.attributes.postCount - 1).toString()}回复",
             color: DiscuzApp.themeOf(context).greyTextColor,
-          ),
+          )),
           Row(
             children: <Widget>[
               DiscuzLink(

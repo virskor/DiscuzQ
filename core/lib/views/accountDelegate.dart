@@ -36,7 +36,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
   final List<_AccountMenuItem> _menus = [
     const _AccountMenuItem(
         label: '我的资料',
-        icon: CupertinoIcons.wand_stars,
+        icon: 0xe6a9,
         child: const ProfileDelegate()),
     // const _AccountMenuItem(
     //     label: '我的钱包',
@@ -45,9 +45,9 @@ class _AccountDelegateState extends State<AccountDelegate> {
     const _AccountMenuItem(
         label: '我的收藏', icon: 0xe699, child: const MyCollectionDelegate()),
     const _AccountMenuItem(
-        label: '我的关注', icon: 0xe680, child: const FollowingDelegate()),
+        label: '我的关注', icon: 0xe694, child: const FollowingDelegate()),
     const _AccountMenuItem(
-        label: '黑名单', icon: 0xe6d2, child: const BlackListDelegate()),
+        label: '黑名单', icon: 0xe6b6, child: const BlackListDelegate()),
 
     /// 请求退出账户
     _AccountMenuItem(
@@ -104,6 +104,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
                           _controller.refreshCompleted();
                         },
                         child: ListView(
+                          padding: EdgeInsets.zero,
                           children: <Widget>[
                             /// 构造登录信息页
                             const UserAccountBanner(),
@@ -111,7 +112,8 @@ class _AccountDelegateState extends State<AccountDelegate> {
                             /// 菜单构造
 
                             Container(
-                              child: Wrap(
+                              margin: const EdgeInsets.only(top: 20),
+                              child: Column(
                                 children: _buildMenus(),
                               ),
                             )
@@ -132,7 +134,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
               children: <Widget>[
                 DiscuzListTile(
                   title: DiscuzText(el.label),
-                  leading: DiscuzIcon(el.icon),
+                  leading: DiscuzIcon(el.icon, size: 28,),
 
                   /// 如果item中设置了运行相关的方法，则运行相关的方法，如果有child的话则在路由中打开
                   onTap: () => el.method != null
