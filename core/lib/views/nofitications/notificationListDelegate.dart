@@ -152,6 +152,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
       itemBuilder: (BuildContext context, index) {
         final NotificationModel n = _notifications[index];
         return Container(
+          margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Padding(
@@ -234,11 +235,6 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                                   threadID: n.attributes.threadID,
                                   uid: n.attributes.userID)),
                       DiscuzLink(
-                        label: '回复',
-                        onTap: () =>
-                            DiscuzToast.show(context: context, message: '即将支持'),
-                      ),
-                      DiscuzLink(
                         label: '删除',
                         onTap: () async {
                           final bool deleted =
@@ -257,10 +253,6 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                         },
                       )
                     ],
-                  ),
-                  const SizedBox(height: 10),
-                  const DiscuzDivider(
-                    padding: 0,
                   ),
                 ],
               ),

@@ -1,3 +1,4 @@
+import 'package:core/api/threads.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -35,6 +36,7 @@ import 'package:core/router/route.dart';
 import 'package:core/widgets/threads/payments/threadRequiredPayments.dart';
 import 'package:core/views/reports/reportsDelegate.dart';
 import 'package:core/widgets/common/discuzIcon.dart';
+import 'package:core/api/posts.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///
@@ -105,8 +107,9 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 450))
-        .then((_) async => await _requestData(pageNumber: 1));
+    Future.delayed(Duration(milliseconds: 450)).then((_) async {
+      await _requestThreadDetail(pageNumber: 1);
+    });
   }
 
   @override
@@ -128,18 +131,14 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   /// 评论组件数
   ///
   List<Widget> get commentsTree => _threadsCacher.posts
-      .map<Widget>((PostModel p) => Column(
-            children: <Widget>[
-              PostFloorCard(
-                  post: p,
-                  threadsCacher: _threadsCacher,
-                  thread: widget.thread,
-                  onDelete: () {
-                    _threadsCacher.removePostByID(postID: p.id);
-                    setState(() {});
-                  })
-            ],
-          ))
+      .map<Widget>((PostModel p) => PostFloorCard(
+          post: p,
+          threadsCacher: _threadsCacher,
+          thread: widget.thread,
+          onDelete: () {
+            _threadsCacher.removePostByID(postID: p.id);
+            setState(() {});
+          }))
       .toList();
 
   @override
@@ -184,14 +183,16 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                       enablePullDown: true,
                       enablePullUp: _enablePullUp,
                       onRefresh: () async {
-                        await _requestData(pageNumber: 1);
+                        await _requestThreadDetail(pageNumber: 1);
                         _controller.refreshCompleted();
                       },
                       onLoading: () async {
                         if (_loading) {
                           return;
                         }
-                        await _requestData(pageNumber: _pageNumber + 1);
+
+                        /// 加载的时候是读取评论
+                        await _getPostsList(pageNumber: _pageNumber + 1);
                         _controller.loadComplete();
                       },
                       child: ListView.builder(
@@ -207,7 +208,10 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                             if (index == 0) {
                               return Column(
                                 children: <Widget>[
-                                  _buildThreadContent(),
+                                  /// 主题内容
+                                  _buildThreadContent,
+
+                                  /// 评论列表
                                   Container(
                                     alignment: Alignment.centerLeft,
                                     padding: const EdgeInsets.only(
@@ -218,6 +222,8 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                                       thread: widget.thread,
                                     ),
                                   ),
+
+                                  /// 评论
                                   _threadsCacher.posts.length == 1
                                       ? const DiscuzNoMoreData()
                                       : commentsTree[index]
@@ -232,7 +238,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
             ///
             /// 底部点赞 回复 打赏工具栏
-            _positionedBottomBar(),
+            _positionedBottomBar,
           ],
         ),
       );
@@ -240,128 +246,129 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   ///
   /// 渲染内容
   /// 此处的内容指的是帖子的内容
-  Widget _buildThreadContent() {
-    if (_threadsCacher.threads.length == 0 && !_loading) {
-      return DiscuzNetworkError(
-        onRequestRefresh: () => _requestData(),
-      );
-    }
-
-    if (_threadsCacher.threads.length == 0) {
-      return SizedBox();
-    }
-
-    /// 遍历图片
-    final List<dynamic> getPostImages = _firstPost.relationships.images;
-    List<AttachmentsModel> attachmentsModels = [];
-    if (getPostImages.length > 0) {
-      getPostImages.forEach((e) {
-        final int id = int.tryParse(e['id']);
-        final AttachmentsModel attachment = _threadsCacher.attachments
-            .where((AttachmentsModel find) => find.id == id)
-            .toList()[0];
-        if (attachment != null) {
-          attachmentsModels.add(attachment);
+  Widget get _buildThreadContent => Builder(builder: (BuildContext context) {
+        if (_threadsCacher.threads.length == 0 && !_loading) {
+          return DiscuzNetworkError(
+            onRequestRefresh: () => _requestThreadDetail(),
+          );
         }
-      });
-    }
 
-    return RepaintBoundary(
-        child: Container(
-      padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
-      decoration:
-          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          /// 顶部
-          ThreadHeaderCard(
-            author: widget.author,
-            thread: widget.thread,
-            showOperations: false,
-          ),
+        if (_threadsCacher.threads.length == 0) {
+          return SizedBox();
+        }
 
-          /// 显示标题
-          ..._buildContentTitle(),
+        /// 遍历图片
+        final List<dynamic> getPostImages = _firstPost.relationships.images;
+        List<AttachmentsModel> attachmentsModels = [];
+        if (getPostImages.length > 0) {
+          getPostImages.forEach((e) {
+            final int id = int.tryParse(e['id']);
+            final AttachmentsModel attachment = _threadsCacher.attachments
+                .where((AttachmentsModel find) => find.id == id)
+                .toList()[0];
+            if (attachment != null) {
+              attachmentsModels.add(attachment);
+            }
+          });
+        }
 
-          /// 显示内容
-          Padding(
-            padding: const EdgeInsets.only(top: 5),
-            child: HtmlRender(
-              html: _firstPost.attributes.contentHtml,
-            ),
-          ),
+        return RepaintBoundary(
+            child: Container(
+          padding:
+              const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
+          decoration:
+              BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              /// 顶部
+              ThreadHeaderCard(
+                author: widget.author,
+                thread: widget.thread,
+                showOperations: false,
+              ),
 
-          /// 显示附件图片
-          /// 显示图片
-          /// 点击图片显示图集
-          ...attachmentsModels
-              .map((AttachmentsModel a) => Container(
-                    margin: const EdgeInsets.only(top: 5),
-                    child: DiscuzImage(
-                        attachment: a,
-                        enbleShare: true,
-                        isThumb: false,
-                        thread: widget.thread,
-                        onWantOriginalImage: (String targetUrl) {
-                          /// 显示原图图集
-                          /// targetUrl是用户点击到的要查看的图片
-                          /// 调整数组，将targetUrl置于第一个，然后传入图集组件
-                          ///
-                          /// 原图所有图片Url 图集
-                          final List<String> originalImageUrls =
-                              attachmentsModels
-                                  .map((e) => e.attributes.url)
-                                  .toList();
+              /// 显示标题
+              ..._buildContentTitle,
 
-                          /// 显示原图图集
-                          /// targetUrl是用户点击到的要查看的图片
-                          /// 调整数组，将targetUrl置于第一个，然后传入图集组件
-                          originalImageUrls.remove(a.attributes.url);
-                          originalImageUrls.insert(0, a.attributes.url);
-                          return DiscuzRoute.navigate(
-                              context: context,
-                              fullscreenDialog: true,
-                              widget: DiscuzGalleryDelegate(
-                                  gallery: originalImageUrls));
-                        }),
-                  ))
-              .toList(),
-
-          ///
-          /// 用于渲染小视频
-          ///
-          widget.thread.relationships.threadVideo == null
-              ? const SizedBox()
-              : ThreadVideoSnapshot(
-                  threadsCacher: _threadsCacher,
-                  thread: widget.thread,
-                  post: _firstPost,
+              /// 显示内容
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: HtmlRender(
+                  html: _firstPost.attributes.contentHtml,
                 ),
+              ),
 
-          ///
-          /// 是否需要支付后才能查看
-          ///
-          ThreadRequiredPayments(
-            thread: widget.thread,
+              /// 显示附件图片
+              /// 显示图片
+              /// 点击图片显示图集
+              ...attachmentsModels
+                  .map((AttachmentsModel a) => Container(
+                        margin: const EdgeInsets.only(top: 5),
+                        child: DiscuzImage(
+                            attachment: a,
+                            enbleShare: true,
+                            isThumb: false,
+                            thread: widget.thread,
+                            onWantOriginalImage: (String targetUrl) {
+                              /// 显示原图图集
+                              /// targetUrl是用户点击到的要查看的图片
+                              /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                              ///
+                              /// 原图所有图片Url 图集
+                              final List<String> originalImageUrls =
+                                  attachmentsModels
+                                      .map((e) => e.attributes.url)
+                                      .toList();
+
+                              /// 显示原图图集
+                              /// targetUrl是用户点击到的要查看的图片
+                              /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                              originalImageUrls.remove(a.attributes.url);
+                              originalImageUrls.insert(0, a.attributes.url);
+                              return DiscuzRoute.navigate(
+                                  context: context,
+                                  fullscreenDialog: true,
+                                  widget: DiscuzGalleryDelegate(
+                                      gallery: originalImageUrls));
+                            }),
+                      ))
+                  .toList(),
+
+              ///
+              /// 用于渲染小视频
+              ///
+              widget.thread.relationships.threadVideo == null
+                  ? const SizedBox()
+                  : ThreadVideoSnapshot(
+                      threadsCacher: _threadsCacher,
+                      thread: widget.thread,
+                      post: _firstPost,
+                    ),
+
+              ///
+              /// 是否需要支付后才能查看
+              ///
+              ThreadRequiredPayments(
+                thread: widget.thread,
+              ),
+
+              /// 显示帖子 评论 收藏 分享等
+              PostDetBot(
+                thread: _threadsCacher.threads[0],
+                post: _firstPost,
+
+                ///注意： 要传入的thread 不应该是widget.thread，而是接口请求详情获取的主题
+              )
+            ],
           ),
-
-          /// 显示帖子 评论 收藏 分享等
-          PostDetBot(
-            thread: _threadsCacher.threads[0],
-            post: _firstPost,
-
-            ///注意： 要传入的thread 不应该是widget.thread，而是接口请求详情获取的主题
-          )
-        ],
-      ),
-    ));
-  }
+        ));
+      });
 
   ///
   /// 底部工具栏
-  Widget _positionedBottomBar() => Positioned(
+  Widget get _positionedBottomBar => Positioned(
         bottom: 0,
         child: ThreadExtendBottomBar(
           thread: widget.thread,
@@ -380,7 +387,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
   /// 显示主题的标题
   /// 并不是所有主题都有标题，所以要做判断
-  List<Widget> _buildContentTitle() => widget.thread.attributes.title == ""
+  List<Widget> get _buildContentTitle => widget.thread.attributes.title == ""
       ? <Widget>[]
       : <Widget>[
           const SizedBox(height: 20),
@@ -400,8 +407,8 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
         ];
 
   ///
-  /// _requestData will get data from backend
-  Future<void> _requestData({int pageNumber}) async {
+  /// _requestThreadDetail will get data from backend
+  Future<void> _requestThreadDetail({int pageNumber}) async {
     ///
     /// 如果是第一页的时候要先清空数据，防止数据重复
     if (pageNumber == 1) {
@@ -416,12 +423,14 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
       _loading = true;
     });
 
-    List<String> includes = [
+    final List<String> includes = [
       RequestIncludes.postReplyUser,
       RequestIncludes.user,
+      RequestIncludes.userGroups,
       RequestIncludes.posts,
       RequestIncludes.postsUser,
       RequestIncludes.postslikedUsers,
+      RequestIncludes.postsImages,
       RequestIncludes.postsImages,
       RequestIncludes.firstPost,
       RequestIncludes.firstPostLikedUsers,
@@ -434,14 +443,13 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
 
     dynamic data = {
       "page[limit]": Global.requestPageLimit,
-      "page[number]": pageNumber ?? _pageNumber,
+      "page[number]": 1,
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
       "filter[isDeleted]": "no",
     };
 
-    Response resp = await Request(context: context).getUrl(_cancelToken,
-        url: "${Urls.threads}/${widget.thread.id.toString()}",
-        queryParameters: data);
+    Response resp = await ThreadsAPI(context: context)
+        .getDetail(_cancelToken, threadID: widget.thread.id, data: data);
     if (resp == null) {
       setState(() {
         _loading = false;
@@ -475,7 +483,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
     setState(() {
       _loading = false;
       _continueToRead = true;
-      _pageNumber = pageNumber == null ? _pageNumber + 1 : pageNumber;
+      _pageNumber = pageNumber == null ? _pageNumber : pageNumber;
 
       ///
       /// 选出首贴
@@ -501,5 +509,75 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
         "threadCount": 1,
       });
     });
+  }
+
+//// 请求评论列表
+  Future<void> _getPostsList({int pageNumber}) async {
+    final List<String> includes = [
+      RequestIncludes.replyUser,
+      RequestIncludes.userGroups,
+      RequestIncludes.user,
+      RequestIncludes.images,
+      RequestIncludes.lastThreeComments,
+      RequestIncludes.lastThreeCommentsUser,
+      RequestIncludes.lastThreeCommentsReplyUser,
+    ];
+
+    dynamic data = {
+      "page[limit]": Global.requestPageLimit,
+      "page[number]": pageNumber ?? _pageNumber + 1,
+      "include": RequestIncludes.toGetRequestQueries(includes: includes),
+      "filter[isDeleted]": "no",
+      "filter[isApproved]": "1",
+      "filter[isComment]": "no",
+      "filter[thread]": widget.thread.id,
+      "sort": "createdAt",
+    };
+
+    final Response resp =
+        await PostsAPI(context: context).getPostList(_cancelToken, data: data);
+
+    if (resp == null) {
+      setState(() {
+        _loading = false;
+      });
+      DiscuzToast.failed(context: context, message: '加载失败');
+      return;
+    }
+
+    ///
+    /// 更新数据
+    /// 更新ThreadsCacher中的数据
+    /// 数据更新后 ThreadsCacher.builder 会根据最新的数据来重构Widget tree便会展示最新数据
+    final List<dynamic> included = resp.data['included'] ?? List();
+    final List<dynamic> posts = resp.data['data'] ?? List();
+
+    /// 关联的数据，包含user, post，attachments 需要在缓存前进行转义
+    try {
+      await _threadsCacher.computeUsers(include: included);
+      await _threadsCacher.computePosts(include: posts);
+      await _threadsCacher.computeAttachements(include: included);
+
+      /// pageNumber 在onload传入时已经自动加1
+      /// 注意 主题详情中的meta需要自己生成
+      ///
+      final int pageCount = ((_threadsCacher.threads[0].attributes.postCount +
+                  Global.requestPageLimit -
+                  1) /
+              Global.requestPageLimit)
+          .ceil();
+
+      setState(() {
+        _loading = false;
+        _continueToRead = true;
+        _pageNumber = pageNumber == null ? _pageNumber : pageNumber;
+        _meta = MetaModel.fromMap(maps: {
+          "pageCount": pageCount,
+          "threadCount": 1,
+        });
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 }

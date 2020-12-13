@@ -549,7 +549,7 @@
     },
     {
       "name": "pull_to_refresh",
-      "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/pull_to_refresh-1.6.2",
+      "rootUri": "file:///Users/virs/.fvm/versions/1.22.4-stable/.pub-cache/hosted/pub.dartlang.org/pull_to_refresh-1.6.3",
       "packageUri": "lib/",
       "languageVersion": "2.1"
     },
@@ -776,7 +776,7 @@
       "languageVersion": "2.8"
     }
   ],
-  "generated": "2020-12-05T14:47:46.347302Z",
+  "generated": "2020-12-13T07:22:19.099166Z",
   "generator": "pub",
   "generatorVersion": "2.10.4"
 }
