@@ -54,6 +54,7 @@ class DiscuzRefresh extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scrollbar(
         isAlwaysShown: false,
+        thickness:4,
         child: SmartRefresher(
           enablePullDown: enablePullDown,
           enablePullUp: enablePullUp,
