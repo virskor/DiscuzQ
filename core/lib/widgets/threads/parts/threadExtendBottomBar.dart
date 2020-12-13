@@ -71,6 +71,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     if (widget.firstPost.id == 0) {

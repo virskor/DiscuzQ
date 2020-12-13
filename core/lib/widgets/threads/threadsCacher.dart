@@ -102,7 +102,12 @@ class _ThreadBaseCacher {
     assert(value != null);
     if (_posts == value) return;
 
-    _posts.addAll(value);
+    value.forEach((e) {
+      if (_posts.contains(e)) {
+        return;
+      }
+      _posts.add(e);
+    });
   }
 
   ///
