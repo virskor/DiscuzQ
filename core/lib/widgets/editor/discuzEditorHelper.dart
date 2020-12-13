@@ -9,6 +9,7 @@ import 'package:core/widgets/editor/discuzEditorInputTypes.dart';
 import 'package:core/models/categoryModel.dart';
 import 'package:core/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:core/utils/authHelper.dart';
+import 'package:core/widgets/events/globalEvents.dart';
 
 ///
 /// DiscuzEditorHelper
@@ -40,8 +41,7 @@ class DiscuzEditorHelper {
 
     /// 弹出前，要检测用户是否已经登录
     try {
-      final logined =
-          await AuthHelper.requsetShouldLogin(context: context);
+      final logined = await AuthHelper.requsetShouldLogin(context: context);
       if (!logined) {
         return Future.value(null);
       }
@@ -60,6 +60,11 @@ class DiscuzEditorHelper {
             ///
             /// 用户成功回复，取得回复时接口反馈的数据
             result = res;
+
+            /// 发送事件。成功发布的
+            /// 这样在详情页中(评论页，将会把评论加入列表)
+            eventBus.fire(WantAddReplyToThreadCache(
+                user: res.users, post: res.posts));
           },
         ));
     return Future.value(result);

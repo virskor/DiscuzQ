@@ -1,4 +1,4 @@
-import 'package:core/api/threads.dart';
+import 'package:core/utils/debouncer.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -8,9 +8,8 @@ import 'package:core/models/attachmentsModel.dart';
 import 'package:core/models/threadModel.dart';
 import 'package:core/models/userModel.dart';
 import 'package:core/utils/global.dart';
-import 'package:core/utils/request/request.dart';
+import 'package:core/widgets/events/globalEvents.dart';
 import 'package:core/utils/request/requestIncludes.dart';
-import 'package:core/utils/request/urls.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/common/discuzDivider.dart';
 import 'package:core/widgets/common/discuzNetworkError.dart';
@@ -37,6 +36,7 @@ import 'package:core/widgets/threads/payments/threadRequiredPayments.dart';
 import 'package:core/views/reports/reportsDelegate.dart';
 import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/api/posts.dart';
+import 'package:core/api/threads.dart';
 
 class ThreadDetailDelegate extends StatefulWidget {
   ///
@@ -106,7 +106,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   @override
   void initState() {
     super.initState();
-
+    this._watchIfPostCommentSuccess();
     Future.delayed(Duration(milliseconds: 450)).then((_) async {
       await _requestThreadDetail(pageNumber: 1);
     });
@@ -117,6 +117,18 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
     _cancelToken.cancel();
     _threadsCacher.clear();
     super.dispose();
+  }
+
+  /// 如果评论发布成功，自动加入列表
+  void _watchIfPostCommentSuccess() {
+    eventBus.on<WantAddReplyToThreadCache>().listen((event) {
+      Debouncer().run(() {
+        /// setter 加入数据
+        _threadsCacher.posts = event.post;
+        _threadsCacher.users = event.user;
+        setState(() {});
+      });
+    });
   }
 
   ///
