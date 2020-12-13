@@ -10,7 +10,6 @@ import 'package:core/utils/request/request.dart';
 import 'package:core/utils/request/urls.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/common/discuzAvatar.dart';
-import 'package:core/widgets/common/discuzDivider.dart';
 import 'package:core/widgets/common/discuzLink.dart';
 import 'package:core/widgets/common/discuzListTile.dart';
 import 'package:core/widgets/common/discuzNomoreData.dart';
@@ -149,10 +148,11 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
 
     return ListView.builder(
       itemCount: _notifications.length,
+      physics: const ClampingScrollPhysics(),
       itemBuilder: (BuildContext context, index) {
         final NotificationModel n = _notifications[index];
         return Container(
-          margin: const EdgeInsets.only(top: 10),
+            margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
                 color: DiscuzApp.themeOf(context).backgroundColor),
             child: Padding(
@@ -174,16 +174,24 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                               ),
                               title: Row(
                                 children: <Widget>[
-                                  DiscuzText(
-                                    '${n.attributes.username}',
-                                    fontWeight: FontWeight.bold,
+                                  Expanded(
+                                    flex: 1,
+                                    child: DiscuzText(
+                                      '${n.attributes.username}',
+                                      overflow: TextOverflow.ellipsis,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                  const SizedBox(width: 5),
-                                  // todo 点击查看用户
-                                  DiscuzText(
-                                    '回复了我',
-                                    color: DiscuzApp.themeOf(context)
-                                        .greyTextColor,
+                                  Expanded(
+                                    flex: 3,
+                                    child: DiscuzText(
+                                      widget.type == NotificationTypes.liked
+                                          ? '赞了我'
+                                          : '回复了我',
+                                      overflow: TextOverflow.ellipsis,
+                                      color: DiscuzApp.themeOf(context)
+                                          .greyTextColor,
+                                    ),
                                   )
                                 ],
                               ),
@@ -219,11 +227,13 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
 
                   /// 渲染消息内容
                   /// todo: 点击到关联的帖子
-                  HtmlRender(
-                    html: n.attributes.postContent != ''
-                        ? n.attributes.postContent
-                        : n.attributes.content,
-                  ),
+                  widget.type == NotificationTypes.liked
+                      ? const SizedBox()
+                      : HtmlRender(
+                          html: n.attributes.postContent != ''
+                              ? n.attributes.postContent
+                              : n.attributes.content,
+                        ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -383,7 +393,7 @@ class NotificationTypes {
   ///
   /// 打赏我的
   static const liked =
-      const NotificationTypesItem(label: '喜欢我的', type: 'liked');
+      const NotificationTypesItem(label: '赞我的', type: 'liked');
 
   ///
   /// 系统消息

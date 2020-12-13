@@ -211,6 +211,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                           itemCount: commentsTree.length,
                           addRepaintBoundaries: true,
                           addAutomaticKeepAlives: true,
+                          physics: const ClampingScrollPhysics(),
                           padding: const EdgeInsets.only(bottom: 80),
                           itemBuilder: (BuildContext context, index) {
                             // if (_threadsCacher.posts.length == 1) {

@@ -218,6 +218,7 @@ class _ForumCategoryState extends State<ThreadsList>
             controller: _scrollController,
             itemCount: _threadsCacher.threads.length,
             addAutomaticKeepAlives: true,
+            physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, index) => ThreadCard(
                   threadsCacher: _threadsCacher,

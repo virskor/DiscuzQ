@@ -202,6 +202,7 @@ class _ForumCategoryState extends State<TopicsList>
     return ListView.builder(
         controller: _scrollController,
         itemCount: _threadsCacher.topics.length,
+        physics: const ClampingScrollPhysics(),
         addAutomaticKeepAlives: true,
         itemBuilder: (BuildContext context, index) => TopicCard(
               threadsCacher: _threadsCacher,
