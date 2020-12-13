@@ -52,30 +52,26 @@ class DiscuzRefresh extends StatelessWidget {
       this.enablePullUp = false});
 
   @override
-  Widget build(BuildContext context) => Scrollbar(
-        isAlwaysShown: false,
-        thickness:4,
-        child: SmartRefresher(
-          enablePullDown: enablePullDown,
-          enablePullUp: enablePullUp,
-          header: const WaterDropHeader(),
-          footer: const ClassicFooter(),
-          scrollController: scrollController,
+  Widget build(BuildContext context) => SmartRefresher(
+        enablePullDown: enablePullDown,
+        enablePullUp: enablePullUp,
+        header: const WaterDropHeader(),
+        footer: const ClassicFooter(),
+        scrollController: scrollController,
 
-          /// 允许乡下加载
-          // header: WaterDropHeader(),
-          controller: controller,
-          onRefresh: () {
-            FlutterDevice.emitVibration();
-            // Sounds.play(Sounds.refresh);
-            onRefresh();
-          },
-          onLoading: () {
-            FlutterDevice.emitVibration();
-            // Sounds.play(Sounds.refresh);
-            onLoading();
-          },
-          child: child,
-        ),
+        /// 允许乡下加载
+        // header: WaterDropHeader(),
+        controller: controller,
+        onRefresh: () {
+          FlutterDevice.emitVibration();
+          // Sounds.play(Sounds.refresh);
+          onRefresh();
+        },
+        onLoading: () {
+          FlutterDevice.emitVibration();
+          // Sounds.play(Sounds.refresh);
+          onLoading();
+        },
+        child: child,
       );
 }

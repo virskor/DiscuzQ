@@ -1,3 +1,4 @@
+import 'package:core/widgets/search/customSearchDelegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:core/widgets/ui/ui.dart';
@@ -22,12 +23,12 @@ class DiscuzAppSearchActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => IconButton(
         icon: DiscuzIcon(icon ?? Icons.search, color: Colors.white),
-        onPressed: () => showSearch(
+        onPressed: () => showDiscuzSearch(
             context: context, delegate: DiscuzAppSearchDelegate(type: type)),
       );
 }
 
-class DiscuzAppSearchDelegate extends SearchDelegate<String> {
+class DiscuzAppSearchDelegate extends DiscuzCustomSearchDelegate<String> {
   DiscuzAppSearchDelegate({this.type = DiscuzAppSearchType.thread});
 
   final DiscuzAppSearchType type;

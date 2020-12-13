@@ -177,8 +177,6 @@ class _ForumCategoryState extends State<ThreadsList>
           return DiscuzRefresh(
             enablePullDown: true,
             enablePullUp: _enablePullUp,
-            /// 允许乡下加载
-            // header: WaterDropHeader(),
             controller: _controller,
             onRefresh: () async {
               await _requestData(pageNumber: 1);
@@ -220,6 +218,7 @@ class _ForumCategoryState extends State<ThreadsList>
             controller: _scrollController,
             itemCount: _threadsCacher.threads.length,
             addAutomaticKeepAlives: true,
+            shrinkWrap: true,
             itemBuilder: (BuildContext context, index) => ThreadCard(
                   threadsCacher: _threadsCacher,
                   thread: _threadsCacher.threads[index],
