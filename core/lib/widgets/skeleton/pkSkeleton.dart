@@ -331,6 +331,7 @@ class PKCardListSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: length,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return PKCardSkeleton(
           isCircularImage: isCircularImage,
@@ -355,6 +356,7 @@ class PKDarkCardListSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: length,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
         return PKDarkCardSkeleton(
           isCircularImage: isCircularImage,

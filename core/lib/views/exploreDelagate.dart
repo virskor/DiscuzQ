@@ -1,3 +1,4 @@
+import 'package:core/widgets/search/customSearchDelegate.dart';
 import 'package:flutter/material.dart';
 
 import 'package:core/router/route.dart';
@@ -62,7 +63,7 @@ class _ExploreDelegateState extends State<ExploreDelegate>
                 title: const DiscuzText(
                   '搜索主题',
                 ),
-                onTap: () => showSearch(
+                onTap: () => showDiscuzSearch(
                     context: context,
                     delegate: DiscuzAppSearchDelegate(
                         type: DiscuzAppSearchType.thread)),
@@ -71,7 +72,7 @@ class _ExploreDelegateState extends State<ExploreDelegate>
                 title: const DiscuzText(
                   '搜索用户',
                 ),
-                onTap: () => showSearch(
+                onTap: () => showDiscuzSearch(
                     context: context,
                     delegate: DiscuzAppSearchDelegate(
                         type: DiscuzAppSearchType.user)),
