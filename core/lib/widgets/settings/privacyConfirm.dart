@@ -24,16 +24,14 @@ class PrivacyConfirm extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               color: DiscuzApp.themeOf(context).backgroundColor),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: ListView(
             children: [
               /// Header
               Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(10),
                   decoration:
-                      BoxDecoration(color: Colors.grey.withOpacity(.23)),
+                      BoxDecoration(color: Colors.grey.withOpacity(.13)),
                   child: DiscuzText(
                     "用户协议和隐私政策",
                     fontSize: DiscuzApp.themeOf(context).largeTextSize,
@@ -89,8 +87,7 @@ class PrivacyConfirm extends StatelessWidget {
                           color: Colors.blueGrey.withOpacity(.34),
                           label: "不同意",
                           onPressed: () async => DiscuzToast.show(
-                              context: context,
-                              message: "欢迎再来！您只需要退出即可。"))
+                              context: context, message: "欢迎再来！您只需要退出即可。"))
                     ],
                   ))
             ],
