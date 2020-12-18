@@ -184,7 +184,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
       throw e;
     }
 
-    final data = {
+    final dynamic data = {
       "data": {
         "attributes": {
           "username": _usernameTextfiledController.text,

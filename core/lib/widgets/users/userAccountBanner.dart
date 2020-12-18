@@ -21,8 +21,6 @@ class _UserAccountBannerState extends State<UserAccountBanner> {
         builder: (BuildContext context, UserProvider user, Widget child) =>
             GestureDetector(
           child: Container(
-            decoration: BoxDecoration(
-                color: DiscuzApp.themeOf(context).backgroundColor),
             padding: const EdgeInsets.all(10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,

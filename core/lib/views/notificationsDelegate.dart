@@ -16,7 +16,6 @@ import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/models/typeUnreadNotificationsModel.dart';
 import 'package:core/utils/buildInfo.dart';
 import 'package:core/views/nofitications/notificationListDelegate.dart';
-import 'package:core/utils/global.dart';
 import 'package:core/providers/userProvider.dart';
 
 class NotificationsDelegate extends StatefulWidget {
@@ -158,7 +157,6 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   ///
   Widget _notificationsSelection({_NotificationMenuItem item}) => Container(
         decoration: BoxDecoration(
-            border: const Border(bottom: Global.border),
             color: DiscuzApp.themeOf(context).backgroundColor),
         child: Column(
           children: <Widget>[

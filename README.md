@@ -17,7 +17,7 @@ https://www.clodra.com
 注意，当您使用这份代码生成APP时，需要保证您使用的后端版本与下面标注的API适配版本标注一致。否则将无法正常运行。  
 Discuz! Q RC v2.1.201113
 
-Gitee同步仓库： https://gitee.com/virszhang/discuz-q-flutter
+Gitee同步仓库： https://gitee.com/virszhang/discuz-q-flutter  
 Android体验版(可能不是最新版): https://clodra-app-1257658779.cos.ap-beijing.myqcloud.com/dl/discuzq/DiscuzQ1.0.3%2B67.apk
 
 我们的review于11月26日开始  

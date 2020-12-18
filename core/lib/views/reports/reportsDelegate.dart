@@ -11,6 +11,7 @@ import 'package:core/widgets/common/discuzTextfiled.dart';
 import 'package:core/widgets/common/discuzToast.dart';
 import 'package:core/api/reports.dart';
 import 'package:core/models/userModel.dart';
+import 'package:core/widgets/common/discuzFormContainer.dart';
 
 enum ReportType {
   ///
@@ -122,43 +123,46 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
           title: '投诉举报',
           brightness: Brightness.light,
         ),
-        body: ListView(
-          padding: kBodyPaddingAll,
-          children: <Widget>[
-            const DiscuzText(
-              '请选择原因：',
-              fontWeight: FontWeight.bold,
-            ),
-            const SizedBox(height: 15),
-            ..._presetReasons
-                .map((String item) => RadioListTile(
-                      groupValue: _selectedReason,
-                      title: DiscuzText(item),
-                      value: item,
-                      dense: true,
-                      onChanged: (String val) {
-                        print(val);
-                        setState(() {
-                          _selectedReason = val;
-                        });
-                      },
-                    ))
-                .toList(),
-            const DiscuzText(
-              '详细的描述：',
-              fontWeight: FontWeight.bold,
-            ),
-            const SizedBox(height: 15),
-            _reasonEditor(),
-            DiscuzButton(
-              label: '提交',
-              onPressed: _submitReport,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const DiscuzText(_kReportNotice)
-          ],
+        body: DiscuzFormContainer(
+          padding: EdgeInsets.zero,
+          child: ListView(
+            padding: kBodyPaddingAll,
+            children: <Widget>[
+              const DiscuzText(
+                '请选择原因：',
+                fontWeight: FontWeight.bold,
+              ),
+              const SizedBox(height: 15),
+              ..._presetReasons
+                  .map((String item) => RadioListTile(
+                        groupValue: _selectedReason,
+                        title: DiscuzText(item),
+                        value: item,
+                        dense: true,
+                        onChanged: (String val) {
+                          print(val);
+                          setState(() {
+                            _selectedReason = val;
+                          });
+                        },
+                      ))
+                  .toList(),
+              const DiscuzText(
+                '详细的描述：',
+                fontWeight: FontWeight.bold,
+              ),
+              const SizedBox(height: 15),
+              _reasonEditor(),
+              DiscuzButton(
+                label: '提交',
+                onPressed: _submitReport,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              const DiscuzText(_kReportNotice)
+            ],
+          ),
         ),
       );
 

@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 
 import 'package:core/utils/debouncer.dart';
-import 'package:core/utils/global.dart';
+import 'package:core/widgets/common/discuzFormContainer.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/common/discuzButton.dart';
 import 'package:core/widgets/common/discuzText.dart';
@@ -67,8 +67,10 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
         title: '编辑个性签名',
         brightness: Brightness.light,
       ),
-      body: Padding(
-          padding: kBodyPaddingAll,
+      body: DiscuzFormContainer(
+          //padding: kBodyPaddingAll,
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
           child: Column(
             children: <Widget>[
               _UserSignatureNoticeBar(
@@ -89,6 +91,8 @@ class _UserSignatureDelegateState extends State<UserSignatureDelegate> {
         maxLength: _kSignatureLength,
         controller: _controller,
         contentPadding: const EdgeInsets.all(0),
+        borderWidth: 0,
+        borderColor: Colors.transparent,
         onChanged: (String val) {
           /// 为了减少setState带来的性能损耗，所以使用debouncer减少rebuild
           _debouncer.run(() {

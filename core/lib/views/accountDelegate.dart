@@ -23,6 +23,7 @@ import 'package:core/widgets/share/shareApp.dart';
 import 'package:core/widgets/users/userAccountBanner.dart';
 import 'package:core/router/routers.dart';
 import 'package:core/providers/userProvider.dart';
+import 'package:core/widgets/common/discuzButton.dart';
 
 class AccountDelegate extends StatefulWidget {
   const AccountDelegate({Key key}) : super(key: key);
@@ -35,31 +36,17 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
   final List<_AccountMenuItem> _menus = [
     const _AccountMenuItem(
-        label: '我的资料',
-        icon: 0xe6a9,
-        child: const ProfileDelegate()),
+        label: '我的资料', icon: 0xe78e, child: const ProfileDelegate()),
     // const _AccountMenuItem(
     //     label: '我的钱包',
     //     icon: CupertinoIcons.money_yen_circle,
     //     child: const WalletDelegate()),
     const _AccountMenuItem(
-        label: '我的收藏', icon: 0xe699, child: const MyCollectionDelegate()),
+        label: '我的收藏', icon: 0xe7b7, child: const MyCollectionDelegate()),
     const _AccountMenuItem(
-        label: '我的关注', icon: 0xe694, child: const FollowingDelegate()),
+        label: '我的关注', icon: 0xe7aa, child: const FollowingDelegate()),
     const _AccountMenuItem(
-        label: '黑名单', icon: 0xe6b6, child: const BlackListDelegate()),
-
-    /// 请求退出账户
-    _AccountMenuItem(
-        label: '退出登录',
-        showDivider: false,
-        method: ({BuildContext context}) =>
-            DiscuzDialog.confirm(
-                context: context,
-                title: '提示',
-                message: '是否退出登录？',
-                onConfirm: () => AuthHelper.logout(context: context)),
-        icon: 0xe6d0),
+        label: '黑名单', icon: 0xe7ac, child: const BlackListDelegate()),
   ];
 
   @override
@@ -83,44 +70,48 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
   @override
   Widget build(BuildContext context) => Consumer<UserProvider>(
-        builder: (BuildContext context, UserProvider user, Widget child) => Scaffold(
-                appBar: DiscuzAppBar(
-                  title: '个人中心',
-                  brightness: Brightness.light,
-                  actions: <Widget>[
-                    const _ShareAppButton(),
-                    const _SettingButton()
-                  ],
-                  backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
-                ),
-                body: user.user == null
-                    ? const YetNotLogon()
-                    : DiscuzRefresh(
-                        controller: _controller,
-                        enablePullDown: true,
-                        onRefresh: () async {
-                          await AuthHelper.refreshUser(
-                              context: context);
-                          _controller.refreshCompleted();
-                        },
-                        child: ListView(
-                          padding: EdgeInsets.zero,
-                          children: <Widget>[
-                            /// 构造登录信息页
-                            const UserAccountBanner(),
+      builder: (BuildContext context, UserProvider user, Widget child) =>
+          Scaffold(
+            appBar: DiscuzAppBar(
+              title: '个人中心',
+              brightness: Brightness.light,
+              actions: <Widget>[
+                const _ShareAppButton(),
+                const _SettingButton()
+              ],
+            ),
+            body: user.user == null
+                ? const YetNotLogon()
+                : DiscuzRefresh(
+                    controller: _controller,
+                    enablePullDown: true,
+                    onRefresh: () async {
+                      await AuthHelper.refreshUser(context: context);
+                      _controller.refreshCompleted();
+                    },
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        /// 构造登录信息页
+                        const UserAccountBanner(),
 
-                            /// 菜单构造
+                        /// 菜单构造
 
-                            Container(
-                              margin: const EdgeInsets.only(top: 20),
-                              child: Column(
-                                children: _buildMenus(),
-                              ),
-                            )
-                          ],
+                        Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          child: Column(
+                            children: _buildMenus(),
+                          ),
                         ),
-                      ),
-              ));
+
+                        Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 10, top: 20),
+                            child: _LogoutButton())
+                      ],
+                    ),
+                  ),
+          ));
 
   ///
   /// 生成个人中心滑动菜单
@@ -134,7 +125,10 @@ class _AccountDelegateState extends State<AccountDelegate> {
               children: <Widget>[
                 DiscuzListTile(
                   title: DiscuzText(el.label),
-                  leading: DiscuzIcon(el.icon, size: 28,),
+                  leading: DiscuzIcon(
+                    el.icon,
+                    size: 28,
+                  ),
 
                   /// 如果item中设置了运行相关的方法，则运行相关的方法，如果有child的话则在路由中打开
                   onTap: () => el.method != null
@@ -149,6 +143,22 @@ class _AccountDelegateState extends State<AccountDelegate> {
             ),
           ))
       .toList();
+}
+
+/// 退出按钮
+class _LogoutButton extends StatelessWidget {
+  const _LogoutButton();
+  @override
+  Widget build(BuildContext context) {
+    return DiscuzButton(
+      label: "退出",
+      onPressed: () async => await DiscuzDialog.confirm(
+          context: context,
+          title: '提示',
+          message: '是否退出登录？',
+          onConfirm: () => AuthHelper.logout(context: context)),
+    );
+  }
 }
 
 ///
@@ -175,7 +185,8 @@ class _ShareAppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<UserProvider>(
-        builder: (BuildContext context, UserProvider user, Widget child) => IconButton(
+      builder: (BuildContext context, UserProvider user, Widget child) =>
+          IconButton(
             icon: DiscuzIcon(CupertinoIcons.square_arrow_up,
                 color: DiscuzApp.themeOf(context).textColor),
             onPressed: () => ShareApp.show(context: context, user: user.user),

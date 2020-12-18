@@ -90,7 +90,7 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
                 color: selectedIndex == index
                     ? Theme.of(context).primaryColor
                     :const Color(0xFF657786),
-                    fontSize: DiscuzApp.themeOf(context).smallTextSize,
+                    fontSize: DiscuzApp.themeOf(context).miniTextSize,
               )
             ],
           ),

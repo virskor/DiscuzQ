@@ -37,6 +37,7 @@ class _FollowingDelegateState extends State<FollowingDelegate> {
   Widget build(BuildContext context) => Scaffold(
         appBar: DiscuzAppBar(
           title: '我的关注',
+          brightness: Brightness.light,
         ),
         body: SingleChildScrollView(
           child: SettingGroupWrapper(

@@ -56,8 +56,6 @@ class BlackListAPI {
   // List all users
   Future<Response> list(CancelToken cancelToken,
       {@required int uid, int pageNumber}) async {
-    final Function close = DiscuzToast.loading();
-
     final String url = '${Urls.users}/${uid.toString()}/deny';
 
     try {
@@ -65,11 +63,8 @@ class BlackListAPI {
           .getUrl(cancelToken, url: url, queryParameters: {
         "page[number]": pageNumber ?? 1,
       });
-
-      close();
       return Future.value(resp);
     } catch (e) {
-      close();
       throw e;
     }
   }

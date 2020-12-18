@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:core/api/users.dart';
-import 'package:core/utils/global.dart';
+import 'package:core/widgets/common/discuzFormContainer.dart';
 import 'package:core/widgets/appbar/appbarExt.dart';
 import 'package:core/widgets/common/discuzButton.dart';
 import 'package:core/widgets/common/discuzTextfiled.dart';
@@ -47,24 +47,39 @@ class _UserPasswordModifyState extends State<UserPasswordModify> {
         body: _buildBody(),
       );
 
-  Widget _buildBody() => Padding(
-        padding: kBodyPaddingAll,
+  Widget _buildBody() => DiscuzFormContainer(
+        //padding: kBodyPaddingAll,
+        padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 10,
+            bottom: 10
+          ),
         child: Column(
           children: <Widget>[
             DiscuzTextfiled(
               controller: _passwordController,
               placeHolder: '请输入旧密码',
               obscureText: true,
+              borderWidth: 0,
+              label: "旧密码",
+              borderColor: Colors.transparent,
             ),
             DiscuzTextfiled(
               controller: _newPasswordController,
               placeHolder: '请输入新密码',
               obscureText: true,
+              borderWidth: 0,
+              label: "新密码",
+              borderColor: Colors.transparent,
             ),
             DiscuzTextfiled(
               controller: _newPasswordConfirmationController,
               placeHolder: '请再次确认新密码',
               obscureText: true,
+              borderWidth: 0,
+              label: "再确认",
+              borderColor: Colors.transparent,
             ),
             const SizedBox(height: 20),
             DiscuzButton(
