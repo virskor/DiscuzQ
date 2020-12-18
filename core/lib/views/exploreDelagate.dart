@@ -1,3 +1,4 @@
+import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/widgets/search/customSearchDelegate.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,7 @@ class _ExploreDelegateState extends State<ExploreDelegate>
             shrinkWrap: true,
             children: <Widget>[
               DiscuzListTile(
+                leading: const DiscuzIcon(0xe69b),
                 title: const DiscuzText(
                   '搜索主题',
                 ),
@@ -69,6 +71,7 @@ class _ExploreDelegateState extends State<ExploreDelegate>
                         type: DiscuzAppSearchType.thread)),
               ),
               DiscuzListTile(
+                leading: const DiscuzIcon(0xe6e7),
                 title: const DiscuzText(
                   '搜索用户',
                 ),
@@ -78,6 +81,7 @@ class _ExploreDelegateState extends State<ExploreDelegate>
                         type: DiscuzAppSearchType.user)),
               ),
               DiscuzListTile(
+                leading: const DiscuzIcon(0xe8b1),
                 title: const DiscuzText(
                   '话题',
                 ),

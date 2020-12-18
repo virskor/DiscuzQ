@@ -1,3 +1,4 @@
+import 'package:core/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,6 +7,33 @@ import 'package:core/widgets/common/discuzIcon.dart';
 import 'package:core/utils/debouncer.dart';
 
 class DiscuzTextfiled extends StatelessWidget {
+  DiscuzTextfiled(
+      {Key key,
+      this.maxLines = 1,
+      this.placeHolder = '',
+      this.controller,
+      this.contentPadding,
+      this.fontSize,
+      this.autofocus = false,
+      this.autocorrect = false,
+      this.onChanged,
+      this.focusNode,
+      this.bottomMargin = 10,
+      this.prefixIcon,
+      this.color,
+      this.onSubmit,
+      this.removeBottomMargin = false,
+      this.maxLength = 60,
+      this.borderWidth = 2,
+      this.borderColor,
+      this.label,
+      this.clearable = false,
+      this.inputType = TextInputType.text,
+      this.textInputAction = TextInputAction.done,
+      this.obscureText = false,
+      this.onClear,
+      this.validator});
+
   ///
   /// 提交时校验的函数
   final Function validator;
@@ -110,33 +138,10 @@ class DiscuzTextfiled extends StatelessWidget {
   /// 默认 false
   final bool autocorrect;
 
-  final Debouncer _debouncer = Debouncer(milliseconds: 400);
+  /// 左侧标签
+  final String label;
 
-  DiscuzTextfiled(
-      {Key key,
-      this.maxLines = 1,
-      this.placeHolder = '',
-      this.controller,
-      this.contentPadding,
-      this.fontSize,
-      this.autofocus = false,
-      this.autocorrect = false,
-      this.onChanged,
-      this.focusNode,
-      this.bottomMargin = 10,
-      this.prefixIcon,
-      this.color,
-      this.onSubmit,
-      this.removeBottomMargin = false,
-      this.maxLength = 60,
-      this.borderWidth = 2,
-      this.borderColor,
-      this.clearable = false,
-      this.inputType = TextInputType.text,
-      this.textInputAction = TextInputAction.done,
-      this.obscureText = false,
-      this.onClear,
-      this.validator});
+  final Debouncer _debouncer = Debouncer(milliseconds: 400);
 
   @override
   Widget build(BuildContext context) => Container(
@@ -148,70 +153,82 @@ class DiscuzTextfiled extends StatelessWidget {
           data: ThemeData(
               textTheme: TextTheme(
                   subtitle1: TextStyle(textBaseline: TextBaseline.alphabetic))),
-          child: TextFormField(
-            controller: controller,
-            validator: validator,
-            autofocus: autofocus,
-            focusNode: focusNode,
-            keyboardAppearance: Brightness.dark,
-            textInputAction: textInputAction,
-            keyboardType: inputType,
-            obscureText: obscureText,
-            maxLines: maxLines,
-            onChanged: (val) {
-              if(onChanged == null){
-                return;
-              }
-              _debouncer.run(() {
-                onChanged(val);
-              });
-            },
-            onFieldSubmitted: onSubmit,
-            maxLength: maxLength,
-            showCursor: true,
-            enableSuggestions: false,
-            autocorrect: autocorrect,
-            decoration: InputDecoration(
-                prefixIcon: prefixIcon == null
-                    ? null
-                    : Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: prefixIcon,
-                      ),
+          child: Row(
+            children: [
+              label == null ? const SizedBox() : DiscuzText("$label:"),
+              Expanded(
+                  child: TextFormField(
+                controller: controller,
+                validator: validator,
+                autofocus: autofocus,
+                focusNode: focusNode,
+                keyboardAppearance: Brightness.dark,
+                textInputAction: textInputAction,
+                keyboardType: inputType,
+                obscureText: obscureText,
+                maxLines: maxLines,
+                onChanged: (val) {
+                  if (onChanged == null) {
+                    return;
+                  }
+                  _debouncer.run(() {
+                    onChanged(val);
+                  });
+                },
+                onFieldSubmitted: onSubmit,
+                maxLength: maxLength,
+                showCursor: true,
+                enableSuggestions: false,
+                autocorrect: autocorrect,
+                decoration: InputDecoration(
+                    prefixIcon: prefixIcon == null
+                        ? null
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: prefixIcon,
+                          ),
 
-                /// 显示清除按钮
-                suffixIcon:
-                    clearable == false ? null : _clearable(context: context),
-                hintText: placeHolder,
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize:
-                      fontSize ?? DiscuzApp.themeOf(context).normalTextSize,
-                ),
-                contentPadding: contentPadding == null
-                    ? const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10)
-                    : contentPadding,
-                enabledBorder: UnderlineInputBorder(
-                  borderRadius: const BorderRadius.all(Radius.circular(0)),
-                  borderSide: BorderSide(
-                      color: borderColor ?? Theme.of(context).primaryColor,
-                      width: borderWidth),
-                ),
-                counterText: "",
-                border: InputBorder.none,
-                errorBorder: UnderlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(0)),
-                    borderSide: BorderSide(
-                        color: Theme.of(context).errorColor,
-                        width: borderWidth)),
-                focusedBorder: UnderlineInputBorder(
-                    borderRadius: const BorderRadius.all(Radius.circular(0)),
-                    borderSide: BorderSide(
-                        color: borderColor ?? Theme.of(context).primaryColor,
-                        width: borderWidth))),
-            style: TextStyle(
-                fontSize: fontSize ?? DiscuzApp.themeOf(context).normalTextSize,
-                color: DiscuzApp.themeOf(context).textColor),
+                    /// 显示清除按钮
+                    suffixIcon: clearable == false
+                        ? null
+                        : _clearable(context: context),
+                    hintText: placeHolder,
+                    hintStyle: TextStyle(
+                      color: Colors.grey,
+                      fontSize:
+                          fontSize ?? DiscuzApp.themeOf(context).normalTextSize,
+                    ),
+                    contentPadding: contentPadding == null
+                        ? const EdgeInsets.symmetric(
+                            vertical: 5.0, horizontal: 10)
+                        : contentPadding,
+                    enabledBorder: UnderlineInputBorder(
+                      borderRadius: const BorderRadius.all(Radius.circular(0)),
+                      borderSide: BorderSide(
+                          color: borderColor ?? Theme.of(context).primaryColor,
+                          width: borderWidth),
+                    ),
+                    counterText: "",
+                    border: InputBorder.none,
+                    errorBorder: UnderlineInputBorder(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(0)),
+                        borderSide: BorderSide(
+                            color: Theme.of(context).errorColor,
+                            width: borderWidth)),
+                    focusedBorder: UnderlineInputBorder(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(0)),
+                        borderSide: BorderSide(
+                            color:
+                                borderColor ?? Theme.of(context).primaryColor,
+                            width: borderWidth))),
+                style: TextStyle(
+                    fontSize:
+                        fontSize ?? DiscuzApp.themeOf(context).normalTextSize,
+                    color: DiscuzApp.themeOf(context).textColor),
+              ))
+            ],
           ),
         ),
       );

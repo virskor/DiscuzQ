@@ -265,7 +265,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 弹出用户隐私提示
   void _userPrivaciesNotice() {
     final dynamic appConf = context.read<AppConfigProvider>().appConf;
-    if (appConf['confrimedPrivacy'] != true) {
+    if (appConf['confrimedPrivacy'] != null && appConf['confrimedPrivacy'] == false) {
       showModalBottomSheet(
           context: context,
           isDismissible: false,

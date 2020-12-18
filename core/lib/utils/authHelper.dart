@@ -11,8 +11,7 @@ import 'package:core/utils/request/request.dart';
 import 'package:core/utils/request/urls.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:core/providers/userProvider.dart';
-
-import '../models/userModel.dart';
+import 'package:core/router/route.dart';
 
 class AuthHelper {
   /// pop login delegate
@@ -37,15 +36,7 @@ class AuthHelper {
     if (context.read<UserProvider>().hadLogined) {
       return Future.value(true);
     }
-
-    await showCupertinoModalBottomSheet(
-        expand: true,
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (BuildContext context) => CupertinoPageScaffold(
-              resizeToAvoidBottomInset: false,
-              child: const LoginDelegate(),
-            ));
+    await DiscuzRoute.navigate(context: context, widget: const LoginDelegate());
 
     return Future.value(success);
   }
