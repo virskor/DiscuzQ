@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -9,6 +11,8 @@ import 'package:core/widgets/settings/clearCache.dart';
 import 'package:core/utils/buildInfo.dart';
 import 'package:core/widgets/webview/webviewHelper.dart';
 import 'package:core/utils/global.dart';
+import 'package:core/widgets/update/upgrader.dart';
+import 'package:core/widgets/events/globalEvents.dart';
 
 class PreferencesDelegate extends StatefulWidget {
   const PreferencesDelegate({Key key}) : super(key: key);
@@ -90,6 +94,12 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
             SettingGroupWrapper(
               label: '信息',
               children: <Widget>[
+                Platform.isAndroid
+                    ? Upgrader(
+                        child: SettingTile(
+                            icon: 0xe80d, label: '获取新版', onPressed: () => eventBus.fire(const WantUpgradeAppVersion())),
+                        isManual: true)
+                    : const SizedBox(),
                 SettingTile(
                     icon: CupertinoIcons.info_circle,
                     label: '关于APP',

@@ -4,7 +4,6 @@ import 'package:flutter_bugly/flutter_bugly.dart';
 
 import 'package:core/utils/bugly.dart';
 import 'package:core/widgets/events/globalEvents.dart';
-
 import 'package:core/widgets/common/discuzDialog.dart';
 import 'package:core/widgets/webview/webviewHelper.dart';
 
@@ -14,6 +13,7 @@ class Upgrader extends StatefulWidget {
 
   final Widget child;
 
+  /// 是否为用户手动操作
   final bool isManual;
   @override
   _UpgraderState createState() => _UpgraderState();
