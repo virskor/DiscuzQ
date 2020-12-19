@@ -21,7 +21,6 @@ class BuglyResultInfo {
 class DiscuzBugly {
   /// 初始化
   static Future<BuglyResultInfo> init() async {
-
     if (BuildInfo().info().bugly == null) {
       return Future.value(
           BuglyResultInfo(message: "未配置", appId: "", isSuccess: false));
@@ -31,7 +30,6 @@ class DiscuzBugly {
       return Future.value(BuglyResultInfo(
           message: "开发环境不启用Bugly", appId: "", isSuccess: false));
     }
-    
 
     final result = await FlutterBugly.init(
       androidAppId: BuildInfo().info().bugly['Android'],

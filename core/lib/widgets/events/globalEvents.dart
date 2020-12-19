@@ -7,7 +7,7 @@ EventBus eventBus = EventBus();
 
 /// 用户手动点击更新事件
 class WantUpgradeAppVersion {
-  WantUpgradeAppVersion();
+  const WantUpgradeAppVersion();
 }
 
 /// 发布评论后将发布的评论加入评论列表
