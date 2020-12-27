@@ -17,11 +17,14 @@ class ForumProvider with ChangeNotifier, DiagnosticableTreeMixin {
 
   /// todo: 是否开启腾讯云验证码
   ///
-  bool get isCaptchaEnabled => forum.attributes.qcloud.qCloudCaptcha ?? false;
+  bool get isCaptchaEnabled => _forum == null
+      ? false
+      : (_forum.attributes.qcloud.qCloudCaptcha ?? false);
 
   /// todo: 是否开启腾讯短信验证码
   ///
-  bool get isSMSEnabled => forum.attributes.qcloud.qCloudSMS ?? false;
+  bool get isSMSEnabled =>
+      _forum == null ? false : (_forum.attributes.qcloud.qCloudSMS ?? false);
 
   /// todo: 是否启用腾讯云LBS
   ///
