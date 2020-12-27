@@ -1,9 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/models/captchaModel.dart';
+import 'package:discuzq/providers/forumProvider.dart';
+import 'package:discuzq/models/forumModel.dart';
+import 'package:discuzq/widgets/captcha/tencentCloudCaptcha.dart';
 
 enum MobileVerifyTypes {
   ///
@@ -33,8 +38,8 @@ enum MobileVerifyTypes {
 
 ///
 /// 短信验证服务
-class DiscuzSMS {
-  const DiscuzSMS({@required this.context});
+class SMSApi {
+  const SMSApi({@required this.context});
 
   final BuildContext context;
 
@@ -62,20 +67,55 @@ class DiscuzSMS {
   Future<bool> send(
       {@required String mobile,
       MobileVerifyTypes type = MobileVerifyTypes.login}) async {
+    dynamic data = {
+      "mobile": mobile,
+      "type": _mapMobileVerifyTypesString(type)
+    };
+
+    /// 校验是否开启腾讯云验证码，如果开启则需要先获取
+    ///
+    /// 启用腾讯云验证码
+    /// 初始化时 null
+    /// 注意，回复的时候，不需要传入验证码
+    CaptchaModel captchaCallbackData;
+    try {
+      final ForumModel forum = context.read<ForumProvider>().forum;
+
+      /// 回复的时候不需要验证码
+      ///
+      ///
+      /// 仅支持 开启腾讯云验证码的用户调用
+      ///
+      if (context.read<ForumProvider>().isCaptchaEnabled) {
+        captchaCallbackData = await TencentCloudCaptcha.show(
+            context: context,
+
+            ///
+            /// 传入appID 进行替换，否则无法正常完成验证
+            appID: forum.attributes.qcloud.qCloudCaptchaAppID);
+        if (captchaCallbackData == null) {
+          DiscuzToast.failed(context: context, message: '验证失败');
+          return Future.value(false);
+        }
+
+        data.addAll({
+          "captcha_rand_str":
+              captchaCallbackData == null ? "" : captchaCallbackData.randSTR,
+          "captcha_ticket":
+              captchaCallbackData == null ? "" : captchaCallbackData.ticket,
+        });
+      }
+    } catch (e) {
+      throw e;
+    }
+
     final Function close = DiscuzToast.loading();
 
     try {
-      final dynamic data = {
-        "data": {
-          "attributes": {
-            "mobile": mobile,
-            "type": _mapMobileVerifyTypesString(type)
-          }
-        }
-      };
-
       final Response resp = await Request(context: context)
-          .postJson(null, url: "${Urls.sms}/send", data: data);
+          .postJson(null, url: "${Urls.sms}/send", data: {
+        "data": {"attributes": data}
+      });
 
       close();
 
@@ -122,10 +162,10 @@ class DiscuzSMS {
       ///
       /// inviteCode
       /// 类型为 login 时 可传邀请码进行邀请注册
-      String password,
-      payPassword,
-      payPasswordConfirmation,
-      inviteCode}) async {
+      String password = "",
+      String payPassword = "",
+      String payPasswordConfirmation = "",
+      String inviteCode = ""}) async {
     ///
     /// 校验数据完整
     if (type == MobileVerifyTypes.resetPWD && password.isEmpty) {
@@ -185,28 +225,20 @@ class DiscuzSMS {
       attributes.addAll({"inviteCode": inviteCode});
     }
 
-    final dynamic data = {
-      "data": {"attributes": attributes}
-    };
-
-    /// loading
-    final Function close = DiscuzToast.loading();
-
-    /// 发送
+    /// 校验
     try {
       final Response resp = await Request(context: context)
-          .postJson(null, url: "${Urls.sms}/verify", data: data);
-
-      close();
+          .postJson(null, url: "${Urls.sms}/verify", data: {
+        "data": {"attributes": attributes}
+      });
 
       if (resp == null) {
         return Future.value(null);
       }
 
-      return Future.value(resp.data['data']);
+      return Future.value(resp.data);
     } catch (e) {
-      close();
-      throw e;
+      return Future.value(null);
     }
   }
 }

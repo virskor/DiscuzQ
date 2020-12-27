@@ -39,6 +39,22 @@ class UsersAPI {
     return Future.value(resp.data['data']);
   }
 
+  /// getUser by response
+  Future<Response> getUser(CancelToken cancelToken, {@required dynamic uid}) async {
+    Response resp = await Request(context: context).getUrl(
+      cancelToken,
+      url: "${Urls.users}/${uid.toString()}",
+    );
+
+    ///
+    /// 错误时直接返回
+    if (resp == null) {
+      return Future.value(null);
+    }
+
+    return Future.value(resp);
+  }
+
   ///
   /// 异步的请求用户的信息，以覆盖现有的用户信息
   /// 同时更新用户组信息

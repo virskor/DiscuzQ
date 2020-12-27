@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:dio/dio.dart';
 
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
@@ -61,16 +60,6 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
     super.dispose();
   }
 
-  // Widget build(BuildContext context) => ScopedStateModelDescendant<AppState>(
-  //     rebuildOnChange: false,
-  //     builder: (context, child, state) => Scaffold(
-  //           appBar: DiscuzAppBar(
-  //             title: '注册',
-  //           ),
-  //           backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-  //           body: _buildRegisterForm(state),
-  //         ));
-
   Widget build(BuildContext context) => Scaffold(
         appBar: DiscuzAppBar(
           title: '注册',
@@ -107,6 +96,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
             placeHolder: '请输入用户名',
             borderWidth: .2,
             borderColor: const Color(0x3F000000),
+            label: "用户名",
           ),
 
           /// password textfiled
@@ -116,6 +106,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
             borderWidth: .2,
             borderColor: const Color(0x3F000000),
             obscureText: true,
+            label: "密码",
           ),
 
           const SizedBox(height: 20),
@@ -127,11 +118,11 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
           ),
 
           /// or register an account????
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           DiscuzButton(
             label: '已经有账号，返回登录',
-            labelColor: DiscuzApp.themeOf(context).primaryColor,
-            color: Colors.transparent,
+            labelColor: Colors.white,
+            color: Colors.blueGrey.withOpacity(.43),
             onPressed: () => Navigator.pop(context),
           ),
 
@@ -168,7 +159,7 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
       ///
       /// 仅支持 开启腾讯云验证码的用户调用
       ///
-      if (forum.attributes.qcloud.qCloudCaptcha) {
+      if (context.read<ForumProvider>().isCaptchaEnabled) {
         captchaCallbackData = await TencentCloudCaptcha.show(
             context: context,
 

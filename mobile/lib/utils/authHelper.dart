@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/api/users.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +26,7 @@ class AuthHelper {
           ));
 
   /// requst login dialog and waiting for login result
-  static Future<bool> requsetShouldLogin(
-      {BuildContext context}) async {
+  static Future<bool> requsetShouldLogin({BuildContext context}) async {
     bool success = false;
 
     ///
@@ -66,7 +66,8 @@ class AuthHelper {
 
     final String urlDataUrl =
         "${Urls.users}/${context.read<UserProvider>().user.attributes.id.toString()}";
-    Response resp = await Request(context: context).getUrl(null, url: urlDataUrl);
+    Response resp =
+        await Request(context: context).getUrl(null, url: urlDataUrl);
 
     if (resp == null) {
       return Future.value(false);
@@ -88,10 +89,8 @@ class AuthHelper {
       if (user == null) {
         return;
       }
-      
-      context
-          .read<UserProvider>()
-          .updateUser(UserModel.fromMap(maps: user));
+
+      context.read<UserProvider>().updateUser(UserModel.fromMap(maps: user));
     } catch (e) {
       throw e;
     }
@@ -103,7 +102,6 @@ class AuthHelper {
   ///
   static Future<void> processLoginByResponseData(dynamic response,
       {@required BuildContext context}) async {
-    
     ///
     /// 读取accessToken
     ///
@@ -123,10 +121,27 @@ class AuthHelper {
     ///
     /// 读取用户信息
     ///
-    final List<dynamic> included = response['included'];
-    
-    final dynamic user =
-        included.firstWhere((it) => it['type'] == "users");
+    final List<dynamic> included =
+        response['included'] ?? response['data']['included'];
+    dynamic user;
+
+    try {
+      if (included != null) {
+        user = included.firstWhere((it) => it['type'] == "users");
+      }
+    } catch (e) {
+      print(e);
+    }
+
+    /// 直接从接口获取
+    if (user == null) {
+      Response resp = await UsersAPI(context: context)
+          .getUser(null, uid: response['data']['id']);
+
+      if (resp != null) {
+        user = resp.data['data'];
+      }
+    }
 
     ///
     /// 存储accessToken
@@ -135,8 +150,7 @@ class AuthHelper {
     /// 所以要清除token 和用户信息存储，在回调处理中在进行更新用户信息的Process提示
     /// 我不想写update逻辑，就这样简单粗暴无bug多完美？
     ///
-    await AuthorizationHelper()
-        .clear();
+    await AuthorizationHelper().clear();
 
     /// 保存token
     await AuthorizationHelper()
