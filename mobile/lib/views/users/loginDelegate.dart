@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/api/sms.dart';
-import 'package:discuzq/widgets/sms/sendSMSField.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +6,8 @@ import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/common/discuzButton.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/common/discuzTextfiled.dart';
-import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/api/sms.dart';
+import 'package:discuzq/widgets/sms/sendSMSField.dart';
 import 'package:discuzq/widgets/common/discuzFormContainer.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/users/registerDelegate.dart';
@@ -47,7 +46,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
   String _code = "";
 
   /// 登录按钮标题
-  String get _loginButtonLabel => _enableSMSlogin ? "验证码登录" : "用户名登录";
+  String get _loginCaption => _enableSMSlogin ? "验证码登录" : "用户名登录";
 
   @override
   void setState(fn) {
@@ -100,13 +99,13 @@ class _LoginDelegateState extends State<LoginDelegate> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    const DiscuzText(
-                      '用户名登录',
+                    DiscuzText(
+                      _loginCaption,
                       textScaleFactor: 1.8,
                       fontWeight: FontWeight.bold,
                     ),
                     DiscuzText(
-                      '现在登录${Global.appname}分享瞬间吧',
+                      '您将使用$_loginCaption',
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -174,7 +173,7 @@ class _LoginDelegateState extends State<LoginDelegate> {
 
                 /// login button
                 DiscuzButton(
-                  label: _loginButtonLabel,
+                  label: _loginCaption,
                   onPressed: _requestLogin,
                 ),
 

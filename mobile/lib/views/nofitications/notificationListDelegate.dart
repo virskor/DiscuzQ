@@ -238,12 +238,14 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      DiscuzLink(
-                          label: '查看帖子',
-                          onTap: () => ThreadsDetector(context: context)
-                              .showThread(
-                                  threadID: n.attributes.threadID,
-                                  uid: n.attributes.userID)),
+                      widget.type == NotificationTypes.system
+                          ? const SizedBox()
+                          : DiscuzLink(
+                              label: '查看帖子',
+                              onTap: () => ThreadsDetector(context: context)
+                                  .showThread(
+                                      threadID: n.attributes.threadID,
+                                      uid: n.attributes.userID)),
                       DiscuzLink(
                         label: '删除',
                         onTap: () async {
@@ -392,8 +394,7 @@ class NotificationTypes {
 
   ///
   /// 打赏我的
-  static const liked =
-      const NotificationTypesItem(label: '赞我的', type: 'liked');
+  static const liked = const NotificationTypesItem(label: '赞我的', type: 'liked');
 
   ///
   /// 系统消息
