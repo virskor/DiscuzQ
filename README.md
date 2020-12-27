@@ -18,7 +18,7 @@ https://www.clodra.com
 Discuz! Q RC v2.1.201113
 
 Gitee同步仓库： https://gitee.com/virszhang/discuz-q-flutter  
-Android体验版(可能不是最新版): https://clodra-app-1257658779.cos.ap-beijing.myqcloud.com/dl/discuzq/DiscuzQ1.0.3%2B67.apk
+Android体验版(可能不是最新版): https://www.pgyer.com/discuzq
 
 我们的review于11月26日开始  
 ### 计划
