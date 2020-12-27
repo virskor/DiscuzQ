@@ -1,6 +1,7 @@
-import 'package:discuzq/core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import 'package:discuzq/core.dart';
 /*
  * 现在DiscuzQ for Flutter app 核心的组件位于
  * ./packages/core
