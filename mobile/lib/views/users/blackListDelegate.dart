@@ -66,7 +66,7 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 450))
+    Future.delayed(const Duration(milliseconds: 450))
         .then((_) async => await _requestData(pageNumber: 1));
   }
 

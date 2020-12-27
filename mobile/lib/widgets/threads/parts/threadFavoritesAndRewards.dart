@@ -42,7 +42,7 @@ class ThreadFavoritesAndRewards extends StatelessWidget {
     /// 如果点赞和打赏都没有，那么久直接返回 sizedbox 好了
     ///
     if (likedUsers.length == 0 && rewardedUsers.length == 0) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     /// 生成打赏列表

@@ -119,7 +119,7 @@ class _ForumDelegateState extends State<ForumDelegate>
       return Scaffold(
         appBar: PreferredSize(
           child: _tabs,
-          preferredSize: Size.fromHeight(120),
+          preferredSize: const Size.fromHeight(120),
         ),
         body: Column(
           children: <Widget>[

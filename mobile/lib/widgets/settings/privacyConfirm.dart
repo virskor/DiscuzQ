@@ -38,9 +38,9 @@ class PrivacyConfirm extends StatelessWidget {
                   )),
 
               /// Context
-              Padding(
+              const Padding(
                   padding: const EdgeInsets.all(10),
-                  child: DiscuzText(
+                  child: const DiscuzText(
                       "请你务必审慎阅读、充分理解“服务协议”和“隐私政策”各条款，包括但不限于：为了更好的向你提供服务，我们需要收集你的设备标识、操作日志等信息用于分析、优化应用性能。并了解详细信息。如果你同意请点击下面按钮开始接受我们的服务。")),
               Padding(
                   padding: const EdgeInsets.all(10),

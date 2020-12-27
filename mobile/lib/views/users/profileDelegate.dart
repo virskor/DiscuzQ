@@ -54,7 +54,7 @@ class _ProfileDelegateState extends State<ProfileDelegate> {
                   DiscuzListTile(
                     title: const DiscuzText('头像'),
                     trailing: AvatarPicker(
-                      avatar: DiscuzAvatar(
+                      avatar: const DiscuzAvatar(
                         size: 40,
                       ),
                     ),

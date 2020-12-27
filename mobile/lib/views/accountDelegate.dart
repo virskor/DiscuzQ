@@ -104,10 +104,10 @@ class _AccountDelegateState extends State<AccountDelegate> {
                           ),
                         ),
 
-                        Padding(
+                        const Padding(
                             padding: const EdgeInsets.only(
                                 left: 10, right: 10, top: 20),
-                            child: _LogoutButton())
+                            child: const _LogoutButton())
                       ],
                     ),
                   ),

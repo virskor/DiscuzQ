@@ -61,10 +61,10 @@ class ThreadCard extends StatefulWidget {
 class _ThreadCardState extends State<ThreadCard>
     with AutomaticKeepAliveClientMixin {
   /// 当前帖子的作者
-  UserModel _author = UserModel();
+  UserModel _author = const UserModel();
 
   /// firstPost 指定的是主题第一个帖子，其他的是回复
-  PostModel _firstPost = PostModel();
+  PostModel _firstPost = const PostModel();
 
   ///
   /// 是否需要支付才能查看
@@ -79,14 +79,14 @@ class _ThreadCardState extends State<ThreadCard>
     _author = widget.threadsCacher.users.lastWhere((UserModel it) =>
             it.id ==
             int.tryParse(widget.thread.relationships.user['data']['id'])) ??
-        UserModel();
+        const UserModel();
 
     /// 查找firstPost
     _firstPost = widget.threadsCacher.posts.lastWhere((PostModel it) =>
             it.id ==
             int.tryParse(
                 widget.thread.relationships.firstPost['data']['id'])) ??
-        PostModel();
+        const PostModel();
 
     /// 查找附件图片
   }
@@ -202,7 +202,7 @@ class _ThreadCardState extends State<ThreadCard>
               author: _author,
             ),
             Container(
-              padding: EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(top: 10),
               alignment: Alignment.topLeft,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,7 +282,7 @@ class _ThreadCardState extends State<ThreadCard>
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Row(
                         children: <Widget>[
-                          DiscuzText('发布了：'),
+                          const DiscuzText('发布了：'),
                           DiscuzText(
                             widget.thread.attributes.title.length <=
                                     _kFlatTitleLength

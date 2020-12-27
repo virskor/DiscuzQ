@@ -77,7 +77,7 @@ class _PostFloorCardState extends State<PostFloorCard>
     /// post.relationships.user会存在为null的情况，这是因为数据中存在fistPost,但这不是一个回复
     ///
     if (widget.post.relationships.user == null) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     final List<UserModel> user = widget.threadsCacher.users
@@ -107,7 +107,7 @@ class _PostFloorCardState extends State<PostFloorCard>
     ///
     /// 找不到相关用户
     if (user.length == 0 || user == null) {
-      return SizedBox();
+      return const SizedBox();
     }
 
     return Container(
@@ -256,7 +256,7 @@ class _PostFloorCardState extends State<PostFloorCard>
           widget.post.attributes.canEdit
               ? IconButton(
                   padding: const EdgeInsets.only(top: 2),
-                  icon: DiscuzIcon(
+                  icon: const DiscuzIcon(
                     CupertinoIcons.trash,
                     size: 20,
                   ),

@@ -48,7 +48,7 @@ class _UserFollowListTileState extends State<UserFollowListTile> {
 
   ///
   /// 用于存储最新用户状态的
-  UserModel _user = UserModel();
+  UserModel _user = const UserModel();
 
   @override
   void setState(fn) {

@@ -246,7 +246,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
               decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: '点击以输入内容',
-                  contentPadding: EdgeInsets.all(12.0),
+                  contentPadding: const EdgeInsets.all(12.0),
                   hintStyle: TextStyle(
                       color: DiscuzApp.themeOf(context).greyTextColor)),
               style: TextStyle(

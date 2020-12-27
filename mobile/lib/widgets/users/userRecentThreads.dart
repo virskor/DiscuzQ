@@ -89,7 +89,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     ///
     /// 加载数据
     ///
-    Future.delayed(Duration(milliseconds: 450))
+    Future.delayed(const Duration(milliseconds: 450))
         .then((_) async => await _requestData(pageNumber: 1));
   }
 

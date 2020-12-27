@@ -13,7 +13,7 @@ class FloatLoginButton extends StatelessWidget {
   Widget build(BuildContext context) => Consumer<UserProvider>(
           builder: (BuildContext context, UserProvider user, Widget child) {
         if (user.hadLogined) {
-          return SizedBox();
+          return const SizedBox();
         }
         return Center(
           child: SizedBox(

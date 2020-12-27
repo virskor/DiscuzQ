@@ -119,7 +119,7 @@ class _PublishButton extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: _kPublishButtonSize,
         height: _kPublishButtonSize,
-        margin: EdgeInsets.only(top: 4),
+        margin: const EdgeInsets.only(top: 4),
         decoration: BoxDecoration(
             color: DiscuzApp.themeOf(context).primaryColor,
             borderRadius: const BorderRadius.all(const Radius.circular(60))),

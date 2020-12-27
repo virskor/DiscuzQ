@@ -29,7 +29,6 @@ class DiscuzEditorImageUploader extends StatefulWidget {
 }
 
 class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
-  
   final CancelToken _cancelToken = CancelToken();
 
   @override
@@ -88,7 +87,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
       ///
       /// 渲染图片组件
       return Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Wrap(
           children: widgets
               .map<Widget>((e) => SizedBox(
@@ -153,8 +152,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
   /// 进行图片上传并反馈上传结果
   ///
   Future<AttachmentsModel> _uploadImage({@required File file}) async {
-    Response resp = await Request(context: context).uploadFile(
-      _cancelToken,
+    Response resp = await Request(context: context).uploadFile(_cancelToken,
         url: Urls.attachments,
         name: 'file',
 
@@ -198,8 +196,8 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
         child: Container(
           width: _imageSize,
           height: _imageSize,
-          decoration: BoxDecoration(
-            border: Border(
+          decoration: const BoxDecoration(
+            border: const Border(
                 top: Global.border,
                 right: Global.border,
                 left: Global.border,
@@ -213,7 +211,7 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
               /// 图片缩略
               ///
               ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5)),
+                borderRadius: const BorderRadius.all(const Radius.circular(5)),
                 child: Image.network(
                   attachment.attributes.thumbUrl,
                   width: _imageSize,
@@ -234,8 +232,8 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
                   height: 15,
                   child: GestureDetector(
                     child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                      decoration: const BoxDecoration(
+                          borderRadius: const BorderRadius.all(const Radius.circular(50)),
                           color: Colors.white),
                       child: const DiscuzIcon(
                         CupertinoIcons.minus_circle_fill,
@@ -265,10 +263,10 @@ class _DiscuzEditorImageUploaderAddIcon extends StatelessWidget {
     return Container(
       width: _imageSize,
       height: _imageSize,
-      decoration:
-          BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Center(
-        child: DiscuzIcon(Icons.add),
+      decoration: const BoxDecoration(
+          borderRadius: const BorderRadius.all(const Radius.circular(10))),
+      child: const Center(
+        child: const DiscuzIcon(Icons.add),
       ),
     );
   }

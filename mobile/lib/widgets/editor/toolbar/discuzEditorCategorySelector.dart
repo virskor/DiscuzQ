@@ -122,7 +122,7 @@ class _DiscuzEditorCategorySelectorState
 
             ///
             /// 下拉图标
-            DiscuzIcon(Icons.arrow_drop_down),
+            const DiscuzIcon(Icons.arrow_drop_down),
           ],
         ),
         onPressed: () => showModalBottomSheet(
@@ -133,7 +133,7 @@ class _DiscuzEditorCategorySelectorState
                 margin: const EdgeInsets.all(20),
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    borderRadius: const BorderRadius.all(const Radius.circular(15)),
                     color: DiscuzApp.themeOf(context).backgroundColor),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,7 +141,7 @@ class _DiscuzEditorCategorySelectorState
                   children: [
                     Container(
                       padding: const EdgeInsets.all(10),
-                      child: DiscuzText(
+                      child: const DiscuzText(
                         '选择要发布的分类',
                         fontWeight: FontWeight.bold,
                         textScaleFactor: 1.3,

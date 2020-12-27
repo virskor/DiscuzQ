@@ -15,7 +15,7 @@ class Emoji {
         .toList();
 
     if (emoji.length == 0) {
-      return AssetImage("assets/images/errimage.png");
+      return const AssetImage("assets/images/errimage.png");
     }
 
     return CachedNetworkImageProvider(emoji[0].attributes.url);

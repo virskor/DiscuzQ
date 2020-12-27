@@ -56,7 +56,7 @@ class _EmojiSwiperState extends State<EmojiSwiper> {
   Widget build(BuildContext context) {
     return Container(
         height: 200,
-        decoration: BoxDecoration(color: Colors.transparent),
+        decoration: const BoxDecoration(color: Colors.transparent),
         child: Scrollbar(
           child: SingleChildScrollView(
             child: Wrap(

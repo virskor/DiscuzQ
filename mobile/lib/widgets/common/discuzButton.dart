@@ -39,10 +39,10 @@ class DiscuzButton extends StatelessWidget {
       width: width,
       height: height,
       child: ClipRRect(
-        borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5)),
+        borderRadius: borderRadius ?? const BorderRadius.all(const Radius.circular(5)),
         child: FlatButton(
           padding: padding ??
-              EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
+              const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
           color: color ?? DiscuzApp.themeOf(context).primaryColor,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

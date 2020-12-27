@@ -59,7 +59,7 @@ class UserFollowModel {
                 : data['id'],
         type: data['type'] ?? 'user_follow',
         relationships: data['relationships'] == null
-            ? RelationshipsModel()
+            ? const RelationshipsModel()
             : RelationshipsModel.fromMap(maps: data['relationships']),
         attributes: data['attributes'] == null
             ? const UserFollowAttributesModel()

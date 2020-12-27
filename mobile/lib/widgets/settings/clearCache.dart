@@ -12,7 +12,7 @@ class ClearCacheDialog {
   static Future<bool> build({BuildContext context}) {
     return showCupertinoModalPopup(
         context: context,
-        builder: (BuildContext context) => Material(
+        builder: (BuildContext context) => const Material(
           color: Colors.transparent,
               child: const ClearCache(),
             ));
@@ -113,7 +113,7 @@ class _ClearCacheState extends State<ClearCache> {
               Theme.of(context).primaryColor.withOpacity(.66),
               Theme.of(context).primaryColor.withOpacity(.46),
             ]),
-            style: TextStyle(
+            style: const TextStyle(
                 textBaseline: TextBaseline.ideographic,
                 fontSize: 40,
                 fontFamily: 'Roboto Condensed'),
@@ -125,7 +125,7 @@ class _ClearCacheState extends State<ClearCache> {
               Colors.grey.withOpacity(.66),
               Colors.grey.withOpacity(.46),
             ]),
-            style: TextStyle(
+            style: const TextStyle(
                 textBaseline: TextBaseline.ideographic,
                 fontSize: 30,
                 fontFamily: 'Roboto Condensed'),

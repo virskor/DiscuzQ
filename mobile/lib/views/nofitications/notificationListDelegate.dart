@@ -78,7 +78,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 470))
+    Future.delayed(const Duration(milliseconds: 470))
         .then((_) async => await _requestData(pageNumber: 1));
   }
 
