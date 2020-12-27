@@ -16,7 +16,7 @@ packages:
     source: hosted
     version: "1.6.0"
   assets_audio_player:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_assetsAudioPlayer"
       relative: true
@@ -30,7 +30,7 @@ packages:
     source: hosted
     version: "2.5.0-nullsafety.1"
   badges:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: badges
       url: "https://pub.dartlang.org"
@@ -44,7 +44,7 @@ packages:
     source: hosted
     version: "2.1.0-nullsafety.1"
   cached_network_image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cached_network_image
       url: "https://pub.dartlang.org"
@@ -72,7 +72,7 @@ packages:
     source: hosted
     version: "0.9.10"
   clipboard_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_clipboardManager"
       relative: true
@@ -113,13 +113,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  core:
-    dependency: "direct main"
-    description:
-      path: "../core"
-      relative: true
-    source: path
-    version: "1.0.0"
   crypto:
     dependency: transitive
     description:
@@ -135,49 +128,49 @@ packages:
     source: hosted
     version: "0.16.2"
   cupertino_icons:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
   device_info:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: device_info
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.2+3"
   dio:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.10"
   dio_cookie_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio_cookie_manager
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
   dio_http2_adapter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio_http2_adapter
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
   event_bus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: event_bus
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
   extended_text_field:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: extended_text_field
       url: "https://pub.dartlang.org"
@@ -212,7 +205,7 @@ packages:
     source: hosted
     version: "5.2.1"
   file_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: file_picker
       url: "https://pub.dartlang.org"
@@ -233,7 +226,7 @@ packages:
     source: hosted
     version: "1.8.3"
   fluro:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: fluro
       url: "https://pub.dartlang.org"
@@ -245,7 +238,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_bugly:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_bugly"
       relative: true
@@ -259,21 +252,21 @@ packages:
     source: hosted
     version: "1.4.2"
   flutter_des:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_des
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
   flutter_image_compress:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_image_compress"
       relative: true
     source: path
     version: "0.7.0"
   flutter_inappwebview:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_inappwebview
       url: "https://pub.dartlang.org"
@@ -292,21 +285,21 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_markdown:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.2"
   flutter_native_dialog:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_native_dialog"
       relative: true
     source: path
     version: "0.1.0"
   flutter_native_loading:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_native_loading"
       relative: true
@@ -320,7 +313,7 @@ packages:
     source: hosted
     version: "0.1.9"
   flutter_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_picker
       url: "https://pub.dartlang.org"
@@ -334,12 +327,12 @@ packages:
     source: hosted
     version: "1.0.11"
   flutter_test:
-    dependency: "direct dev"
+    dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
   flutter_user_agent:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_user_agent"
       relative: true
@@ -351,7 +344,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_widget_from_html:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_widget_from_html"
       relative: true
@@ -365,7 +358,7 @@ packages:
     source: path
     version: "0.3.2+2"
   fluttertoast:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_toast"
       relative: true
@@ -407,21 +400,21 @@ packages:
     source: hosted
     version: "2.1.19"
   image_cropper:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image_cropper
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
   image_gallery_saver:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image_gallery_saver
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.2"
   image_picker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.dartlang.org"
@@ -442,7 +435,7 @@ packages:
     source: hosted
     version: "0.16.1"
   like_button:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: like_button
       url: "https://pub.dartlang.org"
@@ -463,7 +456,7 @@ packages:
     source: hosted
     version: "0.12.10-nullsafety.1"
   md2_tab_indicator:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: md2_tab_indicator
       url: "https://pub.dartlang.org"
@@ -484,7 +477,7 @@ packages:
     source: hosted
     version: "0.9.7"
   modal_bottom_sheet:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: modal_bottom_sheet
       url: "https://pub.dartlang.org"
@@ -498,7 +491,7 @@ packages:
     source: hosted
     version: "0.0.4"
   nine_grid_view:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: nine_grid_view
       url: "https://pub.dartlang.org"
@@ -512,7 +505,7 @@ packages:
     source: hosted
     version: "0.3.0"
   package_info:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: package_info
       url: "https://pub.dartlang.org"
@@ -568,7 +561,7 @@ packages:
     source: hosted
     version: "1.9.2"
   permission_handler:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: permission_handler
       url: "https://pub.dartlang.org"
@@ -589,7 +582,7 @@ packages:
     source: hosted
     version: "3.1.0"
   photo_view:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: photo_view
       url: "https://pub.dartlang.org"
@@ -610,7 +603,7 @@ packages:
     source: hosted
     version: "1.0.3"
   pretty_dio_logger:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: pretty_dio_logger
       url: "https://pub.dartlang.org"
@@ -624,14 +617,14 @@ packages:
     source: hosted
     version: "3.0.13"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.2+2"
   pull_to_refresh:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: pull_to_refresh
       url: "https://pub.dartlang.org"
@@ -645,14 +638,14 @@ packages:
     source: hosted
     version: "0.23.1"
   share:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: share
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4+1"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
@@ -680,7 +673,7 @@ packages:
     source: hosted
     version: "0.1.2+7"
   should_rebuild:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: should_rebuild
       url: "https://pub.dartlang.org"
@@ -720,7 +713,7 @@ packages:
     source: hosted
     version: "1.10.0-nullsafety.1"
   status_alert:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../packages/flutter_status_alert"
       relative: true
@@ -769,7 +762,7 @@ packages:
     source: hosted
     version: "1.3.0-nullsafety.3"
   url_launcher:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher
       url: "https://pub.dartlang.org"
@@ -825,7 +818,7 @@ packages:
     source: hosted
     version: "2.1.0-nullsafety.3"
   video_player:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: video_player
       url: "https://pub.dartlang.org"
@@ -853,7 +846,7 @@ packages:
     source: hosted
     version: "0.1.4+2"
   webview_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: webview_flutter
       url: "https://pub.dartlang.org"
@@ -881,7 +874,7 @@ packages:
     source: hosted
     version: "4.5.1"
   yaml:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: yaml
       url: "https://pub.dartlang.org"
