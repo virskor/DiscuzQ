@@ -47,6 +47,7 @@ class _SearchThreadDelegateState extends State<SearchThreadDelegate>
             child: ThreadsList(
               /// 初始化的时候，用户没有选择，则默认使用第一个筛选条件
               filter: _filterItem ?? ForumCategoryFilter.conditions[0],
+              initiallyExpanded: true,
               keyword: widget.keyword,
             ),
           )

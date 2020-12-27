@@ -27,6 +27,12 @@ const int _kFlatTitleLength = 15;
 /// 主题卡片
 /// 用于展示一个主题的快照，但不是详情
 class ThreadCard extends StatefulWidget {
+  ThreadCard(
+      {this.thread,
+      @required this.threadsCacher,
+      this.onDelete,
+      this.initiallyExpanded = false});
+
   ///
   /// thread
   /// 主题
@@ -49,11 +55,6 @@ class ThreadCard extends StatefulWidget {
   /// 默认是否展开(为置顶的主题默认展开)
   final bool initiallyExpanded;
 
-  ThreadCard(
-      {this.thread,
-      @required this.threadsCacher,
-      this.onDelete,
-      this.initiallyExpanded = false});
   @override
   _ThreadCardState createState() => _ThreadCardState();
 }
@@ -101,7 +102,8 @@ class _ThreadCardState extends State<ThreadCard>
     super.build(context);
 
     return Consumer<AppConfigProvider>(
-      builder: (BuildContext context, AppConfigProvider conf, Widget child) => RepaintBoundary(
+        builder: (BuildContext context, AppConfigProvider conf, Widget child) =>
+            RepaintBoundary(
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () => DiscuzRoute.navigate(
@@ -120,9 +122,9 @@ class _ThreadCardState extends State<ThreadCard>
   /// 实际上，我们会收起顶置的帖子
   /// 其次，如果用户设置了收起付费的帖子，他们也会被折叠，但用不同的颜色提示
   Widget _buildCard({BuildContext context, dynamic conf}) {
-    // if (widget.thread.attributes.isSticky) {
-    //   return _buildStickyThreadTitle(context);
-    // }
+    if (widget.thread.attributes.isSticky && !widget.initiallyExpanded) {
+      return _buildStickyThreadTitle(context);
+    }
 
     return conf.appConf['hideContentRequirePayments'] && _requiredPaymentToPlay
         ? const SizedBox()
@@ -132,55 +134,56 @@ class _ThreadCardState extends State<ThreadCard>
   ///
   /// 生成简单的标题，取固定值
   ///
-  // String get _flatTitle => widget.thread.attributes.title != ''
-  //     ? widget.thread.attributes.title
-  //     : _firstPost.attributes.content.length <= _kFlatTitleLength
-  //         ? _firstPost.attributes.content
-  //         : "${_firstPost.attributes.content.substring(0, _kFlatTitleLength)}...";
+  String get _flatTitle => widget.thread.attributes.title != ''
+      ? widget.thread.attributes.title
+      : _firstPost.attributes.content.length <= _kFlatTitleLength
+          ? _firstPost.attributes.content
+          : "${_firstPost.attributes.content.substring(0, _kFlatTitleLength)}...";
 
-  ///
-  /// 可收起的主题
-  ///
-  // Widget _buildStickyThreadTitle(BuildContext context) {
-  //   final Widget stickyIcon = SizedBox(
-  //     width: 60,
-  //     height: 25,
-  //     child: Container(
-  //       alignment: Alignment.center,
-  //       margin: const EdgeInsets.only(right: 10),
-  //       decoration: const BoxDecoration(
-  //           color: Global.scaffoldBackgroundColorLight,
-  //           border: const Border(top: Global.border, bottom: Global.border)),
-  //       child: const DiscuzText('置顶', color: Colors.black),
-  //     ),
-  //   );
+  // /
+  // / 可收起的主题
+  // /
+  Widget _buildStickyThreadTitle(BuildContext context) {
+    final Widget stickyIcon = SizedBox(
+      width: 60,
+      height: 25,
+      child: Container(
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(right: 10),
+        decoration: const BoxDecoration(
+          borderRadius: const BorderRadius.all(const Radius.circular(4)),
+          color: Global.scaffoldBackgroundColorLight,
+        ),
+        child: const DiscuzText('置顶', color: Colors.black),
+      ),
+    );
 
-  //   return GestureDetector(
-  //     behavior: HitTestBehavior.translucent,
-  //     child: Container(
-  //       margin: const EdgeInsets.only(top: 5),
-  //       padding: kMarginAllContent,
-  //       decoration: BoxDecoration(
-  //         color: DiscuzApp.themeOf(context).backgroundColor,
-  //       ),
-  //       child: Row(
-  //         children: <Widget>[
-  //           stickyIcon,
-  //           DiscuzText(
-  //             _flatTitle,
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //     onTap: () => DiscuzRoute.navigate(
-  //         context: context,
-  //         shouldLogin: true,
-  //         widget: ThreadDetailDelegate(
-  //           author: _author,
-  //           thread: widget.thread,
-  //         )),
-  //   );
-  // }
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      child: Container(
+        margin: const EdgeInsets.only(top: 5),
+        padding: kMarginAllContent,
+        decoration: BoxDecoration(
+          color: DiscuzApp.themeOf(context).backgroundColor,
+        ),
+        child: Row(
+          children: <Widget>[
+            stickyIcon,
+            DiscuzText(
+              _flatTitle,
+            )
+          ],
+        ),
+      ),
+      onTap: () => DiscuzRoute.navigate(
+          context: context,
+          shouldLogin: true,
+          widget: ThreadDetailDelegate(
+            author: _author,
+            thread: widget.thread,
+          )),
+    );
+  }
 
   ///
   /// 构建帖子卡片
