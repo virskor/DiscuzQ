@@ -107,7 +107,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
   void initState() {
     super.initState();
     this._watchIfPostCommentSuccess();
-    Future.delayed(Duration(milliseconds: 450)).then((_) async {
+    Future.delayed(const Duration(milliseconds: 450)).then((_) async {
       await _requestThreadDetail(pageNumber: 1);
     });
   }
@@ -267,7 +267,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
         }
 
         if (_threadsCacher.threads.length == 0) {
-          return SizedBox();
+          return const SizedBox();
         }
 
         /// 遍历图片
@@ -506,7 +506,7 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
                   int.tryParse(
                       widget.thread.relationships.firstPost['data']['id']))
               .toList()[0] ??
-          PostModel();
+          const PostModel();
 
       /// pageNumber 在onload传入时已经自动加1
       /// 注意 主题详情中的meta需要自己生成

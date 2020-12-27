@@ -35,7 +35,7 @@ class _UserFollowState extends State<UserFollow> {
   /// states
   /// 从远端获取当前查看的用户，可查询是否我已经关注他
   /// 默认数据为空，将在接口请求后，进行覆盖处理
-  UserModel _user = UserModel();
+  UserModel _user = const UserModel();
 
   /// _loading
   bool _loading = true;
@@ -78,7 +78,7 @@ class _UserFollowState extends State<UserFollow> {
   /// build body
   Widget _buildBody({BuildContext context, UserModel user}) {
     if (_loading) {
-      return DiscuzIndicator();
+      return const DiscuzIndicator();
     }
 
     return user.attributes.id == widget.user.id
@@ -91,7 +91,7 @@ class _UserFollowState extends State<UserFollow> {
 
               /// 动态文案
               onPressed: () => _requestFollow(context: context),
-              borderRadius: BorderRadius.all(Radius.circular(30)),
+              borderRadius: const BorderRadius.all(const Radius.circular(30)),
             ),
           );
   }

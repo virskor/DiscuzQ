@@ -34,7 +34,7 @@ class _ReportHistoryDelegateState extends State<ReportHistoryDelegate> {
           title: '我的投诉举报',
           brightness: Brightness.light,
         ),
-        body: Center(
+        body: const Center(
           child: const DiscuzText('暂无记录'),
         ),
       );

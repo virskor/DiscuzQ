@@ -103,7 +103,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
       width: MediaQuery.of(context).size.width,
       padding: const EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
       decoration: BoxDecoration(
-          border: Border(top: Global.border),
+          border: const Border(top: Global.border),
           color: DiscuzApp.themeOf(context).backgroundColor),
       child: SafeArea(
         top: false,

@@ -52,10 +52,10 @@ class _TopicListBarState extends State<TopicListBar> {
                 color: DiscuzApp.themeOf(context).textColor),
             itemBuilder: (BuildContext context) =>
                 <PopupMenuItem<TopicListSortType>>[
-                  PopupMenuItem<TopicListSortType>(
+                  const PopupMenuItem<TopicListSortType>(
                       value: TopicListSortType.viewCount,
                       child: const DiscuzText('热度')),
-                  PopupMenuItem<TopicListSortType>(
+                  const PopupMenuItem<TopicListSortType>(
                       value: TopicListSortType.threadCount,
                       child: const DiscuzText('内容数'))
                 ],

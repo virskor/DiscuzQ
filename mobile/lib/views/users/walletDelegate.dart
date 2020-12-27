@@ -32,7 +32,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   ///
   /// wallet data
   ///
-  WalletModel _wallet = WalletModel();
+  WalletModel _wallet = const WalletModel();
 
   final CancelToken _cancelToken = CancelToken();
 
@@ -48,7 +48,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 450))
+    Future.delayed(const Duration(milliseconds: 450))
         .then((_) async => await _refreshWallet());
   }
 
@@ -59,8 +59,9 @@ class _WalletDelegateState extends State<WalletDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) =>  Consumer<UserProvider>(
-      builder: (BuildContext context, UserProvider user, Widget child) => Scaffold(
+  Widget build(BuildContext context) => Consumer<UserProvider>(
+      builder: (BuildContext context, UserProvider user, Widget child) =>
+          Scaffold(
             appBar: DiscuzAppBar(
               brightness: Brightness.dark,
               backgroundColor: DiscuzApp.themeOf(context).primaryColor,
@@ -101,15 +102,15 @@ class _WalletDelegateState extends State<WalletDelegate> {
                           ///
                           _frozen(),
                           const DiscuzDivider(),
-                          DiscuzListTile(
+                          const DiscuzListTile(
                             title: DiscuzText('提现记录'),
                           ),
                           const DiscuzDivider(),
-                          DiscuzListTile(
+                          const DiscuzListTile(
                             title: DiscuzText('钱包明细'),
                           ),
                           const DiscuzDivider(),
-                          DiscuzListTile(
+                          const DiscuzListTile(
                             title: DiscuzText('订单明细'),
                           )
                         ],
@@ -125,7 +126,7 @@ class _WalletDelegateState extends State<WalletDelegate> {
   /// 冻结金额
   ///
   Widget _frozen() => DiscuzListTile(
-        title: DiscuzText('冻结金额'),
+        title: const DiscuzText('冻结金额'),
         trailing: DiscuzText(
           _wallet.freezeAmount,
           color: DiscuzApp.themeOf(context).greyTextColor,
@@ -154,8 +155,10 @@ class _WalletDelegateState extends State<WalletDelegate> {
     ///
     ///
     final UserModel user = context.read<UserProvider>().user;
-    final String userWalletUrl = "${Urls.usersWallerData}/${user.attributes.id}";
-    Response resp = await Request(context: context).getUrl(_cancelToken, url: userWalletUrl);
+    final String userWalletUrl =
+        "${Urls.usersWallerData}/${user.attributes.id}";
+    Response resp = await Request(context: context)
+        .getUrl(_cancelToken, url: userWalletUrl);
 
     if (resp == null) {
       setState(() {

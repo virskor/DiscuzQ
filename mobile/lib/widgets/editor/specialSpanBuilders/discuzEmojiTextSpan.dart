@@ -22,6 +22,6 @@ class DiscuzEmojiTextSpan extends SpecialText {
         imageHeight: 23,
         actualText: emojiText,
         start: start,
-        margin: EdgeInsets.only(left: 2.0, bottom: 0.0, right: 2.0));
+        margin: const EdgeInsets.only(left: 2.0, bottom: 0.0, right: 2.0));
   }
 }

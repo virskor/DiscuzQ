@@ -73,7 +73,7 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
 
     ///
     /// 异步请求新的用户信息
-    Future.delayed(Duration(milliseconds: 300)).then((_) {
+    Future.delayed(const Duration(milliseconds: 300)).then((_) {
       if (!widget.forceToUpdate) {
         return;
       }
@@ -110,11 +110,11 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
           cardColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
         ),
         child: PopupMenuButton<String>(
-            icon: DiscuzIcon(Icons.more_vert),
+            icon: const DiscuzIcon(Icons.more_vert),
             itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-                  PopupMenuItem<String>(
+                  const PopupMenuItem<String>(
                       value: 'report', child: const DiscuzText('举报')),
-                  PopupMenuItem<String>(
+                  const PopupMenuItem<String>(
                       value: 'blackList', child: const DiscuzText('拉黑'))
                 ],
             onSelected: (String value) {

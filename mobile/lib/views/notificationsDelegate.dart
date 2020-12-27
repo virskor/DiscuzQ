@@ -33,7 +33,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   ///
   /// 未读消息
   TypeUnreadNotificationsModel _typeUnreadNotifications =
-      TypeUnreadNotificationsModel();
+      const TypeUnreadNotificationsModel();
 
   @override
   void setState(fn) {
@@ -52,7 +52,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
     /// 这种不会从接口刷新，仅从状态刷新，如果用户要刷新还是得下拉
     /// 或者其他交互逻辑涉及调用 Authhelper.refreshUser 也会自动刷新的
     ///
-    Future.delayed(Duration(milliseconds: 500))
+    Future.delayed(const Duration(milliseconds: 500))
         .then((_) => _refreshMessageList(context: context));
   }
 

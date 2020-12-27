@@ -42,7 +42,7 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
   void initState() {
     super.initState();
 
-    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
       statusBarBrightness: Brightness.dark,
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
@@ -61,7 +61,7 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
 
   @override
   void dispose() {
-    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
+    SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
       statusBarBrightness: Brightness.light,
     );
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
@@ -96,7 +96,7 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
             fontWeight: FontWeight.bold,
             fontSize: DiscuzApp.themeOf(context).largeTextSize,
           ),
-          DiscuzText(
+          const DiscuzText(
             '/',
             color: Colors.white,
           ),

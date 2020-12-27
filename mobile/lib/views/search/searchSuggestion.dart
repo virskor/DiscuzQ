@@ -10,7 +10,7 @@ class SearchSuggestion extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox.expand(
           child: Container(
         color: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
-        child: Center(
+        child: const Center(
           child: const DiscuzText('暂无推荐'),
         ),
       ));

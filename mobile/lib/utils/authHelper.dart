@@ -20,7 +20,7 @@ class AuthHelper {
       expand: true,
       backgroundColor: Colors.transparent,
       context: context,
-      builder: (BuildContext context) => CupertinoPageScaffold(
+      builder: (BuildContext context) => const CupertinoPageScaffold(
             resizeToAvoidBottomInset: false,
             child: const LoginDelegate(),
           ));

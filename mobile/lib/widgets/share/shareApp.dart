@@ -38,7 +38,7 @@ class _ShareAppView extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
               color: Theme.of(context).backgroundColor,
-              borderRadius: BorderRadius.all(Radius.circular(15))),
+              borderRadius: const BorderRadius.all(const Radius.circular(15))),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

@@ -71,7 +71,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate>
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(milliseconds: 450))
+    Future.delayed(const Duration(milliseconds: 450))
         .then((_) async => await _requestData(pageNumber: 1));
   }
 
@@ -94,7 +94,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate>
     ///
     /// 如果keyword 证明用户重新输入了关键字，那么久执行重新请求
     if (widget.keyword != null && oldWidget.keyword != widget.keyword) {
-      Future.delayed(Duration(milliseconds: 450))
+      Future.delayed(const Duration(milliseconds: 450))
           .then((_) async => await _requestData(pageNumber: 1));
     }
   }

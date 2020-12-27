@@ -73,7 +73,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 1000)).then((_) => _init());
+    Future.delayed(const Duration(milliseconds: 1000)).then((_) => _init());
   }
 
   @override
@@ -196,7 +196,7 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
     }
 
     if (!_loading && _playerInfo != null && _transcodeUrl == null) {
-      return Center(
+      return const Center(
         child: const DiscuzText('转码中，请稍后观看'),
       );
     }
@@ -228,13 +228,13 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
             Stack(
               children: <Widget>[
                 AnimatedSwitcher(
-                  duration: Duration(milliseconds: 50),
-                  reverseDuration: Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 50),
+                  reverseDuration: const Duration(milliseconds: 200),
                   child: _controller.value.isPlaying
                       ? const SizedBox()
                       : Container(
                           color: Colors.black26,
-                          child: Center(
+                          child: const Center(
                             child: const DiscuzIcon(
                               CupertinoIcons.play_fill,
                               color: Colors.white,

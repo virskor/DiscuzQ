@@ -113,7 +113,7 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
       child: SafeArea(
         child: ListView(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           children: _menus
               .map((e) => GestureDetector(
                     onTap: () => _showEditor(

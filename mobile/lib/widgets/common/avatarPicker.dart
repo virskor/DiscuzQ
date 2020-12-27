@@ -107,14 +107,14 @@ class _AvatarPickerState extends State<AvatarPicker> {
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
         ],
-        aspectRatio: CropAspectRatio(ratioX: 100, ratioY: 100),
+        aspectRatio: const CropAspectRatio(ratioX: 100, ratioY: 100),
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: 'Cropper',
             toolbarColor: Theme.of(context).primaryColor,
             toolbarWidgetColor: Colors.white,
             initAspectRatio: CropAspectRatioPreset.square,
             lockAspectRatio: false),
-        iosUiSettings: IOSUiSettings(
+        iosUiSettings: const IOSUiSettings(
           minimumAspectRatio: 1.0,
           resetAspectRatioEnabled: false,
           aspectRatioPickerButtonHidden: true,

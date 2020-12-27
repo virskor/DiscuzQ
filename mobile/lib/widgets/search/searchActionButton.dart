@@ -38,7 +38,7 @@ class DiscuzAppSearchDelegate extends DiscuzCustomSearchDelegate<String> {
     ///显示在最右边的控件列表
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = "";
 
@@ -47,7 +47,7 @@ class DiscuzAppSearchDelegate extends DiscuzCustomSearchDelegate<String> {
         },
       ),
       IconButton(
-        icon: Icon(Icons.search),
+        icon: const Icon(Icons.search),
         onPressed: () {
           this.showResults(context);
         },
@@ -83,8 +83,8 @@ class DiscuzAppSearchDelegate extends DiscuzCustomSearchDelegate<String> {
       ));
     }
 
-    return Center(
-      child: Text('暂不支持'),
+    return const Center(
+      child: const Text('暂不支持'),
     );
   }
 

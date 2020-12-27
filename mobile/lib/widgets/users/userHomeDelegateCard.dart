@@ -33,7 +33,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   ///
   /// state
   /// 关注组件传入的新的用户模型
-  UserModel _user = UserModel();
+  UserModel _user = const UserModel();
 
   @override
   void setState(fn) {
@@ -57,7 +57,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
 
   @override
   Widget build(BuildContext context) => AnimatedContainer(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
             border: const Border(top: Global.border, bottom: Global.border),
             color: DiscuzApp.themeOf(context).backgroundColor),

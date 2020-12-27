@@ -66,7 +66,7 @@ class _SearchAppbarState extends State<SearchAppbar> {
             : SystemUiOverlayStyle.dark);
 
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       decoration:
           BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
       child: SafeArea(
@@ -80,7 +80,7 @@ class _SearchAppbarState extends State<SearchAppbar> {
             ),
 
             AnimatedContainer(
-              duration: Duration(milliseconds: 270),
+              duration: const Duration(milliseconds: 270),
 
               ///padding: EdgeInsets.only(right: _showButton ? 50 : 0),
               padding: EdgeInsets.only(
@@ -94,7 +94,7 @@ class _SearchAppbarState extends State<SearchAppbar> {
                       ? 50
                       : 0),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                  borderRadius: const BorderRadius.all(Radius.circular(3)),
                   color: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
               child: DiscuzTextfiled(
                 controller: _controller,

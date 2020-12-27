@@ -15,7 +15,7 @@ class AppbarSaveButton extends StatelessWidget {
         padding:
             const EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
         child: Container(
-          constraints: BoxConstraints(minHeight: 40),
+          constraints: const BoxConstraints(minHeight: 40),
           padding:
               const EdgeInsets.only(top: 2, bottom: 2, left: 10, right: 10),
           alignment: Alignment.centerRight,

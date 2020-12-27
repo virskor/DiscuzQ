@@ -8,9 +8,9 @@ Decoration myBoxDec(animation, {isCircle = false}) {
       begin: Alignment.centerLeft,
       end: Alignment.centerRight,
       colors: [
-        Color(0xfff6f7f9),
-        Color(0xffe9ebee),
-        Color(0xfff6f7f9),
+        const Color(0xfff6f7f9),
+        const Color(0xffe9ebee),
+        const Color(0xfff6f7f9),
         // Color(0xfff6f7f9),
       ],
       stops: [
@@ -44,7 +44,7 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     animation = Tween<double>(begin: -1.0, end: 2.0).animate(
@@ -77,10 +77,10 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
         return Padding(
           padding: const EdgeInsets.only(top: 5.0),
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(3))),
-            padding: EdgeInsets.all(10),
+                borderRadius: const BorderRadius.all(Radius.circular(3))),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -95,7 +95,7 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
                       decoration:
                           myBoxDec(animation, isCircle: widget.isCircularImage),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Container(
@@ -123,7 +123,7 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Container(
@@ -131,7 +131,7 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
                             width: width * 0.7,
                             decoration: myBoxDec(animation),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -139,7 +139,7 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
                             width: width * 0.8,
                             decoration: myBoxDec(animation),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -149,7 +149,7 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
                           ),
                         ],
                       )
-                    : Offstage()
+                    : const Offstage()
               ],
             ),
           ),
@@ -202,7 +202,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     animation = Tween<double>(begin: -1.0, end: 2.0).animate(
@@ -235,10 +235,10 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
         return Padding(
           padding: const EdgeInsets.only(top: 5.0),
           child: Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
                 color: Global.backgroundColorDark,
-                borderRadius: BorderRadius.all(Radius.circular(3))),
+                borderRadius: const BorderRadius.all(Radius.circular(3))),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -253,7 +253,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
                       decoration: myDarkBoxDec(animation,
                           isCircle: widget.isCircularImage),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     Container(
@@ -281,7 +281,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Container(
@@ -289,7 +289,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
                             width: width * 0.7,
                             decoration: myDarkBoxDec(animation),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -297,7 +297,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
                             width: width * 0.8,
                             decoration: myDarkBoxDec(animation),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -307,7 +307,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
                           ),
                         ],
                       )
-                    : Offstage()
+                    : const Offstage()
               ],
             ),
           ),
@@ -386,7 +386,7 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     animation = Tween<double>(begin: -1.0, end: 2.0).animate(
@@ -420,7 +420,7 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
           padding: const EdgeInsets.only(top: 5.0),
           child: Container(
             color: Colors.white,
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -446,7 +446,7 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
                             decoration: myBoxDec(animation,
                                 isCircle: widget.isCircularImage),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Container(
@@ -477,7 +477,7 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Container(
@@ -485,7 +485,7 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
                             width: width * 0.7,
                             decoration: myBoxDec(animation),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -493,7 +493,7 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
                             width: width * 0.8,
                             decoration: myBoxDec(animation),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -503,7 +503,7 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
                           ),
                         ],
                       )
-                    : Offstage()
+                    : const Offstage()
               ],
             ),
           ),
@@ -533,7 +533,7 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     animation = Tween<double>(begin: -1.0, end: 2.0).animate(
@@ -567,7 +567,7 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
           padding: const EdgeInsets.only(top: 5.0),
           child: Container(
             color: Colors.grey[800],
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -593,7 +593,7 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
                             decoration: myDarkBoxDec(animation,
                                 isCircle: widget.isCircularImage),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Container(
@@ -624,7 +624,7 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Container(
@@ -632,7 +632,7 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
                             width: width * 0.7,
                             decoration: myDarkBoxDec(animation),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -640,7 +640,7 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
                             width: width * 0.8,
                             decoration: myDarkBoxDec(animation),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Container(
@@ -650,7 +650,7 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
                           ),
                         ],
                       )
-                    : Offstage()
+                    : const Offstage()
               ],
             ),
           ),
@@ -677,7 +677,7 @@ class _PKCardPageSkeletonState extends State<PKCardPageSkeleton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     animation = Tween<double>(begin: -1.0, end: 2.0).animate(
@@ -711,7 +711,7 @@ class _PKCardPageSkeletonState extends State<PKCardPageSkeleton>
           padding: const EdgeInsets.only(top: 5.0),
           child: Container(
               color: Colors.white,
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -725,7 +725,7 @@ class _PKCardPageSkeletonState extends State<PKCardPageSkeleton>
                               width: width * 0.7,
                               decoration: myBoxDec(animation),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Container(
@@ -733,7 +733,7 @@ class _PKCardPageSkeletonState extends State<PKCardPageSkeleton>
                               width: width * 0.8,
                               decoration: myBoxDec(animation),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Container(
@@ -767,7 +767,7 @@ class _PKDarkCardPageSkeletonState extends State<PKDarkCardPageSkeleton>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
     );
 
     animation = Tween<double>(begin: -1.0, end: 2.0).animate(
@@ -801,7 +801,7 @@ class _PKDarkCardPageSkeletonState extends State<PKDarkCardPageSkeleton>
           padding: const EdgeInsets.only(top: 5.0),
           child: Container(
               color: Colors.grey[800],
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -815,7 +815,7 @@ class _PKDarkCardPageSkeletonState extends State<PKDarkCardPageSkeleton>
                               width: width * 0.7,
                               decoration: myDarkBoxDec(animation),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Container(
@@ -823,7 +823,7 @@ class _PKDarkCardPageSkeletonState extends State<PKDarkCardPageSkeleton>
                               width: width * 0.8,
                               decoration: myDarkBoxDec(animation),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Container(

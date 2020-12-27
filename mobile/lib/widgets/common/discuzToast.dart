@@ -42,25 +42,25 @@ class DiscuzToast {
       String message = '',
       title}) async {
     IconConfiguration icon =
-        IconConfiguration(icon: Icons.info, size: _kIconSize);
+        const IconConfiguration(icon: Icons.info, size: _kIconSize);
 
     /// show icon type
     switch (type) {
       case DiscuzToastType.failed:
         {
-          icon = IconConfiguration(icon: Icons.error, size: _kIconSize);
+          icon = const IconConfiguration(icon: Icons.error, size: _kIconSize);
         }
         break;
 
       case DiscuzToastType.info:
         {
-          icon = IconConfiguration(icon: Icons.info, size: _kIconSize);
+          icon = const IconConfiguration(icon: Icons.info, size: _kIconSize);
         }
         break;
 
       case DiscuzToastType.success:
         {
-          icon = IconConfiguration(icon: Icons.done, size: _kIconSize);
+          icon = const IconConfiguration(icon: Icons.done, size: _kIconSize);
         }
         break;
 

@@ -26,7 +26,7 @@ class _UserAccountBannerState extends State<UserAccountBanner> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                DiscuzAvatar(),
+                const DiscuzAvatar(),
 
                 ///
                 const SizedBox(height: 20),

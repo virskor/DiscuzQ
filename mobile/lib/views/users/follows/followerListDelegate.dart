@@ -81,7 +81,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
     ///
     /// 加载数据
     ///
-    Future.delayed(Duration(milliseconds: 450))
+    Future.delayed(const Duration(milliseconds: 450))
         .then((_) async => await _requestData(pageNumber: 1, context: context));
   }
 

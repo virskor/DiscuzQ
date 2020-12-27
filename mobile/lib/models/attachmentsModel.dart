@@ -31,7 +31,7 @@ class AttachmentsModel {
     /// 返回一个空的模型，如果为空的话
     ///
     if (maps == null) {
-      return AttachmentsModel();
+      return const AttachmentsModel();
     }
 
     dynamic data = maps;

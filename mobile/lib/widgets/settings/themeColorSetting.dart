@@ -76,7 +76,7 @@ class ThemeColorSetting extends StatelessWidget {
             child: Color(conf.appConf['themeColor']) != color
                 ? const SizedBox()
                 : Container(
-                    child: Icon(
+                    child: const Icon(
                       Icons.check,
                       size: 20,
                       color: Colors.white,

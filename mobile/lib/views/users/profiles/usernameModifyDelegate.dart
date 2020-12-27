@@ -107,7 +107,7 @@ class _UsernameModifyDelegateState extends State<UsernameModifyDelegate> {
   ///
   /// Initialize user's default signature to auto complete form.
   Future<void> _initDefaultValue() async =>
-      Future.delayed(Duration(milliseconds: 500)).then((_) {
+      Future.delayed(const Duration(milliseconds: 500)).then((_) {
         try {
           final UserModel user = context.read<UserProvider>().user;
           if (user != null && user.attributes.username != '') {
