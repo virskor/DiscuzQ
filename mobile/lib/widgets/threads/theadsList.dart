@@ -32,6 +32,7 @@ class ThreadsList extends StatefulWidget {
       this.category,
       this.onAppbarState,
       @required this.filter,
+      this.initiallyExpanded = false,
       this.topicID,
       this.keyword})
       : super(key: key);
@@ -52,6 +53,12 @@ class ThreadsList extends StatefulWidget {
 
   /// 关联话题ID
   final int topicID;
+
+  ///
+  /// ----
+  /// initiallyExpanded
+  /// 默认是否展开(为置顶的主题默认展开)
+  final bool initiallyExpanded;
 
   @override
   _ForumCategoryState createState() => _ForumCategoryState();
@@ -221,9 +228,9 @@ class _ForumCategoryState extends State<ThreadsList>
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, index) => ThreadCard(
-                  threadsCacher: _threadsCacher,
-                  thread: _threadsCacher.threads[index],
-                ));
+                threadsCacher: _threadsCacher,
+                thread: _threadsCacher.threads[index],
+                initiallyExpanded: widget.initiallyExpanded));
       });
 
   ///
