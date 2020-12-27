@@ -141,7 +141,7 @@ class DiscuzTextfiled extends StatelessWidget {
   /// 左侧标签
   final String label;
 
-  final Debouncer _debouncer = Debouncer(milliseconds: 400);
+  final Debouncer _debouncer = Debouncer(milliseconds: 270);
 
   @override
   Widget build(BuildContext context) => Container(
@@ -151,83 +151,92 @@ class DiscuzTextfiled extends StatelessWidget {
         decoration: BoxDecoration(color: color),
         child: Theme(
           data: ThemeData(
-              textTheme: TextTheme(
-                  subtitle1: TextStyle(textBaseline: TextBaseline.alphabetic))),
+              textTheme: const TextTheme(
+                  subtitle1: const TextStyle(textBaseline: TextBaseline.alphabetic))),
           child: Row(
             children: [
-              label == null ? const SizedBox() : DiscuzText("$label:"),
+              label == null
+                  ? const SizedBox()
+                  : Expanded(
+                      flex: 1,
+                      child: DiscuzText("$label:"),
+                    ),
               Expanded(
+                  flex: label == null ? 1 : 4,
                   child: TextFormField(
-                controller: controller,
-                validator: validator,
-                autofocus: autofocus,
-                focusNode: focusNode,
-                keyboardAppearance: Brightness.dark,
-                textInputAction: textInputAction,
-                keyboardType: inputType,
-                obscureText: obscureText,
-                maxLines: maxLines,
-                onChanged: (val) {
-                  if (onChanged == null) {
-                    return;
-                  }
-                  _debouncer.run(() {
-                    onChanged(val);
-                  });
-                },
-                onFieldSubmitted: onSubmit,
-                maxLength: maxLength,
-                showCursor: true,
-                enableSuggestions: false,
-                autocorrect: autocorrect,
-                decoration: InputDecoration(
-                    prefixIcon: prefixIcon == null
-                        ? null
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: prefixIcon,
-                          ),
+                    controller: controller,
+                    validator: validator,
+                    autofocus: autofocus,
+                    focusNode: focusNode,
+                    keyboardAppearance: Brightness.dark,
+                    textInputAction: textInputAction,
+                    keyboardType: inputType,
+                    obscureText: obscureText,
+                    maxLines: maxLines,
+                    onChanged: (val) {
+                      if (onChanged == null) {
+                        return;
+                      }
+                      
+                      _debouncer.run(() {
+                        onChanged(val);
+                      });
+                    },
+                    onFieldSubmitted: onSubmit,
+                    maxLength: maxLength,
+                    showCursor: true,
+                    enableSuggestions: false,
+                    autocorrect: autocorrect,
+                    decoration: InputDecoration(
+                        prefixIcon: prefixIcon == null
+                            ? null
+                            : Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: prefixIcon,
+                              ),
 
-                    /// 显示清除按钮
-                    suffixIcon: clearable == false
-                        ? null
-                        : _clearable(context: context),
-                    hintText: placeHolder,
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize:
-                          fontSize ?? DiscuzApp.themeOf(context).normalTextSize,
-                    ),
-                    contentPadding: contentPadding == null
-                        ? const EdgeInsets.symmetric(
-                            vertical: 5.0, horizontal: 10)
-                        : contentPadding,
-                    enabledBorder: UnderlineInputBorder(
-                      borderRadius: const BorderRadius.all(Radius.circular(0)),
-                      borderSide: BorderSide(
-                          color: borderColor ?? Theme.of(context).primaryColor,
-                          width: borderWidth),
-                    ),
-                    counterText: "",
-                    border: InputBorder.none,
-                    errorBorder: UnderlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(0)),
-                        borderSide: BorderSide(
-                            color: Theme.of(context).errorColor,
-                            width: borderWidth)),
-                    focusedBorder: UnderlineInputBorder(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(0)),
-                        borderSide: BorderSide(
-                            color:
-                                borderColor ?? Theme.of(context).primaryColor,
-                            width: borderWidth))),
-                style: TextStyle(
-                    fontSize:
-                        fontSize ?? DiscuzApp.themeOf(context).normalTextSize,
-                    color: DiscuzApp.themeOf(context).textColor),
-              ))
+                        /// 显示清除按钮
+                        suffixIcon: clearable == false
+                            ? null
+                            : _clearable(context: context),
+                        hintText: placeHolder,
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: fontSize ??
+                              DiscuzApp.themeOf(context).normalTextSize,
+                        ),
+                        contentPadding: contentPadding == null
+                            ? const EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 10)
+                            : contentPadding,
+                        enabledBorder: UnderlineInputBorder(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(0)),
+                          borderSide: BorderSide(
+                              color:
+                                  borderColor ?? Theme.of(context).primaryColor,
+                              width: borderWidth),
+                        ),
+                        counterText: "",
+                        border: InputBorder.none,
+                        errorBorder: UnderlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(0)),
+                            borderSide: BorderSide(
+                                color: Theme.of(context).errorColor,
+                                width: borderWidth)),
+                        focusedBorder: UnderlineInputBorder(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(0)),
+                            borderSide: BorderSide(
+                                color: borderColor ??
+                                    Theme.of(context).primaryColor,
+                                width: borderWidth))),
+                    style: TextStyle(
+                        fontSize: fontSize ??
+                            DiscuzApp.themeOf(context).normalTextSize,
+                        color: DiscuzApp.themeOf(context).textColor),
+                  ))
             ],
           ),
         ),

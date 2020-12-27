@@ -221,7 +221,7 @@ class _EditorState extends State<Editor> {
       ///
       /// 仅支持 开启腾讯云验证码的用户调用
       ///
-      if (forum.attributes.qcloud.qCloudCaptcha && !_isReply) {
+      if (context.read<ForumProvider>().isCaptchaEnabled && !_isReply) {
         captchaCallbackData = await TencentCloudCaptcha.show(
             context: context,
 

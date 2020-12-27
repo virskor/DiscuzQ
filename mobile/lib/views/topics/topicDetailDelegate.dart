@@ -137,7 +137,7 @@ class _BuilderAppbarBottom extends StatelessWidget with PreferredSizeWidget {
   final TopicModel topic;
 
   @override
-  Size get preferredSize => Size.fromHeight(30);
+  Size get preferredSize => const Size.fromHeight(30);
 
   @override
   Widget build(BuildContext context) => Container(
