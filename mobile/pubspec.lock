@@ -279,6 +279,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.7.5"
+  flutter_layout_grid:
+    dependency: transitive
+    description:
+      name: flutter_layout_grid
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.10.2"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -326,6 +333,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.11"
+  flutter_svg:
+    dependency: transitive
+    description:
+      name: flutter_svg
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.19.1"
   flutter_test:
     dependency: "direct main"
     description: flutter
@@ -346,17 +360,17 @@ packages:
   flutter_widget_from_html:
     dependency: "direct main"
     description:
-      path: "../packages/flutter_widget_from_html"
+      path: "../packages/flutter_widget_from_html/packages/enhanced"
       relative: true
     source: path
-    version: "0.3.2+2"
+    version: "0.5.1+5"
   flutter_widget_from_html_core:
     dependency: transitive
     description:
-      path: "../packages/flutter_widget_from_html/packages/core"
-      relative: true
-    source: path
-    version: "0.3.2+2"
+      name: flutter_widget_from_html_core
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.5.1+4"
   fluttertoast:
     dependency: "direct main"
     description:
@@ -518,6 +532,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.8.0-nullsafety.1"
+  path_drawing:
+    dependency: transitive
+    description:
+      name: path_drawing
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.4.1+1"
+  path_parsing:
+    dependency: transitive
+    description:
+      name: path_parsing
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.4"
   path_provider:
     dependency: transitive
     description:
@@ -630,6 +658,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.6.3"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.1.5"
   rxdart:
     dependency: transitive
     description:
@@ -823,7 +858,7 @@ packages:
       name: video_player
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.10.10"
+    version: "0.10.12"
   video_player_platform_interface:
     dependency: transitive
     description:

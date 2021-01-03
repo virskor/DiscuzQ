@@ -46,7 +46,7 @@ dependencies:
   flutter_picker: 1.1.4
   yaml: 2.2.1
   flutter_inappwebview: 4.0.0+4
-  video_player: 0.10.10
+  video_player: 0.10.12
   modal_bottom_sheet: 1.0.0+1
   flutter_markdown: 0.4.2
   cupertino_icons: 1.0.0
@@ -63,7 +63,7 @@ dependencies:
   flutter_native_dialog:
     path: ../packages/flutter_native_dialog
   flutter_widget_from_html:
-    path: ../packages/flutter_widget_from_html
+    path: ../packages/flutter_widget_from_html/packages/enhanced
   flutter_user_agent:
     path: ../packages/flutter_user_agent
   assets_audio_player:
