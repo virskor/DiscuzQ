@@ -235,11 +235,13 @@ class _LoginDelegateState extends State<LoginDelegate> {
     /// 使用用户名密码登录
     if (_usernameTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写用户名");
+      closeLoading();
       return;
     }
 
     if (_passwordTextfiledController.text == "") {
       DiscuzToast.failed(context: context, message: "请填写密码");
+      closeLoading();
       return;
     }
 
