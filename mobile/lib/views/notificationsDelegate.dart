@@ -65,9 +65,7 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   }
 
   @override
-  Widget build(BuildContext context) => !mounted
-      ? const SizedBox()
-      : Scaffold(
+  Widget build(BuildContext context) => Scaffold(
           appBar: DiscuzAppBar(
             title: '消息通知',
             brightness: Brightness.dark,

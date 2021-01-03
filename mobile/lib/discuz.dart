@@ -231,7 +231,11 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
               canvasColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
           child: Scaffold(
             key: _scaffoldKey,
-            body: _views.elementAt(_selected),
+            //body: _views.elementAt(_selected),
+            body: IndexedStack(
+              children: _views,
+              index: _selected,
+            ),
             resizeToAvoidBottomPadding: false,
             bottomNavigationBar: DiscuzBottomNavigator(
               items: _items,
@@ -265,7 +269,8 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   /// 弹出用户隐私提示
   void _userPrivaciesNotice() {
     final dynamic appConf = context.read<AppConfigProvider>().appConf;
-    if (appConf['confrimedPrivacy'] != null && appConf['confrimedPrivacy'] == false) {
+    if (appConf['confrimedPrivacy'] != null &&
+        appConf['confrimedPrivacy'] == false) {
       showModalBottomSheet(
           context: context,
           isDismissible: false,
