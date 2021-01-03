@@ -2,15 +2,23 @@
 
 set -e
 
-_testArgs=''
-if [ ! -z "$COVERAGE" ]; then
-  _testArgs="${_testArgs} --coverage"
-fi
+( \
+  cd ./packages/core \
+  && flutter pub get && cat .packages \
+  && flutter test "$@" \
+  && echo 'packages/core OK' \
+)
 
-cd "$( dirname $( dirname ${BASH_SOURCE[0]}))"/packages/core
-flutter test $( echo $_testArgs )
-echo 'flutter_widget_from_html_core OK'
+( \
+  cd ./packages/enhanced \
+  && flutter pub get && cat .packages \
+  && flutter test "$@" \
+  && echo 'packages/enhanced OK' \
+)
 
-cd ../..
-flutter test $( echo $_testArgs )
-echo 'flutter_widget_from_html OK'
+( \
+  cd ./demo_app \
+  && flutter pub get && cat .packages \
+  && flutter test "$@" \
+  && echo 'demo_app OK' \
+)

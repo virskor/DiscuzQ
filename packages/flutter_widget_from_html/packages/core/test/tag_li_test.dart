@@ -1,36 +1,50 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
 
 import '_.dart';
 
-void main() {
-  final padding = 'Padding:(0,0,0,25)';
-  final disc = '•';
-  final circle = '-';
-  final square = '+';
+const disc = '[_ListMarkerDisc]';
+const circle = '[_ListMarkerCircle]';
+const square = '[_ListMarkerSquare]';
+
+const sizedBox = '[SizedBox:0.0x10.0]';
+
+String padding(String child) =>
+    '[CssBlock:child=[Padding:(0,0,0,40),child=$child]]';
+
+String list(List<String> children) => '[Column:children=${children.join(",")}]';
+
+String item(String markerText, String contents, {String child}) =>
+    '[_ListItem:children=${child ?? '[RichText:(:$contents)]'},${marker(markerText)}]';
+
+String marker(String text) =>
+    text.startsWith('[_ListMarker') ? text : '[RichText:maxLines=1,(:$text)]';
+
+void main() async {
+  await loadAppFonts();
 
   testWidgets('renders list with padding', (WidgetTester tester) async {
     final html = '<ul><li>Foo</li></ul>';
-    final explained = await explainMargin(tester, html);
-    expect(
-        explained,
-        equals('[SizedBox:0.0x10.0],'
-            '[Stack:children=[$padding,child=[RichText:(:Foo)]],'
-            '[Positioned:child=[RichText,align=right:(:$disc)]]],'
-            '[SizedBox:0.0x10.0]'));
+    final e = await explainMargin(tester, html);
+    expect(e, equals('$sizedBox,${padding(item(disc, "Foo"))},$sizedBox'));
   });
 
   testWidgets('renders ordered list', (WidgetTester tester) async {
-    final html = '<ol><li>One</li><li>Two</li><li><b>Three</b></li><ol>';
+    final html =
+        '<ol><li>One</li><li>Two</li><li><strong>Three</strong></li><ol>';
     final explained = await explain(tester, html);
     expect(
         explained,
-        equals('[Column:children='
-            '[Stack:children=[$padding,child=[RichText:(:One)]],[Positioned:child=[RichText,align=right:(:1.)]]],'
-            '[Stack:children=[$padding,child=[RichText:(:Two)]],[Positioned:child=[RichText,align=right:(:2.)]]],'
-            '[Stack:children=[$padding,child=[RichText:(+b:Three)]],[Positioned:child=[RichText,align=right:(:3.)]]]'
-            ']'));
+        equals(padding(list([
+          item('1.', 'One'),
+          item('2.', 'Two'),
+          item('3.', '', child: '[RichText:(+b:Three)]'),
+        ]))));
   });
 
   testWidgets('renders unordered list', (WidgetTester tester) async {
@@ -38,15 +52,15 @@ void main() {
     final explained = await explain(tester, html);
     expect(
         explained,
-        equals('[Column:children='
-            '[Stack:children=[$padding,child=[RichText:(:One)]],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-            '[Stack:children=[$padding,child=[RichText:(:Two)]],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-            '[Stack:children=[$padding,child=[RichText:(+i:Three)]],[Positioned:child=[RichText,align=right:(:$disc)]]]'
-            ']'));
+        equals(padding(list([
+          item(disc, 'One'),
+          item(disc, 'Two'),
+          item(disc, '', child: '[RichText:(+i:Three)]'),
+        ]))));
   });
 
   testWidgets('renders nested list', (WidgetTester tester) async {
-    final html = """
+    final html = '''
 <ul>
   <li>One</li>
   <li>
@@ -64,178 +78,161 @@ void main() {
     </ul>
   </li>
   <li>Three</li>
-</ul>""";
+</ul>''';
     final explained = await explain(tester, html);
+
+    final li221And222 = padding(list([
+      item(square, '2.2.1'),
+      item(square, '2.2.2'),
+    ]));
+    final li21And22And23 = padding(list([
+      item(circle, '2.1'),
+      item(circle, '',
+          child: '[Column:children=[RichText:(:2.2)],$li221And222]'),
+      item(circle, '2.3'),
+    ]));
     expect(
         explained,
-        equals('[Column:children='
-            '[Stack:children=[$padding,child=[RichText:(:One)]],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-            '[Stack:children=[$padding,child='
-            '[Column:children=[RichText:(:Two)],'
-            '[Stack:children=[$padding,child=[RichText:(:2.1)]],[Positioned:child=[RichText,align=right:(:$circle)]]],'
-            '[Stack:children=[$padding,child='
-            '[Column:children=[RichText:(:2.2)],'
-            '[Stack:children=[$padding,child=[RichText:(:2.2.1)]],[Positioned:child=[RichText,align=right:(:$square)]]],'
-            '[Stack:children=[$padding,child=[RichText:(:2.2.2)]],[Positioned:child=[RichText,align=right:(:$square)]]]'
-            ']],[Positioned:child=[RichText,align=right:(:$circle)]]],'
-            '[Stack:children=[$padding,child=[RichText:(:2.3)]],[Positioned:child=[RichText,align=right:(:$circle)]]]'
-            ']],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-            '[Stack:children=[$padding,child=[RichText:(:Three)]],[Positioned:child=[RichText,align=right:(:$disc)]]]'
-            ']'));
+        equals(padding(list([
+          item(disc, 'One'),
+          item(disc, '',
+              child: '[Column:children=[RichText:(:Two)],$li21And22And23]'),
+          item(disc, 'Three'),
+        ]))));
   });
 
-  testWidgets('renders nested list (single child)',
-      (WidgetTester tester) async {
-    final html = """
+  testWidgets('renders nested list (single child)', (tester) async {
+    final html = '''
 <ul>
   <li>Foo</li>
   <li><ul><li>Bar</li></ul></li>
-</ul>""";
+</ul>''';
     final explained = await explain(tester, html);
     expect(
         explained,
-        equals('[Column:children='
-            '[Stack:children=[$padding,child=[RichText:(:Foo)]],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-            '[$padding,child=[Stack:children=[$padding,child=[RichText:(:Bar)]],[Positioned:child=[RichText,align=right:(:$circle)]]]]'
-            ']'));
+        equals(padding(list([
+          item(disc, 'Foo'),
+          item(disc, null, child: padding(item(circle, 'Bar'))),
+        ]))));
   });
 
   group('OL reversed', () {
-    final olReversedLiHtml = '<li>x</li>';
-    final olReversedLiPrefix =
-        'Stack:children=[$padding,child=[RichText:(:x)]],[Positioned:child=[RichText,align=right:';
-    final olReversedLiPostfix = ']]';
-
     testWidgets('renders 123 (default)', (WidgetTester tester) async {
-      final lis = olReversedLiHtml * 3;
-      final html = '<ol>$lis<ol>';
+      final html = '<ol><li>x</li><li>x</li><li>x</li><ol>';
       final explained = await explain(tester, html);
       expect(
           explained,
-          equals('[Column:children='
-              '[$olReversedLiPrefix(:1.)$olReversedLiPostfix],'
-              '[$olReversedLiPrefix(:2.)$olReversedLiPostfix],'
-              '[$olReversedLiPrefix(:3.)$olReversedLiPostfix]'
-              ']'));
+          equals(padding(list([
+            item('1.', 'x'),
+            item('2.', 'x'),
+            item('3.', 'x'),
+          ]))));
     });
 
     testWidgets('renders 321', (WidgetTester tester) async {
-      final lis = olReversedLiHtml * 3;
-      final html = '<ol reversed>$lis<ol>';
+      final html = '<ol reversed><li>x</li><li>x</li><li>x</li><ol>';
       final explained = await explain(tester, html);
       expect(
           explained,
-          equals('[Column:children='
-              '[$olReversedLiPrefix(:3.)$olReversedLiPostfix],'
-              '[$olReversedLiPrefix(:2.)$olReversedLiPostfix],'
-              '[$olReversedLiPrefix(:1.)$olReversedLiPostfix]'
-              ']'));
+          equals(padding(list([
+            item('3.', 'x'),
+            item('2.', 'x'),
+            item('1.', 'x'),
+          ]))));
     });
 
     testWidgets('renders from 99', (WidgetTester tester) async {
-      final lis = olReversedLiHtml * 3;
-      final html = '<ol reversed start="99">$lis<ol>';
+      final html = '<ol reversed start="99"><li>x</li><li>x</li><li>x</li><ol>';
       final explained = await explain(tester, html);
       expect(
           explained,
-          equals('[Column:children='
-              '[$olReversedLiPrefix(:99.)$olReversedLiPostfix],'
-              '[$olReversedLiPrefix(:98.)$olReversedLiPostfix],'
-              '[$olReversedLiPrefix(:97.)$olReversedLiPostfix]'
-              ']'));
+          equals(padding(list([
+            item('99.', 'x'),
+            item('98.', 'x'),
+            item('97.', 'x'),
+          ]))));
     });
   });
 
   group('OL start', () {
-    final olStartLiHtml = '<li>x</li>';
-    final olStartLiPrefix =
-        'Stack:children=[$padding,child=[RichText:(:x)]],[Positioned:child=[RichText,align=right:';
-    final olStartLiPostfix = ']]';
-
     testWidgets('renders from 1 (default)', (WidgetTester tester) async {
-      final html = '<ol>$olStartLiHtml<ol>';
+      final html = '<ol><li>x</li><ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[$olStartLiPrefix(:1.)$olStartLiPostfix]'));
+      expect(explained, equals(padding(item('1.', 'x'))));
     });
 
     testWidgets('renders from 99', (WidgetTester tester) async {
-      final html = '<ol start="99">$olStartLiHtml<ol>';
+      final html = '<ol start="99"><li>x</li><ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[$olStartLiPrefix(:99.)$olStartLiPostfix]'));
+      expect(explained, equals(padding(item('99.', 'x'))));
     });
 
     testWidgets('renders xyz', (WidgetTester tester) async {
-      final lis = olStartLiHtml * 3;
-      final html = '<ol start="24" type="a">$lis<ol>';
+      final html = '<ol start="24" type="a"><li>x</li><li>x</li><li>x</li><ol>';
       final explained = await explain(tester, html);
       expect(
           explained,
-          equals('[Column:children='
-              '[$olStartLiPrefix(:x.)$olStartLiPostfix],'
-              '[$olStartLiPrefix(:y.)$olStartLiPostfix],'
-              '[$olStartLiPrefix(:z.)$olStartLiPostfix]'
-              ']'));
+          equals(padding(list([
+            item('x.', 'x'),
+            item('y.', 'x'),
+            item('z.', 'x'),
+          ]))));
     });
   });
 
   group('OL type', () {
-    final olTypeLiHtml = '<li>x</li>';
-    final olTypeLiPrefix =
-        'Stack:children=[$padding,child=[RichText:(:x)]],[Positioned:child=[RichText,align=right:';
-    final olTypeLiPostfix = ']]';
-
     testWidgets('renders 1 (default)', (WidgetTester tester) async {
-      final html = '<ol>$olTypeLiHtml<ol>';
+      final html = '<ol><li>x</li><ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[$olTypeLiPrefix(:1.)$olTypeLiPostfix]'));
+      expect(explained, equals(padding(item('1.', 'x'))));
     });
 
     testWidgets('renders a (lower-alpha)', (WidgetTester tester) async {
-      final html = '<ol type="a">$olTypeLiHtml<ol>';
+      final html = '<ol type="a"><li>x</li><ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[$olTypeLiPrefix(:a.)$olTypeLiPostfix]'));
+      expect(explained, equals(padding(item('a.', 'x'))));
     });
 
     testWidgets('renders A (upper-alpha)', (WidgetTester tester) async {
-      final html = '<ol type="A">$olTypeLiHtml<ol>';
+      final html = '<ol type="A"><li>x</li><ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[$olTypeLiPrefix(:A.)$olTypeLiPostfix]'));
+      expect(explained, equals(padding(item('A.', 'x'))));
     });
 
     testWidgets('renders i (lower-roman)', (WidgetTester tester) async {
-      final html = '<ol type="i">$olTypeLiHtml<ol>';
+      final html = '<ol type="i"><li>x</li><ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[$olTypeLiPrefix(:i.)$olTypeLiPostfix]'));
+      expect(explained, equals(padding(item('i.', 'x'))));
     });
 
     testWidgets('renders I (upper-roman)', (WidgetTester tester) async {
-      final html = '<ol type="I">$olTypeLiHtml<ol>';
+      final html = '<ol type="I"><li>x</li><ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[$olTypeLiPrefix(:I.)$olTypeLiPostfix]'));
+      expect(explained, equals(padding(item('I.', 'x'))));
     });
 
     testWidgets('renders 1 (decimal)', (WidgetTester tester) async {
-      final html = '<ol type="1">$olTypeLiHtml<ol>';
+      final html = '<ol type="1"><li>x</li><ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[$olTypeLiPrefix(:1.)$olTypeLiPostfix]'));
+      expect(explained, equals(padding(item('1.', 'x'))));
     });
 
     testWidgets('renders LI type', (WidgetTester tester) async {
-      final html = """
+      final html = '''
 <ol type="a">
   <li type="1">decimal</li>
   <li type="i">lower-roman</li>
   <li>lower-alpha</li>
 <ol>
-""";
+''';
       final explained = await explain(tester, html);
       expect(
           explained,
-          equals('[Column:children='
-              '[Stack:children=[$padding,child=[RichText:(:decimal)]],[Positioned:child=[RichText,align=right:(:1.)]]],'
-              '[Stack:children=[$padding,child=[RichText:(:lower-roman)]],[Positioned:child=[RichText,align=right:(:ii.)]]],'
-              '[Stack:children=[$padding,child=[RichText:(:lower-alpha)]],[Positioned:child=[RichText,align=right:(:c.)]]]'
-              ']'));
+          equals(padding(list([
+            item('1.', 'decimal'),
+            item('ii.', 'lower-roman'),
+            item('c.', 'lower-alpha'),
+          ]))));
     });
   });
 
@@ -244,270 +241,253 @@ void main() {
       testWidgets('renders disc (default for UL)', (WidgetTester tester) async {
         final html = '<ul><li>Foo</li></ul>';
         final explained = await explain(tester, html);
-        expect(
-            explained,
-            equals('[Stack:children=[$padding,child=[RichText:(:Foo)]],'
-                '[Positioned:child=[RichText,align=right:(:$disc)]]]'));
+        expect(explained, equals(padding(item(disc, 'Foo'))));
       });
 
       testWidgets('renders disc (OL)', (WidgetTester tester) async {
         final html = '<ol style="list-style-type: disc"><li>Foo</li></ol>';
         final explained = await explain(tester, html);
-        expect(
-            explained,
-            equals('[Stack:children=[$padding,child=[RichText:(:Foo)]],'
-                '[Positioned:child=[RichText,align=right:(:$disc)]]]'));
+        expect(explained, equals(padding(item(disc, 'Foo'))));
       });
 
       testWidgets('renders circle', (WidgetTester tester) async {
         final html = '<ul style="list-style-type: circle"><li>Foo</li></ul>';
         final explained = await explain(tester, html);
-        expect(
-            explained,
-            equals('[Stack:children=[$padding,child=[RichText:(:Foo)]],'
-                '[Positioned:child=[RichText,align=right:(:$circle)]]]'));
+        expect(explained, equals(padding(item(circle, 'Foo'))));
       });
 
       testWidgets('renders square', (WidgetTester tester) async {
         final html = '<ul style="list-style-type: square"><li>Foo</li></ul>';
         final explained = await explain(tester, html);
-        expect(
-            explained,
-            equals('[Stack:children=[$padding,child=[RichText:(:Foo)]],'
-                '[Positioned:child=[RichText,align=right:(:$square)]]]'));
+        expect(explained, equals(padding(item(square, 'Foo'))));
       });
 
       testWidgets('renders LI list-style-type', (WidgetTester tester) async {
-        final html = """
+        final html = '''
 <ul style="list-style-type: circle">
   <li style="list-style-type: disc"">disc</li>
   <li style="list-style-type: square">square</li>
   <li>circle</li>
 <ul>
-""";
+''';
         final explained = await explain(tester, html);
         expect(
             explained,
-            equals('[Column:children='
-                '[Stack:children=[$padding,child=[RichText:(:disc)]],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-                '[Stack:children=[$padding,child=[RichText:(:square)]],[Positioned:child=[RichText,align=right:(:$square)]]],'
-                '[Stack:children=[$padding,child=[RichText:(:circle)]],[Positioned:child=[RichText,align=right:(:$circle)]]]'
-                ']'));
+            equals(padding(list([
+              item(disc, 'disc'),
+              item(square, 'square'),
+              item(circle, 'circle'),
+            ]))));
       });
 
       group('serial', () {
-        final serialLiHtml = '<li>x</li>';
-        final serialLiPrefix =
-            'Stack:children=[$padding,child=[RichText:(:x)]],[Positioned:child=[RichText,align=right:';
-        final serialLiPostfix = ']]';
-
         testWidgets('renders decimal (default for OL)', (tester) async {
-          final html = '<ol>$serialLiHtml$serialLiHtml$serialLiHtml</ol>';
+          final html = '<ol><li>x</li><li>x</li><li>x</li></ol>';
           final explained = await explain(tester, html);
           expect(
               explained,
-              equals('[Column:children='
-                  '[$serialLiPrefix(:1.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:2.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:3.)$serialLiPostfix]'
-                  ']'));
+              equals(padding(list([
+                item('1.', 'x'),
+                item('2.', 'x'),
+                item('3.', 'x'),
+              ]))));
         });
 
         testWidgets('renders decimal (UL)', (WidgetTester tester) async {
-          final lis = '$serialLiHtml$serialLiHtml$serialLiHtml';
+          final lis = '<li>x</li>' * 3;
           final html = '<ul style="list-style-type: decimal">$lis</ul>';
           final explained = await explain(tester, html);
           expect(
               explained,
-              equals('[Column:children='
-                  '[$serialLiPrefix(:1.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:2.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:3.)$serialLiPostfix]'
-                  ']'));
+              equals(padding(list([
+                item('1.', 'x'),
+                item('2.', 'x'),
+                item('3.', 'x'),
+              ]))));
         });
 
         testWidgets('renders lower-alpha', (WidgetTester tester) async {
-          final lis = serialLiHtml * 26;
+          final lis = '<li>x</li>' * 26;
           final html = '<ul style="list-style-type: lower-alpha">$lis</ul>';
           final explained = await explain(tester, html);
           expect(
               explained,
-              equals('[Column:children='
-                  '[$serialLiPrefix(:a.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:b.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:c.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:d.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:e.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:f.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:g.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:h.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:i.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:j.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:k.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:l.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:m.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:n.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:o.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:p.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:q.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:r.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:s.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:t.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:u.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:v.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:w.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:x.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:y.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:z.)$serialLiPostfix]'
-                  ']'));
+              equals(padding(list([
+                item('a.', 'x'),
+                item('b.', 'x'),
+                item('c.', 'x'),
+                item('d.', 'x'),
+                item('e.', 'x'),
+                item('f.', 'x'),
+                item('g.', 'x'),
+                item('h.', 'x'),
+                item('i.', 'x'),
+                item('j.', 'x'),
+                item('k.', 'x'),
+                item('l.', 'x'),
+                item('m.', 'x'),
+                item('n.', 'x'),
+                item('o.', 'x'),
+                item('p.', 'x'),
+                item('q.', 'x'),
+                item('r.', 'x'),
+                item('s.', 'x'),
+                item('t.', 'x'),
+                item('u.', 'x'),
+                item('v.', 'x'),
+                item('w.', 'x'),
+                item('x.', 'x'),
+                item('y.', 'x'),
+                item('z.', 'x'),
+              ]))));
         });
 
         testWidgets('renders lower-latin', (WidgetTester tester) async {
-          final lis = serialLiHtml * 26;
+          final lis = '<li>x</li>' * 26;
           final html = '<ul style="list-style-type: lower-latin">$lis</ul>';
           final explained = await explain(tester, html);
           expect(
               explained,
-              equals('[Column:children='
-                  '[$serialLiPrefix(:a.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:b.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:c.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:d.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:e.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:f.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:g.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:h.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:i.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:j.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:k.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:l.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:m.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:n.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:o.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:p.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:q.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:r.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:s.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:t.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:u.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:v.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:w.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:x.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:y.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:z.)$serialLiPostfix]'
-                  ']'));
+              equals(padding(list([
+                item('a.', 'x'),
+                item('b.', 'x'),
+                item('c.', 'x'),
+                item('d.', 'x'),
+                item('e.', 'x'),
+                item('f.', 'x'),
+                item('g.', 'x'),
+                item('h.', 'x'),
+                item('i.', 'x'),
+                item('j.', 'x'),
+                item('k.', 'x'),
+                item('l.', 'x'),
+                item('m.', 'x'),
+                item('n.', 'x'),
+                item('o.', 'x'),
+                item('p.', 'x'),
+                item('q.', 'x'),
+                item('r.', 'x'),
+                item('s.', 'x'),
+                item('t.', 'x'),
+                item('u.', 'x'),
+                item('v.', 'x'),
+                item('w.', 'x'),
+                item('x.', 'x'),
+                item('y.', 'x'),
+                item('z.', 'x'),
+              ]))));
         });
 
         testWidgets('renders lower-roman', (WidgetTester tester) async {
-          final lis = serialLiHtml * 10;
+          final lis = '<li>x</li>' * 10;
           final html = '<ul style="list-style-type: lower-roman">$lis</ul>';
           final explained = await explain(tester, html);
           expect(
               explained,
-              equals('[Column:children='
-                  '[$serialLiPrefix(:i.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:ii.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:iii.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:iv.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:v.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:vi.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:vii.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:viii.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:ix.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:x.)$serialLiPostfix]'
-                  ']'));
+              equals(padding(list([
+                item('i.', 'x'),
+                item('ii.', 'x'),
+                item('iii.', 'x'),
+                item('iv.', 'x'),
+                item('v.', 'x'),
+                item('vi.', 'x'),
+                item('vii.', 'x'),
+                item('viii.', 'x'),
+                item('ix.', 'x'),
+                item('x.', 'x'),
+              ]))));
         });
 
         testWidgets('renders upper-alpha', (WidgetTester tester) async {
-          final lis = serialLiHtml * 26;
+          final lis = '<li>x</li>' * 26;
           final html = '<ul style="list-style-type: upper-alpha">$lis</ul>';
           final explained = await explain(tester, html);
           expect(
               explained,
-              equals('[Column:children='
-                  '[$serialLiPrefix(:A.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:B.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:C.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:D.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:E.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:F.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:G.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:H.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:I.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:J.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:K.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:L.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:M.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:N.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:O.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:P.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:Q.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:R.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:S.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:T.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:U.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:V.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:W.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:X.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:Y.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:Z.)$serialLiPostfix]'
-                  ']'));
+              equals(padding(list([
+                item('A.', 'x'),
+                item('B.', 'x'),
+                item('C.', 'x'),
+                item('D.', 'x'),
+                item('E.', 'x'),
+                item('F.', 'x'),
+                item('G.', 'x'),
+                item('H.', 'x'),
+                item('I.', 'x'),
+                item('J.', 'x'),
+                item('K.', 'x'),
+                item('L.', 'x'),
+                item('M.', 'x'),
+                item('N.', 'x'),
+                item('O.', 'x'),
+                item('P.', 'x'),
+                item('Q.', 'x'),
+                item('R.', 'x'),
+                item('S.', 'x'),
+                item('T.', 'x'),
+                item('U.', 'x'),
+                item('V.', 'x'),
+                item('W.', 'x'),
+                item('X.', 'x'),
+                item('Y.', 'x'),
+                item('Z.', 'x'),
+              ]))));
         });
 
         testWidgets('renders upper-latin', (WidgetTester tester) async {
-          final lis = serialLiHtml * 26;
+          final lis = '<li>x</li>' * 26;
           final html = '<ul style="list-style-type: upper-latin">$lis</ul>';
           final explained = await explain(tester, html);
           expect(
               explained,
-              equals('[Column:children='
-                  '[$serialLiPrefix(:A.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:B.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:C.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:D.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:E.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:F.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:G.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:H.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:I.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:J.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:K.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:L.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:M.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:N.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:O.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:P.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:Q.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:R.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:S.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:T.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:U.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:V.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:W.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:X.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:Y.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:Z.)$serialLiPostfix]'
-                  ']'));
+              equals(padding(list([
+                item('A.', 'x'),
+                item('B.', 'x'),
+                item('C.', 'x'),
+                item('D.', 'x'),
+                item('E.', 'x'),
+                item('F.', 'x'),
+                item('G.', 'x'),
+                item('H.', 'x'),
+                item('I.', 'x'),
+                item('J.', 'x'),
+                item('K.', 'x'),
+                item('L.', 'x'),
+                item('M.', 'x'),
+                item('N.', 'x'),
+                item('O.', 'x'),
+                item('P.', 'x'),
+                item('Q.', 'x'),
+                item('R.', 'x'),
+                item('S.', 'x'),
+                item('T.', 'x'),
+                item('U.', 'x'),
+                item('V.', 'x'),
+                item('W.', 'x'),
+                item('X.', 'x'),
+                item('Y.', 'x'),
+                item('Z.', 'x'),
+              ]))));
         });
 
         testWidgets('renders upper-roman', (WidgetTester tester) async {
-          final lis = serialLiHtml * 10;
+          final lis = '<li>x</li>' * 10;
           final html = '<ul style="list-style-type: upper-roman">$lis</ul>';
           final explained = await explain(tester, html);
           expect(
               explained,
-              equals('[Column:children='
-                  '[$serialLiPrefix(:I.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:II.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:III.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:IV.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:V.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:VI.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:VII.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:VIII.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:IX.)$serialLiPostfix],'
-                  '[$serialLiPrefix(:X.)$serialLiPostfix]'
-                  ']'));
+              equals(padding(list([
+                item('I.', 'x'),
+                item('II.', 'x'),
+                item('III.', 'x'),
+                item('IV.', 'x'),
+                item('V.', 'x'),
+                item('VI.', 'x'),
+                item('VII.', 'x'),
+                item('VIII.', 'x'),
+                item('IX.', 'x'),
+                item('X.', 'x'),
+              ]))));
         });
       });
     });
@@ -518,28 +498,28 @@ void main() {
         final explained = await explain(tester, html);
         expect(
             explained,
-            equals(
-                '[Stack:children=[Padding:(0,0,0,99),child=[RichText:(:Foo)]],'
-                '[Positioned:child=[RichText,align=right:(:$disc)]]]'));
+            equals('[CssBlock:child=[Padding:(0,0,0,99),child='
+                '${item(disc, "Foo")}'
+                ']]'));
       });
 
-      testWidgets('renders LI padding-inline-start',
-          (WidgetTester tester) async {
-        final html = """
+      testWidgets('renders LI padding-inline-start', (tester) async {
+        // TODO: doesn't match browser output
+        final html = '''
 <ul style="padding-inline-start: 99px">
   <li style="padding-inline-start: 199px">199px</li>
   <li style="padding-inline-start: 299px">299px</li>
   <li>99px</li>
-<ul>
-""";
+</ul>
+''';
         final explained = await explain(tester, html);
         expect(
             explained,
-            equals('[Column:children='
-                '[Stack:children=[Padding:(0,0,0,199),child=[RichText:(:199px)]],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-                '[Stack:children=[Padding:(0,0,0,299),child=[RichText:(:299px)]],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-                '[Stack:children=[Padding:(0,0,0,99),child=[RichText:(:99px)]],[Positioned:child=[RichText,align=right:(:$disc)]]]'
-                ']'));
+            equals('[CssBlock:child=[Padding:(0,0,0,99),child=[Column:children='
+                '[Padding:(0,0,0,199),child=[_ListItem:children=[RichText:(:199px)],${marker(disc)}]],'
+                '[Padding:(0,0,0,299),child=[_ListItem:children=[RichText:(:299px)],${marker(disc)}]],'
+                '${item(disc, "99px")}'
+                ']]]'));
       });
     });
   });
@@ -548,78 +528,270 @@ void main() {
     testWidgets('standalone UL', (WidgetTester tester) async {
       final html = '<ul>Foo</ul>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[RichText:(:Foo)]'));
+      expect(
+          explained,
+          equals(
+              '[CssBlock:child=[Padding:(0,0,0,40),child=[RichText:(:Foo)]]]'));
     });
 
     testWidgets('standalone OL', (WidgetTester tester) async {
       final html = '<ol>Foo</ol>';
       final explained = await explain(tester, html);
-      expect(explained, equals('[RichText:(:Foo)]'));
+      expect(
+          explained,
+          equals(
+              '[CssBlock:child=[Padding:(0,0,0,40),child=[RichText:(:Foo)]]]'));
     });
 
     testWidgets('standalone LI', (WidgetTester tester) async {
+      // TODO: doesn't match browser output
       final html = '<li>Foo</li>';
       final explained = await explain(tester, html);
       expect(explained, equals('[RichText:(:Foo)]'));
     });
 
+    testWidgets('LI within LI', (WidgetTester tester) async {
+      final html = '<ol><li><li>Foo</li></li></ol>';
+      final explained = await explain(tester, html);
+      expect(
+          explained,
+          equals(padding(list([
+            item('1.', '', child: '[widget0]'),
+            item('2.', 'Foo'),
+          ]))));
+    });
+
     testWidgets('UL is direct child of UL', (WidgetTester tester) async {
-      final html = """
+      final html = '''
 <ul>
   <li>One</li>
   <ul>
     <li>Two</li>
     <li>Three</li>
   </ul>
-</ul>""";
+</ul>''';
       final explained = await explain(tester, html);
       expect(
           explained,
-          equals('[Column:children='
-              '[Stack:children=[$padding,child=[RichText:(:One)]],[Positioned:child=[RichText,align=right:(:$disc)]]],'
-              '[$padding,child=[Stack:children=[$padding,child=[RichText:(:Two)]],[Positioned:child=[RichText,align=right:(:$circle)]]]],'
-              '[$padding,child=[Stack:children=[$padding,child=[RichText:(:Three)]],[Positioned:child=[RichText,align=right:(:$circle)]]]]'
-              ']'));
+          equals(padding(list([
+            item(disc, 'One'),
+            padding(list([
+              item(circle, 'Two'),
+              item(circle, 'Three'),
+            ])),
+          ]))));
     });
 
-    testWidgets('LI has empty A', (WidgetTester tester) async {
-      // https://github.com/daohoangson/flutter_widget_from_html/issues/112#issuecomment-550116179
-      final html = """<ol>
+    testWidgets('#112: LI has empty A', (WidgetTester tester) async {
+      final html = '''<ol>
   <li>One</li>
   <li><a href="https://flutter.dev"></a></li>
   <li>Three</li>
-</ol>""";
+</ol>''';
       final explained = await explain(tester, html);
       expect(
           explained,
-          equals('[Column:children='
-              '[Stack:children=[$padding,child=[RichText:(:One)]],[Positioned:child=[RichText,align=right:(:1.)]]],'
-              '[Stack:children=[widget0],[Positioned:child=[RichText,align=right:(:2.)]]],'
-              '[Stack:children=[$padding,child=[RichText:(:Three)]],[Positioned:child=[RichText,align=right:(:3.)]]]'
-              ']'));
+          equals(padding(list([
+            item('1.', 'One'),
+            item('2.', '', child: '[widget0]'),
+            item('3.', 'Three'),
+          ]))));
     });
   });
 
   group('rtl', () {
-    final rtlPadding = 'Padding:(0,25,0,0)';
+    final html = '<ol><li>One</li><li>Two</li><li><b>Three</b></li><ol>';
+
+    final explainerExpected =
+        '[CssBlock:child=[Padding:(0,40,0,0),child=[Column:dir=rtl,children='
+        '[_ListItem:children=[RichText:dir=rtl,(:One)],[RichText:maxLines=1,dir=rtl,(:1.)]],'
+        '[_ListItem:children=[RichText:dir=rtl,(:Two)],[RichText:maxLines=1,dir=rtl,(:2.)]],'
+        '[_ListItem:children=[RichText:dir=rtl,(+b:Three)],[RichText:maxLines=1,dir=rtl,(:3.)]]'
+        ']]]';
+
+    final nonExplainerExpected = 'TshWidget\n'
+        '└ColumnPlaceholder(BuildMetadata(root))\n'
+        ' └CssBlock()\n'
+        '  └Padding(padding: EdgeInsets(0.0, 0.0, 40.0, 0.0))\n'
+        '   └Column(textDirection: rtl)\n'
+        '    ├WidgetPlaceholder<BuildTree>(BuildTree#0 tsb#1(parent=#2):\n'
+        '    ││  "One"\n'
+        '    ││)\n'
+        '    │└_ListItem(textDirection: rtl)\n'
+        '    │ ├RichText(textDirection: rtl, text: "One")\n'
+        '    │ └RichText(textDirection: rtl, maxLines: 1, text: "1.")\n'
+        '    ├WidgetPlaceholder<BuildTree>(BuildTree#3 tsb#4(parent=#2):\n'
+        '    ││  "Two"\n'
+        '    ││)\n'
+        '    │└_ListItem(textDirection: rtl)\n'
+        '    │ ├RichText(textDirection: rtl, text: "Two")\n'
+        '    │ └RichText(textDirection: rtl, maxLines: 1, text: "2.")\n'
+        '    └WidgetPlaceholder<BuildTree>(BuildTree#5 tsb#6(parent=#2):\n'
+        '     │  BuildTree#7 tsb#8(parent=#6):\n'
+        '     │    "Three"\n'
+        '     │)\n'
+        '     └_ListItem(textDirection: rtl)\n'
+        '      ├RichText(textDirection: rtl, text: "Three")\n'
+        '      └RichText(textDirection: rtl, maxLines: 1, text: "3.")\n'
+        '\n';
+
     testWidgets('renders ordered list', (WidgetTester tester) async {
-      final html = '<ol><li>One</li><li>Two</li><li><b>Three</b></li><ol>';
       final explained = await explain(tester, null,
           hw: Directionality(
-            child: HtmlWidget(
-              html,
-              key: hwKey,
-              bodyPadding: const EdgeInsets.all(0),
-            ),
+            child: HtmlWidget(html, key: hwKey),
             textDirection: TextDirection.rtl,
           ));
-      expect(
-          explained,
-          equals('[Column:children='
-              '[Stack:children=[$rtlPadding,child=[RichText:(:One)]],[Positioned:child=[RichText,align=left:(:1.)]]],'
-              '[Stack:children=[$rtlPadding,child=[RichText:(:Two)]],[Positioned:child=[RichText,align=left:(:2.)]]],'
-              '[Stack:children=[$rtlPadding,child=[RichText:(+b:Three)]],[Positioned:child=[RichText,align=left:(:3.)]]]'
-              ']'));
+      expect(explained, equals(explainerExpected));
+    });
+
+    testWidgets('renders ordered list useExplainer=false', (tester) async {
+      final explained = await explain(
+        tester,
+        null,
+        hw: Directionality(
+          child: HtmlWidget(html, key: hwKey),
+          textDirection: TextDirection.rtl,
+        ),
+        useExplainer: false,
+      );
+      expect(explained, equals(nonExplainerExpected));
+    });
+
+    testWidgets('renders within dir attribute', (tester) async {
+      final _dirRtl = '<div dir="rtl">$html</div>';
+      final explained = await explain(tester, _dirRtl, useExplainer: false);
+      expect(explained, equals(nonExplainerExpected));
     });
   });
+
+  group('_ListItem', () {
+    testWidgets('updates textDirection', (tester) async {
+      final html = '<ul><li>Foo</li></ul>';
+
+      final ltr = await explain(tester, html, rtl: false, useExplainer: false);
+      expect(ltr, contains('_ListItem()'));
+
+      final rtl = await explain(tester, html, rtl: true, useExplainer: false);
+      expect(rtl, contains('_ListItem(textDirection: rtl)'));
+    });
+
+    testWidgets('performs hit test', (tester) async {
+      const kHref = 'href';
+      final urls = <String>[];
+
+      await tester.pumpWidget(_HitTestApp(href: kHref, onTapUrl: urls.add));
+      await tester.pumpAndSettle();
+      expect(await tapText(tester, 'Tap me'), equals(1));
+      expect(urls, equals(const [kHref]));
+    });
+
+    GoldenToolkit.runWithConfiguration(
+      () {
+        group('baseline calculation', () {
+          final assetName = 'test/images/logo.png';
+          final testCases = <String, String>{
+            'img_block':
+                '<img src="asset:$assetName" style="display: block; height: 30px;" />',
+            'img_block_between_text':
+                'foo <img src="asset:$assetName" style="display: block; height: 30px;" /> bar',
+            'img_block_then_text':
+                '<img src="asset:$assetName" style="display: block; height: 30px;" /> foo',
+            'img_inline':
+                '<img src="asset:$assetName" style="height: 30px;" />',
+            'img_inline_between_text':
+                'foo <img src="asset:$assetName" style="height: 30px;" /> bar',
+            'img_inline_then_text':
+                '<img src="asset:$assetName" style="height: 30px;" /> foo',
+            'li_within_li': '<li>Foo</li>',
+            'list_within_li': '<ul><li>Foo</li></ul>',
+            'list_of_items_within_li': '<ol><li>Foo</li><li>Bar</li></ol>',
+            'multiline':
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br />\n' *
+                    3,
+            'padding': '<div style="padding: 10px">Foo</div>',
+            'ruby': '<ruby>明日 <rp>(</rp><rt>Ashita</rt><rp>)</rp></ruby>',
+          };
+
+          for (final testCase in testCases.entries) {
+            testGoldens(testCase.key, (tester) async {
+              await tester.pumpWidgetBuilder(
+                _Golden(testCase.value),
+                wrapper: materialAppWrapper(theme: ThemeData.light()),
+                surfaceSize: Size(600, 400),
+              );
+
+              await screenMatchesGolden(tester, testCase.key);
+            }, skip: null);
+          }
+        }, skip: Platform.isLinux ? null : 'Linux only');
+      },
+      config: GoldenToolkitConfiguration(
+        fileNameFactory: (name) => '$kGoldenFilePrefix/li/$name.png',
+      ),
+    );
+  });
+}
+
+class _Golden extends StatelessWidget {
+  final String contents;
+
+  const _Golden(this.contents, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext _) => Scaffold(
+        body: Padding(
+          child: Column(
+            children: [
+              Text(contents),
+              Divider(),
+              Builder(
+                builder: (context) => Text(
+                  'UL:\n',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ),
+              HtmlWidget('''
+<ul>
+  <li>Above</li>
+  <li>$contents</li>
+  <li>Below</li>
+</ul>
+'''),
+              Divider(),
+              Builder(
+                builder: (context) => Text(
+                  'OL:\n',
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ),
+              HtmlWidget('''
+<ol>
+  <li>First</li>
+  <li>$contents</li>
+  <li>Third</li>
+</ol>
+'''),
+            ],
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+          ),
+          padding: const EdgeInsets.all(8.0),
+        ),
+      );
+}
+
+class _HitTestApp extends StatelessWidget {
+  final String href;
+  final void Function(String) onTapUrl;
+
+  const _HitTestApp({this.href, Key key, this.onTapUrl}) : super(key: key);
+
+  @override
+  Widget build(BuildContext _) => MaterialApp(
+        home: Scaffold(
+          body: HtmlWidget(
+            '<ul><li><a href="$href">Tap me</a></li></ul>',
+            onTapUrl: onTapUrl,
+          ),
+        ),
+      );
 }
