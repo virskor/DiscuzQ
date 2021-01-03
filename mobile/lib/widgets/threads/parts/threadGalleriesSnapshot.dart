@@ -69,7 +69,7 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
     ///
     /// 原图所有图片Url 图集
     final List<String> originalImageUrls =
-        attachmentsModels.map((e) => e.attributes.url).toList();
+        attachmentsModels.map((e) => e.attributes.url).toList().take(9).toList();
 
     return RepaintBoundary(
       child: NineGridView(
@@ -78,12 +78,8 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
         type: NineGridType.normal,
 
         /// normal only
-        itemCount: attachmentsModels.length >= 8 ? 9 : attachmentsModels.length,
+        itemCount: attachmentsModels.length,
         itemBuilder: (BuildContext context, int index) {
-          if (index > 8 || index > attachmentsModels.length) {
-            return const SizedBox();
-          }
-
           if (attachmentsModels[index] == null) {
             return const SizedBox();
           }

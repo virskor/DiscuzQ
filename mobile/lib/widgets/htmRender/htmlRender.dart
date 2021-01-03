@@ -58,8 +58,7 @@ class _HtmlRenderState extends State<HtmlRender>
         /// 处理表情渲染
         customWidgetBuilder: (element) {
           if (element.localName == 'img' &&
-              element.classes.contains('qq-emotion') &&
-              element.attributes.containsKey('alt')) {
+              element.classes.contains('qq-emotion')) {
             final src = element.attributes['src'];
             return CachedNetworkImage(
               imageUrl: src,
