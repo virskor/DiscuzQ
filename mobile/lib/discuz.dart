@@ -18,7 +18,6 @@ import 'package:discuzq/api/forum.dart';
 import 'package:discuzq/router/routers.dart';
 import 'package:discuzq/views/exploreDelagate.dart';
 import 'package:discuzq/providers/appConfigProvider.dart';
-import 'package:discuzq/widgets/settings/privacyConfirm.dart';
 
 import 'widgets/ui/ui.dart';
 
@@ -166,6 +165,8 @@ class _DiscuzAppDelegate extends StatefulWidget {
 class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   final CancelToken _cancelToken = CancelToken();
 
+  final PageController _pageController = PageController();
+
   /// 页面集合
   static const List<Widget> _views = [
     const ForumDelegate(),
@@ -179,18 +180,15 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
 
   /// 底部按钮菜单
   final List<NavigatorItem> _items = [
-    const NavigatorItem(icon: 0xe63e, title: "首页"),
-    const NavigatorItem(icon: 0xe605, title: "发现", shouldLogin: true),
+    const NavigatorItem(icon: 0xe7f3, title: "首页"),
+    const NavigatorItem(icon: 0xe788, title: "发现", shouldLogin: true),
     const NavigatorItem(isPublishButton: true),
-    const NavigatorItem(icon: 0xe677, title: "消息", shouldLogin: true),
-    const NavigatorItem(icon: 0xe7c7, title: "我的", size: 23, shouldLogin: true)
+    const NavigatorItem(icon: 0xe7c0, title: "消息", shouldLogin: true),
+    const NavigatorItem(icon: 0xe6f2, title: "我的", shouldLogin: true)
   ];
 
   /// 使用global key
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  /// states
-  int _selected = 0;
 
   /// _loaded means user forum api already requested! not means success or fail to load data
   bool _loaded = false;
@@ -211,6 +209,7 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
 
   @override
   void dispose() {
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -231,17 +230,17 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
               canvasColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
           child: Scaffold(
             key: _scaffoldKey,
-            //body: _views.elementAt(_selected),
-            body: IndexedStack(
+            body: PageView(
+              controller: _pageController,
               children: _views,
-              index: _selected,
+              physics: const NeverScrollableScrollPhysics(),
             ),
             resizeToAvoidBottomPadding: false,
             bottomNavigationBar: DiscuzBottomNavigator(
               items: _items,
-              onItemSelected: (index) => setState(() {
-                _selected = index;
-              }),
+              onItemSelected: (index) {
+                _pageController.jumpToPage(index);
+              },
             ),
           ),
         );
@@ -262,23 +261,5 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
     setState(() {
       _loaded = true;
     });
-
-    this._userPrivaciesNotice();
-  }
-
-  /// 弹出用户隐私提示
-  void _userPrivaciesNotice() {
-    final dynamic appConf = context.read<AppConfigProvider>().appConf;
-    if (appConf['confrimedPrivacy'] != null &&
-        appConf['confrimedPrivacy'] == false) {
-      showModalBottomSheet(
-          context: context,
-          isDismissible: false,
-          enableDrag: false,
-          backgroundColor: Colors.transparent,
-          builder: (BuildContext context) {
-            return const PrivacyConfirm();
-          });
-    }
   }
 }

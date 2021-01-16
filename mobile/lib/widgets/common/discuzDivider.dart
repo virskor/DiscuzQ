@@ -10,8 +10,8 @@ class DiscuzDivider extends StatelessWidget {
     return  Padding(
       padding: EdgeInsets.only(left: padding),
       child: const Divider(
-        height: .2,
-        color: const Color(0x2F000000),
+        height: .5,
+        color: const Color(0x1F000000)
       ),
     );
   }

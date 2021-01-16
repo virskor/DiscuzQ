@@ -27,11 +27,9 @@ class _AppTopicsDelegateState extends State<AppTopicsDelegate>
     return Scaffold(
       appBar: DiscuzAppBar(
         title: '话题',
-        brightness: Brightness.light,
-      ),
-      body: Column(
-        children: <Widget>[
-          TopicListBar(
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(40),
+          child: TopicListBar(
             onKeyWordChanged: (String val) {
               setState(() {
                 _keyword = val;
@@ -43,13 +41,11 @@ class _AppTopicsDelegateState extends State<AppTopicsDelegate>
               });
             },
           ),
-          Expanded(
-            child: TopicsList(
-              keyword: _keyword,
-              sort: _sortType,
-            ),
-          )
-        ],
+        ),
+      ),
+      body: TopicsList(
+        keyword: _keyword,
+        sort: _sortType,
       ),
     );
   }

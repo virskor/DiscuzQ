@@ -89,7 +89,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
             children: <Widget>[
               DiscuzCachedNetworkImage(
                 imageUrl: video.attributes.coverUrl,
-                //width: MediaQuery.of(context).size.width,
+                //width: double.infinity,
                 fit: BoxFit.cover,
               ),
               Positioned(

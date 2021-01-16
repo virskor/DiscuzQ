@@ -65,7 +65,7 @@ class _DiscuzImageState extends State<DiscuzImage> {
       {BuildContext context,
       @required AttachmentsModel attachment,
       @required Function onWantOriginalImage}) {
-    final double imageSize = (MediaQuery.of(context).size.width * .3) - 4;
+    final double imageSize = (double.infinity * .3) - 4;
 
     return CupertinoContextMenu(
       previewBuilder:

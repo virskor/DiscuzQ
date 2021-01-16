@@ -159,11 +159,11 @@ class _ThreadDetailDelegateState extends State<ThreadDetailDelegate> {
           title: widget.thread.attributes.title != ''
               ? widget.thread.attributes.title
               : '详情',
-          brightness: Brightness.light,
+         
           actions: <Widget>[
             IconButton(
               icon: const DiscuzIcon(
-                CupertinoIcons.flag,
+                0xe6d8,
               ),
               onPressed: () => DiscuzRoute.navigate(
                 context: context,

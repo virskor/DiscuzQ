@@ -57,7 +57,7 @@ class _TopicDetailDelegateState extends State<TopicDetailDelegate> {
   Widget build(BuildContext context) => Scaffold(
         appBar: DiscuzAppBar(
           title: _appbarTitle,
-          brightness: Brightness.light,
+          
           centerTitle: true,
           bottom: _currentTopic == null
               ? null

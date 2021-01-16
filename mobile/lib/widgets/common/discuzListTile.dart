@@ -1269,7 +1269,7 @@ class _RenderDiscuzListTile extends RenderBox {
     final bool isTwoLine = !isThreeLine && hasSubtitle;
     final bool isOneLine = !isThreeLine && !hasSubtitle;
 
-    if (isOneLine) return isDense ? 45.0 : 52.0;
+    if (isOneLine) return isDense ? 45.0 : 55.0;
 
     /// Chayou title height
     if (isTwoLine) return isDense ? 64.0 : 72.0;

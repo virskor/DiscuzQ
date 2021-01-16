@@ -62,7 +62,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
             border: const Border(top: Global.border, bottom: Global.border),
             color: DiscuzApp.themeOf(context).backgroundColor),
         padding: const EdgeInsets.all(10),
-        width: MediaQuery.of(context).size.width,
+        width: double.infinity,
 
         ///
         /// 要防止overflow哦

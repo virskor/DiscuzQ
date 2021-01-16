@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -15,11 +14,9 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/views/users/profileDelegate.dart';
 import 'package:discuzq/views/users/myCollectionDelegate.dart';
 import 'package:discuzq/views/users/follows/followingDelegate.dart';
-import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/views/users/blackListDelegate.dart';
-import 'package:discuzq/widgets/share/shareApp.dart';
 import 'package:discuzq/widgets/users/userAccountBanner.dart';
 import 'package:discuzq/router/routers.dart';
 import 'package:discuzq/providers/userProvider.dart';
@@ -32,8 +29,6 @@ class AccountDelegate extends StatefulWidget {
 }
 
 class _AccountDelegateState extends State<AccountDelegate> {
-  final RefreshController _controller = RefreshController();
-
   final List<_AccountMenuItem> _menus = [
     const _AccountMenuItem(
         label: '我的资料', icon: 0xe78e, child: const ProfileDelegate()),
@@ -64,7 +59,6 @@ class _AccountDelegateState extends State<AccountDelegate> {
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
@@ -74,42 +68,33 @@ class _AccountDelegateState extends State<AccountDelegate> {
           Scaffold(
             appBar: DiscuzAppBar(
               title: '个人中心',
-              brightness: Brightness.light,
               actions: <Widget>[
-                const _ShareAppButton(),
                 const _SettingButton()
               ],
             ),
             body: user.user == null
                 ? const YetNotLogon()
-                : DiscuzRefresh(
-                    controller: _controller,
-                    enablePullDown: true,
-                    onRefresh: () async {
-                      await AuthHelper.refreshUser(context: context);
-                      _controller.refreshCompleted();
-                    },
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: <Widget>[
-                        /// 构造登录信息页
-                        const UserAccountBanner(),
+                : ListView(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      /// 构造登录信息页
+                      const UserAccountBanner(),
 
-                        /// 菜单构造
+                      /// 菜单构造
 
-                        Container(
-                          margin: const EdgeInsets.only(top: 20),
-                          child: Column(
-                            children: _buildMenus(),
-                          ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: Column(
+                          children: _buildMenus(),
                         ),
+                      ),
 
-                        const Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, right: 10, top: 20),
-                            child: const _LogoutButton())
-                      ],
-                    ),
+                      const Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, top: 20),
+                          child: const _LogoutButton())
+                    ],
                   ),
           ));
 
@@ -168,29 +153,12 @@ class _SettingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: DiscuzIcon(CupertinoIcons.gear_alt,
-            color: DiscuzApp.themeOf(context).textColor),
+        icon: DiscuzIcon(0xe7f7, size: 30,color: DiscuzApp.themeOf(context).textColor),
         onPressed: () => DiscuzRoute.navigate(
           context: context,
-          fullscreenDialog: true,
           path: Routers.preferences,
         ),
       );
-}
-
-///
-/// 分享APP按钮
-class _ShareAppButton extends StatelessWidget {
-  const _ShareAppButton();
-
-  @override
-  Widget build(BuildContext context) => Consumer<UserProvider>(
-      builder: (BuildContext context, UserProvider user, Widget child) =>
-          IconButton(
-            icon: DiscuzIcon(CupertinoIcons.square_arrow_up,
-                color: DiscuzApp.themeOf(context).textColor),
-            onPressed: () => ShareApp.show(context: context, user: user.user),
-          ));
 }
 
 /// 菜单列表

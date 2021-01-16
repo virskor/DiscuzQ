@@ -10,8 +10,11 @@ import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/threads/theadsList.dart';
 import 'package:discuzq/widgets/categories/discuzCategories.dart';
-import 'package:discuzq/widgets/forum/forumCategoryTabWrapper.dart';
 import 'package:discuzq/providers/categoriesProvider.dart';
+import 'package:discuzq/widgets/search/searchActionButton.dart';
+import 'package:discuzq/widgets/search/searchTypeItemsColumn.dart';
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
+import 'package:discuzq/providers/appConfigProvider.dart';
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
@@ -85,41 +88,46 @@ class _ForumDelegateState extends State<ForumDelegate>
         const Center(child: const DiscuzText('暂无可用分类'));
       }
 
-      final Widget _tabs = ForumCategoryTabWrapper(
-        tabBar: TabBar(
-            //生成Tab菜单
-            controller: _tabController,
-            labelStyle: TextStyle(
-              //up to your taste
-              fontSize: DiscuzApp.themeOf(context).largeTextSize,
-              fontWeight: FontWeight.w600,
-            ),
-            unselectedLabelStyle: TextStyle(
-              fontSize: DiscuzApp.themeOf(context).largeTextSize,
-              fontWeight: FontWeight.w600,
-            ),
-            indicatorSize: TabBarIndicatorSize.label, //makes it better
-            labelColor: Colors.white, //Google's sweet blue
-            unselectedLabelColor: Colors.white.withOpacity(.58), //niceish grey
-            isScrollable: true, //up to your taste
-            indicatorPadding: const EdgeInsets.all(0),
-            indicator: MD2Indicator(
-                //it begins here
-                indicatorHeight: 2,
-                indicatorColor: DiscuzApp.themeOf(context).primaryColor,
-                indicatorSize:
-                    MD2IndicatorSize.tiny //3 different modes tiny-normal-full
-                ),
-            tabs: cats.categories
-                .map<Widget>((CategoryModel e) => Tab(text: e.attributes.name))
-                .toList()),
-      );
+      final Widget _tabs = TabBar(
+          //生成Tab菜单
+          controller: _tabController,
+          labelStyle: TextStyle(
+            //up to your taste
+            fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+            fontWeight: FontWeight.w600,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+            fontWeight: FontWeight.w600,
+          ),
+          indicatorSize: TabBarIndicatorSize.tab, //makes it better
+          labelColor:
+              DiscuzApp.themeOf(context).textColor, //Google's sweet blue
+          unselectedLabelColor: DiscuzApp.themeOf(context)
+              .textColor
+              .withOpacity(.68), //niceish grey
+          isScrollable: true, //up to your taste
+          indicatorPadding: const EdgeInsets.all(0),
+          indicator: MD2Indicator(
+              //it begins here
+              indicatorHeight: 2,
+              indicatorColor: DiscuzApp.themeOf(context).primaryColor,
+              indicatorSize:
+                  MD2IndicatorSize.tiny //3 different modes tiny-normal-full
+              ),
+          tabs: cats.categories
+              .map<Widget>((CategoryModel e) => Tab(text: e.attributes.name))
+              .toList());
 
       /// 生成论坛分类和内容区域
       return Scaffold(
-        appBar: PreferredSize(
-          child: _tabs,
-          preferredSize: const Size.fromHeight(120),
+        appBar: DiscuzAppBar(
+          title: "首页",
+          bottom: PreferredSize(
+            child: _tabs,
+            preferredSize: const Size.fromHeight(30),
+          ),
+          actions: [_actionButtons],
         ),
         body: Column(
           children: <Widget>[
@@ -153,6 +161,12 @@ class _ForumDelegateState extends State<ForumDelegate>
       );
     });
   }
+
+  /// 搜索按钮
+  Widget get _actionButtons => const DiscuzAppSearchActionButton(
+        type: DiscuzAppSearchType.thread,
+        dark: false,
+      );
 
   /// 初始化 tab controller
   ///

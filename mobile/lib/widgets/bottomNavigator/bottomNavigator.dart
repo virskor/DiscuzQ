@@ -11,7 +11,7 @@ import 'package:discuzq/widgets/forum/forumAddButton.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/providers/userProvider.dart';
 
-const double _kBottomNavigationElevation = 15;
+const double _kBottomNavigationElevation = 0;
 
 const double _kPublishButtonSize = 35;
 
@@ -83,13 +83,14 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
                 size: it.size,
                 color: selectedIndex == index
                     ? Theme.of(context).primaryColor
-                    :const Color(0xFF657786),
+                    : DiscuzApp.themeOf(context).textColor
+                    //: const Color(0xFF657786),
               ),
               DiscuzText(
                 it.title,
                 color: selectedIndex == index
                     ? Theme.of(context).primaryColor
-                    :const Color(0xFF657786),
+                    : DiscuzApp.themeOf(context).textColor,
                     fontSize: DiscuzApp.themeOf(context).miniTextSize,
               )
             ],
@@ -122,7 +123,7 @@ class _PublishButton extends StatelessWidget {
         margin: const EdgeInsets.only(top: 4),
         decoration: BoxDecoration(
             color: DiscuzApp.themeOf(context).primaryColor,
-            borderRadius: const BorderRadius.all(const Radius.circular(60))),
+            borderRadius: const BorderRadius.all(const Radius.circular(10))),
         child: const ForumAddButton(
           padding: const EdgeInsets.all(0),
           awalysDark: true,
@@ -153,7 +154,7 @@ class NavigatorItem {
       {this.icon,
       this.color,
       this.shouldLogin = false,
-      this.size = 25.0,
+      this.size = 30.0,
       this.title = "",
       this.isPublishButton = false});
 }

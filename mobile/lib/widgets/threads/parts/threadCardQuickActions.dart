@@ -13,7 +13,7 @@ import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 
 ///
 /// 按钮图标的大小
-const double _kIconsize = 20;
+const double _kIconsize = 25;
 
 class ThreadCardQuickActions extends StatelessWidget {
   ///
@@ -45,9 +45,9 @@ class ThreadCardQuickActions extends StatelessWidget {
           ///
           /// 评论
           _ThreadCardQuickActionsItem(
-            icon: 0xe65f,
+            icon: 0xe67d,
             count: thread.attributes.postCount - 1,
-            iconSize: 20,
+            iconSize: _kIconsize,
             onPressed: () async {
               final DiscuzEditorRequestResult res =
                   await DiscuzEditorHelper(context: context)
@@ -63,9 +63,9 @@ class ThreadCardQuickActions extends StatelessWidget {
           ///
           /// 分享按钮
           _ThreadCardQuickActionsItem(
-            icon: 0xe692,
+            icon: 0xe6cd,
             hideCounter: true,
-            iconSize: 22,
+            iconSize: _kIconsize,
             onPressed: () => ShareNative.shareThread(thread: thread),
           )
         ],
@@ -110,7 +110,7 @@ class _ThreadCardQuickActionsItem extends StatelessWidget {
               DiscuzIcon(
                 icon,
                 size: iconSize,
-                color: DiscuzApp.themeOf(context).greyTextColor,
+                color: DiscuzApp.themeOf(context).textColor,
               ),
               const SizedBox(
                 width: 4,

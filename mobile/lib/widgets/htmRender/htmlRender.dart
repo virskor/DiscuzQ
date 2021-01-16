@@ -1,6 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:discuzq/widgets/common/discuzLink.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
@@ -9,6 +7,7 @@ import 'package:discuzq/widgets/webview/webviewHelper.dart';
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/topics/topicDetailDelegate.dart';
 import 'package:discuzq/widgets/users/userLinkDetector.dart';
+import 'package:discuzq/widgets/common/discuzLink.dart';
 
 class HtmlRender extends StatefulWidget {
   HtmlRender({@required this.html});

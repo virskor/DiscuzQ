@@ -1,3 +1,4 @@
+import 'package:discuzq/views/settings/aboutDelegate.dart';
 import 'package:discuzq/views/topics/appTopicsDelegate.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
@@ -10,6 +11,9 @@ class Routers {
 
   /// 偏好设置
   static const String preferences = "/preferences";
+
+  /// 关于
+  static const String about = "/about";
 
   /// 话题列表
   static const String topics = "/topics";
@@ -26,7 +30,14 @@ class Routers {
       return const AppTopicsDelegate();
     });
 
+    /// 话题
+    final Handler aboutHandler = Handler(
+        handlerFunc: (BuildContext context, Map<String, dynamic> params) {
+      return const AboutDelegate();
+    });
+
     router.define(preferences, handler: preferencesHandler);
+    router.define(about, handler: aboutHandler);
     router.define(topics, handler: topicsHandler);
   }
 }

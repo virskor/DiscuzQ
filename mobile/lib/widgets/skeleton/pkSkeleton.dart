@@ -74,84 +74,81 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(3))),
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: width * 0.13,
-                      width: width * 0.13,
-                      decoration:
-                          myBoxDec(animation, isCircle: widget.isCircularImage),
+        return Container(
+          decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.all(Radius.circular(3))),
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: width * 0.13,
+                    width: width * 0.13,
+                    decoration:
+                        myBoxDec(animation, isCircle: widget.isCircularImage),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    height: width * 0.13,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: height * 0.008,
+                          width: width * 0.3,
+                          decoration: myBoxDec(animation),
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.2,
+                          decoration: myBoxDec(animation),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      height: width * 0.13,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            height: height * 0.008,
-                            width: width * 0.3,
-                            decoration: myBoxDec(animation),
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.2,
-                            decoration: myBoxDec(animation),
-                          ),
-                        ],
-                      ),
+                  )
+                ],
+              ),
+              widget.isBottomLinesActive
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.7,
+                          decoration: myBoxDec(animation),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.8,
+                          decoration: myBoxDec(animation),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.5,
+                          decoration: myBoxDec(animation),
+                        ),
+                      ],
                     )
-                  ],
-                ),
-                widget.isBottomLinesActive
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.7,
-                            decoration: myBoxDec(animation),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.8,
-                            decoration: myBoxDec(animation),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.5,
-                            decoration: myBoxDec(animation),
-                          ),
-                        ],
-                      )
-                    : const Offstage()
-              ],
-            ),
+                  : const Offstage()
+            ],
           ),
         );
       },
@@ -232,84 +229,81 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-                color: Global.backgroundColorDark,
-                borderRadius: const BorderRadius.all(Radius.circular(3))),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      height: width * 0.13,
-                      width: width * 0.13,
-                      decoration: myDarkBoxDec(animation,
-                          isCircle: widget.isCircularImage),
+        return Container(
+          padding: const EdgeInsets.all(10),
+          decoration: const BoxDecoration(
+              color: Global.backgroundColorDark,
+              borderRadius: const BorderRadius.all(Radius.circular(3))),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: width * 0.13,
+                    width: width * 0.13,
+                    decoration: myDarkBoxDec(animation,
+                        isCircle: widget.isCircularImage),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    height: width * 0.13,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: height * 0.008,
+                          width: width * 0.3,
+                          decoration: myDarkBoxDec(animation),
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.2,
+                          decoration: myDarkBoxDec(animation),
+                        ),
+                      ],
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      height: width * 0.13,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            height: height * 0.008,
-                            width: width * 0.3,
-                            decoration: myDarkBoxDec(animation),
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.2,
-                            decoration: myDarkBoxDec(animation),
-                          ),
-                        ],
-                      ),
+                  )
+                ],
+              ),
+              widget.isBottomLinesActive
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.7,
+                          decoration: myDarkBoxDec(animation),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.8,
+                          decoration: myDarkBoxDec(animation),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.5,
+                          decoration: myDarkBoxDec(animation),
+                        ),
+                      ],
                     )
-                  ],
-                ),
-                widget.isBottomLinesActive
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.7,
-                            decoration: myDarkBoxDec(animation),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.8,
-                            decoration: myDarkBoxDec(animation),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.5,
-                            decoration: myDarkBoxDec(animation),
-                          ),
-                        ],
-                      )
-                    : const Offstage()
-              ],
-            ),
+                  : const Offstage()
+            ],
           ),
         );
       },
@@ -416,96 +410,93 @@ class _PKCardProfileSkeletonState extends State<PKCardProfileSkeleton>
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: width * 0.25,
-                  width: width * 0.25,
-                  decoration:
-                      myBoxDec(animation, isCircle: widget.isCircularImage),
+        return Container(
+          color: Colors.white,
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: width * 0.25,
+                width: width * 0.25,
+                decoration:
+                    myBoxDec(animation, isCircle: widget.isCircularImage),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    4,
+                    (i) => Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: width * 0.13,
+                          width: width * 0.13,
+                          decoration: myBoxDec(animation,
+                              isCircle: widget.isCircularImage),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          height: width * 0.13,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                height: height * 0.008,
+                                width: width * 0.3,
+                                decoration: myBoxDec(animation),
+                              ),
+                              Container(
+                                height: height * 0.007,
+                                width: width * 0.2,
+                                decoration: myBoxDec(animation),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ).toList(),
                 ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: List.generate(
-                      4,
-                      (i) => Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            height: width * 0.13,
-                            width: width * 0.13,
-                            decoration: myBoxDec(animation,
-                                isCircle: widget.isCircularImage),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            height: width * 0.13,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  height: height * 0.008,
-                                  width: width * 0.3,
-                                  decoration: myBoxDec(animation),
-                                ),
-                                Container(
-                                  height: height * 0.007,
-                                  width: width * 0.2,
-                                  decoration: myBoxDec(animation),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ).toList(),
-                  ),
-                ),
-                widget.isBottomLinesActive
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.7,
-                            decoration: myBoxDec(animation),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.8,
-                            decoration: myBoxDec(animation),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.5,
-                            decoration: myBoxDec(animation),
-                          ),
-                        ],
-                      )
-                    : const Offstage()
-              ],
-            ),
+              ),
+              widget.isBottomLinesActive
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.7,
+                          decoration: myBoxDec(animation),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.8,
+                          decoration: myBoxDec(animation),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.5,
+                          decoration: myBoxDec(animation),
+                        ),
+                      ],
+                    )
+                  : const Offstage()
+            ],
           ),
         );
       },
@@ -563,96 +554,93 @@ class _PKDarkCardProfileSkeletonState extends State<PKDarkCardProfileSkeleton>
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: Container(
-            color: Colors.grey[800],
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: width * 0.25,
-                  width: width * 0.25,
-                  decoration:
-                      myDarkBoxDec(animation, isCircle: widget.isCircularImage),
+        return Container(
+          color: Colors.grey[800],
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                height: width * 0.25,
+                width: width * 0.25,
+                decoration:
+                    myDarkBoxDec(animation, isCircle: widget.isCircularImage),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: List.generate(
+                    4,
+                    (i) => Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Container(
+                          height: width * 0.13,
+                          width: width * 0.13,
+                          decoration: myDarkBoxDec(animation,
+                              isCircle: widget.isCircularImage),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          height: width * 0.13,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                height: height * 0.008,
+                                width: width * 0.3,
+                                decoration: myDarkBoxDec(animation),
+                              ),
+                              Container(
+                                height: height * 0.007,
+                                width: width * 0.2,
+                                decoration: myDarkBoxDec(animation),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ).toList(),
                 ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: List.generate(
-                      4,
-                      (i) => Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Container(
-                            height: width * 0.13,
-                            width: width * 0.13,
-                            decoration: myDarkBoxDec(animation,
-                                isCircle: widget.isCircularImage),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Container(
-                            height: width * 0.13,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  height: height * 0.008,
-                                  width: width * 0.3,
-                                  decoration: myDarkBoxDec(animation),
-                                ),
-                                Container(
-                                  height: height * 0.007,
-                                  width: width * 0.2,
-                                  decoration: myDarkBoxDec(animation),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ).toList(),
-                  ),
-                ),
-                widget.isBottomLinesActive
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.7,
-                            decoration: myDarkBoxDec(animation),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.8,
-                            decoration: myDarkBoxDec(animation),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: height * 0.007,
-                            width: width * 0.5,
-                            decoration: myDarkBoxDec(animation),
-                          ),
-                        ],
-                      )
-                    : const Offstage()
-              ],
-            ),
+              ),
+              widget.isBottomLinesActive
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.7,
+                          decoration: myDarkBoxDec(animation),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.8,
+                          decoration: myDarkBoxDec(animation),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: height * 0.007,
+                          width: width * 0.5,
+                          decoration: myDarkBoxDec(animation),
+                        ),
+                      ],
+                    )
+                  : const Offstage()
+            ],
           ),
         );
       },
@@ -707,44 +695,41 @@ class _PKCardPageSkeletonState extends State<PKCardPageSkeleton>
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: List.generate(
-                    widget.totalLines,
-                    (i) => Column(
-                          children: <Widget>[
-                            Container(
-                              height: height * 0.007,
-                              width: width * 0.7,
-                              decoration: myBoxDec(animation),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: height * 0.007,
-                              width: width * 0.8,
-                              decoration: myBoxDec(animation),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: height * 0.007,
-                              width: width * 0.5,
-                              decoration: myBoxDec(animation),
-                            ),
-                          ],
-                        )).toList(),
-              )),
-        );
+        return Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: List.generate(
+                  widget.totalLines,
+                  (i) => Column(
+                        children: <Widget>[
+                          Container(
+                            height: height * 0.007,
+                            width: width * 0.7,
+                            decoration: myBoxDec(animation),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: height * 0.007,
+                            width: width * 0.8,
+                            decoration: myBoxDec(animation),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: height * 0.007,
+                            width: width * 0.5,
+                            decoration: myBoxDec(animation),
+                          ),
+                        ],
+                      )).toList(),
+            ));
       },
     );
   }
@@ -797,44 +782,41 @@ class _PKDarkCardPageSkeletonState extends State<PKDarkCardPageSkeleton>
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: Container(
-              color: Colors.grey[800],
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: List.generate(
-                    widget.totalLines,
-                    (i) => Column(
-                          children: <Widget>[
-                            Container(
-                              height: height * 0.007,
-                              width: width * 0.7,
-                              decoration: myDarkBoxDec(animation),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: height * 0.007,
-                              width: width * 0.8,
-                              decoration: myDarkBoxDec(animation),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: height * 0.007,
-                              width: width * 0.5,
-                              decoration: myDarkBoxDec(animation),
-                            ),
-                          ],
-                        )).toList(),
-              )),
-        );
+        return Container(
+            color: Colors.grey[800],
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: List.generate(
+                  widget.totalLines,
+                  (i) => Column(
+                        children: <Widget>[
+                          Container(
+                            height: height * 0.007,
+                            width: width * 0.7,
+                            decoration: myDarkBoxDec(animation),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: height * 0.007,
+                            width: width * 0.8,
+                            decoration: myDarkBoxDec(animation),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: height * 0.007,
+                            width: width * 0.5,
+                            decoration: myDarkBoxDec(animation),
+                          ),
+                        ],
+                      )).toList(),
+            ));
       },
     );
   }

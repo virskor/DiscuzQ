@@ -5,6 +5,7 @@
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -174,11 +175,13 @@ class DiscuzAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.title,
     this.actions,
     this.flexibleSpace,
-    this.bottom,
+    this.bottom = const PreferredSize(
+                child: const DiscuzDivider(padding: 0,),
+                preferredSize: const Size.fromHeight(1)),
     this.elevation,
     this.shape,
     this.backgroundColor,
-    this.brightness,
+    this.brightness = Brightness.light,
     this.iconTheme,
     this.leadingWidth = kToolbarHeight,
     this.actionsIconTheme,
@@ -620,7 +623,7 @@ class _DiscuzAppBarState extends State<DiscuzAppBar> {
           ? DiscuzApp.themeOf(context).primaryColor.withOpacity(.34)
           : widget.backgroundColor ??
               appBarTheme.color ??
-              DiscuzApp.themeOf(context).scaffoldBackgroundColor;
+              DiscuzApp.themeOf(context).backgroundColor;
 
       return Semantics(
         container: true,

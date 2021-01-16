@@ -15,10 +15,14 @@ development:
   # You are not gonna get a health application when you add a domain like https://google.com redirected into https://www.google.com
   #
   # YOUR DOMAIN SHOULD NEVER ENDED WITH PATH SEPARATOR LIKE : https://www.example.com/
-  domain: https://discuz.chat
-  appname: DiscuzQ
+  domain: https://m.clodra.com
+  appname: ClodraAPP
+  # 帮助中心链接
+  helpCenter: https://app.clodra.com/helpcenter/
+  # 技术支持链接
+  technicalSupport: https://app.clodra.com
   # Allow to show checked mode banner
-  debugShowCheckedModeBanner: true
+  debugShowCheckedModeBanner: false
   # Allow and show performance overlay setting
   enablePerformanceOverlay: true
   # HTTP2
@@ -37,7 +41,7 @@ development:
   #
   # Financial fatures
   # Set this item into FALSE, wallet and financial amount will be displayed
-  financial: true 
+  financial: false 
   # Bugly
   bugly: 
     IOS: de3ab42b91
@@ -47,8 +51,12 @@ development:
 # 构建生产环境的APP时加载的信息
 # Parameters for building prodution package
 production:
-  domain: https://discuz.chat
-  appname: DiscuzQ
+  domain: https://m.clodra.com
+  appname: ClodraAPP
+  ## 帮助中心链接
+  helpCenter: https://app.clodra.com/helpcenter/
+  # 技术支持链接
+  technicalSupport: https://app.clodra.com
   ## DO NOT ENABLE THIS ITEM WHEN YOU ARE BUILD AN APPLICATION FOR YOUR USERS
   enablePerformanceOverlay: false
   ## DO NOT ENABLE THIS ITEM WHEN YOU ARE BUILD AN APPLICATION FOR YOUR USERS
@@ -57,7 +65,7 @@ production:
   enableHttp2: false
   onBadCertificate: true 
   http2idleTimeout: 15000
-  financial: true 
+  financial: false 
   # Bugly
   bugly: 
     IOS: de3ab42b91

@@ -40,8 +40,14 @@ class BuildInfoModel {
   /// bugly配置
   final dynamic bugly;
 
+  final String helpCenter;
+
+  final String technicalSupport;
+
   const BuildInfoModel(
       {this.domain = 'https://discuz.chat',
+      this.technicalSupport = "",
+      this.helpCenter = "",
       this.appname = 'DiscuzQ',
       this.enableHttp2 = false,
       this.onBadCertificate = true,
@@ -79,6 +85,8 @@ class BuildInfoModel {
         idleTimeout: data['idleTimeout'] ?? 15000,
         financial: data['financial'] ?? false,
         bugly: data['bugly'] ?? null,
+        helpCenter: data['helpCenter'] ?? "",
+        technicalSupport: data['technicalSupport'] ?? "",
         debugShowCheckedModeBanner: data['debugShowCheckedModeBanner'] ?? false,
         enablePerformanceOverlay: data['enablePerformanceOverlay'] ?? false);
   }

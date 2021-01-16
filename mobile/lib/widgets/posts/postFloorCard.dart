@@ -114,8 +114,8 @@ class _PostFloorCardState extends State<PostFloorCard>
       margin: const EdgeInsets.only(top: 5.0),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          color: DiscuzApp.themeOf(context).backgroundColor,
-          border: const Border(top: Global.border, bottom: Global.border)),
+        color: DiscuzApp.themeOf(context).backgroundColor,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -280,16 +280,15 @@ class _PostFloorCardState extends State<PostFloorCard>
           ///
           PostLikeButton(
             post: widget.post,
-            size: 20,
           ),
 
           ///
           /// 评论按钮
           IconButton(
             icon: DiscuzIcon(
-              0xe65f,
-              size: 20,
-              color: DiscuzApp.themeOf(context).greyTextColor,
+              0xe67d,
+              size: 25,
+              color: DiscuzApp.themeOf(context).textColor,
             ),
             onPressed: () async {
               final DiscuzEditorRequestResult res =
@@ -307,9 +306,9 @@ class _PostFloorCardState extends State<PostFloorCard>
           /// 举报按钮
           IconButton(
             icon: DiscuzIcon(
-              CupertinoIcons.flag,
-              size: 22,
-              color: DiscuzApp.themeOf(context).greyTextColor,
+              0xe6d8,
+              size: 25,
+              color: DiscuzApp.themeOf(context).textColor,
             ),
             onPressed: () => DiscuzRoute.navigate(
               context: context,

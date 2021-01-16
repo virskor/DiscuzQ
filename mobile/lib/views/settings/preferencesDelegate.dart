@@ -1,7 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/settings/themeColorSetting.dart';
@@ -9,10 +9,13 @@ import 'package:discuzq/widgets/settings/settingToolkit.dart';
 import 'package:discuzq/widgets/settings/settingGroupWrapper.dart';
 import 'package:discuzq/widgets/settings/clearCache.dart';
 import 'package:discuzq/utils/buildInfo.dart';
-import 'package:discuzq/widgets/webview/webviewHelper.dart';
-import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/router/routers.dart';
 import 'package:discuzq/widgets/update/upgrader.dart';
 import 'package:discuzq/widgets/events/globalEvents.dart';
+import 'package:discuzq/providers/userProvider.dart';
+import 'package:discuzq/widgets/share/shareApp.dart';
+import 'package:discuzq/widgets/webview/webviewHelper.dart';
 
 class PreferencesDelegate extends StatefulWidget {
   const PreferencesDelegate({Key key}) : super(key: key);
@@ -43,7 +46,6 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
   Widget build(BuildContext context) => Scaffold(
         appBar: DiscuzAppBar(
           title: '偏好设置',
-          brightness: Brightness.light,
         ),
         body: ListView(
           children: <Widget>[
@@ -89,6 +91,14 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                     ClearCacheDialog.build(context: context);
                   },
                 ),
+                Consumer<UserProvider>(
+      builder: (BuildContext context, UserProvider user, Widget child) =>SettingTile(
+                  icon: 0xe6cd,
+                  label: '邀请好友',
+                  onPressed: () {
+                    ShareApp.show(context: context, user: user.user);
+                  },
+                ),),
               ],
             ),
             SettingGroupWrapper(
@@ -97,16 +107,39 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                 Platform.isAndroid
                     ? Upgrader(
                         child: SettingTile(
-                            icon: 0xe80d, label: '获取新版', onPressed: () => eventBus.fire(const WantUpgradeAppVersion())),
+                            icon: 0xe80d,
+                            label: '获取新版',
+                            onPressed: () =>
+                                eventBus.fire(const WantUpgradeAppVersion())),
                         isManual: true)
                     : const SizedBox(),
+                BuildInfo().info().technicalSupport == ""
+                    ? const SizedBox()
+                    : SettingTile(
+                        icon: 0xe683,
+                        label: '技术支持',
+                        onPressed: () {
+                          WebviewHelper.launchUrl(
+                              url: BuildInfo().info().technicalSupport);
+                        }),
+                BuildInfo().info().helpCenter == ""
+                    ? const SizedBox()
+                    : SettingTile(
+                        icon: CupertinoIcons.question_circle,
+                        label: '获得帮助',
+                        onPressed: () {
+                          WebviewHelper.launchUrl(
+                              url: BuildInfo().info().helpCenter);
+                        }),
                 SettingTile(
                     icon: CupertinoIcons.info_circle,
                     label: '关于APP',
-                    onPressed: () => WebviewHelper.open(context,
-                        url: "${Global.domain}/pages/site/index",
-                        shouldLogin: true,
-                        title: '关于')),
+                    onPressed: () {
+                      DiscuzRoute.navigate(
+                        context: context,
+                        path: Routers.about,
+                      );
+                    }),
               ],
             ),
           ],

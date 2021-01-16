@@ -10,7 +10,7 @@ import 'package:discuzq/widgets/search/searchTypeItemsColumn.dart';
 
 class DiscuzAppSearchActionButton extends StatelessWidget {
   const DiscuzAppSearchActionButton(
-      {this.type = DiscuzAppSearchType.thread, this.icon});
+      {this.type = DiscuzAppSearchType.thread, this.icon, this.dark = true});
 
   ///
   /// 搜索的类型
@@ -20,9 +20,12 @@ class DiscuzAppSearchActionButton extends StatelessWidget {
   /// 搜索的按钮图标
   final dynamic icon;
 
+  final bool dark;
+
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: DiscuzIcon(icon ?? Icons.search, color: Colors.white),
+        icon: DiscuzIcon(icon ?? Icons.search,
+            color: dark ? Colors.white : DiscuzApp.themeOf(context).textColor),
         onPressed: () => showDiscuzSearch(
             context: context, delegate: DiscuzAppSearchDelegate(type: type)),
       );

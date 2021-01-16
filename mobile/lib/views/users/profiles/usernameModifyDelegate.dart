@@ -65,7 +65,7 @@ class _UsernameModifyDelegateState extends State<UsernameModifyDelegate> {
   Widget build(BuildContext context) => Scaffold(
       appBar: DiscuzAppBar(
         title: '修改用户名',
-        brightness: Brightness.light,
+        
       ),
       body: Padding(
           padding: kBodyPaddingAll,

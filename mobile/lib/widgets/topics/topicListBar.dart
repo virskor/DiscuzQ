@@ -25,7 +25,7 @@ class _TopicListBarState extends State<TopicListBar> {
       height: 45,
       decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
-          border: const Border(bottom: Global.border)),
+          border: const Border(bottom: Global.border, top: Global.border)),
       child: Row(
         children: <Widget>[
           Expanded(

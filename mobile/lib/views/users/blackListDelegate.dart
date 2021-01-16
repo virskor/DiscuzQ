@@ -86,7 +86,7 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
           Scaffold(
             appBar: DiscuzAppBar(
               title: _title,
-              brightness: Brightness.light,
+              
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: _buildBody(),
