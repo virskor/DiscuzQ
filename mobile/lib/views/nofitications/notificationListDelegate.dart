@@ -94,7 +94,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     return Scaffold(
       appBar: DiscuzAppBar(
         title: widget.type.label,
-        brightness: Brightness.light,
+       
       ),
       body: _buildBody(context),
     );

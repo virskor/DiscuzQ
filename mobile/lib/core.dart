@@ -18,6 +18,7 @@ import 'package:discuzq/providers/forumProvider.dart';
 import 'package:discuzq/providers/categoriesProvider.dart';
 import 'package:discuzq/providers/editorProvider.dart';
 import 'package:discuzq/widgets/update/upgrader.dart';
+import 'package:discuzq/widgets/settings/privacyConfirm.dart';
 
 ///
 /// 执行
@@ -80,11 +81,30 @@ class DiscuzQ extends StatelessWidget {
 
     /// 加载本地的用户信息
     await AuthHelper.getUserFromLocal(context: context);
+
+    await _userPrivaciesNotice(context);
   }
 
   /// 加载本地的配置
   Future<bool> _initAppSettings() async =>
       await AppConfigurations().initAppSetting();
+
+
+  /// 弹出用户隐私提示
+  void _userPrivaciesNotice(BuildContext context) {
+    final dynamic appConf = context.read<AppConfigProvider>().appConf;
+    if (appConf['confrimedPrivacy'] != null &&
+        appConf['confrimedPrivacy'] == false) {
+      showModalBottomSheet(
+          context: context,
+          isDismissible: false,
+          enableDrag: false,
+          backgroundColor: Colors.transparent,
+          builder: (BuildContext context) {
+            return const PrivacyConfirm();
+          });
+    }
+  }
 }
 
 ///
@@ -99,4 +119,6 @@ class _DiscuzAppIndicator extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       );
+
+      
 }

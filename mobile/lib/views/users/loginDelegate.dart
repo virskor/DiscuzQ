@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -72,7 +73,6 @@ class _LoginDelegateState extends State<LoginDelegate> {
   Widget build(BuildContext context) => Scaffold(
         appBar: DiscuzAppBar(
           title: '登录',
-          brightness: Brightness.light,
           actions: <Widget>[
             // IconButton(
             //   tooltip: '无法登陆',
@@ -183,8 +183,22 @@ class _LoginDelegateState extends State<LoginDelegate> {
                   label: '没有账号，立即注册',
                   labelColor: Colors.white,
                   color: Colors.blueGrey.withOpacity(.43),
-                  onPressed: () => DiscuzRoute.navigate(
-                      context: context, widget: const RegisterDelegate()),
+                  onPressed: () async {
+                    if (forum.isSMSEnabled) {
+                      await DiscuzDialog.confirm(
+                          context: context,
+                          title: "提示",
+                          message: "根据相关规定，请您使用短信验证码登录完成一键注册",
+                          onConfirm: () {
+                            setState(() {
+                              _enableSMSlogin = true;
+                            });
+                          });
+                      return;
+                    }
+                    DiscuzRoute.navigate(
+                        context: context, widget: const RegisterDelegate());
+                  },
                 ),
 
                 /// 用户协议
@@ -206,9 +220,11 @@ class _LoginDelegateState extends State<LoginDelegate> {
     /// 短信验证码登录
     if (_enableSMSlogin) {
       try {
-        final verifyResult = await SMSApi(context: context).verify(_code,
-            mobile: _usernameTextfiledController.text,
-            type: MobileVerifyTypes.login,);
+        final verifyResult = await SMSApi(context: context).verify(
+          _code,
+          mobile: _usernameTextfiledController.text,
+          type: MobileVerifyTypes.login,
+        );
 
         /// 一旦请求结束，就要关闭loading
         closeLoading();

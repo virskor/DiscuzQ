@@ -49,48 +49,51 @@ class _ExploreDelegateState extends State<ExploreDelegate>
     return Scaffold(
       appBar: DiscuzAppBar(
         title: "发现",
-        dark: true,
-        backgroundColor: DiscuzApp.themeOf(context).primaryColor,
-        brightness: Brightness.dark,
       ),
-      body: Container(
-          decoration: BoxDecoration(
-              border: const Border(bottom: Global.border),
-              color: DiscuzApp.themeOf(context).backgroundColor),
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              DiscuzListTile(
-                leading: const DiscuzIcon(0xe69b),
-                title: const DiscuzText(
-                  '搜索主题',
-                ),
-                onTap: () => showDiscuzSearch(
-                    context: context,
-                    delegate: DiscuzAppSearchDelegate(
-                        type: DiscuzAppSearchType.thread)),
+      body: ListView(
+        children: <Widget>[
+          _exploreSelection(
+            child: DiscuzListTile(
+              leading: const DiscuzIcon(0xe69b),
+              title: const DiscuzText(
+                '搜索主题',
               ),
-              DiscuzListTile(
-                leading: const DiscuzIcon(0xe6e7),
-                title: const DiscuzText(
-                  '搜索用户',
-                ),
-                onTap: () => showDiscuzSearch(
-                    context: context,
-                    delegate: DiscuzAppSearchDelegate(
-                        type: DiscuzAppSearchType.user)),
+              onTap: () => showDiscuzSearch(
+                  context: context,
+                  delegate: DiscuzAppSearchDelegate(
+                      type: DiscuzAppSearchType.thread)),
+            ),
+          ),
+          _exploreSelection(
+            child: DiscuzListTile(
+              leading: const DiscuzIcon(0xe6e7),
+              title: const DiscuzText(
+                '搜索用户',
               ),
-              DiscuzListTile(
-                leading: const DiscuzIcon(0xe8b1),
-                title: const DiscuzText(
-                  '话题',
-                ),
-                onTap: () {
-                  DiscuzRoute.navigate(context: context, path: Routers.topics);
-                },
-              )
-            ],
+              onTap: () => showDiscuzSearch(
+                  context: context,
+                  delegate:
+                      DiscuzAppSearchDelegate(type: DiscuzAppSearchType.user)),
+            ),
+          ),
+          _exploreSelection(
+              child: DiscuzListTile(
+            leading: const DiscuzIcon(0xe8b1),
+            title: const DiscuzText(
+              '话题',
+            ),
+            onTap: () {
+              DiscuzRoute.navigate(context: context, path: Routers.topics);
+            },
           )),
+        ],
+      ),
     );
   }
+
+  Widget _exploreSelection({Widget child}) => Container(
+        decoration:
+            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+        child: child,
+      );
 }

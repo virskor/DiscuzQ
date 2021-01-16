@@ -125,7 +125,7 @@ class _EditorState extends State<Editor> {
           actions: <Widget>[
             _buildSaveButton(),
           ],
-          brightness: Brightness.light,
+          
         ),
         body: Column(
           children: <Widget>[

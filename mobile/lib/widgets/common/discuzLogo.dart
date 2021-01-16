@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class DiscuzAppLogo extends StatelessWidget {
   const DiscuzAppLogo(
-      {this.width = 120, this.height = 120, this.circular = 25});
+      {Key key, this.width = 120, this.height = 120, this.circular = 25})
+      : super(key: key);
 
   final double width;
   final double height;

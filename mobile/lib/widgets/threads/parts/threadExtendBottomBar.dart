@@ -82,7 +82,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
       ///
       /// 回复
       const _ThreadExtendBottomBarItem(
-          attributes: 0xe65f, uniqueId: _tapReplyButton),
+          attributes: 0xe67d, uniqueId: _tapReplyButton),
 
       ///
       /// 点赞
@@ -120,7 +120,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
                                 el.attributes.runtimeType == int
                             ? DiscuzIcon(
                                 el.attributes,
-                                size: 20,
+                                size: 25,
                                 color: DiscuzApp.themeOf(context).textColor,
                               )
                             : el.attributes,

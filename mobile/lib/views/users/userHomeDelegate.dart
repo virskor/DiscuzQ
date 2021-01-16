@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/models/userModel.dart';
-import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/users/userRecentThreads.dart';
 import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/api/users.dart';
@@ -100,9 +99,8 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
                     ? _normalPopMenu()
                     : const SizedBox()
               ],
-              brightness: Brightness.light,
             ),
-            body: _buildBody(context: context),
+            body: _body,
           ));
 
   Widget _normalPopMenu() => Theme(
@@ -153,18 +151,14 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
       ? '这个人去火星了'
       : '${_user.attributes.username}的个人主页';
 
-  Widget _buildBody({BuildContext context}) {
-    if (_user.attributes.username == "") {
-      return const Center(
-        child: const DiscuzNoMoreData(),
+  Widget get _body => Builder(
+        builder: (BuildContext context) {
+          return UserRecentThreads(
+            user: _user,
+            userGroup: _userGroup,
+          );
+        },
       );
-    }
-
-    return UserRecentThreads(
-      user: _user,
-      userGroup: _userGroup,
-    );
-  }
 
   ///
   /// 异步的请求用户的信息，以覆盖现有的用户信息

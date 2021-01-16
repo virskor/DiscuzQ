@@ -137,15 +137,15 @@ class _ForumCategoryFilterState extends State<ForumCategoryFilter> {
             });
 
         return Container(
-          height: 45,
-          width: MediaQuery.of(context).size.width,
+          height: 40,
+          width: double.infinity,
           padding: const EdgeInsets.only(
             left: 10,
             right: 0,
           ),
           decoration: BoxDecoration(
               color: DiscuzApp.themeOf(context).backgroundColor,
-              border: const Border(top: Global.border, bottom: Global.border)),
+              border: const Border(top: Global.border)),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

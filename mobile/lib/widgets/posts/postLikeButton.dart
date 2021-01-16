@@ -25,7 +25,7 @@ class PostLikeButton extends StatefulWidget {
   ///
   final double size;
 
-  PostLikeButton({this.post, this.size = 20});
+  PostLikeButton({this.post, this.size = 25});
   @override
   _PostLikeButtonState createState() => _PostLikeButtonState();
 }
@@ -50,10 +50,10 @@ class _PostLikeButtonState extends State<PostLikeButton> {
             size: widget.size,
             likeCount: widget.post.attributes.likeCount,
             likeBuilder: (bool isLiked) => DiscuzIcon(
-              0xe608,
+              0xe69e,
               color: isLiked
                   ? Colors.pinkAccent
-                  : DiscuzApp.themeOf(context).greyTextColor,
+                  : DiscuzApp.themeOf(context).textColor,
               size: widget.size,
             ),
           ));

@@ -91,7 +91,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   Widget build(BuildContext context) => Scaffold(
       appBar: DiscuzAppBar(
         title: '我的收藏',
-        brightness: Brightness.light,
       ),
       body: _body());
 
@@ -114,7 +113,9 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     ///
     if (!_loading && _threadsCacher.threads == null ||
         _threadsCacher.threads.length == 0) {
-      return const DiscuzNoMoreData();
+      return const Center(
+        child: const DiscuzNoMoreData(),
+      );
     }
 
     return DiscuzRefresh(
@@ -190,8 +191,8 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
     };
 
-    Response resp = await Request(context: context)
-        .getUrl(_cancelToken, url: Urls.threadsFavorites, queryParameters: data);
+    Response resp = await Request(context: context).getUrl(_cancelToken,
+        url: Urls.threadsFavorites, queryParameters: data);
     if (resp == null) {
       setState(() {
         _loading = false;

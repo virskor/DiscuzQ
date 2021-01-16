@@ -27,7 +27,7 @@
     <application
         tools:replace="icon, label"
         android:name="io.flutter.app.FlutterApplication"
-        android:label="DiscuzQ"
+        android:label="Discuz!Q"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <!--头像剪裁-->

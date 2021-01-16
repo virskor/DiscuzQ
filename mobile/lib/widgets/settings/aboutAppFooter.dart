@@ -13,7 +13,7 @@ class AboutAppFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: MediaQuery.of(context).size.width,
+        width: double.infinity,
         child: SafeArea(
           bottom: true,
           top: false,

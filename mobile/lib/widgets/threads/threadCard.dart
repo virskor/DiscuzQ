@@ -161,10 +161,10 @@ class _ThreadCardState extends State<ThreadCard>
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       child: Container(
-        margin: const EdgeInsets.only(top: 5),
         padding: kMarginAllContent,
         decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
+          border: const Border(top: Global.border),
         ),
         child: Row(
           children: <Widget>[
@@ -190,10 +190,10 @@ class _ThreadCardState extends State<ThreadCard>
   ///
   Widget _buildThreadCard(BuildContext context) => Container(
         padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
-        margin: const EdgeInsets.only(top: 5),
         decoration: BoxDecoration(
-            color: DiscuzApp.themeOf(context).backgroundColor,
-            border: const Border(top: Global.border, bottom: Global.border)),
+          color: DiscuzApp.themeOf(context).backgroundColor,
+          border: const Border(top: Global.border),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

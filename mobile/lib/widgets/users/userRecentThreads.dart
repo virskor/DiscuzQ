@@ -16,7 +16,6 @@ import 'package:discuzq/widgets/threads/threadCard.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/models/userGroupModel.dart';
 import 'package:discuzq/widgets/users/userHomeDelegateCard.dart';
-
 ///
 /// 用于展示用户最近发帖的组件
 ///
@@ -67,7 +66,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
   ///
   /// loading
   /// 是否正在加载
-  bool _loading = false;
+  bool _loading = true;
 
   ///
   /// _continueToRead
@@ -141,37 +140,46 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     }
 
     if (_threadsCacher.threads.length == 0) {
-      return const DiscuzNoMoreData();
+      return Column(children: [
+        UserHomeDelegateCard(
+          user: widget.user,
+          userGroup: widget.userGroup,
+        ),
+
+        const DiscuzNoMoreData()
+      ]);
     }
 
     return ListView.builder(
         controller: _scrollController,
         itemCount: _threadsCacher.threads.length,
         itemBuilder: (BuildContext context, index) {
-          if (index != 0) {
-            return ThreadCard(
-              thread: _threadsCacher.threads[index],
-              threadsCacher: _threadsCacher,
-              initiallyExpanded: true,
+          if (index == 0) {
+            return Column(
+              children: <Widget>[
+                ///
+                /// 用户信息卡片
+                /// 用于显示粉丝数量
+                /// 关注或取消
+                UserHomeDelegateCard(
+                  user: widget.user,
+                  userGroup: widget.userGroup,
+                ),
+                _threadsCacher.threads.length == 0
+                    ? const DiscuzNoMoreData()
+                    : ThreadCard(
+                        thread: _threadsCacher.threads[index],
+                        threadsCacher: _threadsCacher,
+                        initiallyExpanded: true,
+                      )
+              ],
             );
           }
 
-          return Column(
-            children: <Widget>[
-              ///
-              /// 用户信息卡片
-              /// 用于显示粉丝数量
-              /// 关注或取消
-              UserHomeDelegateCard(
-                user: widget.user,
-                userGroup: widget.userGroup,
-              ),
-              ThreadCard(
-                thread: _threadsCacher.threads[index],
-                threadsCacher: _threadsCacher,
-                initiallyExpanded: true,
-              )
-            ],
+          return ThreadCard(
+            thread: _threadsCacher.threads[index],
+            threadsCacher: _threadsCacher,
+            initiallyExpanded: true,
           );
         });
   }
@@ -192,13 +200,6 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     if (pageNumber == 1) {
       _threadsCacher.clear();
     }
-
-    ///
-    /// 正在加载
-    ///
-    setState(() {
-      _loading = true;
-    });
 
     ///
     ///

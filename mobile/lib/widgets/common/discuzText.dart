@@ -11,6 +11,7 @@ class DiscuzText extends StatelessWidget {
       this.fontFamily,
       this.textAlign,
       this.primary = false,
+      this.isGreyText = false,
       this.textScaleFactor})
       : super(key: key);
 
@@ -24,9 +25,14 @@ class DiscuzText extends StatelessWidget {
   final TextAlign textAlign;
   final bool primary;
 
+  final bool isGreyText;
+
   @override
   Widget build(BuildContext context) {
     Color _textColor = color ?? DiscuzApp.themeOf(context).textColor;
+    if (isGreyText) {
+      _textColor = DiscuzApp.themeOf(context).greyTextColor;
+    }
 
     if (primary) {
       _textColor = DiscuzApp.themeOf(context).primaryColor;

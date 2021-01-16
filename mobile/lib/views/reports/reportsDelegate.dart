@@ -121,7 +121,7 @@ class _ReportsDelegateState extends State<ReportsDelegate> {
   Widget build(BuildContext context) => Scaffold(
         appBar: DiscuzAppBar(
           title: '投诉举报',
-          brightness: Brightness.light,
+          
         ),
         body: DiscuzFormContainer(
           padding: EdgeInsets.zero,

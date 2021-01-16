@@ -6,19 +6,22 @@ import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 
 class PrivacyBar extends StatelessWidget {
+  const PrivacyBar({Key key, this.showNotice = true}) : super(key: key);
 
-  const PrivacyBar();
+  final bool showNotice;
 
   @override
   Widget build(BuildContext context) => Container(
-        width: MediaQuery.of(context).size.width,
+        width: double.infinity,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const DiscuzText(
-              '如您继续代表您同意',
-            ),
+            showNotice
+                ? const DiscuzText(
+                    '如您继续代表您同意',
+                  )
+                : const SizedBox(),
             DiscuzLink(
               label: '隐私协议',
               onTap: () => DiscuzRoute.navigate(

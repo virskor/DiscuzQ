@@ -211,7 +211,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
               ///
               /// toolbar menu Items
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: double.infinity,
                 child: Stack(
                   fit: StackFit.loose,
                   children: [
@@ -264,7 +264,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
               ///
               /// child
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: double.infinity,
                 decoration: BoxDecoration(
                     color: DiscuzApp.themeOf(context).backgroundColor),
                 child: widget.child ?? const SizedBox(),

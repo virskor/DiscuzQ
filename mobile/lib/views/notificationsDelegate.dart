@@ -68,9 +68,6 @@ class _NotificationsDelegateState extends State<NotificationsDelegate> {
   Widget build(BuildContext context) => Scaffold(
           appBar: DiscuzAppBar(
             title: '消息通知',
-            brightness: Brightness.dark,
-            backgroundColor: DiscuzApp.themeOf(context).primaryColor,
-            dark: true,
           ),
           body: DiscuzRefresh(
             enablePullDown: true,

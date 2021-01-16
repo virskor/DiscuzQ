@@ -55,7 +55,7 @@ class _DiscuzWebviewState extends State<DiscuzWebview> {
     return Scaffold(
       appBar: DiscuzAppBar(
         title: widget.title,
-        brightness: Brightness.light,
+        
       ),
       backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
       body: Column(
