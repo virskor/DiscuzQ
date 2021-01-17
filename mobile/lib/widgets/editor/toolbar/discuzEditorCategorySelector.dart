@@ -142,7 +142,7 @@ class _DiscuzEditorCategorySelectorState
                     Container(
                       padding: const EdgeInsets.all(10),
                       child: const DiscuzText(
-                        '选择要发布的分类',
+                        '动态的类型',
                         fontWeight: FontWeight.bold,
                         textScaleFactor: 1.3,
                       ),

@@ -17,7 +17,7 @@ class DiscuzEditorDataFormater {
   /// 当 isBuildForCreatingPost 为true时 会过滤掉 非发帖下必填的字段
   ///
   static Future<dynamic> toDynamic(DiscuzEditorData data,
-      {CaptchaModel captcha, bool isBuildForCreatingPost = false}) async {
+      {CaptchaModel captcha, bool isBuildForCreatingPost = false, bool isFirstPost = true}) async {
     List<dynamic> attachments = const [];
 
     if (data.relationships != null &&
@@ -118,7 +118,7 @@ class DiscuzEditorDataFormater {
     /// 但是注意：
     /// 回复主题的时候，是不需要要的！
     ///
-    if (isBuildForCreatingPost) {
+    if (isBuildForCreatingPost && !isFirstPost) {
       attributes.addAll({"replyId": data.attributes.replyId.toString()});
     }
 

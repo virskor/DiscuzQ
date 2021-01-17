@@ -73,11 +73,14 @@ class Editor extends StatefulWidget {
   /// 回复的时候，需要关联帖子数据，是不能少的
   final ThreadModel thread;
 
+  final bool isFirstPost;
+
   Editor(
       {@required this.type,
       this.post,
       this.defaultCategory,
       this.thread,
+      this.isFirstPost = true,
       this.onPostSuccess});
 
   @override
