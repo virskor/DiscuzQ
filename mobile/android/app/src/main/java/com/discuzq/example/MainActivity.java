@@ -1,4 +1,4 @@
-package com.zhangxiaogou.zhangxiaogou;
+package com.discuzq.example;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity;
