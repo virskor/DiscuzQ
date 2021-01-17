@@ -292,8 +292,10 @@ class _PostFloorCardState extends State<PostFloorCard>
             ),
             onPressed: () async {
               final DiscuzEditorRequestResult res =
-                  await DiscuzEditorHelper(context: context)
-                      .reply(post: widget.post, thread: widget.thread);
+                  await DiscuzEditorHelper(context: context).reply(
+                      post: widget.post,
+                      thread: widget.thread,
+                      isFirstPost: false);
               if (res != null) {
                 widget.threadsCacher.posts = res.posts;
                 widget.threadsCacher.users = res.users;

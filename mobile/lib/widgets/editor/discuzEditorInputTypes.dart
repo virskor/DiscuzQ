@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 /// 
 class DiscuzEditorInputTypes {
   ///
-  /// 用户输入后，要进行的操作是发布主题
+  /// 用户输入后，要进行的操作是发布动态
   /// 
   static const DiscuzEditorInputType text = DiscuzEditorInputType(
       formatType: DiscuzEditorInputType.formatTypesString, name: '主题');

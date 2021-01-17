@@ -112,8 +112,8 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
       return;
     }
 
-    final File imageFile =
-        await ImagePicker.pickImage(source: ImageSource.gallery);
+    final File imageFile = await ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50);
 
     if (imageFile != null) {
       final Function close = DiscuzToast.loading(context: context);
@@ -143,6 +143,7 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
         }
       } catch (e) {
         close();
+        DiscuzToast.failed(context: context, message: '上传失败');
         throw e;
       }
     }
@@ -233,7 +234,8 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
                   child: GestureDetector(
                     child: Container(
                       decoration: const BoxDecoration(
-                          borderRadius: const BorderRadius.all(const Radius.circular(50)),
+                          borderRadius:
+                              const BorderRadius.all(const Radius.circular(50)),
                           color: Colors.white),
                       child: const DiscuzIcon(
                         CupertinoIcons.minus_circle_fill,

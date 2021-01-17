@@ -31,12 +31,13 @@ class DiscuzEditorHelper {
   ///
   /// 回复工具类
   DiscuzEditorHelper({this.context});
+  
 
   ///
   /// 打开编辑器回复指定评论
   ///
   Future<DiscuzEditorRequestResult> reply(
-      {@required PostModel post, @required ThreadModel thread}) async {
+      {@required PostModel post, @required ThreadModel thread, bool isFirstPost = true}) async {
     DiscuzEditorRequestResult result;
 
     /// 弹出前，要检测用户是否已经登录
@@ -56,6 +57,7 @@ class DiscuzEditorHelper {
           type: DiscuzEditorInputTypes.reply,
           post: post,
           thread: thread,
+          isFirstPost: isFirstPost,
           onPostSuccess: (DiscuzEditorRequestResult res) {
             ///
             /// 用户成功回复，取得回复时接口反馈的数据
