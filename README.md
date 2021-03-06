@@ -21,6 +21,12 @@ Gitee同步仓库： https://gitee.com/virszhang/discuz-q-flutter
 Android体验版(可能不是最新代码编译): https://www.pgyer.com/discuzq  
 IOS测试版(可能不是最新代码编译，请先下载Testflight在手机中打开下面链接)：https://testflight.apple.com/join/Y0KWEgQl
 
+# 编译前提醒
+只能使用Flutter 1.22.6 stable编译  
+分类会自动创建 二级分类 二级分类以 分类介绍作为分类依据若未填写的分类则不显示  
+首页仅显示6个分类  
+如果分类名称为 我的 将被隐藏不显示  
+
 我们的review于11月26日开始  
 ### 计划
 最近会计划恢复并完成下面的项目， ✅代表以及完成  
