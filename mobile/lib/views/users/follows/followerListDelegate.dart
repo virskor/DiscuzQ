@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:discuzq/widgets/appbar/searchAppbar.dart';
@@ -52,7 +52,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
   ///
   /// loading
   /// 是否正在加载
-  bool _loading = false;
+  bool _loading = true;
 
   ///
   /// meta
@@ -123,14 +123,14 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
         controller: _controller,
         onRefresh: () async {
           await _requestData(pageNumber: 1, context: context);
-          _controller.refreshCompleted();
+          _controller.finishRefresh();
         },
         onLoading: () async {
           if (_loading) {
             return;
           }
           await _requestData(pageNumber: _pageNumber + 1, context: context);
-          _controller.loadComplete();
+          _controller.finishLoad();
         },
         child: _buildUsersList(),
       );
@@ -142,10 +142,7 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
     /// 骨架屏仅在初始化时加载
     ///
     if (!_continueToRead && _loading) {
-      return const DiscuzSkeleton(
-        isCircularImage: false,
-        isBottomLinesActive: false,
-      );
+      return const DiscuzSkeleton();
     }
 
     if (_users.length == 0 || _userFollows.length == 0) {
@@ -198,10 +195,6 @@ class _FollowerListDelegateState extends State<FollowerListDelegate> {
     if (pageNumber == 1) {
       _users.clear();
     }
-
-    setState(() {
-      _loading = true;
-    });
 
     try {
       List<String> includes = [

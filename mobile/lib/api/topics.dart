@@ -5,8 +5,8 @@ import 'package:discuzq/models/topicModel.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 
-class TopicsAPI {
-  const TopicsAPI({this.context});
+class TopicsApi {
+  const TopicsApi({this.context});
 
   final BuildContext context;
 

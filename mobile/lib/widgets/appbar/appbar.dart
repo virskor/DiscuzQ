@@ -35,7 +35,8 @@ class AppbarLeading extends StatelessWidget {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         icon: Icon(
-          Platform.isIOS ? CupertinoIcons.chevron_left : codePoint,
+          // Platform.isIOS ? CupertinoIcons.chevron_left : codePoint,
+          codePoint,
           size: size,
           color: dark ? Colors.white : DiscuzApp.themeOf(context).textColor,
         ),

@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '10.0'
+platform :ios, '11.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
@@ -35,6 +35,10 @@ target 'Runner' do
 end
 
 post_install do |installer|
+  # 如果使用了国内镜像，则不需要注释这行
+  Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
+  # 如果使用了国内镜像，则不需要注释这行
+  
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     target.build_configurations.each do |config|
@@ -51,13 +55,13 @@ post_install do |installer|
         'PERMISSION_EVENTS=0',
 
         ## dart: PermissionGroup.reminders
-        # 'PERMISSION_REMINDERS=0',
+        'PERMISSION_REMINDERS=0',
 
         ## dart: PermissionGroup.contacts
         'PERMISSION_CONTACTS=0',
 
         ## dart: PermissionGroup.camera
-        'PERMISSION_CAMERA=0',
+        # 'PERMISSION_CAMERA=0',
 
         ## dart: PermissionGroup.microphone
         # 'PERMISSION_MICROPHONE=0',
@@ -66,19 +70,19 @@ post_install do |installer|
         'PERMISSION_SPEECH_RECOGNIZER=0',
 
         ## dart: PermissionGroup.photos
-        'PERMISSION_PHOTOS=0',
+        ## 'PERMISSION_PHOTOS=0',
 
         ## dart: [PermissionGroup.location, PermissionGroup.locationAlways, PermissionGroup.locationWhenInUse]
         ##'PERMISSION_LOCATION=0',
        
         ## dart: PermissionGroup.notification
-        'PERMISSION_NOTIFICATIONS=0',
+        ## 'PERMISSION_NOTIFICATIONS=0',
 
         ## dart: PermissionGroup.mediaLibrary
-        #'PERMISSION_MEDIA_LIBRARY=0',
+        'PERMISSION_MEDIA_LIBRARY=0',
 
         ## dart: PermissionGroup.sensors
-        # 'PERMISSION_SENSORS=0'
+        'PERMISSION_SENSORS=0'
       ]
     end
   end

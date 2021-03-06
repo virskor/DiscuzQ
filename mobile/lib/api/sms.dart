@@ -67,7 +67,7 @@ class SMSApi {
   Future<bool> send(
       {@required String mobile,
       MobileVerifyTypes type = MobileVerifyTypes.login}) async {
-    dynamic data = {
+    Map<String, dynamic> data = {
       "mobile": mobile,
       "type": _mapMobileVerifyTypesString(type)
     };
@@ -197,7 +197,7 @@ class SMSApi {
       return;
     }
 
-    dynamic attributes = {
+    Map<String, dynamic> attributes = {
       "mobile": mobile,
       "code": code,
       "type": _mapMobileVerifyTypesString(type)
@@ -222,7 +222,7 @@ class SMSApi {
 
     /// 类型为 login 时 可传邀请码进行邀请注册
     if (type == MobileVerifyTypes.login) {
-      attributes.addAll({"inviteCode": inviteCode});
+      attributes.addAll({"inviteCode": inviteCode, "register": 1});
     }
 
     /// 校验

@@ -79,6 +79,7 @@ class _PKCardSkeletonState extends State<PKCardSkeleton>
               color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(3))),
           padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -231,6 +232,7 @@ class _PKDarkCardSkeletonState extends State<PKDarkCardSkeleton>
       builder: (context, child) {
         return Container(
           padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
           decoration: const BoxDecoration(
               color: Global.backgroundColorDark,
               borderRadius: const BorderRadius.all(Radius.circular(3))),

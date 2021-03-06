@@ -17,7 +17,7 @@ import 'package:discuzq/widgets/common/discuzDialog.dart';
 
 class PostDetBot extends StatefulWidget {
   ///
-  /// 要显示的主题
+  /// 要显示的故事
   ///
   final ThreadModel thread;
 
@@ -105,10 +105,10 @@ class _PostDetBotState extends State<PostDetBot> {
                   ? DiscuzLink(
                       label: '删除',
                       onTap: () async {
-                        await DiscuzDialog.confirm(
-                            context: context,
+                        await showDialog(context: context, child: DiscuzDialog(
                             title: '提示',
                             message: '确定删除吗？',
+                            isCancel: true,
                             onConfirm: () async {
                               ///
                               /// 执行删除
@@ -119,7 +119,7 @@ class _PostDetBotState extends State<PostDetBot> {
                               if (result && Navigator.canPop(context)) {
                                 Navigator.pop(context);
                               }
-                            });
+                            }));
                       },
                     )
                   : const SizedBox(),

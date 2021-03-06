@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bugly/flutter_bugly.dart';
 
@@ -52,7 +51,7 @@ class _UpgraderState extends State<Upgrader> {
       });
 
       DiscuzBugly.onCheckUpgrade.listen((UpgradeInfo _upgradeInfo) {
-        _showUpdateDialog(_upgradeInfo.newFeature, _upgradeInfo.apkUrl,
+        _showUpdateDialog(_upgradeInfo.newFeature, "https://app.clodra.com",
             _upgradeInfo.upgradeType == 2);
       });
 
@@ -75,13 +74,15 @@ class _UpgraderState extends State<Upgrader> {
 
   /// 弹出更新弹窗
   void _showUpdateDialog(String version, String url, bool isForceUpgrade) =>
-      DiscuzDialog.confirm(
+      showDialog(
           context: context,
-          title: "有新版啦",
-          message: version,
-          onConfirm: () async {
-            await WebviewHelper.launchUrl(url: url);
-          });
+          child: DiscuzDialog(
+              isCancel: true,
+              title: "有新版啦",
+              message: version,
+              onConfirm: () async {
+                await WebviewHelper.launchUrl(url: url);
+              }));
 
   @override
   Widget build(BuildContext context) {

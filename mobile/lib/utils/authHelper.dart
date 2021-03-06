@@ -54,7 +54,7 @@ class AuthHelper {
   /// 其实没有必要保存到本地，本地的仅需要登录时保存就可以了，因为用户信息刷新的逻辑其实很多的
   ///
   static Future<bool> refreshUser(
-      {@required BuildContext context, UserModel data}) async {
+      {@required BuildContext context, UserModel data, CancelToken cancelToken}) async {
     /// 有时候可能有的接口有反馈，这个时候直接用接口查询过来的数据更新
     /// 这样就避免了自己去查
     /// 其实这种方式虽然简单，但有问题
@@ -67,7 +67,7 @@ class AuthHelper {
     final String urlDataUrl =
         "${Urls.users}/${context.read<UserProvider>().user.attributes.id.toString()}";
     Response resp =
-        await Request(context: context).getUrl(null, url: urlDataUrl);
+        await Request(context: context).getUrl(cancelToken ?? null, url: urlDataUrl);
 
     if (resp == null) {
       return Future.value(false);

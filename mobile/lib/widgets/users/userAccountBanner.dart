@@ -28,7 +28,9 @@ class _UserAccountBannerState extends State<UserAccountBanner> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const DiscuzAvatar(),
+                const DiscuzAvatar(
+                  size: 100,
+                ),
 
                 ///
                 const SizedBox(height: 20),
@@ -36,7 +38,7 @@ class _UserAccountBannerState extends State<UserAccountBanner> {
                 /// 用户名
                 DiscuzText(
                   user.user.attributes.username,
-                  fontSize: DiscuzApp.themeOf(context).largeTextSize,
+                  isLargeText: true,
                   fontWeight: FontWeight.bold,
                 ),
 

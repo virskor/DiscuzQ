@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:discuzq/widgets/common/discuzDialog.dart';
+import 'package:discuzq/utils/buildInfo.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/webview/webviewHelper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +21,8 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/users/privacyBar.dart';
 import 'package:discuzq/providers/forumProvider.dart';
+import 'package:discuzq/widgets/appbar/appbarLeadings.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
 
 class LoginDelegate extends StatefulWidget {
   final Function onRequested;
@@ -74,12 +79,13 @@ class _LoginDelegateState extends State<LoginDelegate> {
         appBar: DiscuzAppBar(
           title: '登录',
           actions: <Widget>[
-            // IconButton(
-            //   tooltip: '无法登陆',
-            //   icon: const DiscuzIcon(CupertinoIcons.question_circle_fill,
-            //       color: Colors.white),
-            //   onPressed: () => null,
-            // )
+            IconButton(
+              tooltip: '无法登陆?',
+              icon: const DiscuzIcon(CupertinoIcons.question_circle_fill),
+              onPressed: (){
+                WebviewHelper.launchUrl(url: "${BuildInfo().info().site}/users/reset");
+              },
+            )
           ],
         ),
         body: _loginForm,
@@ -92,13 +98,15 @@ class _LoginDelegateState extends State<LoginDelegate> {
               (BuildContext context, ForumProvider forum, Widget child) {
             return DiscuzFormContainer(
                 child: ListView(
-              padding: const EdgeInsets.only(top: 60),
+              padding: const EdgeInsets.only(top: 60, left: 15, right: 15),
               children: <Widget>[
                 ///
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
+                    const LogoLeading(),
+                    const SizedBox(height: 10),
                     DiscuzText(
                       _loginCaption,
                       textScaleFactor: 1.8,
@@ -185,15 +193,16 @@ class _LoginDelegateState extends State<LoginDelegate> {
                   color: Colors.blueGrey.withOpacity(.43),
                   onPressed: () async {
                     if (forum.isSMSEnabled) {
-                      await DiscuzDialog.confirm(
+                      await showDialog(
                           context: context,
-                          title: "提示",
-                          message: "根据相关规定，请您使用短信验证码登录完成一键注册",
-                          onConfirm: () {
-                            setState(() {
-                              _enableSMSlogin = true;
-                            });
-                          });
+                          child: DiscuzDialog(
+                              title: "提示",
+                              message: "根据相关规定，请您使用短信验证码登录完成一键注册",
+                              onConfirm: () {
+                                setState(() {
+                                  _enableSMSlogin = true;
+                                });
+                              }));
                       return;
                     }
                     DiscuzRoute.navigate(
@@ -289,7 +298,6 @@ class _LoginDelegateState extends State<LoginDelegate> {
       Navigator.pop(context);
     } catch (e) {
       closeLoading();
-      print(e);
       throw e;
     }
   }

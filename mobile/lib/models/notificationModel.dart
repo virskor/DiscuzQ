@@ -10,7 +10,7 @@ class NotificationModel {
   final int id;
 
   ///
-  /// 主题类型
+  /// 故事类型
   ///
   final int type;
 
@@ -96,17 +96,17 @@ class NotificationAttributesModel {
 
   ///
   /// thread_id
-  /// 关联的主题ID
+  /// 关联的故事ID
   final int threadID;
 
   ///
   /// thread_title
-  /// 关联的主题标题
+  /// 关联的故事标题
   final String threadTitle;
 
   ///
   /// thread_is_approved
-  /// 关联的主题是否通过审核
+  /// 关联的故事是否通过审核
   final int threadIsApproved;
 
   ///

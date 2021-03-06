@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:discuzq/utils/permissionHepler.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
@@ -70,14 +70,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            GestureDetector(
-              child: widget.avatar,
-              onTap: () {
-                // open avatar seletor
-                _clearImage();
-                _pickImage();
-              },
-            ),
+            widget.avatar,
           ],
         ),
       );
@@ -85,16 +78,32 @@ class _AvatarPickerState extends State<AvatarPicker> {
   ///
   /// 选择图片
   Future<Null> _pickImage() async {
-    final bool havePermission =
-        await PermissionHelper.checkWithNotice(PermissionGroup.photos);
-    if (havePermission == false) {
+    if (await Permission.photos.request().isDenied) {
+      showDialog(
+          context: context,
+          child: DiscuzDialog(
+            title: "设置",
+            message: "请设置并允许访问您的相册来继续",
+            isCancel: true,
+            onConfirm: () {
+              openAppSettings();
+            },
+          ));
       return;
     }
-    imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    final _picker = ImagePicker();
+    final file =
+        await _picker.getImage(source: ImageSource.gallery, imageQuality: 60);
+    if (file == null) return null;
+
+    imageFile = File(file.path);
+
     if (imageFile != null) {
       setState(() {
         pickerState = PickerState.picked;
       });
+
       _cropImage();
     }
   }
@@ -137,9 +146,6 @@ class _AvatarPickerState extends State<AvatarPicker> {
         if (widget.onSuccess != null) {
           widget.onSuccess();
         }
-
-        /// 刷新用户资料
-        await AuthHelper.refreshUser(context: context);
       }
       // should clear image success or failed
       _clearImage();
@@ -181,6 +187,8 @@ class _AvatarPickerState extends State<AvatarPicker> {
         if (resp == null) {
           return Future.value(false);
         }
+
+        AuthHelper.refreshUser(context: context);
 
         return Future.value(true);
       } catch (e) {

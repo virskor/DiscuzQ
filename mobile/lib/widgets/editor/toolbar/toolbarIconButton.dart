@@ -7,7 +7,7 @@ import 'package:discuzq/widgets/ui/ui.dart';
 /// 点击表情按钮
 ///
 class ToolbarIconButton extends StatelessWidget {
-  final IconData icon;
+  final dynamic icon;
 
   const ToolbarIconButton({@required this.icon});
   @override

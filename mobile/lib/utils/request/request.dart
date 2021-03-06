@@ -16,7 +16,6 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/utils/authorizationHelper.dart';
 import 'package:discuzq/utils/device.dart';
 import 'package:discuzq/utils/request/urls.dart';
-import 'package:discuzq/utils/request/RequestCacheInterceptor.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/utils/request/requestErrors.dart';
 import 'package:discuzq/utils/request/requestFormer.dart';
@@ -75,9 +74,6 @@ class Request {
 
       /// 请求时携带cookies
       ..add(CookieManager(CookieJar()))
-
-      /// 请求缓存优化
-      ..add(RequestCacheInterceptor())
 
       /// interceptor procedure
       ..add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
@@ -389,7 +385,7 @@ class Request {
       // todo: this method should be removed after DIO fixed bugs some how
       resp.data = await _temporaryTransformer(resp.data);
     } catch (e) {
-      throw e;
+      debugPrint(e.toString());
     }
 
     return Future.value(resp);

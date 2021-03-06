@@ -59,7 +59,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
   Widget build(BuildContext context) => AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-            border: const Border(top: Global.border, bottom: Global.border),
+            border: const Border(bottom: Global.border),
             color: DiscuzApp.themeOf(context).backgroundColor),
         padding: const EdgeInsets.all(10),
         width: double.infinity,
@@ -119,7 +119,7 @@ class _UserHomeDelegateCardState extends State<UserHomeDelegateCard> {
                         fontWeight: FontWeight.bold,
                       ),
                       DiscuzText(
-                        '主题',
+                        '故事',
                         color: DiscuzApp.themeOf(context).greyTextColor,
                       ),
                     ],

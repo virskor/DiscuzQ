@@ -58,13 +58,13 @@ class SetSiteModel {
   ///
   /// site_author_scale
   /// 作者比例
-  /// 主题打赏分成比例,和站长比例加起来必须为10,不填时默认为作者10、平台0
+  /// 故事打赏分成比例,和站长比例加起来必须为10,不填时默认为作者10、平台0
   final double siteAuthorScale;
 
   ///
   /// site_master_scale
   /// 站长比例
-  /// 主题打赏分成比例,和作者比例加起来必须为10,不填时默认为作者10、平台0
+  /// 故事打赏分成比例,和作者比例加起来必须为10,不填时默认为作者10、平台0
   final double siteMasterScale;
 
   ///

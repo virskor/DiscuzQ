@@ -55,7 +55,7 @@ class SearchTypeItemsColumn extends StatelessWidget {
               fullscreenDialog: true,
               widget: const SearchThreadDelegate()),
           child: const _SearchTypeItem(
-            label: '搜索主题',
+            label: '搜索故事',
             colors: <Color>[Color(0xff444444), Color(0xff888888)],
             icon: CupertinoIcons.search_circle_fill,
           ),

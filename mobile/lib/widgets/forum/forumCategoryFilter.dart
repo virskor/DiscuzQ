@@ -16,14 +16,16 @@ class ForumCategoryFilter extends StatefulWidget {
   /// 默认的筛选条件
   static const List<ForumCategoryFilterItem> conditions = [
     const ForumCategoryFilterItem(
-      label: '全部主题',
+      label: '全部故事',
       filter: [
         {"isApproved": 1},
         {"isDeleted": "no"}
       ],
     ),
+
+    /// 仅显示精华故事
     const ForumCategoryFilterItem(
-      label: '精华主题',
+      label: '精华故事',
       filter: [
         {"isApproved": 1},
         {"isDeleted": "no"},

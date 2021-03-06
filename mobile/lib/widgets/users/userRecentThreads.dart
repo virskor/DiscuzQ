@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
@@ -47,7 +47,7 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
   final ScrollController _scrollController = ScrollController();
 
   ///------------------------------
-  /// _threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// _threadsCacher 是用于缓存当前页面的故事数据的对象
   /// 当数据更新的时候，数据会存储到 _threadsCacher
   /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
@@ -116,14 +116,14 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
         controller: _controller,
         onRefresh: () async {
           await _requestData(pageNumber: 1);
-          _controller.refreshCompleted();
+          _controller.finishRefresh();
         },
         onLoading: () async {
           if (_loading) {
             return;
           }
           await _requestData(pageNumber: _pageNumber + 1);
-          _controller.loadComplete();
+          _controller.finishLoad();
         },
         child: _buildContents(),
       );
@@ -134,7 +134,6 @@ class _UserRecentThreadsState extends State<UserRecentThreads> {
     ///
     if (!_continueToRead && _loading) {
       return const DiscuzSkeleton(
-        isCircularImage: false,
         isBottomLinesActive: true,
       );
     }

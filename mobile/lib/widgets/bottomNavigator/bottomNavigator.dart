@@ -1,19 +1,18 @@
 import 'dart:math' as math;
+import 'package:discuzq/utils/global.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 import 'package:discuzq/utils/authHelper.dart';
-import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumAddButton.dart';
-import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/providers/userProvider.dart';
 
 const double _kBottomNavigationElevation = 0;
 
-const double _kPublishButtonSize = 35;
+const double _kPublishButtonSize = 38;
 
 class DiscuzBottomNavigator extends StatefulWidget {
   final ValueChanged<int> onItemSelected;
@@ -45,8 +44,10 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
         math.max(MediaQuery.of(context).padding.bottom - 12 / 2.0, 0.0);
 
     return Consumer<UserProvider>(
-      builder: (BuildContext context, UserProvider user, Widget child) =>  Material(
+        builder: (BuildContext context, UserProvider user, Widget child) =>
+            Material(
               elevation: _kBottomNavigationElevation,
+              color: Colors.transparent,
               child: Container(
                 constraints: BoxConstraints(
                     maxHeight:
@@ -58,6 +59,9 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
                 decoration: BoxDecoration(
                   color: DiscuzApp.themeOf(context).backgroundColor,
                   border: const Border(top: Global.border),
+                  // borderRadius: const BorderRadius.only(
+                  //     topLeft: Radius.circular(10),
+                  //     topRight: Radius.circular(10))
                 ),
                 child: _buildItems(),
               ),
@@ -78,27 +82,19 @@ class _DiscuzBottomNavigatorState extends State<DiscuzBottomNavigator> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DiscuzIcon(
-                it.icon,
-                size: it.size,
-                color: selectedIndex == index
-                    ? Theme.of(context).primaryColor
-                    : DiscuzApp.themeOf(context).textColor
-                    //: const Color(0xFF657786),
-              ),
-              DiscuzText(
-                it.title,
-                color: selectedIndex == index
-                    ? Theme.of(context).primaryColor
-                    : DiscuzApp.themeOf(context).textColor,
-                    fontSize: DiscuzApp.themeOf(context).miniTextSize,
-              )
+              DiscuzIcon(it.icon,
+                  size: it.size,
+                  color: selectedIndex == index
+                      ? Theme.of(context).primaryColor
+                      : DiscuzApp.themeOf(context).textColor
+                  //: const Color(0xFF657786),
+                  ),
             ],
           ),
           onTap: () async {
             if (it.shouldLogin == true) {
-              bool success = await AuthHelper.requsetShouldLogin(
-                  context: context);
+              bool success =
+                  await AuthHelper.requsetShouldLogin(context: context);
               if (!success) {
                 return;
               }
@@ -120,13 +116,11 @@ class _PublishButton extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: _kPublishButtonSize,
         height: _kPublishButtonSize,
-        margin: const EdgeInsets.only(top: 4),
         decoration: BoxDecoration(
-            color: DiscuzApp.themeOf(context).primaryColor,
-            borderRadius: const BorderRadius.all(const Radius.circular(10))),
+            color: DiscuzApp.themeOf(context).textColor,
+            borderRadius: const BorderRadius.all(const Radius.circular(50))),
         child: const ForumAddButton(
-          padding: const EdgeInsets.all(0),
-          awalysDark: true,
+          padding: EdgeInsets.zero,
         ),
       );
 }
@@ -144,9 +138,6 @@ class NavigatorItem {
   /// 图标大小
   final double size;
 
-  /// 图标大小
-  final String title;
-
   /// 是否是发布按钮
   final bool isPublishButton;
 
@@ -154,7 +145,6 @@ class NavigatorItem {
       {this.icon,
       this.color,
       this.shouldLogin = false,
-      this.size = 30.0,
-      this.title = "",
+      this.size = 34,
       this.isPublishButton = false});
 }

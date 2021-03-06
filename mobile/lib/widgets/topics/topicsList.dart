@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
 import 'package:discuzq/models/metaModel.dart';
@@ -54,7 +53,7 @@ class _ForumCategoryState extends State<TopicsList>
   final ScrollController _scrollController = ScrollController();
 
   ///------------------------------
-  /// _threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// _threadsCacher 是用于缓存当前页面的故事数据的对象
   /// 当数据更新的时候，数据会存储到 _threadsCacher
   /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
@@ -138,7 +137,7 @@ class _ForumCategoryState extends State<TopicsList>
 
     _cancelToken.cancel();
 
-    /// 清空缓存的主题列表数据
+    /// 清空缓存的故事列表数据
     /// do not forget to dispose _controller
     super.dispose();
   }
@@ -167,14 +166,14 @@ class _ForumCategoryState extends State<TopicsList>
         controller: _controller,
         onRefresh: () async {
           await _requestData(pageNumber: 1);
-          _controller.refreshCompleted();
+          _controller.finishRefresh();
         },
         onLoading: () async {
           if (_loading) {
             return;
           }
           await _requestData(pageNumber: _pageNumber + 1);
-          _controller.loadComplete();
+          _controller.finishLoad();
         },
         child: _buildContents(),
       );
@@ -187,7 +186,6 @@ class _ForumCategoryState extends State<TopicsList>
     ///
     if (!_continueToRead && _loading) {
       return const DiscuzSkeleton(
-        isCircularImage: false,
         isBottomLinesActive: true,
       );
     }
@@ -213,20 +211,8 @@ class _ForumCategoryState extends State<TopicsList>
   ///
   /// _requestData will get data from backend
   Future<void> _requestData({int pageNumber}) async {
-    ///
-    /// 如果是第一页的时候要先清空数据，防止数据重复
-    if (pageNumber == 1) {
-      _continueToRead = false;
-      _threadsCacher.clear();
-    }
-
-    ///
-    /// 正在加载
-    ///
-    setState(() {
-      _loading = true;
-    });
-
+    _loading = true;
+    
     List<String> includes = [
       RequestIncludes.user,
       RequestIncludes.lastThread,
@@ -255,6 +241,15 @@ class _ForumCategoryState extends State<TopicsList>
       });
       DiscuzToast.failed(context: context, message: '加载失败');
       return;
+    }
+
+    ///
+    /// 如果是第一页的时候要先清空数据，防止数据重复
+    if (pageNumber == 1) {
+      setState(() {
+        _continueToRead = false;
+        _threadsCacher.clear();
+      });
     }
 
     ///

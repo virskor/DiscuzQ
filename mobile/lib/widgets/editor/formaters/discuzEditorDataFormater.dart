@@ -97,7 +97,7 @@ class DiscuzEditorDataFormater {
       });
     }
 
-    /// 长文模式补全标题
+    /// 故事模式补全标题
     if (data.attributes.type == EditorDataPostType.typeLongContent) {
       attributes.addAll({
         "title": data.attributes.title,
@@ -116,7 +116,7 @@ class DiscuzEditorDataFormater {
     ///
     /// 回复模式时需要关联PostID
     /// 但是注意：
-    /// 回复主题的时候，是不需要要的！
+    /// 回复故事的时候，是不需要要的！
     ///
     if (isBuildForCreatingPost && !isFirstPost) {
       attributes.addAll({"replyId": data.attributes.replyId.toString()});

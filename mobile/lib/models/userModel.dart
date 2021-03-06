@@ -13,7 +13,7 @@ class UserModel {
   final int id;
 
   ///
-  /// 主题类型
+  /// 故事类型
   ///
   final int type;
 
@@ -120,7 +120,7 @@ class UserAttributesModelModel {
 
   ///
   /// threadCount
-  /// 主题数
+  /// 故事数
   final int threadCount;
 
   ///

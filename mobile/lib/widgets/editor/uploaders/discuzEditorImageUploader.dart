@@ -3,21 +3,25 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
 
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:discuzq/models/attachmentsModel.dart';
-import 'package:discuzq/utils/permissionHepler.dart';
 import 'package:discuzq/utils/request/request.dart';
 import 'package:discuzq/utils/request/urls.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/providers/editorProvider.dart';
+import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
+import 'package:discuzq/widgets/common/discuzDialog.dart';
+import 'package:discuzq/api/attachments.dart';
 
-const double _imageSize = 50;
+const double _imageSize = 100;
 
 class DiscuzEditorImageUploader extends StatefulWidget {
   final Function onUploaded;
@@ -30,6 +34,9 @@ class DiscuzEditorImageUploader extends StatefulWidget {
 
 class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
   final CancelToken _cancelToken = CancelToken();
+
+  /// 选择的图片
+  List<Asset> _pikcerImages = List<Asset>();
 
   @override
   void setState(fn) {
@@ -87,15 +94,19 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
       ///
       /// 渲染图片组件
       return Container(
-        padding: const EdgeInsets.all(10),
-        child: Wrap(
-          children: widgets
-              .map<Widget>((e) => SizedBox(
-                    width: _imageSize,
-                    height: _imageSize,
-                    child: e,
-                  ))
-              .toList(),
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: widgets
+                  .map<Widget>((e) => SizedBox(
+                        width: _imageSize,
+                        height: _imageSize,
+                        child: e,
+                      ))
+                  .toList(),
+            ),
+          ),
         ),
       );
     });
@@ -106,47 +117,97 @@ class _DiscuzEditorImageUploaderState extends State<DiscuzEditorImageUploader> {
   /// 先弹出选择框
   /// 在进行上传,上传成功后，插入缩略图，上传失败，提醒用户上传失败
   Future<void> _pickImage() async {
-    final bool havePermission =
-        await PermissionHelper.checkWithNotice(PermissionGroup.photos);
-    if (havePermission == false) {
+    if (await Permission.photos.request().isDenied ||
+        await Permission.camera.request().isDenied) {
+      await showDialog(
+          context: context,
+          child: DiscuzDialog(
+            title: "设置",
+            message: "请设置并允许访问您的相册和相机来继续选择要发布的图片",
+            isCancel: true,
+            onConfirm: () {
+              openAppSettings();
+            },
+          ));
       return;
     }
 
-    final File imageFile = await ImagePicker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50);
-
-    if (imageFile != null) {
-      final Function close = DiscuzToast.loading(context: context);
-
-      try {
-        ///
-        /// 执行上传过程
-        /// todo: 增加该文件正在上传的状态
-        final AttachmentsModel attachment = await _uploadImage(file: imageFile);
-
-        close();
-
-        if (attachment == null) {
-          ///
-          /// 上传失败
-          /// todo: 移除该文件正在上传的状态
-          /// 提醒用户正在上传
-          DiscuzToast.failed(context: context, message: '上传失败');
-          return;
-        }
-
-        ///
-        /// 图片上传成功,state新增
-        context.read<EditorProvider>().addAttachment(attachment);
-        if (widget.onUploaded != null) {
-          widget.onUploaded();
-        }
-      } catch (e) {
-        close();
-        DiscuzToast.failed(context: context, message: '上传失败');
-        throw e;
-      }
+    try {
+      _pikcerImages = await MultiImagePicker.pickImages(
+        maxImages: 20,
+        enableCamera: true,
+        selectedAssets: _pikcerImages,
+        cupertinoOptions: const CupertinoOptions(takePhotoIcon: "chat"),
+        materialOptions: const MaterialOptions(
+          actionBarColor: "#abcdef",
+          actionBarTitle: "Example App",
+          allViewTitle: "All Photos",
+          useDetailsView: false,
+          selectCircleStrokeColor: "#000000",
+        ),
+      );
+    } on Exception catch (e) {
+      print(e);
     }
+
+    if (_pikcerImages == null || _pikcerImages.length == 0) {
+      return;
+    }
+
+    //// 上传图片
+    /// 等待图片上传
+    /// 上传图片结束后，将数据构造为delta
+    List<File> files = List();
+
+    await Future.forEach(_pikcerImages, (Asset asset) async {
+      String path = await FlutterAbsolutePath.getAbsolutePath(asset.identifier);
+
+      /// 压缩图片
+      File compressedFile = await FlutterNativeImage.compressImage(path,
+          quality: 60, percentage: 60);
+
+      files.add(compressedFile);
+    });
+
+    /// 要上传的文件列表
+    if (files.isEmpty) {
+      return;
+    }
+
+    final Function close = DiscuzToast.loading(context: context);
+
+    await Future.forEach(files, (File file) async {
+      if (file != null) {
+        try {
+          ///
+          /// 执行上传过程
+          /// todo: 增加该文件正在上传的状态
+          final AttachmentsModel attachment = await _uploadImage(file: file);
+          if (attachment == null) {
+            ///
+            /// 上传失败
+            /// todo: 移除该文件正在上传的状态
+            /// 提醒用户正在上传
+            DiscuzToast.failed(context: context, message: '上传图片失败');
+            return;
+          }
+
+          ///
+          /// 图片上传成功,state新增
+          context.read<EditorProvider>().addAttachment(attachment);
+          if (widget.onUploaded != null) {
+            widget.onUploaded();
+          }
+        } catch (e) {
+          DiscuzToast.failed(context: context, message: '上传图片失败');
+          throw e;
+        }
+      }
+    });
+
+    _pikcerImages.clear();
+
+    close();
   }
 
   ///
@@ -193,7 +254,6 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
     return Consumer<EditorProvider>(
         builder: (BuildContext context, EditorProvider editor, Widget child) {
       return Container(
-        margin: const EdgeInsets.only(right: 5, top: 5),
         child: Container(
           width: _imageSize,
           height: _imageSize,
@@ -211,39 +271,43 @@ class _DiscuzEditorImageUploaderThumb extends StatelessWidget {
               ///
               /// 图片缩略
               ///
-              ClipRRect(
-                borderRadius: const BorderRadius.all(const Radius.circular(5)),
-                child: Image.network(
-                  attachment.attributes.thumbUrl,
-                  width: _imageSize,
-                  height: _imageSize,
-                  headers: {"Referer": Global.domain},
-                  fit: BoxFit.cover,
-                ),
+              DiscuzCachedNetworkImage(
+                imageUrl: attachment.attributes.thumbUrl,
+                width: _imageSize,
+                height: _imageSize,
+                fit: BoxFit.cover,
               ),
 
               ///
               /// 删除图片的按钮
               ///
               Positioned(
-                right: 2,
-                top: 2,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                left: 0,
                 child: SizedBox(
-                  width: 15,
-                  height: 15,
+                  width: 24,
+                  height: 24,
                   child: GestureDetector(
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(const Radius.circular(50)),
-                          color: Colors.white),
-                      child: const DiscuzIcon(
-                        CupertinoIcons.minus_circle_fill,
-                        size: 15,
-                        color: Colors.redAccent,
-                      ),
+                    child: const DiscuzIcon(
+                      CupertinoIcons.trash,
+                      size: 22,
+                      color: Colors.grey,
                     ),
-                    onTap: () => editor.removeAttachment(attachment.id),
+                    onTap: () async {
+                      final Function close = DiscuzToast.loading(context: context);
+
+                      /// 请求从服务端删除不用于发布的图片
+                      try {
+                        await AttachmentsApi(context: context)
+                            .remove(null, id: attachment.id);
+                        close();
+                      } catch (e) {
+                        close();
+                      }
+                      editor.removeAttachment(attachment.id);
+                    },
                   ),
                 ),
               )

@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
+    as extended;
 
 import 'package:discuzq/router/route.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
@@ -41,7 +43,7 @@ class _AccountDelegateState extends State<AccountDelegate> {
     const _AccountMenuItem(
         label: '我的关注', icon: 0xe7aa, child: const FollowingDelegate()),
     const _AccountMenuItem(
-        label: '黑名单', icon: 0xe7ac, child: const BlackListDelegate()),
+        label: '屏蔽/黑名单', icon: 0xe7d7, child: const BlackListDelegate()),
   ];
 
   @override
@@ -66,36 +68,53 @@ class _AccountDelegateState extends State<AccountDelegate> {
   Widget build(BuildContext context) => Consumer<UserProvider>(
       builder: (BuildContext context, UserProvider user, Widget child) =>
           Scaffold(
-            appBar: DiscuzAppBar(
-              title: '个人中心',
-              actions: <Widget>[
-                const _SettingButton()
-              ],
-            ),
-            body: user.user == null
-                ? const YetNotLogon()
-                : ListView(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      /// 构造登录信息页
-                      const UserAccountBanner(),
-
-                      /// 菜单构造
-
-                      Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        child: Column(
-                          children: _buildMenus(),
-                        ),
-                      ),
-
-                      const Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 20),
-                          child: const _LogoutButton())
-                    ],
+            body: extended.NestedScrollView(
+              pinnedHeaderSliverHeightBuilder: () {
+                return MediaQuery.of(context).padding.top;
+              },
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return <Widget>[
+                  DiscuzSliverAppBar(
+                    title: "个人中心",
+                    elevation: 10,
+                    actions: [const _SettingButton()],
+                    expandedHeight: 0,
+                    brightness: Brightness.light,
+                    backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+                    floating: true,
+                    stretch: true,
                   ),
+                ];
+              },
+              body: user.user == null
+                  ? const YetNotLogon()
+                  : ListView(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        /// 构造登录信息页
+                        const UserAccountBanner(),
+
+                        /// 菜单构造
+
+                        Container(
+                          margin: const EdgeInsets.only(
+                              top: 20, left: 10, right: 10),
+                          child: ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(5)),
+                              child: Column(
+                                children: _buildMenus(),
+                              )),
+                        ),
+
+                        const Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 10, top: 20),
+                            child: const _LogoutButton())
+                      ],
+                    ),
+            ),
           ));
 
   ///
@@ -137,11 +156,13 @@ class _LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return DiscuzButton(
       label: "退出",
-      onPressed: () async => await DiscuzDialog.confirm(
+      onPressed: () async => await showDialog(
           context: context,
-          title: '提示',
-          message: '是否退出登录？',
-          onConfirm: () => AuthHelper.logout(context: context)),
+          child: DiscuzDialog(
+              title: '提示',
+              message: '是否退出登录？',
+              isCancel: true,
+              onConfirm: () => AuthHelper.logout(context: context))),
     );
   }
 }
@@ -153,7 +174,8 @@ class _SettingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IconButton(
-        icon: DiscuzIcon(0xe7f7, size: 30,color: DiscuzApp.themeOf(context).textColor),
+        icon: DiscuzIcon(0xe7f7,
+            size: 30, color: DiscuzApp.themeOf(context).textColor),
         onPressed: () => DiscuzRoute.navigate(
           context: context,
           path: Routers.preferences,

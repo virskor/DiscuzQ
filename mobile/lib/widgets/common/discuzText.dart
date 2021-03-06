@@ -11,7 +11,10 @@ class DiscuzText extends StatelessWidget {
       this.fontFamily,
       this.textAlign,
       this.primary = false,
+      this.maxLines,
       this.isGreyText = false,
+      this.isLargeText = false,
+      this.isSmallText = false,
       this.textScaleFactor})
       : super(key: key);
 
@@ -24,14 +27,27 @@ class DiscuzText extends StatelessWidget {
   final TextOverflow overflow;
   final TextAlign textAlign;
   final bool primary;
+  final bool isLargeText;
+  final bool isSmallText;
+  final int maxLines;
 
   final bool isGreyText;
 
   @override
   Widget build(BuildContext context) {
     Color _textColor = color ?? DiscuzApp.themeOf(context).textColor;
+    double _fontSize = fontSize ?? DiscuzApp.themeOf(context).normalTextSize;
+
     if (isGreyText) {
       _textColor = DiscuzApp.themeOf(context).greyTextColor;
+    }
+
+    if (isLargeText) {
+      _fontSize = DiscuzApp.themeOf(context).largeTextSize;
+    }
+
+    if (isSmallText) {
+      _fontSize = DiscuzApp.themeOf(context).smallTextSize;
     }
 
     if (primary) {
@@ -43,11 +59,14 @@ class DiscuzText extends StatelessWidget {
       textScaleFactor: textScaleFactor,
       overflow: overflow,
       textAlign: textAlign,
+      maxLines: maxLines,
       style: TextStyle(
           color: _textColor,
           fontWeight: fontWeight,
           fontFamily: fontFamily,
-          fontSize: fontSize ?? DiscuzApp.themeOf(context).normalTextSize),
+          letterSpacing: .89,
+          wordSpacing: .66,
+          fontSize: _fontSize),
     );
   }
 }

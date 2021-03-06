@@ -105,7 +105,7 @@ class _TopicDetailDelegateState extends State<TopicDetailDelegate> {
     final Function close = DiscuzToast.loading();
 
     try {
-      final TopicModel topic = await TopicsAPI(context: context)
+      final TopicModel topic = await TopicsApi(context: context)
           .getTopic(_cancelToken, id: widget.topicID);
 
       close();
@@ -163,7 +163,6 @@ class _BuilderAppbarBottom extends StatelessWidget with PreferredSizeWidget {
           children: <Widget>[
             DiscuzText(
               "$label：",
-              fontSize: DiscuzApp.themeOf(context).normalTextSize,
             ),
             DiscuzText(
               number.toString(),

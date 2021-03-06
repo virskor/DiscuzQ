@@ -117,7 +117,7 @@ class _DiscuzEditorCategorySelectorState
                 ? const DiscuzText('请选择分类')
                 : DiscuzText(
                     _selectedCategory.attributes.name,
-                    color: DiscuzApp.themeOf(context).primaryColor,
+                    color: DiscuzApp.themeOf(context).greyTextColor,
                   ),
 
             ///

@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:discuzq/widgets/common/discuzListTile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,17 +11,12 @@ import 'package:discuzq/models/categoryModel.dart';
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
 import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:discuzq/widgets/common/discuzListTile.dart';
 
 class ForumAddButton extends StatefulWidget {
-  ///
-  /// 图标颜色永远渲染白色
-  final bool awalysDark;
-
   final EdgeInsetsGeometry padding;
 
-  const ForumAddButton({Key key, this.awalysDark = false, this.padding})
-      : super(key: key);
+  const ForumAddButton({Key key, this.padding}) : super(key: key);
 
   @override
   _ForumAddButtonState createState() => _ForumAddButtonState();
@@ -50,12 +44,11 @@ class _ForumAddButtonState extends State<ForumAddButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      padding: widget.padding ?? const EdgeInsets.all(8.0),
+      padding: widget.padding ?? const EdgeInsets.all(4.0),
       icon: DiscuzIcon(
         CupertinoIcons.plus,
-        color: widget.awalysDark
-            ? Colors.white
-            : DiscuzApp.themeOf(context).textColor,
+        size: 18,
+        color: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
       ),
       onPressed: _showPop,
     );
@@ -64,40 +57,39 @@ class _ForumAddButtonState extends State<ForumAddButton> {
   ///
   /// show pop
   ///
-  Future<bool> _showPop() => showMaterialModalBottomSheet(
+  Future<bool> _showPop() => showCupertinoModalPopup(
+      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10),
       context: context,
-      backgroundColor: Colors.transparent,
       builder: (BuildContext context) => const Material(
-          color: Colors.transparent, child: const _ForumCreateThreadDialog()));
+          color: Colors.transparent, child: const ForumCreateThreadDialog()));
 }
 
 /// 创建帖子的对话框
-class _ForumCreateThreadDialog extends StatefulWidget {
-  const _ForumCreateThreadDialog({Key key}) : super(key: key);
+class ForumCreateThreadDialog extends StatefulWidget {
+  const ForumCreateThreadDialog({Key key}) : super(key: key);
 
   @override
-  _ForumCreateThreadDialogState createState() =>
-      _ForumCreateThreadDialogState();
+  ForumCreateThreadDialogState createState() => ForumCreateThreadDialogState();
 }
 
-class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
+class ForumCreateThreadDialogState extends State<ForumCreateThreadDialog> {
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
   }
 
-  static const List<_ForumCreateThreadDialogItem> _menus = [
-    const _ForumCreateThreadDialogItem(
-        caption: '发布主题',
+  static const List<ForumCreateThreadDialogItem> _menus = [
+    const ForumCreateThreadDialogItem(
+        caption: '发布动态',
         subTitle: '一些简单的想法',
         type: DiscuzEditorInputTypes.text,
         icon: CupertinoIcons.pencil_ellipsis_rectangle),
-    const _ForumCreateThreadDialogItem(
+    const ForumCreateThreadDialogItem(
         type: DiscuzEditorInputTypes.markdown,
-        caption: '发布长文',
-        subTitle: '发布我的文章',
+        caption: '发布故事',
+        subTitle: '发布我的故事',
         icon: CupertinoIcons.pencil_outline),
-    // const _ForumCreateThreadDialogItem(
+    // const ForumCreateThreadDialogItem(
     //     type: DiscuzEditorInputTypes.video,
     //     caption: '发布视频',
     //     subTitle: '发布我的小视频',
@@ -108,8 +100,10 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
   Widget build(BuildContext context) {
     return Container(
       height: 250,
-      decoration:
-          BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+      //margin: const EdgeInsets.only(left: 10, right: 10),
+      decoration: BoxDecoration(
+          color: DiscuzApp.themeOf(context).backgroundColor,
+          borderRadius: const BorderRadius.all(Radius.circular(15))),
       child: SafeArea(
         child: ListView(
           shrinkWrap: true,
@@ -166,7 +160,7 @@ class _ForumCreateThreadDialogState extends State<_ForumCreateThreadDialog> {
 
 ///
 /// 发帖选项
-class _ForumCreateThreadDialogItem {
+class ForumCreateThreadDialogItem {
   ///
   /// 选项卡标题
   final String caption;
@@ -181,6 +175,6 @@ class _ForumCreateThreadDialogItem {
 
   final DiscuzEditorInputType type;
 
-  const _ForumCreateThreadDialogItem(
+  const ForumCreateThreadDialogItem(
       {this.caption, this.subTitle, this.icon, this.type});
 }

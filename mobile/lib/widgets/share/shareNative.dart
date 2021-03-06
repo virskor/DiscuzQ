@@ -7,15 +7,15 @@ import 'package:discuzq/models/threadModel.dart';
 class ShareNative {
   
   ///
-  /// 分享主题
-  /// 调用系统分享，生成网页链接分享主题
+  /// 分享故事
+  /// 调用系统分享，生成网页链接分享故事
   /// 
   static Future<void> shareThread({@required ThreadModel thread}) async {
     if (thread.id == 0) {
       return;
     }
 
-    final String webUrl = '${Global.domain}/pages/topic/index?id=${thread.id.toString()}';
+    final String webUrl = '${Global.site}/threads/${thread.id.toString()}';
     final String shareContent = '''
     ${thread.attributes.title}
     $webUrl

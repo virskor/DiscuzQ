@@ -1,16 +1,8 @@
-import 'dart:typed_data';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:discuzq/models/attachmentsModel.dart';
 import 'package:discuzq/models/threadModel.dart';
-import 'package:discuzq/utils/permissionHepler.dart';
-import 'package:discuzq/widgets/common/discuzContextMenu.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/share/shareNative.dart';
 import 'package:discuzq/widgets/common/discuzCachedNetworkImage.dart';
 
 class DiscuzImage extends StatefulWidget {
@@ -24,8 +16,8 @@ class DiscuzImage extends StatefulWidget {
   final AttachmentsModel attachment;
 
   ///
-  /// 主题
-  /// 关联的主题，当enable Share的时候要传入
+  /// 故事
+  /// 关联的故事，当enable Share的时候要传入
   final ThreadModel thread;
 
   ///
@@ -38,11 +30,23 @@ class DiscuzImage extends StatefulWidget {
   /// 请求查看原图
   final Function onWantOriginalImage;
 
+  final BorderRadius borderRadius;
+
+  final int memCacheWidth;
+
+  final int memCacheHeight;
+
+  final BoxFit fit;
+
   const DiscuzImage({
     @required this.attachment,
     this.thread,
     this.onWantOriginalImage,
+    this.memCacheWidth,
+    this.memCacheHeight,
+    this.fit = BoxFit.cover,
     this.isThumb = true,
+    this.borderRadius = const BorderRadius.all(const Radius.circular(5)),
     this.enbleShare = false,
   });
   @override
@@ -67,73 +71,28 @@ class _DiscuzImageState extends State<DiscuzImage> {
       @required Function onWantOriginalImage}) {
     final double imageSize = (double.infinity * .3) - 4;
 
-    return CupertinoContextMenu(
-      previewBuilder:
-          (BuildContext context, Animation<double> animation, Widget child) {
-        return FittedBox(
-          fit: BoxFit.cover,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(4 * animation.value),
-            child: child,
-          ),
-        );
-      },
-      actions: <Widget>[
-        DiscuzContextMenuAction(
-          child: const Text('保存原图'),
-          trailingIcon: CupertinoIcons.tray_arrow_down,
-          onPressed: () async {
-            final bool havePermission =
-                await PermissionHelper.checkWithNotice(PermissionGroup.photos);
-            if (havePermission == false) {
-              return;
-            }
+    return GestureDetector(
+      onTap: () => onWantOriginalImage(attachment.attributes.url),
+      child: ClipRRect(
+        borderRadius: widget.borderRadius,
+        child: DiscuzCachedNetworkImage(
+          imageUrl: widget.isThumb
+              ? attachment.attributes.thumbUrl
+              : attachment.attributes.url,
 
-            final Response response = await Dio().get(attachment.attributes.url,
-                options: Options(responseType: ResponseType.bytes));
-            final result = await ImageGallerySaver.saveImage(
-                Uint8List.fromList(response.data));
-            if (result) {
-              DiscuzToast.toast(context: context, message: '保存成功');
-              //Navigator.pop(context); /// 暂时不为用户关闭
-              return;
-            }
-            DiscuzToast.failed(context: context, message: '保存失败');
-            Navigator.pop(context);
-          },
-        ),
-        !widget.enbleShare
-            ? const SizedBox()
-            : DiscuzContextMenuAction(
-                child: const Text('分享'),
-                trailingIcon: CupertinoIcons.square_arrow_up,
-                onPressed: () async {
-                  await ShareNative.shareThread(thread: widget.thread);
-                  Navigator.pop(context);
-                },
-              ),
-      ],
-      child: GestureDetector(
-        onTap: () => onWantOriginalImage(attachment.attributes.url),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(const Radius.circular(5)),
-          child: DiscuzCachedNetworkImage(
-            imageUrl: widget.isThumb
-                ? attachment.attributes.thumbUrl
-                : attachment.attributes.url,
-
-            ///
-            /// 请求图片时要带Referer
-            fit: BoxFit.cover,
+          ///
+          /// 请求图片时要带Referer
+          fit: widget.fit,
+          width: widget.isThumb ? imageSize : null,
+          height: widget.isThumb ? imageSize : null,
+          errorWidget: (context, url, error) => Image.asset(
+            'assets/images/errimage.png',
             width: widget.isThumb ? imageSize : null,
             height: widget.isThumb ? imageSize : null,
-            errorWidget: (context, url, error) => Image.asset(
-              'assets/images/errimage.png',
-              width: widget.isThumb ? imageSize : null,
-              height: widget.isThumb ? imageSize : null,
-              fit: BoxFit.contain,
-            ),
+            fit: BoxFit.contain,
           ),
+          memCacheHeight: widget.memCacheHeight,
+          memCacheWidth: widget.memCacheWidth,
         ),
       ),
     );

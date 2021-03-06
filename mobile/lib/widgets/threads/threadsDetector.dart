@@ -15,7 +15,7 @@ class ThreadsDetector {
   final BuildContext context;
 
   ///
-  /// 使用ThreadID 弹出指定的主题
+  /// 使用ThreadID 弹出指定的故事
   ///
   Future<void> showThread({@required int threadID, uid}) async {
     if (threadID == null) {

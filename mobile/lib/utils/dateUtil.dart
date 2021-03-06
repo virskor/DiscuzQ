@@ -5,8 +5,12 @@
  * @Date: 2018/9/8
  */
 
-/// DateFormat.
-enum DateFormat {
+import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
+
+
+/// DiscuzDateFormat.
+enum DiscuzDateFormat {
   DEFAULT, //yyyy-MM-dd HH:mm:ss.SSS
   NORMAL, //yyyy-MM-dd HH:mm:ss
   YEAR_MONTH_DAY_HOUR_MINUTE, //yyyy-MM-dd HH:mm
@@ -92,12 +96,12 @@ class DateUtil {
 
   /// get DateStr By DateStr.
   /// dateStr         date String.
-  /// format          DateFormat type.
+  /// format          DiscuzDateFormat type.
   /// dateSeparate    date separate.
   /// timeSeparate    time separate.
   static String getDateStrByTimeStr(
     String dateStr, {
-    DateFormat format = DateFormat.NORMAL,
+    DiscuzDateFormat format = DiscuzDateFormat.NORMAL,
     String dateSeparate,
     String timeSeparate,
     bool isUtc,
@@ -108,11 +112,11 @@ class DateUtil {
 
   /// get DateStr By Milliseconds.
   /// milliseconds    milliseconds.
-  /// format          DateFormat type.
+  /// format          DiscuzDateFormat type.
   /// dateSeparate    date separate.
   /// timeSeparate    time separate.
   static String getDateStrByMs(int milliseconds,
-      {DateFormat format = DateFormat.NORMAL,
+      {DiscuzDateFormat format = DiscuzDateFormat.NORMAL,
       String dateSeparate,
       String timeSeparate,
       bool isUtc = false}) {
@@ -123,11 +127,11 @@ class DateUtil {
 
   /// get DateStr By DateTime.
   /// dateTime        dateTime.
-  /// format          DateFormat type.
+  /// format          DiscuzDateFormat type.
   /// dateSeparate    date separate.
   /// timeSeparate    time separate.
   static String getDateStrByDateTime(DateTime dateTime,
-      {DateFormat format = DateFormat.NORMAL,
+      {DiscuzDateFormat format = DiscuzDateFormat.NORMAL,
       String dateSeparate,
       String timeSeparate}) {
     if (dateTime == null) return null;
@@ -142,46 +146,46 @@ class DateUtil {
 
   /// format ZH DateTime.
   /// time            time string.
-  /// format          DateFormat type.
+  /// format          DiscuzDateFormat type.
   ///timeSeparate    time separate.
   static String formatZHDateTime(
-      String time, DateFormat format, String timeSeparate) {
+      String time, DiscuzDateFormat format, String timeSeparate) {
     time = convertToZHDateTimeString(time, timeSeparate);
     switch (format) {
-      case DateFormat.ZH_NORMAL: //yyyy年MM月dd日 HH时mm分ss秒
+      case DiscuzDateFormat.ZH_NORMAL: //yyyy年MM月dd日 HH时mm分ss秒
         time = time.substring(
             0,
             "yyyy年MM月dd日 HH时mm分ss秒".length -
                 (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
-      case DateFormat.ZH_YEAR_MONTH_DAY_HOUR_MINUTE: //yyyy年MM月dd日 HH时mm分
+      case DiscuzDateFormat.ZH_YEAR_MONTH_DAY_HOUR_MINUTE: //yyyy年MM月dd日 HH时mm分
         time = time.substring(
             0,
             "yyyy年MM月dd日 HH时mm分".length -
                 (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
-      case DateFormat.ZH_YEAR_MONTH_DAY: //yyyy年MM月dd日
+      case DiscuzDateFormat.ZH_YEAR_MONTH_DAY: //yyyy年MM月dd日
         time = time.substring(0, "yyyy年MM月dd日".length);
         break;
-      case DateFormat.ZH_YEAR_MONTH: //yyyy年MM月
+      case DiscuzDateFormat.ZH_YEAR_MONTH: //yyyy年MM月
         time = time.substring(0, "yyyy年MM月".length);
         break;
-      case DateFormat.ZH_MONTH_DAY: //MM月dd日
+      case DiscuzDateFormat.ZH_MONTH_DAY: //MM月dd日
         time = time.substring("yyyy年".length, "yyyy年MM月dd日".length);
         break;
-      case DateFormat.ZH_MONTH_DAY_HOUR_MINUTE: //MM月dd日 HH时mm分
+      case DiscuzDateFormat.ZH_MONTH_DAY_HOUR_MINUTE: //MM月dd日 HH时mm分
         time = time.substring(
             "yyyy年".length,
             "yyyy年MM月dd日 HH时mm分".length -
                 (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
-      case DateFormat.ZH_HOUR_MINUTE_SECOND: //HH时mm分ss秒
+      case DiscuzDateFormat.ZH_HOUR_MINUTE_SECOND: //HH时mm分ss秒
         time = time.substring(
             "yyyy年MM月dd日 ".length,
             "yyyy年MM月dd日 HH时mm分ss秒".length -
                 (timeSeparate == null || timeSeparate.isEmpty ? 0 : 1));
         break;
-      case DateFormat.ZH_HOUR_MINUTE: //HH时mm分
+      case DiscuzDateFormat.ZH_HOUR_MINUTE: //HH时mm分
         time = time.substring(
             "yyyy年MM月dd日 ".length,
             "yyyy年MM月dd日 HH时mm分".length -
@@ -195,35 +199,35 @@ class DateUtil {
 
   /// format DateTime.
   /// time            time string.
-  /// format          DateFormat type.
+  /// format          DiscuzDateFormat type.
   /// dateSeparate    date separate.
   /// timeSeparate    time separate.
-  static String formatDateTime(String time, DateFormat format,
+  static String formatDateTime(String time, DiscuzDateFormat format,
       String dateSeparate, String timeSeparate) {
     switch (format) {
-      case DateFormat.NORMAL: //yyyy-MM-dd HH:mm:ss
+      case DiscuzDateFormat.NORMAL: //yyyy-MM-dd HH:mm:ss
         time = time.substring(0, "yyyy-MM-dd HH:mm:ss".length);
         break;
-      case DateFormat.YEAR_MONTH_DAY_HOUR_MINUTE: //yyyy-MM-dd HH:mm
+      case DiscuzDateFormat.YEAR_MONTH_DAY_HOUR_MINUTE: //yyyy-MM-dd HH:mm
         time = time.substring(0, "yyyy-MM-dd HH:mm".length);
         break;
-      case DateFormat.YEAR_MONTH_DAY: //yyyy-MM-dd
+      case DiscuzDateFormat.YEAR_MONTH_DAY: //yyyy-MM-dd
         time = time.substring(0, "yyyy-MM-dd".length);
         break;
-      case DateFormat.YEAR_MONTH: //yyyy-MM
+      case DiscuzDateFormat.YEAR_MONTH: //yyyy-MM
         time = time.substring(0, "yyyy-MM".length);
         break;
-      case DateFormat.MONTH_DAY: //MM-dd
+      case DiscuzDateFormat.MONTH_DAY: //MM-dd
         time = time.substring("yyyy-".length, "yyyy-MM-dd".length);
         break;
-      case DateFormat.MONTH_DAY_HOUR_MINUTE: //MM-dd HH:mm
+      case DiscuzDateFormat.MONTH_DAY_HOUR_MINUTE: //MM-dd HH:mm
         time = time.substring("yyyy-".length, "yyyy-MM-dd HH:mm".length);
         break;
-      case DateFormat.HOUR_MINUTE_SECOND: //HH:mm:ss
+      case DiscuzDateFormat.HOUR_MINUTE_SECOND: //HH:mm:ss
         time =
             time.substring("yyyy-MM-dd ".length, "yyyy-MM-dd HH:mm:ss".length);
         break;
-      case DateFormat.HOUR_MINUTE: //HH:mm
+      case DiscuzDateFormat.HOUR_MINUTE: //HH:mm
         time = time.substring("yyyy-MM-dd ".length, "yyyy-MM-dd HH:mm".length);
         break;
       default:
@@ -234,16 +238,16 @@ class DateUtil {
   }
 
   /// is format to ZH DateTime String
-  static bool isZHFormat(DateFormat format) {
-    return format == DateFormat.ZH_DEFAULT ||
-        format == DateFormat.ZH_NORMAL ||
-        format == DateFormat.ZH_YEAR_MONTH_DAY_HOUR_MINUTE ||
-        format == DateFormat.ZH_YEAR_MONTH_DAY ||
-        format == DateFormat.ZH_YEAR_MONTH ||
-        format == DateFormat.ZH_MONTH_DAY ||
-        format == DateFormat.ZH_MONTH_DAY_HOUR_MINUTE ||
-        format == DateFormat.ZH_HOUR_MINUTE_SECOND ||
-        format == DateFormat.ZH_HOUR_MINUTE;
+  static bool isZHFormat(DiscuzDateFormat format) {
+    return format == DiscuzDateFormat.ZH_DEFAULT ||
+        format == DiscuzDateFormat.ZH_NORMAL ||
+        format == DiscuzDateFormat.ZH_YEAR_MONTH_DAY_HOUR_MINUTE ||
+        format == DiscuzDateFormat.ZH_YEAR_MONTH_DAY ||
+        format == DiscuzDateFormat.ZH_YEAR_MONTH ||
+        format == DiscuzDateFormat.ZH_MONTH_DAY ||
+        format == DiscuzDateFormat.ZH_MONTH_DAY_HOUR_MINUTE ||
+        format == DiscuzDateFormat.ZH_HOUR_MINUTE_SECOND ||
+        format == DiscuzDateFormat.ZH_HOUR_MINUTE;
   }
 
   /// convert To ZH DateTime String
@@ -499,5 +503,86 @@ class DateUtil {
     return (now.weekday >= old.weekday) &&
         (now.millisecondsSinceEpoch - old.millisecondsSinceEpoch <=
             7 * 24 * 60 * 60 * 1000);
+  }
+}
+
+class DiscuzMomentTimeFormat {
+  static final num oneMinute = 60000;
+  static final num oneHour = 3600000;
+  static final num oneDay = 86400000;
+  static final num oneWeek = 604800000;
+
+  static final String oneSecondAgo = "秒前";
+  static final String oneMinuteAgo = "分钟前";
+  static final String oneHourAgo = "小时前";
+  static final String oneDayAgo = "天前";
+  static final String oneMonthAgo = "月前";
+  static final String oneYearAgo = "年前";
+
+//时间转换
+  static String format(DateTime date) {
+    num delta =
+        DateTime.now().millisecondsSinceEpoch - date.millisecondsSinceEpoch;
+    if (delta < 1 * oneMinute) {
+      num seconds = toSeconds(delta);
+      return (seconds <= 0 ? 1 : seconds).toInt().toString() + oneSecondAgo;
+    }
+
+    /// 45
+    if (delta < 60 * oneMinute) {
+      num minutes = toMinutes(delta);
+      return (minutes <= 0 ? 1 : minutes).toInt().toString() + oneMinuteAgo;
+    }
+    if (delta < 24 * oneHour) {
+      num hours = toHours(delta);
+      return (hours <= 0 ? 1 : hours).toInt().toString() + oneHourAgo;
+    }
+    if (delta < 48 * oneHour) {
+      return "昨天";
+    }
+    if (delta < 30 * oneDay) {
+      num days = toDays(delta);
+      return (days <= 0 ? 1 : days).toInt().toString() + oneDayAgo;
+    }
+
+    if (delta < 12 * 4 * oneWeek) {
+      num months = toMonths(delta);
+      return (months <= 0 ? 1 : months).toInt().toString() + oneMonthAgo;
+    } else {
+      num years = toYears(delta);
+      return (years <= 0 ? 1 : years).toInt().toString() + oneYearAgo;
+    }
+  }
+
+  static num toSeconds(num date) {
+    return date / 1000;
+  }
+
+  static num toMinutes(num date) {
+    return toSeconds(date) / 60;
+  }
+
+  static num toHours(num date) {
+    return toMinutes(date) / 60;
+  }
+
+  static num toDays(num date) {
+    return toHours(date) / 24;
+  }
+
+  static num toMonths(num date) {
+    return toDays(date) / 30;
+  }
+
+  static num toYears(num date) {
+    return toDays(date) / 365;
+  }
+
+  ///HH:mm a
+  static String formatBy({@required dynamic time, @required String format}) {
+    DateTime _t = time.runtimeType == String ? DateTime.tryParse(time) : time;
+
+    final fmt = DateFormat(format);
+    return fmt.format(_t);
   }
 }

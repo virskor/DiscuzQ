@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:fluro/fluro.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +18,7 @@ import 'package:discuzq/router/routers.dart';
 import 'package:discuzq/views/exploreDelagate.dart';
 import 'package:discuzq/providers/appConfigProvider.dart';
 import 'package:discuzq/widgets/settings/privacyConfirm.dart';
+
 import 'widgets/ui/ui.dart';
 
 class Discuz extends StatefulWidget {
@@ -62,7 +62,7 @@ class _DiscuzState extends State<Discuz> {
           theme: _buildTheme(conf),
           child: Builder(
             builder: (BuildContext context) {
-              /// 生成主题与DiscuzApp一致
+              /// 生成故事与DiscuzApp一致
               final ThemeData _themeData = ThemeData(
                   primaryColor: DiscuzApp.themeOf(context).primaryColor,
                   backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
@@ -83,8 +83,6 @@ class _DiscuzState extends State<Discuz> {
                           ? conf.appConf['showPerformanceOverlay']
                           : false,
                   localizationsDelegates: [
-                    // this line is important
-                    RefreshLocalizations.delegate,
                     GlobalMaterialLocalizations.delegate,
                     GlobalWidgetsLocalizations.delegate,
                     GlobalCupertinoLocalizations.delegate,
@@ -144,8 +142,8 @@ class AppMediaQueryManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQuery.of(context)
-          .copyWith(boldText: false, textScaleFactor: .95),
+      data:
+          MediaQuery.of(context).copyWith(boldText: false, textScaleFactor: 1),
       child: child,
     );
   }
@@ -180,11 +178,11 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
 
   /// 底部按钮菜单
   final List<NavigatorItem> _items = [
-    const NavigatorItem(icon: 0xe7f3, title: "首页"),
-    const NavigatorItem(icon: 0xe788, title: "发现", shouldLogin: true),
+    const NavigatorItem(icon: 0xe78f),
+    const NavigatorItem(icon: 0xe605, size: 27, shouldLogin: true),
     const NavigatorItem(isPublishButton: true),
-    const NavigatorItem(icon: 0xe7c0, title: "消息", shouldLogin: true),
-    const NavigatorItem(icon: 0xe6f2, title: "我的", shouldLogin: true)
+    const NavigatorItem(icon: 0xe604, size: 23, shouldLogin: true),
+    const NavigatorItem(icon: 0xe7c7, size: 22, shouldLogin: true)
   ];
 
   /// 使用global key
@@ -204,8 +202,6 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   @override
   void initState() {
     this._getForumData();
-    Future.delayed(const Duration(seconds: 1))
-        .then((_) async => await _userPrivaciesNotice(context));
     super.initState();
   }
 
@@ -218,6 +214,10 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
   @override
   Widget build(BuildContext context) => Consumer<AppConfigProvider>(builder:
           (BuildContext context, AppConfigProvider conf, Widget child) {
+        if (conf.appConf != null && conf.appConf['confrimedPrivacy'] == false) {
+          return const PrivacyConfirm();
+        }
+
         return Theme(
           data: Theme.of(context).copyWith(
               // This makes the visual density adapt to the platform that you run
@@ -232,12 +232,13 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
               canvasColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor),
           child: Scaffold(
             key: _scaffoldKey,
+            resizeToAvoidBottomInset: true,
             body: PageView(
               controller: _pageController,
               children: _views,
               physics: const NeverScrollableScrollPhysics(),
             ),
-            resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomPadding: true,
             bottomNavigationBar: DiscuzBottomNavigator(
               items: _items,
               onItemSelected: (index) {
@@ -263,21 +264,5 @@ class __DiscuzAppDelegateState extends State<_DiscuzAppDelegate> {
     setState(() {
       _loaded = true;
     });
-  }
-
-  /// 弹出用户隐私提示
-  void _userPrivaciesNotice(BuildContext context) {
-    final dynamic appConf = context.read<AppConfigProvider>().appConf;
-    if (appConf['confrimedPrivacy'] != null &&
-        appConf['confrimedPrivacy'] == false) {
-      showModalBottomSheet(
-          context: context,
-          isDismissible: false,
-          enableDrag: false,
-          backgroundColor: Colors.transparent,
-          builder: (BuildContext context) {
-            return const PrivacyConfirm();
-          });
-    }
   }
 }

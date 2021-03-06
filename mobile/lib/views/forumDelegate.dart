@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:provider/provider.dart';
 
+import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
@@ -13,8 +14,9 @@ import 'package:discuzq/widgets/categories/discuzCategories.dart';
 import 'package:discuzq/providers/categoriesProvider.dart';
 import 'package:discuzq/widgets/search/searchActionButton.dart';
 import 'package:discuzq/widgets/search/searchTypeItemsColumn.dart';
-import 'package:discuzq/widgets/appbar/appbarExt.dart';
-import 'package:discuzq/providers/appConfigProvider.dart';
+import 'package:discuzq/widgets/appbar/appbarLeadings.dart';
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart'
+    as extended;
 
 /// 注意：
 /// 从我们的设计上来说，要加载了forum才显示这个组件，所以forum请求自然就在category之前
@@ -77,10 +79,7 @@ class _ForumDelegateState extends State<ForumDelegate>
         builder: (BuildContext context, CategoriesProvider cats, Widget child) {
       /// 返回加载中的视图
       if (_loading) {
-        return const DiscuzSkeleton(
-          isCircularImage: false,
-          isBottomLinesActive: true,
-        );
+        return const DiscuzSkeleton();
       }
 
       /// 返回没有可用分类
@@ -88,77 +87,82 @@ class _ForumDelegateState extends State<ForumDelegate>
         const Center(child: const DiscuzText('暂无可用分类'));
       }
 
-      final Widget _tabs = TabBar(
-          //生成Tab菜单
-          controller: _tabController,
-          labelStyle: TextStyle(
-            //up to your taste
-            fontSize: DiscuzApp.themeOf(context).mediumTextSize,
-            fontWeight: FontWeight.w600,
+      final Widget _tabs = Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: DiscuzApp.themeOf(context).backgroundColor,
           ),
-          unselectedLabelStyle: TextStyle(
-            fontSize: DiscuzApp.themeOf(context).mediumTextSize,
-            fontWeight: FontWeight.w600,
-          ),
-          indicatorSize: TabBarIndicatorSize.tab, //makes it better
-          labelColor:
-              DiscuzApp.themeOf(context).textColor, //Google's sweet blue
-          unselectedLabelColor: DiscuzApp.themeOf(context)
-              .textColor
-              .withOpacity(.68), //niceish grey
-          isScrollable: true, //up to your taste
-          indicatorPadding: const EdgeInsets.all(0),
-          indicator: MD2Indicator(
-              //it begins here
-              indicatorHeight: 2,
-              indicatorColor: DiscuzApp.themeOf(context).primaryColor,
-              indicatorSize:
-                  MD2IndicatorSize.tiny //3 different modes tiny-normal-full
+          child: TabBar(
+              //生成Tab菜单
+              controller: _tabController,
+              labelStyle: TextStyle(
+                //up to your taste
+                fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+                fontWeight: FontWeight.w600,
               ),
-          tabs: cats.categories
-              .map<Widget>((CategoryModel e) => Tab(text: e.attributes.name))
-              .toList());
+              unselectedLabelStyle: TextStyle(
+                fontSize: DiscuzApp.themeOf(context).mediumTextSize,
+                fontWeight: FontWeight.w600,
+              ),
+              indicatorSize: TabBarIndicatorSize.tab, //makes it better
+              labelColor:
+                  DiscuzApp.themeOf(context).textColor, //Google's sweet blue
+              unselectedLabelColor: DiscuzApp.themeOf(context)
+                  .textColor
+                  .withOpacity(.68), //niceish grey
+              isScrollable: true, //up to your taste
+              indicatorPadding: const EdgeInsets.all(0),
+              indicator: MD2Indicator(
+                  //it begins here
+                  indicatorHeight: 2,
+                  indicatorColor: DiscuzApp.themeOf(context).primaryColor,
+                  indicatorSize:
+                      MD2IndicatorSize.tiny //3 different modes tiny-normal-full
+                  ),
+              tabs: cats.forumDelegateCategories
+                  .map<Widget>(
+                      (CategoryModel e) => Tab(text: e.attributes.name))
+                  .toList()));
 
       /// 生成论坛分类和内容区域
       return Scaffold(
-        appBar: DiscuzAppBar(
-          title: "首页",
-          bottom: PreferredSize(
-            child: _tabs,
-            preferredSize: const Size.fromHeight(30),
-          ),
-          actions: [_actionButtons],
-        ),
-        body: Column(
-          children: <Widget>[
-            /// 条件筛选组件
-            ForumCategoryFilter(
-              onChanged: (ForumCategoryFilterItem item) {
-                /// todo: 条件切换啦，重新加载当前版块下的数据
-                /// 注意，如果选择的条件相同，那么还是要做忽略return
-                if (_filterItem == item) {
-                  return;
-                }
-
-                setState(() {
-                  _filterItem = item;
-                });
-              },
+          body: extended.NestedScrollView(
+        pinnedHeaderSliverHeightBuilder: () {
+          return MediaQuery.of(context).padding.top;
+        },
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            DiscuzSliverAppBar(
+              title: const LogoLeading(),
+              elevation: 10,
+              actions: [_actionButtons],
+              centerTitle: false,
+              expandedHeight: 0,
+              bottom: PreferredSize(
+                child: _tabs,
+                preferredSize: const Size.fromHeight(45),
+              ),
+              brightness: Brightness.light,
+              backgroundColor: DiscuzApp.themeOf(context).backgroundColor,
+              floating: true,
+              stretch: true,
             ),
-
-            /// tab Content
-            /// 生成帖子渲染content区域(tabviews)
+          ];
+        },
+        body: Column(
+          children: [
             Expanded(
-              flex: 1,
-              child: ForumDelegateContent(
+                child: extended.NestedScrollViewInnerScrollPositionKeyWidget(
+              const Key("tabKey"),
+              ForumDelegateContent(
                 controller: _tabController,
                 filter: _filterItem,
                 onAppbarState: widget.onAppbarState,
               ),
-            )
+            ))
           ],
         ),
-      );
+      ));
     });
   }
 
@@ -175,7 +179,7 @@ class _ForumDelegateState extends State<ForumDelegate>
   Future<void> _initTabController() async {
     try {
       final List<CategoryModel> categories =
-          context.read<CategoriesProvider>().categories;
+          context.read<CategoriesProvider>().forumDelegateCategories;
 
       /// 没有分类
       if (categories == null || categories.length == 0) {
@@ -213,7 +217,14 @@ class _ForumDelegateState extends State<ForumDelegate>
         0,
         const CategoryModel(
             attributes: const CategoryModelAttributes(
-                name: '全部', canViewThreads: true)));
+                name: '时下最新', canViewThreads: true)));
+    categories.insert(
+        1,
+        const CategoryModel(
+            attributes: const CategoryModelAttributes(
+                name: '关注',
+                canViewThreads: true,
+                showOnlyFollowedUsers: true)));
 
     categories.removeWhere((element) => !element.attributes.canViewThreads);
 
@@ -244,7 +255,14 @@ class _ForumDelegateState extends State<ForumDelegate>
         0,
         const CategoryModel(
             attributes: const CategoryModelAttributes(
-                name: '全部', canViewThreads: true)));
+                name: '时下最新', canViewThreads: true)));
+    categories.insert(
+        1,
+        const CategoryModel(
+            attributes: const CategoryModelAttributes(
+                name: '关注',
+                canViewThreads: true,
+                showOnlyFollowedUsers: true)));
     categories.removeWhere((element) => !element.attributes.canViewThreads);
 
     /// 重新更新状态
@@ -290,7 +308,8 @@ class _ForumDelegateContentState extends State<ForumDelegateContent>
                 Widget child) =>
             TabBarView(
               controller: widget.controller,
-              children: cats.categories
+              //physics: const NeverScrollableScrollPhysics(),
+              children: cats.forumDelegateCategories
                   .map<Widget>((CategoryModel cat) => ThreadsList(
                         category: cat,
                         onAppbarState: widget.onAppbarState,

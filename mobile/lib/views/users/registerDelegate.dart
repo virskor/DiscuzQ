@@ -16,6 +16,7 @@ import 'package:discuzq/providers/forumProvider.dart';
 import 'package:discuzq/models/captchaModel.dart';
 import 'package:discuzq/widgets/captcha/tencentCloudCaptcha.dart';
 import 'package:discuzq/models/forumModel.dart';
+import 'package:discuzq/widgets/appbar/appbarLeadings.dart';
 
 class RegisterDelegate extends StatefulWidget {
   final Function onRequested;
@@ -63,7 +64,6 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
   Widget build(BuildContext context) => Scaffold(
         appBar: DiscuzAppBar(
           title: '注册',
-          
         ),
         body: _buildRegisterForm,
       );
@@ -78,6 +78,8 @@ class _RegisterDelegateState extends State<RegisterDelegate> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              const LogoLeading(),
+              const SizedBox(height: 10),
               const DiscuzText(
                 '注册账号',
                 textScaleFactor: 1.8,

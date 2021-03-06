@@ -12,7 +12,7 @@ class RequestIncludes {
 
   ///
   /// thread
-  /// 主题
+  /// 故事
   static const String thread = 'thread';
 
   ///
@@ -62,17 +62,17 @@ class RequestIncludes {
 
   ///
   /// lastThread
-  /// 最后发布的主题
+  /// 最后发布的故事
   static const String lastThread = 'lastThread';
 
   ///
   /// lastThread
-  /// 最后发布的主题
+  /// 最后发布的故事
   static const String lastThreadFirstPost = 'lastThread.firstPost';
 
   ///
   /// lastThread
-  /// 最后发布的主题
+  /// 最后发布的故事
   static const String lastThreadFirstPostImages = 'lastThread.firstPost.images';
 
   ///
@@ -87,7 +87,7 @@ class RequestIncludes {
 
   ///
   /// rewardedUsers
-  /// 打赏主题的用户
+  /// 打赏故事的用户
   static const String rewardedUsers = 'rewardedUsers';
 
   ///
@@ -144,6 +144,9 @@ class RequestIncludes {
   /// groups
   /// 指定获取用户组信息
   static const String groups = 'groups';
+
+  /// 分类权限
+  static const String groupsPermissionWithoutCategories= 'user.groups.permissionWithoutCategories';
 
   /// replyUser
   /// 查询回复的用户

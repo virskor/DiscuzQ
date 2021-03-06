@@ -25,10 +25,10 @@ import 'package:discuzq/models/forumModel.dart';
 ///
 /// 发帖编辑器
 /// 发帖编辑器需要调用 discuzEditor 组件进行渲染用于渲染不同编辑模式下的编辑器
-/// 模式分为：发（主题，长文），编辑(主题，回复)，视频
+/// 模式分为：发（故事，故事），编辑(故事，回复)，视频
 /// 注意：
-/// 主题 不会支持markdown编辑 长文支持markdown编辑， 编辑时候也一样: todo: 如何确定编辑的是长文还是主题
-/// 发送主题，或者长文，都要支持表情 图片 附件
+/// 故事 不会支持markdown编辑 故事支持markdown编辑， 编辑时候也一样: todo: 如何确定编辑的是故事还是故事
+/// 发送故事，或者故事，都要支持表情 图片 附件
 /// 视频不会支持markdown，视频不会支持表情，附件，图片
 /// 回复不会支持markdown,回复仅支持表情和图片，不支持附件
 ///
@@ -73,6 +73,7 @@ class Editor extends StatefulWidget {
   /// 回复的时候，需要关联帖子数据，是不能少的
   final ThreadModel thread;
 
+  /// 回复时是否回复的是首贴
   final bool isFirstPost;
 
   Editor(
@@ -173,7 +174,7 @@ class _EditorState extends State<Editor> {
 
   ///
   /// 发布内容，
-  /// 将自动处理数据转化，并根据模式，调用reply，或者创建主题的接口
+  /// 将自动处理数据转化，并根据模式，调用reply，或者创建故事的接口
   Future<void> _post() async {
     ///
     /// relationships 不可能为null
@@ -197,7 +198,7 @@ class _EditorState extends State<Editor> {
     }
 
     ///
-    /// 如果长文模式，要求输入标题
+    /// 如果故事模式，要求输入标题
     if (StringHelper.isEmpty(string: _discuzEditorData.attributes.title) &&
         widget.type == DiscuzEditorInputTypes.markdown) {
       DiscuzToast.failed(context: context, message: '请输入标题');
@@ -246,6 +247,7 @@ class _EditorState extends State<Editor> {
     final dynamic data =
         await DiscuzEditorDataFormater.toDynamic(_discuzEditorData,
             isBuildForCreatingPost: _isReply,
+            isFirstPost: widget.isFirstPost,
 
             /// 如果是回复，则该选项为true，这样会过滤掉发帖时非必要对的参数
             captcha: captchaCallbackData);
@@ -311,7 +313,7 @@ class _EditorState extends State<Editor> {
     }
 
     ///
-    /// 主题和视频的，都使用一般的编辑器就可以了
+    /// 故事和视频的，都使用一般的编辑器就可以了
     /// 默认允许表情，上传图片，上传附件
     return DiscuzEditor(
       defaultCategory: widget.defaultCategory,

@@ -124,6 +124,9 @@ class CategoryModelAttributes {
   /// 是否有权查看该分类
   final bool canViewThreads;
 
+  /// 前端新增属性
+  final bool showOnlyFollowedUsers;
+
   ///
   /// 分类属性
   const CategoryModelAttributes(
@@ -138,6 +141,7 @@ class CategoryModelAttributes {
       this.canCreateThread = false,
       this.canReplyThread = true,
       this.canViewThreads = true,
+      this.showOnlyFollowedUsers = false,
       this.property = 0});
 
   ///

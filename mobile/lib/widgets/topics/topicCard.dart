@@ -16,12 +16,12 @@ class TopicCard extends StatefulWidget {
   TopicCard({Key key, this.threadsCacher, this.topic}) : super(key: key);
 
   ///------------------------------
-  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// threadsCacher 是用于缓存当前页面的故事数据的对象
   final ThreadsCacher threadsCacher;
 
   ///
   /// thread
-  /// 主题
+  /// 故事
   ///
   final TopicModel topic;
 
@@ -92,7 +92,7 @@ class _TopicCardState extends State<TopicCard>
                 /// 渲染话题标题
                 DiscuzText(
                   '#${widget.topic.attributes.content}#',
-                  fontSize: DiscuzApp.themeOf(context).largeTextSize,
+                  isLargeText: true,
                   fontWeight: FontWeight.bold,
                   //color: DiscuzApp.themeOf(context).greyTextColor,
                 ),

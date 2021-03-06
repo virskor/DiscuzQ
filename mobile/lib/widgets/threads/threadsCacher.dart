@@ -8,11 +8,11 @@ import 'package:discuzq/models/threadVideoModel.dart';
 import 'package:discuzq/models/userModel.dart';
 
 ///
-/// 一个用与缓存主题信息的类
-/// 一个页面在加载完所有主题数据，包括评论，用户等，都会被分类存储到这里
-/// 在这里提取要用于渲染的主题列表和其他信息。
+/// 一个用与缓存故事信息的类
+/// 一个页面在加载完所有故事数据，包括评论，用户等，都会被分类存储到这里
+/// 在这里提取要用于渲染的故事列表和其他信息。
 /// 当页面销毁的时候，直接将 ThreadsCacher 销毁，完成内存的释放，
-/// ThreadsCacher 设计的目的就是为了托管所有用来渲染主题列表相关页面的数据
+/// ThreadsCacher 设计的目的就是为了托管所有用来渲染故事列表相关页面的数据
 /// 这个类将作为单例被调用，多个页面只能共享一个 ThreadsCacher
 /// dispose将清空所有的数据
 ///
@@ -82,7 +82,7 @@ class _ThreadBaseCacher {
   }
 
   ///
-  /// 移除主题
+  /// 移除故事
   void removeThreadByID({@required int threadID}) {
     _threads = _threads.where((it) => it.id != threadID).toList();
   }
@@ -229,13 +229,17 @@ class _ThreadBaseCacher {
 
   ///
   /// 清空数据
-  void clear() async {
+  void clear() {
     _threads.clear();
     _posts.clear();
     _users.clear();
     _videos.clear();
     _attachments.clear();
     _topics.clear();
+  }
+
+  void clearPosts() {
+    _posts.clear();
   }
 }
 

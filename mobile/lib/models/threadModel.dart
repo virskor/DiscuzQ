@@ -10,12 +10,12 @@ class ThreadModel {
   final int id;
 
   ///
-  /// 主题类型
+  /// 故事类型
   ///
   final int type;
 
   ///
-  /// 主题信息
+  /// 故事信息
   ///
   final ThreadAttributesModel attributes;
 
@@ -24,7 +24,7 @@ class ThreadModel {
   /// 关联数据
   final RelationshipsModel relationships;
 
-  /// 主题模型
+  /// 故事模型
   const ThreadModel(
       {this.id = 0, this.type = 0, this.attributes, this.relationships});
 
@@ -72,12 +72,12 @@ class ThreadModel {
 class ThreadAttributesModel {
   ///
   /// type
-  /// 文章类型(0普通 1长文 2视频)
+  /// 故事类型(0普通 1故事 2视频)
   final int type;
 
   ///
   /// title
-  /// 长文主题	标题
+  /// 故事故事	标题
   final String title;
 
   ///

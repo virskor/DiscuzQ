@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/models/userModel.dart';
 import 'package:discuzq/utils/global.dart';
@@ -128,11 +127,11 @@ class _SearchUserDelegateState extends State<SearchUserDelegate>
             return;
           }
           await _requestData(pageNumber: _pageNumber + 1);
-          _controller.loadComplete();
+          _controller.finishLoad();
         },
         onRefresh: () async {
           await _requestData(pageNumber: 1);
-          _controller.refreshCompleted();
+          _controller.finishRefresh();
         },
         child: _buildUsersList(),
       );
@@ -144,10 +143,7 @@ class _SearchUserDelegateState extends State<SearchUserDelegate>
     /// 骨架屏仅在初始化时加载
     ///
     if (!_continueToRead && _loading) {
-      return const DiscuzSkeleton(
-        isCircularImage: false,
-        isBottomLinesActive: false,
-      );
+      return const DiscuzSkeleton();
     }
 
     if (_users.length == 0) {

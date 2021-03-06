@@ -1,6 +1,8 @@
+import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nine_grid_view/nine_grid_view.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/models/postModel.dart';
@@ -15,7 +17,7 @@ import 'package:discuzq/router/route.dart';
 ///
 class ThreadGalleriesSnapshot extends StatelessWidget {
   ///------------------------------
-  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// threadsCacher 是用于缓存当前页面的故事数据的对象
   /// 当数据更新的时候，数据会存储到 threadsCacher
   /// threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
@@ -26,7 +28,7 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
   final PostModel firstPost;
 
   ///
-  /// 关联的主题
+  /// 关联的故事
   final ThreadModel thread;
 
   ThreadGalleriesSnapshot(
@@ -68,39 +70,132 @@ class ThreadGalleriesSnapshot extends StatelessWidget {
 
     ///
     /// 原图所有图片Url 图集
-    final List<String> originalImageUrls =
-        attachmentsModels.map((e) => e.attributes.url).toList().take(9).toList();
+    final List<String> originalImageUrls = attachmentsModels
+        .map((e) => e.attributes.url)
+        .toList()
+        .take(9)
+        .toList();
 
-    return RepaintBoundary(
-      child: NineGridView(
-        padding: const EdgeInsets.all(2),
-        space: 3,
-        type: NineGridType.normal,
-
-        /// normal only
-        itemCount: attachmentsModels.length,
+    return Container(
+      width: double.infinity,
+      height: 300,
+      child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          if (attachmentsModels[index] == null) {
-            return const SizedBox();
-          }
-
-          return DiscuzImage(
-              attachment: attachmentsModels[index],
-              enbleShare: true,
-              thread: thread,
-              onWantOriginalImage: (String targetUrl) {
-                /// 显示原图图集
-                /// targetUrl是用户点击到的要查看的图片
-                /// 调整数组，将targetUrl置于第一个，然后传入图集组件
-                originalImageUrls.remove(targetUrl);
-                originalImageUrls.insert(0, targetUrl);
-                return DiscuzRoute.navigate(
-                    fullscreenDialog: true,
-                    context: context,
-                    widget: DiscuzGalleryDelegate(gallery: originalImageUrls));
-              });
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: DiscuzImage(
+                attachment: attachmentsModels[index],
+                enbleShare: true,
+                thread: thread,
+                borderRadius: BorderRadius.zero,
+                fit: BoxFit.fitWidth,
+                onWantOriginalImage: (String targetUrl) {
+                  /// 显示原图图集
+                  /// targetUrl是用户点击到的要查看的图片
+                  /// 调整数组，将targetUrl置于第一个，然后传入图集组件
+                  originalImageUrls.remove(targetUrl);
+                  originalImageUrls.insert(0, targetUrl);
+                  return DiscuzRoute.navigate(
+                      context: context,
+                      widget:
+                          DiscuzGalleryDelegate(gallery: originalImageUrls));
+                }),
+          );
         },
+        itemCount: originalImageUrls.length,
+        pagination: const SwiperPagination(
+            margin: EdgeInsets.zero,
+            builder: const DotSwiperPaginationBuilder()),
       ),
     );
+  }
+}
+
+class DotSwiperPaginationBuilder extends SwiperPlugin {
+  ///color when current index,if set null , will be Theme.of(context).primaryColor
+  final Color activeColor;
+
+  ///,if set null , will be Theme.of(context).scaffoldBackgroundColor
+  final Color color;
+
+  ///Size of the dot when activate
+  final double activeSize;
+
+  ///Size of the dot
+  final double size;
+
+  /// Space between dots
+  final double space;
+
+  final Key key;
+
+  const DotSwiperPaginationBuilder(
+      {this.activeColor,
+      this.color,
+      this.key,
+      this.size: 5.0,
+      this.activeSize: 7.0,
+      this.space: 3.0});
+
+  @override
+  Widget build(BuildContext context, SwiperPluginConfig config) {
+    if (config.itemCount > 20) {
+      print(
+          "The itemCount is too big, we suggest use FractionPaginationBuilder instead of DotSwiperPaginationBuilder in this sitituation");
+    }
+    Color activeColor = this.activeColor;
+    Color color = this.color;
+
+    if (activeColor == null || color == null) {
+      activeColor = this.activeColor ?? DiscuzApp.themeOf(context).primaryColor;
+      color = this.color ?? DiscuzApp.themeOf(context).greyTextColor;
+    }
+
+    if (config.indicatorLayout != PageIndicatorLayout.NONE &&
+        config.layout == SwiperLayout.DEFAULT) {
+      return new PageIndicator(
+        count: config.itemCount,
+        controller: config.pageController,
+        layout: config.indicatorLayout,
+        size: size,
+        activeColor: activeColor,
+        color: color,
+        space: space,
+      );
+    }
+
+    List<Widget> list = [];
+
+    int itemCount = config.itemCount;
+    int activeIndex = config.activeIndex;
+
+    for (int i = 0; i < itemCount; ++i) {
+      bool active = i == activeIndex;
+      list.add(Container(
+        key: Key("pagination_$i"),
+        margin: EdgeInsets.all(space),
+        child: ClipOval(
+          child: Container(
+            color: active ? activeColor : color,
+            width: active ? activeSize : size,
+            height: active ? activeSize : size,
+          ),
+        ),
+      ));
+    }
+
+    if (config.scrollDirection == Axis.vertical) {
+      return new Column(
+        key: key,
+        mainAxisSize: MainAxisSize.min,
+        children: list,
+      );
+    } else {
+      return new Row(
+        key: key,
+        mainAxisSize: MainAxisSize.min,
+        children: list,
+      );
+    }
   }
 }

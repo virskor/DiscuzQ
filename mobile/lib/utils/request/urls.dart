@@ -56,8 +56,8 @@ class Urls {
   static String emoji = "$_apiPath/emoji";
 
   /// -----------------------------------
-  /// 主题
-  /// 主题相关的接口
+  /// 故事
+  /// 故事相关的接口
   static String threads = "$_apiPath/threads";
 
   /// -----------------------------------

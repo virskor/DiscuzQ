@@ -11,7 +11,6 @@ import 'package:discuzq/widgets/common/discuzLogo.dart';
 import 'package:discuzq/widgets/users/privacyBar.dart';
 import 'package:discuzq/utils/buildInfo.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/ui/ui.dart';
 
 class AboutDelegate extends StatefulWidget {
   const AboutDelegate({Key key}) : super(key: key);
@@ -60,50 +59,64 @@ class _AboutDelegateState extends State<AboutDelegate> {
         ),
         body: forum == null
             ? const Center(child: const DiscuzIndicator())
-            : Column(
+            : ListView(
                 children: [
-                  const Expanded(
-                      flex: 1,
-                      child: const Center(
-                        child: const DiscuzAppLogo(),
-                      )),
-                  Expanded(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          DiscuzText(
-                            BuildInfo().info().appname,
-                            fontSize: DiscuzApp.themeOf(context).largeTextSize,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          const SizedBox(height: 10),
-                          FutureBuilder<PackageInfo>(
-                            future: PackageInfo.fromPlatform(),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              // 请求已结束
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                if (snapshot.hasError) {
-                                  // 请求失败，显示错误
-                                  return const DiscuzText("获取版本信息失败");
-                                } else {
-                                  // 请求成功，显示数据
-                                  return DiscuzText(
-                                      "版本: ${snapshot.data.version}+${snapshot.data.buildNumber.toString()}");
-                                }
-                              } else {
-                                // 请求未结束，显示loading
-                                return const DiscuzIndicator();
-                              }
-                            },
-                          ),
-                          const SizedBox(height: 10),
-                          const PrivacyBar(
-                            showNotice: false,
-                          ),
-                        ],
-                      ))
+                  const SizedBox(height: 30),
+                  const Center(
+                    child: const DiscuzAppLogo(),
+                  ),
+                  const SizedBox(height: 30),
+                  Column(
+                    children: [
+                      DiscuzText(
+                        BuildInfo().info().appname,
+                        isLargeText: true,
+                        fontFamily: 'Pacifico',
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const SizedBox(height: 5),
+                      const DiscuzText(
+                        "有技术，有生活",
+                        isLargeText: true,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      const DiscuzText(
+                        "我们希望ClodraAPP是一个简洁的开发者社区",
+                        isGreyText: true,
+                      ),
+                      const SizedBox(height: 30),
+                      const DiscuzText(
+                        "本APP与Apple Inc.无关",
+                        isGreyText: true,
+                      ),
+                      const SizedBox(height: 30),
+                      FutureBuilder<PackageInfo>(
+                        future: PackageInfo.fromPlatform(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          // 请求已结束
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasError) {
+                              // 请求失败，显示错误
+                              return const DiscuzText("获取版本信息失败");
+                            } else {
+                              // 请求成功，显示数据
+                              return DiscuzText(
+                                  "版本: ${snapshot.data.version}+${snapshot.data.buildNumber.toString()}");
+                            }
+                          } else {
+                            // 请求未结束，显示loading
+                            return const DiscuzIndicator();
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      const PrivacyBar(
+                        showNotice: false,
+                      ),
+                    ],
+                  )
                 ],
               ),
       );

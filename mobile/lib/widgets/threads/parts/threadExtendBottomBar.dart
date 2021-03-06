@@ -20,7 +20,7 @@ const int _tapFavoriteButton = 2;
 ///
 class ThreadExtendBottomBar extends StatefulWidget {
   ///
-  /// 关联的主题
+  /// 关联的故事
   final ThreadModel thread;
 
   ///
@@ -82,7 +82,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
       ///
       /// 回复
       const _ThreadExtendBottomBarItem(
-          attributes: 0xe67d, uniqueId: _tapReplyButton),
+          attributes: 0xe624,uniqueId: _tapReplyButton),
 
       ///
       /// 点赞
@@ -120,7 +120,7 @@ class _ThreadExtendBottomBarState extends State<ThreadExtendBottomBar> {
                                 el.attributes.runtimeType == int
                             ? DiscuzIcon(
                                 el.attributes,
-                                size: 25,
+                                size: 23,
                                 color: DiscuzApp.themeOf(context).textColor,
                               )
                             : el.attributes,

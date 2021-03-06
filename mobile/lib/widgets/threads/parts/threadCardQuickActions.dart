@@ -1,15 +1,22 @@
-import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/widgets/common/discuzToast.dart';
-import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/posts/postLikeButton.dart';
-import 'package:discuzq/widgets/share/shareNative.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
+import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/widgets/common/discuzToast.dart';
+import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
+import 'package:discuzq/models/userModel.dart';
+import 'package:discuzq/router/route.dart';
+import 'package:discuzq/views/reports/reportsDelegate.dart';
+import 'package:discuzq/views/threads/threadDetailDelegate.dart';
+import 'package:discuzq/views/users/userHomeDelegate.dart';
 
 ///
 /// 按钮图标的大小
@@ -24,8 +31,10 @@ class ThreadCardQuickActions extends StatelessWidget {
   /// 关联帖子
   final ThreadModel thread;
 
+  final UserModel author;
+
   const ThreadCardQuickActions(
-      {@required this.firstPost, @required this.thread});
+      {@required this.firstPost, @required this.thread, @required this.author});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,9 +54,9 @@ class ThreadCardQuickActions extends StatelessWidget {
           ///
           /// 评论
           _ThreadCardQuickActionsItem(
-            icon: 0xe67d,
+            icon: 0xe624,
             count: thread.attributes.postCount - 1,
-            iconSize: _kIconsize,
+            iconSize: _kIconsize - 2,
             onPressed: () async {
               final DiscuzEditorRequestResult res =
                   await DiscuzEditorHelper(context: context)
@@ -60,14 +69,72 @@ class ThreadCardQuickActions extends StatelessWidget {
             },
           ),
 
-          ///
-          /// 分享按钮
           _ThreadCardQuickActionsItem(
-            icon: 0xe6cd,
-            hideCounter: true,
-            iconSize: _kIconsize,
-            onPressed: () => ShareNative.shareThread(thread: thread),
-          )
+              icon: 0xe77f,
+              hideCounter: true,
+              iconSize: _kIconsize + 5,
+              onPressed: () async {
+                final result = await showModalActionSheet<String>(
+                  context: context,
+                  title: '更多操作',
+                  cancelLabel: "取消",
+                  actions: [
+                    const SheetAction(
+                      icon: Icons.info,
+                      label: '详情',
+                      key: 'detail',
+                    ),
+                    const SheetAction(
+                      icon: Icons.flag,
+                      label: '举报',
+                      key: 'report',
+                    ),
+                    const SheetAction(
+                      icon: Icons.account_circle,
+                      label: '查看Ta',
+                      key: 'user',
+                    ),
+                  ],
+                );
+
+                print(result);
+
+                if (result == "detail") {
+                  DiscuzRoute.navigate(
+                      context: context,
+                      shouldLogin: true,
+                      widget: ThreadDetailDelegate(
+                        author: author,
+                        thread: thread,
+                      ));
+                  return;
+                }
+
+                if (result == "report") {
+                  DiscuzRoute.navigate(
+                    context: context,
+                    shouldLogin: true,
+                    fullscreenDialog: true,
+                    widget: Builder(
+                      builder: (context) => ReportsDelegate(
+                        type: ReportType.thread,
+                        thread: thread,
+                      ),
+                    ),
+                  );
+                  return;
+                }
+
+                if (result == "user") {
+                  DiscuzRoute.navigate(
+                      context: context,
+                      shouldLogin: true,
+                      widget: UserHomeDelegate(
+                        user: author,
+                      ));
+                  return;
+                }
+              })
         ],
       ),
     );

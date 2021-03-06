@@ -10,7 +10,7 @@ class DiscuzAvatar extends StatelessWidget {
   final double circularRate;
   final String url;
 
-  const DiscuzAvatar({Key key, this.size = 70, this.circularRate = 5, this.url})
+  const DiscuzAvatar({Key key, this.size = 70, this.circularRate = 50, this.url})
       : super(key: key);
 
   @override
@@ -52,6 +52,8 @@ class DiscuzAvatar extends StatelessWidget {
           width: size,
           height: size,
           fit: BoxFit.cover,
+          memCacheHeight: (size.toInt()*2),
+          memCacheWidth: (size.toInt()*2),
           errorWidget: (context, url, error) => _empty()));
 
   /// 用户未设置头像，刷新头像

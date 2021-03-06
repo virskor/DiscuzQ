@@ -20,14 +20,14 @@ const double _kVideoSnapshotHeight = 180;
 /// 显示视频缩略图的组件
 class ThreadVideoSnapshot extends StatelessWidget {
   ///------------------------------
-  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// threadsCacher 是用于缓存当前页面的故事数据的对象
   /// 当数据更新的时候，数据会存储到 threadsCacher
   /// threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
   final ThreadsCacher threadsCacher;
 
   ///
-  /// 主题
+  /// 故事
   ///
   final ThreadModel thread;
 
@@ -44,7 +44,7 @@ class ThreadVideoSnapshot extends StatelessWidget {
   Widget build(BuildContext context) {
     ///
     /// 先获取视频信息
-    /// 这个主题不包含任何的视频，所以直接返回
+    /// 这个故事不包含任何的视频，所以直接返回
     ///
     if (thread.relationships.threadVideo == null) {
       return const SizedBox();

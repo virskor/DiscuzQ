@@ -67,6 +67,7 @@ class _SendSMSFieldState extends State<SendSMSField> {
           inputType: TextInputType.phone,
           removeBottomMargin: true,
           label: "验证码",
+          maxLength: 6,
           onChanged: (String val) {
             widget.onChanged(val);
           },

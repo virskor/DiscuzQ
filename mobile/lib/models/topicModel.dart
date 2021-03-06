@@ -15,7 +15,7 @@ class TopicModel {
   final int id;
 
   ///
-  /// 主题类型
+  /// 故事类型
   ///
   final String type;
 

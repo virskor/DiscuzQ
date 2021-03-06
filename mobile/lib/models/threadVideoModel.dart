@@ -9,12 +9,12 @@ class ThreadVideoModel {
   final int id;
 
   ///
-  /// 主题类型
+  /// 故事类型
   ///
   final String type;
 
   ///
-  /// 主题信息
+  /// 故事信息
   ///
   final ThreadVideoAttributeModel attributes;
 
@@ -67,7 +67,7 @@ class ThreadVideoAttributeModel {
 
   ///
   /// thread_id
-  /// 关联主题ID
+  /// 关联故事ID
   ///
   final int threadID;
 

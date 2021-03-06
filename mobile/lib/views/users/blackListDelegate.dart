@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import 'package:provider/provider.dart';
 
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
@@ -86,7 +86,6 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
           Scaffold(
             appBar: DiscuzAppBar(
               title: _title,
-              
             ),
             backgroundColor: DiscuzApp.themeOf(context).scaffoldBackgroundColor,
             body: _buildBody(),
@@ -102,7 +101,7 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
 
   ///
   /// 是否允许加载更多
-  String get _title => _meta == null ? "黑名单" : "黑名单(${_meta.total})";
+  String get _title => _meta == null ? "屏蔽" : "屏蔽(${_meta.total})";
 
   /*
    * Body Widget 
@@ -112,14 +111,11 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
     /// 骨架屏仅在初始化时加载
     ///
     if (!_continueToRead && _loading) {
-      return const DiscuzSkeleton(
-        isCircularImage: false,
-        isBottomLinesActive: false,
-      );
+      return const DiscuzSkeleton();
     }
 
     if (_denyUsers.length == 0) {
-      return const Center(child: const DiscuzText('暂无黑名单记录'));
+      return const Center(child: const DiscuzText('暂无屏蔽记录'));
     }
 
     return DiscuzRefresh(
@@ -128,14 +124,14 @@ class _BlackListDelegateState extends State<BlackListDelegate> {
       enablePullUp: _enablePullUp,
       onRefresh: () async {
         await _requestData(pageNumber: 1);
-        _controller.refreshCompleted();
+        _controller.finishRefresh();
       },
       onLoading: () async {
         if (_loading) {
           return;
         }
         await _requestData(pageNumber: _pageNumber + 1);
-        _controller.loadComplete();
+        _controller.finishLoad();
       },
       child: ListView(
         children: _denyUsers

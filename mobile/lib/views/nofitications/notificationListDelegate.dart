@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/models/notificationModel.dart';
@@ -54,7 +53,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
   ///
   /// loading
   /// 是否正在加载
-  bool _loading = false;
+  bool _loading = true;
 
   ///
   /// _continueToRead
@@ -94,7 +93,6 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     return Scaffold(
       appBar: DiscuzAppBar(
         title: widget.type.label,
-       
       ),
       body: _buildBody(context),
     );
@@ -120,11 +118,11 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
             return;
           }
           await _requestData(pageNumber: _pageNumber + 1);
-          _controller.loadComplete();
+          _controller.finishLoad();
         },
         onRefresh: () async {
           await _requestData(pageNumber: 1);
-          _controller.refreshCompleted();
+          _controller.finishRefresh();
         },
         child: _buildNotificationList(context),
       );
@@ -136,10 +134,7 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     /// 骨架屏仅在初始化时加载
     ///
     if (!_continueToRead && _loading) {
-      return const DiscuzSkeleton(
-        isCircularImage: false,
-        isBottomLinesActive: false,
-      );
+      return const DiscuzSkeleton();
     }
 
     if (_notifications.length == 0) {
@@ -303,24 +298,22 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
     ///
     /// 删除前，先询问
     /// 如果删除成功，还需要隐藏当前请求删除的项目
-    await DiscuzDialog.confirm(
+    await showDialog(
         context: context,
-        title: '提示',
-        message: '确定删除吗？',
-        onConfirm: () {
-          process();
-          deleted = true;
-        });
+        child: DiscuzDialog(
+            title: '提示',
+            message: '确定删除吗？',
+            isCancel: true,
+            onConfirm: () {
+              process();
+              deleted = true;
+            }));
     return Future.value(deleted);
   }
 
   ///
   /// 请求用户搜索结果
   Future<void> _requestData({BuildContext context, int pageNumber}) async {
-    if (_loading) {
-      return;
-    }
-
     if (pageNumber == 1) {
       _notifications.clear();
 
@@ -335,10 +328,6 @@ class _NotificationDelegateState extends State<NotificationListDelegate> {
       "page[number]": pageNumber ?? _pageNumber,
       'page[limit]': Global.requestPageLimit
     };
-
-    setState(() {
-      _loading = true;
-    });
 
     Response resp = await Request(context: context)
         .getUrl(_cancelToken, url: Urls.notifications, queryParameters: data);

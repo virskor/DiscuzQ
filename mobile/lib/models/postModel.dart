@@ -12,7 +12,7 @@ class PostModel {
   final int id;
 
   ///
-  /// 主题类型
+  /// 故事类型
   ///
   final int type;
 
@@ -145,12 +145,20 @@ class PostAttributesModel {
   /// 是否有权点赞
   final bool canLike;
 
+
+  final String summary;
+
+  ///
+  final String summaryText;
+
   const PostAttributesModel(
       {this.replyUserID = 0,
       this.content = '',
       this.contentHtml = '',
       this.createdAt = '',
       this.updatedAt = '',
+      this.summary = '',
+      this.summaryText = '',
       this.isFirst = false,
       this.isApproved = 0,
       this.canDelete = false,
@@ -210,6 +218,8 @@ class PostAttributesModel {
       canApprove: data['canApprove'] ?? false,
       canDelete: data['canDelete'] ?? false,
       canHide: data['canHide'] ?? false,
+      summary: data['summary'] ?? '',
+      summaryText: data['summaryText'] ?? '',
       canLike: data['canLike'] ?? false,
     );
   }

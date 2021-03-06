@@ -1,6 +1,7 @@
+import 'package:event_bus/event_bus.dart';
+
 import 'package:discuzq/models/postModel.dart';
 import 'package:discuzq/models/userModel.dart';
-import 'package:event_bus/event_bus.dart';
 
 /// 在页面中请求切换tab
 EventBus eventBus = EventBus();

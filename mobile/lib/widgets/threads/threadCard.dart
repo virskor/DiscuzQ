@@ -15,7 +15,6 @@ import 'package:discuzq/widgets/htmRender/htmlRender.dart';
 import 'package:discuzq/widgets/threads/parts/threadGalleriesSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadVideoSnapshot.dart';
 import 'package:discuzq/widgets/threads/parts/threadCardQuickActions.dart';
-import 'package:discuzq/utils/StringHelper.dart';
 import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/providers/appConfigProvider.dart';
 
@@ -24,8 +23,8 @@ import 'package:discuzq/providers/appConfigProvider.dart';
 const int _kFlatTitleLength = 15;
 
 ///
-/// 主题卡片
-/// 用于展示一个主题的快照，但不是详情
+/// 故事卡片
+/// 用于展示一个故事的快照，但不是详情
 class ThreadCard extends StatefulWidget {
   ThreadCard(
       {this.thread,
@@ -35,24 +34,24 @@ class ThreadCard extends StatefulWidget {
 
   ///
   /// thread
-  /// 主题
+  /// 故事
   ///
   final ThreadModel thread;
 
   ///------------------------------
-  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// threadsCacher 是用于缓存当前页面的故事数据的对象
   final ThreadsCacher threadsCacher;
 
   ///
   /// ------
   /// 当卡片被删除，注意，因为该组件存在threadsCacher，所以删除threadsCacher来影响UIbuild的过程在该组件内
-  /// 其次，注意，该回调仅用于其他处理，不用在处理删除显示当前主题
+  /// 其次，注意，该回调仅用于其他处理，不用在处理删除显示当前故事
   final Function onDelete;
 
   ///
   /// ----
   /// initiallyExpanded
-  /// 默认是否展开(为置顶的主题默认展开)
+  /// 默认是否展开(为置顶的故事默认展开)
   final bool initiallyExpanded;
 
   @override
@@ -64,7 +63,7 @@ class _ThreadCardState extends State<ThreadCard>
   /// 当前帖子的作者
   UserModel _author = const UserModel();
 
-  /// firstPost 指定的是主题第一个帖子，其他的是回复
+  /// firstPost 指定的是故事第一个帖子，其他的是回复
   PostModel _firstPost = const PostModel();
 
   ///
@@ -96,7 +95,7 @@ class _ThreadCardState extends State<ThreadCard>
   bool get wantKeepAlive => true;
 
   ///
-  /// Build 卡片的的过程中需要注意的是，如果主题顶置，则需要支持收起
+  /// Build 卡片的的过程中需要注意的是，如果故事顶置，则需要支持收起
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -141,7 +140,7 @@ class _ThreadCardState extends State<ThreadCard>
           : "${_firstPost.attributes.content.substring(0, _kFlatTitleLength)}...";
 
   // /
-  // / 可收起的主题
+  // / 可收起的故事
   // /
   Widget _buildStickyThreadTitle(BuildContext context) {
     final Widget stickyIcon = SizedBox(
@@ -164,7 +163,7 @@ class _ThreadCardState extends State<ThreadCard>
         padding: kMarginAllContent,
         decoration: BoxDecoration(
           color: DiscuzApp.themeOf(context).backgroundColor,
-          border: const Border(top: Global.border),
+          border: const Border(bottom: Global.border),
         ),
         child: Row(
           children: <Widget>[
@@ -189,17 +188,19 @@ class _ThreadCardState extends State<ThreadCard>
   /// 构建帖子卡片
   ///
   Widget _buildThreadCard(BuildContext context) => Container(
-        padding: const EdgeInsets.only(top: 10, left: 5, right: 5),
-        decoration: BoxDecoration(
-          color: DiscuzApp.themeOf(context).backgroundColor,
-          border: const Border(top: Global.border),
+        padding: const EdgeInsets.only(
+          top: 10,
         ),
+        decoration: BoxDecoration(
+            color: DiscuzApp.themeOf(context).backgroundColor,
+            borderRadius: BorderRadius.circular(5)),
+        margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             ///
-            /// 主题顶部的用户信息
+            /// 故事顶部的用户信息
             ThreadHeaderCard(
               thread: widget.thread,
               author: _author,
@@ -211,14 +212,18 @@ class _ThreadCardState extends State<ThreadCard>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  /// 显示主题的title
-                  ..._buildContentTitle(),
+                  /// 显示故事的title
+                  _buildContentTitle,
 
-                  /// 主题的内容
+                  /// 故事的内容
                   widget.thread.attributes.title != ''
                       ? const SizedBox()
-                      : HtmlRender(
-                          html: _firstPost.attributes.contentHtml,
+                      : Padding(
+                          padding: const EdgeInsets.only(
+                              right: 5, left: 5, bottom: 5),
+                          child: HtmlRender(
+                            html: _firstPost.attributes.contentHtml,
+                          ),
                         ),
 
                   /// 渲染九宫格图片
@@ -247,9 +252,7 @@ class _ThreadCardState extends State<ThreadCard>
             ///
             /// 梯子快捷操��工具栏
             ThreadCardQuickActions(
-              firstPost: _firstPost,
-              thread: widget.thread,
-            ),
+                firstPost: _firstPost, thread: widget.thread, author: _author),
 
             /// 楼层评论
             ThreadPostSnapshot(
@@ -264,41 +267,42 @@ class _ThreadCardState extends State<ThreadCard>
         ),
       );
 
-  /// 显示主题的标题
-  /// 并不是所有主题都有标题，所以要做判断
-  List<Widget> _buildContentTitle() =>
-      StringHelper.isEmpty(string: widget.thread.attributes.title)
-          ? <Widget>[]
-          : <Widget>[
-              GestureDetector(
-                onTap: () => DiscuzRoute.navigate(
-                    context: context,
-                    shouldLogin: true,
-                    widget: ThreadDetailDelegate(
-                      author: _author,
-                      thread: widget.thread,
-                    )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Row(
-                        children: <Widget>[
-                          const DiscuzText('发布了：'),
-                          DiscuzText(
-                            widget.thread.attributes.title.length <=
-                                    _kFlatTitleLength
-                                ? widget.thread.attributes.title
-                                : "${widget.thread.attributes.title.substring(0, _kFlatTitleLength)}...",
-                            overflow: TextOverflow.ellipsis,
-                            color: DiscuzApp.themeOf(context).primaryColor,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ];
+  Widget get _buildContentTitle => Builder(builder: (BuildContext context) {
+        bool isLongContent = true;
+
+        String title = widget.thread.attributes.title.trim();
+
+        if (title.isEmpty) {
+          title = _firstPost.attributes.summaryText;
+          isLongContent = false;
+        }
+
+        return GestureDetector(
+          onTap: () => DiscuzRoute.navigate(
+              context: context,
+              shouldLogin: true,
+              widget: ThreadDetailDelegate(
+                author: _author,
+                thread: widget.thread,
+              )),
+          child: Container(
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+            //decoration: const BoxDecoration(border: Border(top: Global.border)),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: DiscuzText(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 3,
+                    textAlign: TextAlign.start,
+                    fontWeight: FontWeight.w500,
+                    color: DiscuzApp.themeOf(context).textColor,
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      });
 }

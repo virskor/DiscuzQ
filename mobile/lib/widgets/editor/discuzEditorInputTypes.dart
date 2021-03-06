@@ -8,7 +8,7 @@ class DiscuzEditorInputTypes {
   /// 用户输入后，要进行的操作是发布动态
   /// 
   static const DiscuzEditorInputType text = DiscuzEditorInputType(
-      formatType: DiscuzEditorInputType.formatTypesString, name: '主题');
+      formatType: DiscuzEditorInputType.formatTypesString, name: '动态');
   
 
   ///
@@ -18,10 +18,10 @@ class DiscuzEditorInputTypes {
       formatType: DiscuzEditorInputType.formatTypesString, name: '回复');
 
   ///
-  /// 用户输入后要进行的操作是发布长文，这个输入调用的是Markdown编辑器
+  /// 用户输入后要进行的操作是发布故事，这个输入调用的是Markdown编辑器
   /// 
   static const DiscuzEditorInputType markdown = DiscuzEditorInputType(
-      formatType: DiscuzEditorInputType.formatTypesMarkdown, name: '长文');
+      formatType: DiscuzEditorInputType.formatTypesMarkdown, name: '故事');
 
   ///
   /// 用户输入后，要发布的是视频

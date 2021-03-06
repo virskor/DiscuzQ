@@ -129,17 +129,19 @@ class _UserHomeDelegateState extends State<UserHomeDelegate> {
                 return;
               }
 
-              DiscuzDialog.confirm(
+              showDialog(
                   context: context,
-                  title: '拉黑用户',
-                  message: '您确定拉黑该用户吗?',
-                  onConfirm: () async {
-                    final bool result = await BlackListAPI(context: context)
-                        .add(_cancelToken, uid: _user.id);
-                    if (result && Navigator.canPop(context)) {
-                      Navigator.pop(context);
-                    }
-                  });
+                  child: DiscuzDialog(
+                      title: '拉黑用户',
+                      message: '您确定拉黑该用户吗? \r\n这样一来您将无法接收他的内容',
+                      isCancel: true,
+                      onConfirm: () async {
+                        final bool result = await BlackListAPI(context: context)
+                            .add(_cancelToken, uid: _user.id);
+                        if (result && Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        }
+                      }));
 
               /// add user into black list
             }),

@@ -4,6 +4,8 @@ import 'package:discuzq/router/route.dart';
 import 'package:discuzq/views/settings/privaciesDelegate.dart';
 import 'package:discuzq/widgets/common/discuzLink.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
+import 'package:discuzq/utils/buildInfo.dart';
+import 'package:discuzq/widgets/webview/webviewHelper.dart';
 
 class PrivacyBar extends StatelessWidget {
   const PrivacyBar({Key key, this.showNotice = true}) : super(key: key);
@@ -24,20 +26,33 @@ class PrivacyBar extends StatelessWidget {
                 : const SizedBox(),
             DiscuzLink(
               label: '隐私协议',
-              onTap: () => DiscuzRoute.navigate(
-                  context: context,
-                  widget: const PrivaciesDelegate(
-                    isPrivacy: true,
-                  )),
+              onTap: () {
+                if (BuildInfo().info().privacy != "") {
+                  WebviewHelper.launchUrl(url: BuildInfo().info().privacy);
+                  return;
+                }
+
+                DiscuzRoute.navigate(
+                    context: context,
+                    widget: const PrivaciesDelegate(
+                      isPrivacy: true,
+                    ));
+              },
             ),
             const DiscuzText('和'),
             DiscuzLink(
               label: '用户协议',
-              onTap: () => DiscuzRoute.navigate(
-                  context: context,
-                  widget: const PrivaciesDelegate(
-                    isPrivacy: false,
-                  )),
+              onTap: () {
+                if (BuildInfo().info().policy != "") {
+                  WebviewHelper.launchUrl(url: BuildInfo().info().policy);
+                  return;
+                }
+                DiscuzRoute.navigate(
+                    context: context,
+                    widget: const PrivaciesDelegate(
+                      isPrivacy: false,
+                    ));
+              },
             ),
           ],
         ),

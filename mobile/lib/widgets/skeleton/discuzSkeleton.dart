@@ -12,24 +12,29 @@ class DiscuzSkeleton extends StatelessWidget {
   const DiscuzSkeleton(
       {Key key,
       this.length = 10,
-      this.isCircularImage = false,
+      this.isCircularImage = true,
       this.isBottomLinesActive = false});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<AppConfigProvider>(
         builder: (BuildContext context, AppConfigProvider conf, Widget child) {
-      return conf.appConf['darkTheme'] == true
-          ? PKDarkCardListSkeleton(
-              isCircularImage: isCircularImage,
-              isBottomLinesActive: isBottomLinesActive,
-              length: length,
-            )
-          : PKCardListSkeleton(
-              isCircularImage: isCircularImage,
-              isBottomLinesActive: isBottomLinesActive,
-              length: length,
-            );
+      return ListView.builder(
+          itemCount: length,
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (BuildContext context, int index) {
+            return conf.appConf['darkTheme'] == true
+                ? PKDarkCardSkeleton(
+                    isCircularImage: isCircularImage,
+                    isBottomLinesActive: isBottomLinesActive,
+                  )
+                : PKCardSkeleton(
+                    isCircularImage: isCircularImage,
+                    isBottomLinesActive: isBottomLinesActive,
+                  );
+          });
     });
   }
 }

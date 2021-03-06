@@ -61,7 +61,7 @@ class _TencentCloudCaptchaContainerState
       color: Colors.transparent,
       elevation: 0,
       child: Container(
-        height: 400,
+        height:380,
         margin: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           color: Colors.transparent,

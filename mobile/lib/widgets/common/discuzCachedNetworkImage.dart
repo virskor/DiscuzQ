@@ -34,8 +34,12 @@ class DiscuzCachedNetworkImage extends StatelessWidget {
 
   ///
   /// 颜色
-  /// 
+  ///
   final Color color;
+
+  final int memCacheWidth;
+
+  final int memCacheHeight;
 
   const DiscuzCachedNetworkImage(
       {@required this.imageUrl,
@@ -44,6 +48,8 @@ class DiscuzCachedNetworkImage extends StatelessWidget {
       this.width,
       this.fadeInDuration = const Duration(milliseconds: 270),
       this.color,
+      this.memCacheWidth,
+      this.memCacheHeight,
       this.height});
 
   @override
@@ -56,5 +62,7 @@ class DiscuzCachedNetworkImage extends StatelessWidget {
         fadeInDuration: fadeInDuration,
         color: color,
         errorWidget: errorWidget,
+        memCacheHeight: memCacheHeight,
+        memCacheWidth: memCacheWidth,
       );
 }

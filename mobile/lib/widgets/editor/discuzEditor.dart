@@ -56,7 +56,7 @@ class DiscuzEditor extends StatefulWidget {
   final PostModel post;
 
   ///
-  /// 关联的主题
+  /// 关联的故事
   final ThreadModel thread;
 
   ///
@@ -205,8 +205,10 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
         /// 输入标题
         ///
         widget.enableMarkdown
-            ? Padding(
+            ? Container(
                 padding: const EdgeInsets.only(left: 10, right: 10),
+                decoration: BoxDecoration(
+                    color: DiscuzApp.themeOf(context).backgroundColor),
                 child: DiscuzTextfiled(
                   placeHolder: '请输入标题',
                   removeBottomMargin: true,
@@ -245,7 +247,7 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
               focusNode: _editorFocusNode,
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: '点击以输入内容',
+                  hintText: '发布内容请遵守用户协议，请勿包含让人反感的内容',
                   contentPadding: const EdgeInsets.all(12.0),
                   hintStyle: TextStyle(
                       color: DiscuzApp.themeOf(context).greyTextColor)),
@@ -349,9 +351,9 @@ class _DiscuzEditorState extends State<DiscuzEditor> {
 
   ///
   /// 自动计算当前提模式值
-  /// 是这样的，长文，普通，视频
+  /// 是这样的，故事，普通，视频
   int _editorDataPostType() {
-    /// 长文模式
+    /// 故事模式
     if (_titleEditController.text != '') {
       return EditorDataPostType.typeLongContent;
     }

@@ -1,4 +1,3 @@
-import 'package:discuzq/router/routers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
@@ -6,6 +5,7 @@ import 'package:fluro/fluro.dart';
 import 'package:discuzq/utils/authHelper.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:discuzq/router/routers.dart';
 
 class DiscuzRoute {
   static Future<bool> navigate({

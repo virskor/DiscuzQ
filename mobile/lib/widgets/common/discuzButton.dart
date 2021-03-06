@@ -24,7 +24,7 @@ class DiscuzButton extends StatelessWidget {
       this.height = 45,
       this.icon,
       this.fontSize,
-      this.borderRadius,
+      this.borderRadius = const BorderRadius.all(const Radius.circular(50)),
       this.padding,
       this.width = double.infinity,
       this.color});
@@ -38,29 +38,27 @@ class DiscuzButton extends StatelessWidget {
     return SizedBox(
       width: width,
       height: height,
-      child: ClipRRect(
-        borderRadius: borderRadius ?? const BorderRadius.all(const Radius.circular(5)),
-        child: FlatButton(
-          padding: padding ??
-              const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
-          color: color ?? DiscuzApp.themeOf(context).primaryColor,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              icon == null
-                  ? const SizedBox()
-                  : Padding(
-                      padding: const EdgeInsets.only(right: 10), child: icon),
-              DiscuzText(
-                label,
-                color: labelColor,
-                fontSize: fontSize,
-              )
-            ],
-          ),
-          onPressed: onPressed,
+      child: FlatButton(
+        padding: padding ??
+            const EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 10),
+        color: color ?? DiscuzApp.themeOf(context).primaryColor,
+        shape: RoundedRectangleBorder(borderRadius: borderRadius),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            icon == null
+                ? const SizedBox()
+                : Padding(
+                    padding: const EdgeInsets.only(right: 10), child: icon),
+            DiscuzText(
+              label,
+              color: labelColor,
+              fontSize: fontSize,
+            )
+          ],
         ),
+        onPressed: onPressed,
       ),
     );
   }

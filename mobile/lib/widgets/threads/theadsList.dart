@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:discuzq/widgets/forum/forumCategoryFilter.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
@@ -15,6 +18,11 @@ import 'package:discuzq/widgets/threads/threadCard.dart';
 import 'package:discuzq/widgets/threads/threadsCacher.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
+import 'package:discuzq/providers/userProvider.dart';
+import 'package:discuzq/widgets/users/yetNotLogon.dart';
+import 'package:discuzq/widgets/common/discuzButton.dart';
+import 'package:discuzq/widgets/common/discuzIcon.dart';
+import 'package:discuzq/widgets/forum/forumAddButton.dart';
 
 ///
 /// 注意：
@@ -57,7 +65,7 @@ class ThreadsList extends StatefulWidget {
   ///
   /// ----
   /// initiallyExpanded
-  /// 默认是否展开(为置顶的主题默认展开)
+  /// 默认是否展开(为置顶的故事默认展开)
   final bool initiallyExpanded;
 
   @override
@@ -80,7 +88,7 @@ class _ForumCategoryState extends State<ThreadsList>
   final ScrollController _scrollController = ScrollController();
 
   ///------------------------------
-  /// _threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// _threadsCacher 是用于缓存当前页面的故事数据的对象
   /// 当数据更新的时候，数据会存储到 _threadsCacher
   /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
@@ -159,7 +167,7 @@ class _ForumCategoryState extends State<ThreadsList>
 
     _threadsCacher.clear();
 
-    /// 清空缓存的主题列表数据
+    /// 清空缓存的故事列表数据
     /// do not forget to dispose _controller
     super.dispose();
   }
@@ -175,31 +183,33 @@ class _ForumCategoryState extends State<ThreadsList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return _body;
-  }
 
-  /// build body
-  Widget get _body => Builder(
-        builder: (BuildContext context) {
-          return DiscuzRefresh(
-            enablePullDown: true,
-            enablePullUp: _enablePullUp,
-            controller: _controller,
-            onRefresh: () async {
-              await _requestData(pageNumber: 1);
-              _controller.refreshCompleted();
-            },
-            onLoading: () async {
-              if (_loading) {
-                return;
-              }
-              await _requestData(pageNumber: _pageNumber + 1);
-              _controller.loadComplete();
-            },
-            child: _buildContents,
-          );
+    return Consumer<UserProvider>(
+        builder: (BuildContext context, UserProvider user, Widget child) {
+      if (!user.hadLogined &&
+          widget.category.attributes.showOnlyFollowedUsers) {
+        return const Center(child: const YetNotLogon());
+      }
+
+      return DiscuzRefresh(
+        enablePullDown: true,
+        enablePullUp: _enablePullUp,
+        controller: _controller,
+        onRefresh: () async {
+          await _requestData(pageNumber: 1);
+          _controller.finishRefresh();
         },
+        onLoading: () async {
+          if (_loading) {
+            return;
+          }
+          await _requestData(pageNumber: _pageNumber + 1);
+          _controller.finishLoad();
+        },
+        child: _buildContents,
       );
+    });
+  }
 
   ///
   /// 渲染内容区
@@ -208,14 +218,29 @@ class _ForumCategoryState extends State<ThreadsList>
         /// 骨架屏仅在初始化时加载
         ///
         if (!_continueToRead && _loading) {
-          return const DiscuzSkeleton(
-            isCircularImage: false,
-            isBottomLinesActive: true,
-          );
+          return const DiscuzSkeleton();
         }
 
         if (_threadsCacher.threads.length == 0 && !_loading) {
-          return const DiscuzNoMoreData();
+          return DiscuzNoMoreData(
+            children: [
+              const SizedBox(height: 20),
+              SizedBox(
+                  width: 200,
+                  child: DiscuzButton(
+                      height: 35,
+                      label: "我来发布",
+                      icon: const DiscuzIcon(Icons.send, color: Colors.white),
+                      onPressed: () async {
+                        await showCupertinoModalPopup(
+                            context: context,
+                            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10),
+                            builder: (BuildContext context) => const Material(
+                                color: Colors.transparent,
+                                child: const ForumCreateThreadDialog()));
+                      }))
+            ],
+          );
         }
 
         ///
@@ -225,6 +250,7 @@ class _ForumCategoryState extends State<ThreadsList>
             controller: _scrollController,
             itemCount: _threadsCacher.threads.length,
             addAutomaticKeepAlives: true,
+            padding: EdgeInsets.zero,
             physics: const ClampingScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, index) => ThreadCard(
@@ -236,19 +262,7 @@ class _ForumCategoryState extends State<ThreadsList>
   ///
   /// _requestData will get data from backend
   Future<void> _requestData({int pageNumber}) async {
-    ///
-    /// 如果是第一页的时候要先清空数据，防止数据重复
-    if (pageNumber == 1) {
-      _continueToRead = false;
-      _threadsCacher.clear();
-    }
-
-    ///
-    /// 正在加载
-    ///
-    setState(() {
-      _loading = true;
-    });
+    _loading = true;
 
     List<String> includes = [
       RequestIncludes.user,
@@ -262,9 +276,26 @@ class _ForumCategoryState extends State<ThreadsList>
       RequestIncludes.rewardedUsers
     ];
 
-    Map<String, dynamic> filters = {};
+    Map<String, dynamic> filters = {"filter[isDeleted]": "no"};
     widget.filter.filter.forEach((element) => filters
         .addAll({"filter[${element.keys.first}]": element.values.first}));
+
+    /// 如果该分类强制只显示关注的列表
+    if (widget.category.attributes.showOnlyFollowedUsers) {
+      final ForumCategoryFilterItem filterItem =
+          ForumCategoryFilter.conditions[2];
+      List<Map<String, dynamic>> rebuildFilterList = [...filterItem.filter];
+      Map<String, dynamic> replacement = {
+        "fromUserId": context.read<UserProvider>().user.attributes.id,
+      };
+      rebuildFilterList = rebuildFilterList
+          .where((it) => it.keys.first != "fromUserId")
+          .toList();
+      rebuildFilterList.add(replacement);
+
+      rebuildFilterList.forEach((element) => filters
+          .addAll({"filter[${element.keys.first}]": element.values.first}));
+    }
 
     ///
     /// 关联话题
@@ -276,6 +307,7 @@ class _ForumCategoryState extends State<ThreadsList>
       "page[limit]": Global.requestPageLimit,
       "page[number]": pageNumber ?? _pageNumber,
       "include": RequestIncludes.toGetRequestQueries(includes: includes),
+      "filter[isDeleted]": "no",
 
       /// ext filters
       ...filters
@@ -300,6 +332,15 @@ class _ForumCategoryState extends State<ThreadsList>
       });
       DiscuzToast.failed(context: context, message: '加载失败');
       return;
+    }
+
+    ///
+    /// 如果是第一页的时候要先清空数据，防止数据重复
+    if (pageNumber == 1) {
+      setState(() {
+        _continueToRead = false;
+        _threadsCacher.clear();
+      });
     }
 
     ///

@@ -16,7 +16,7 @@ import 'package:discuzq/views/threads/threadDetailDelegate.dart';
 import 'package:discuzq/widgets/posts/postRender.dart';
 
 ///
-/// 主题下回复的快照
+/// 故事下回复的快照
 /// 一般ThreadCard中显示的数据只会有3条的
 ///
 /// ThreadPostSnapshot 包含点赞，打赏的信息，还有回复，并增加全部...条回复
@@ -33,7 +33,7 @@ class ThreadPostSnapshot extends StatelessWidget {
       this.replyCounts = 0});
 
   ///------------------------------
-  /// threadsCacher 是用于缓存当前页面的主题数据的对象
+  /// threadsCacher 是用于缓存当前页面的故事数据的对象
   /// 当数据更新的时候，数据会存储到 threadsCacher
   /// threadsCacher 在页面销毁的时候，务必清空 .clear()
   ///
@@ -44,7 +44,7 @@ class ThreadPostSnapshot extends StatelessWidget {
   final bool showLikedUsers;
 
   ///
-  /// 主题
+  /// 故事
   final ThreadModel thread;
 
   ///

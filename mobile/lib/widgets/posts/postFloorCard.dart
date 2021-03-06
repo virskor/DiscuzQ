@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
@@ -24,7 +25,6 @@ import 'package:discuzq/widgets/common/discuzToast.dart';
 import 'package:discuzq/api/posts.dart';
 import 'package:discuzq/widgets/editor/discuzEditorHelper.dart';
 import 'package:discuzq/widgets/editor/discuzEditorRequestResult.dart';
-import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/views/reports/reportsDelegate.dart';
 
 class PostFloorCard extends StatefulWidget {
@@ -37,7 +37,7 @@ class PostFloorCard extends StatefulWidget {
   final ThreadsCacher threadsCacher;
 
   ///
-  /// 主题模型
+  /// 故事模型
   final ThreadModel thread;
 
   ///
@@ -111,11 +111,11 @@ class _PostFloorCardState extends State<PostFloorCard>
     }
 
     return Container(
-      margin: const EdgeInsets.only(top: 5.0),
+      margin: const EdgeInsets.only(left: 5, right: 5, top: 10),
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: DiscuzApp.themeOf(context).backgroundColor,
-      ),
+          color: DiscuzApp.themeOf(context).backgroundColor,
+          borderRadius: BorderRadius.circular(5)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -133,9 +133,11 @@ class _PostFloorCardState extends State<PostFloorCard>
 
           ///
           /// 显示评论的内容
-          HtmlRender(
+           Padding(
+        padding: const EdgeInsets.only(left: 5, top: 5),
+          child: HtmlRender(
             html: widget.post.attributes.contentHtml,
-          ),
+          ),),
 
           /// 显示图片
           ...attachmentsModels
@@ -174,6 +176,127 @@ class _PostFloorCardState extends State<PostFloorCard>
           ///
           /// 显示评论的附件
           const SizedBox(height: 10),
+
+          Container(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ///
+                /// 显示点赞按钮
+                ///
+                PostLikeButton(
+                  post: widget.post,
+                ),
+
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: DiscuzIcon(
+                    0xe624,
+                    size: 23,
+                    color: DiscuzApp.themeOf(context).textColor,
+                  ),
+                  onPressed: () async {
+                    final DiscuzEditorRequestResult res =
+                        await DiscuzEditorHelper(context: context).reply(
+                            post: widget.post,
+                            thread: widget.thread,
+                            isFirstPost: false);
+                    if (res != null) {
+                      widget.threadsCacher.posts = res.posts;
+                      widget.threadsCacher.users = res.users;
+                      DiscuzToast.toast(context: context, message: '回复成功');
+                    }
+                  },
+                ),
+
+                IconButton(
+                  padding: const EdgeInsets.only(top: 2),
+                  icon: const DiscuzIcon(
+                    0xe77f,
+                    size: 30,
+                  ),
+                  onPressed: () async {
+                    List<SheetAction<String>> actions = [
+                      // const SheetAction(
+                      //   icon: Icons.info,
+                      //   label: '回复',
+                      //   key: 'reply',
+                      // ),
+                      const SheetAction(
+                        icon: Icons.flag,
+                        label: '举报',
+                        key: 'report',
+                      ),
+                    ];
+
+                    if (widget.post.attributes.canEdit) {
+                      actions.add(const SheetAction(
+                          icon: Icons.delete,
+                          label: '删除',
+                          key: 'delete',
+                          isDestructiveAction: true));
+                    }
+
+                    final result = await showModalActionSheet<String>(
+                      context: context,
+                      title: '更多操作',
+                      cancelLabel: "取消",
+                      actions: actions,
+                    );
+
+                    if (result == "delete") {
+                      await showDialog(
+                          context: context,
+                          child: DiscuzDialog(
+                              title: '提示',
+                              message: '是否删除评论？',
+                              isCancel: true,
+                              onConfirm: () async {
+                                final bool result =
+                                    await PostsAPI(context: context).delete(
+                                        _cancelToken,
+                                        postID: widget.post.id);
+                                if (result && widget.onDelete != null) {
+                                  /// 删除成功，隐藏该项目
+                                  widget.onDelete();
+                                }
+                              }));
+                      return;
+                    }
+
+                    if (result == "reply") {
+                      final DiscuzEditorRequestResult res =
+                          await DiscuzEditorHelper(context: context).reply(
+                              post: widget.post,
+                              thread: widget.thread,
+                              isFirstPost: false);
+                      if (res != null) {
+                        widget.threadsCacher.posts = res.posts;
+                        widget.threadsCacher.users = res.users;
+                        DiscuzToast.toast(context: context, message: '回复成功');
+                      }
+
+                      return;
+                    }
+
+                    if (result == "report") {
+                      DiscuzRoute.navigate(
+                        context: context,
+                        shouldLogin: true,
+                        fullscreenDialog: true,
+                        widget: Builder(
+                          builder: (context) => ReportsDelegate(
+                              type: ReportType.thread, post: widget.post),
+                        ),
+                      );
+                      return;
+                    }
+                  },
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -185,7 +308,9 @@ class _PostFloorCardState extends State<PostFloorCard>
           {BuildContext context,
           @required UserModel user,
           UserModel replyUser}) =>
-      Row(
+      Padding(
+        padding: const EdgeInsets.only(left: 5, top: 5),
+          child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -229,6 +354,7 @@ class _PostFloorCardState extends State<PostFloorCard>
                               const SizedBox(width: 5),
                               DiscuzText(
                                 '回复',
+                                overflow: TextOverflow.ellipsis,
                                 color: DiscuzApp.themeOf(context).greyTextColor,
                               ),
                               UserLink(user: replyUser)
@@ -251,77 +377,6 @@ class _PostFloorCardState extends State<PostFloorCard>
               /// pop menu
             ),
           ),
-
-          /// 是否有删除不编辑权限
-          widget.post.attributes.canEdit
-              ? IconButton(
-                  padding: const EdgeInsets.only(top: 2),
-                  icon: const DiscuzIcon(
-                    CupertinoIcons.trash,
-                    size: 20,
-                  ),
-                  onPressed: () => DiscuzDialog.confirm(
-                      context: context,
-                      title: '提示',
-                      message: '是否删除评论？',
-                      onConfirm: () async {
-                        final bool result = await PostsAPI(context: context)
-                            .delete(_cancelToken, postID: widget.post.id);
-                        if (result && widget.onDelete != null) {
-                          /// 删除成功，隐藏该项目
-                          widget.onDelete();
-                        }
-                      }),
-                )
-              : const SizedBox(),
-
-          ///
-          /// 显示点赞按钮
-          ///
-          PostLikeButton(
-            post: widget.post,
-          ),
-
-          ///
-          /// 评论按钮
-          IconButton(
-            icon: DiscuzIcon(
-              0xe67d,
-              size: 25,
-              color: DiscuzApp.themeOf(context).textColor,
-            ),
-            onPressed: () async {
-              final DiscuzEditorRequestResult res =
-                  await DiscuzEditorHelper(context: context).reply(
-                      post: widget.post,
-                      thread: widget.thread,
-                      isFirstPost: false);
-              if (res != null) {
-                widget.threadsCacher.posts = res.posts;
-                widget.threadsCacher.users = res.users;
-                DiscuzToast.toast(context: context, message: '回复成功');
-              }
-            },
-          ),
-
-          ///
-          /// 举报按钮
-          IconButton(
-            icon: DiscuzIcon(
-              0xe6d8,
-              size: 25,
-              color: DiscuzApp.themeOf(context).textColor,
-            ),
-            onPressed: () => DiscuzRoute.navigate(
-              context: context,
-              shouldLogin: true,
-              fullscreenDialog: true,
-              widget: Builder(
-                builder: (context) =>
-                    ReportsDelegate(type: ReportType.thread, post: widget.post),
-              ),
-            ),
-          )
         ],
-      );
+      ));
 }

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 import 'package:discuzq/widgets/common/discuzNomoreData.dart';
 import 'package:discuzq/widgets/common/discuzRefresh.dart';
@@ -16,7 +16,7 @@ import 'package:discuzq/models/metaModel.dart';
 import 'package:discuzq/widgets/skeleton/discuzSkeleton.dart';
 
 ///------------------------------
-/// _threadsCacher 是用于缓存当前页面的主题数据的对象
+/// _threadsCacher 是用于缓存当前页面的故事数据的对象
 /// 当数据更新的时候，数据会存储到 _threadsCacher
 /// _threadsCacher 在页面销毁的时候，务必清空 .clear()
 ///
@@ -50,7 +50,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
   ///
   /// loading
   /// 是否正在加载
-  bool _loading = false;
+  bool _loading = true;
 
   ///
   /// _continueToRead
@@ -102,7 +102,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     if (_loading && !_continueToRead) {
       return const Center(
         child: const DiscuzSkeleton(
-          isCircularImage: false,
           isBottomLinesActive: true,
         ),
       );
@@ -124,12 +123,10 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       enablePullDown: true,
       onRefresh: () async {
         /// ... 刷新的时候，要将页面_pagenumber更新到第一页
-        setState(() {
-          _pageNumber = 1;
-        });
+         _pageNumber = 1;
 
         await _requestData(pageNumber: 1);
-        _controller.refreshCompleted();
+        _controller.finishRefresh();
       },
       onLoading: () async {
         if (_loading) {
@@ -137,7 +134,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
         }
 
         await _requestData(pageNumber: _pageNumber + 1);
-        _controller.refreshCompleted();
+        _controller.finishRefresh();
       },
 
       /// 允许刷新
@@ -167,13 +164,6 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
     }
 
     ///
-    /// 正在加载
-    ///
-    setState(() {
-      _loading = true;
-    });
-
-    ///
     /// 关联查询的数据
     ///
     List<String> includes = [
@@ -182,6 +172,7 @@ class _MyCollectionDelegateState extends State<MyCollectionDelegate> {
       RequestIncludes.firstPostLikedUsers,
       RequestIncludes.lastThreePosts,
       RequestIncludes.lastThreePostsUser,
+      RequestIncludes.firstPostImages,
       RequestIncludes.rewardedUsers
     ];
 

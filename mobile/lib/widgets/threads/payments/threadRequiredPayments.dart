@@ -13,7 +13,7 @@ import 'package:discuzq/widgets/webview/webviewHelper.dart';
 
 class ThreadRequiredPayments extends StatelessWidget {
   ///
-  /// 关联主题
+  /// 关联故事
   ///
   final ThreadModel thread;
 

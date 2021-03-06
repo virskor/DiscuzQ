@@ -6,7 +6,6 @@ import 'package:discuzq/widgets/editor/toolbar/toolbarIconButton.dart';
 import 'package:discuzq/widgets/common/discuzDivider.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/utils/global.dart';
 import 'package:discuzq/widgets/editor/toolbar/discuzEditorCategorySelector.dart';
 import 'package:discuzq/models/categoryModel.dart';
 import 'package:flutter/cupertino.dart';
@@ -134,7 +133,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                 ? GestureDetector(
                     onTap: () => _callbackInput(toolbarEvt: ToolbarEvt.emoji),
                     child: const ToolbarIconButton(
-                      icon: CupertinoIcons.smiley,
+                      icon: 0xe6d4,
                     ),
                   )
                 : const SizedBox(),
@@ -160,7 +159,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                     child: GestureDetector(
                       onTap: () => _callbackInput(toolbarEvt: ToolbarEvt.image),
                       child: const ToolbarIconButton(
-                        icon: CupertinoIcons.camera,
+                        icon: 0xe6c8,
                       ),
                     ),
                   )
@@ -195,8 +194,9 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
 
       return Container(
         width: MediaQuery.of(context).size.width,
-        decoration:
-            BoxDecoration(color: DiscuzApp.themeOf(context).backgroundColor),
+        decoration: BoxDecoration(
+            color: DiscuzApp.themeOf(context).backgroundColor,
+            ),
         child: SafeArea(
           bottom: true,
           top: false,
@@ -249,8 +249,7 @@ class _DiscuzEditorToolbarState extends State<DiscuzEditorToolbar> {
                                 ? GestureDetector(
                                     onTap: _closeKeyboard,
                                     child: const ToolbarIconButton(
-                                        icon: CupertinoIcons
-                                            .keyboard_chevron_compact_down),
+                                        icon: 0xe6aa),
                                   )
                                 : const SizedBox(),
                           ],
@@ -308,18 +307,12 @@ class _ToolbarExt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 10,
-      color: DiscuzApp.themeOf(context).backgroundColor,
-      child: Container(
+    return Container(
         padding: const EdgeInsets.only(left: 5, right: 5),
-        decoration:
-            const BoxDecoration(border: const Border(left: Global.border)),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: child,
         ),
-      ),
-    );
+      );
   }
 }

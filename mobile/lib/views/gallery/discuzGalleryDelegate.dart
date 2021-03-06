@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -79,6 +80,7 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
         title: '图集',
         backgroundColor: Colors.black,
         brightness: Brightness.dark,
+        leading: const AppbarLeading(dark: true,),
         elevation: 1,
         dark: true,
         actions: <Widget>[_action(context: context)],
@@ -94,7 +96,7 @@ class _DiscuzGalleryState extends State<DiscuzGalleryDelegate> {
             color: DiscuzApp.themeOf(context).primaryColor,
             fontFamily: 'Roboto Condensed',
             fontWeight: FontWeight.bold,
-            fontSize: DiscuzApp.themeOf(context).largeTextSize,
+            isLargeText: true,
           ),
           const DiscuzText(
             '/',

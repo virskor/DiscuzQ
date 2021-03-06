@@ -14,7 +14,7 @@ import 'package:discuzq/api/videos.dart';
 import 'package:discuzq/widgets/common/discuzIcon.dart';
 import 'package:discuzq/widgets/ui/ui.dart';
 import 'package:discuzq/widgets/common/discuzText.dart';
-import 'package:discuzq/utils/global.dart';
+import 'package:discuzq/widgets/appbar/appbar.dart';
 import 'package:discuzq/widgets/appbar/appbarExt.dart';
 import 'package:discuzq/providers/forumProvider.dart';
 import 'package:discuzq/models/forumModel.dart';
@@ -89,7 +89,11 @@ class _DiscuzPlayerState extends State<DiscuzPlayer> {
     return Scaffold(
       appBar: DiscuzAppBar(
         title: '短视频',
-        backgroundColor: Global.scaffoldBackgroundColorDark,
+        dark: true,
+        leading: const AppbarLeading(
+          dark: true,
+        ),
+        backgroundColor: Colors.black,
       ),
       body: Material(
         color: Colors.black,

@@ -93,7 +93,7 @@ class _PreferencesDelegateState extends State<PreferencesDelegate> {
                 ),
                 Consumer<UserProvider>(
       builder: (BuildContext context, UserProvider user, Widget child) =>SettingTile(
-                  icon: 0xe6cd,
+                  icon: 0xe7d1,
                   label: '邀请好友',
                   onPressed: () {
                     ShareApp.show(context: context, user: user.user);

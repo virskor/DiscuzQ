@@ -13,7 +13,7 @@ class EditorDataPostType {
   static const typeNormalContent = 0;
 
   ///
-  /// 长文
+  /// 故事
   static const typeLongContent = 1;
 
   ///
@@ -91,7 +91,7 @@ class DiscuzEditorDataRelationships {
   final List<AttachmentsModel> attachments;
 
   ///
-  /// 回复时会关联帖子thread主题的信息
+  /// 回复时会关联帖子thread故事的信息
   /// 没有thread则会变成发帖
   final ThreadModel thread;
 
@@ -119,9 +119,9 @@ class DiscuzEditorDataAttributes {
   final String title;
 
   ///
-  /// 类型 文章类型(
+  /// 类型 故事类型(
   /// 0 DiscuzEditorData.typeNormalContent 普通
-  /// 1 DiscuzEditorData.typeLongContent 长文
+  /// 1 DiscuzEditorData.typeLongContent 故事
   /// 2 DiscuzEditorData.typeVideoContent 视频)
   final int type;
 

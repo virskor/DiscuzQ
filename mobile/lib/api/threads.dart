@@ -10,7 +10,7 @@ import 'package:discuzq/models/threadModel.dart';
 import 'package:discuzq/models/userModel.dart';
 
 ///
-/// 主题相关的API
+/// 故事相关的API
 class ThreadsAPI {
   ///
   /// 出入BuildContext
@@ -64,7 +64,7 @@ class ThreadsAPI {
   }
 
   ///
-  /// 删除主题
+  /// 删除故事
   /// 仅判断删除结果
   ///
   Future<bool> delete(CancelToken cancelToken,
@@ -99,7 +99,7 @@ class ThreadsAPI {
   }
 
   ///
-  /// 发布主题
+  /// 发布动态
   ///
   Future<DiscuzEditorRequestResult> create(CancelToken cancelToken,
       {@required dynamic data}) async {

@@ -33,6 +33,9 @@ class Global {
   ///
   static String get domain => BuildInfo().info()?.domain;
 
+  //// web站
+  static String get site => BuildInfo().info()?.site;
+
   ///
   /// 隐私政策和用户协议常规不需要设置
   /// 若设置后将指定打开链接内的用户协议
@@ -62,16 +65,16 @@ class Global {
   static const Color primaryColor = Color(0xFF316598);
 
   /// 日间模式底色
-  static const Color scaffoldBackgroundColorLight = Color(0xFFF0F0F0);
+  static const Color scaffoldBackgroundColorLight = Color(0xFFEEEEEE);
 
   /// 夜间模式底色
-  static const Color scaffoldBackgroundColorDark = Color(0xFF19232D);
+  static const Color scaffoldBackgroundColorDark = Color(0xFF333333);
 
   /// 日间模式全局底色
   static const Color backgroundColorLight = Color(0xFFF9F9F9);
 
   /// 夜间模式全局底色
-  static const Color backgroundColorDark = Color(0xFF253341);
+  static const Color backgroundColorDark = Color(0xFF111111);
 
   /// 日间模式字体颜色
   static const Color textColorLight = Color(0xFF111111);
@@ -92,7 +95,7 @@ class Global {
 
   /// 边
   static const BorderSide border =
-      const BorderSide(width: .4, color: const Color(0x1F000000));
+      const BorderSide(width: .56, color: const Color(0x1F000000));
 
   /// 加密
   ///

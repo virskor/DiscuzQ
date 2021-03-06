@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class MetaModel {
   ///
-  /// 主题个数
+  /// 故事个数
   final int threadCount;
 
   ///

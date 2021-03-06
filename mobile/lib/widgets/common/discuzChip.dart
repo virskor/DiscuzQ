@@ -30,9 +30,9 @@ class DiscuzChip extends StatelessWidget {
     return Container(
       width: width ?? _kDefaultChipWidth,
       height: _kDefaultChipHeight,
-      padding: const EdgeInsets.only(left: 4, right: 4),
+      padding: const EdgeInsets.only(left: 6, right: 6),
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(const Radius.circular(5)),
+        borderRadius: const BorderRadius.all(const Radius.circular(50)),
         color: blendedColor.withOpacity(.24),
       ),
       alignment: Alignment.center,

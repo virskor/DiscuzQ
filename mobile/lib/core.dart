@@ -1,7 +1,9 @@
 library core;
 
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_bugly/flutter_bugly.dart';
 
@@ -18,6 +20,8 @@ import 'package:discuzq/providers/forumProvider.dart';
 import 'package:discuzq/providers/categoriesProvider.dart';
 import 'package:discuzq/providers/editorProvider.dart';
 import 'package:discuzq/widgets/update/upgrader.dart';
+import 'package:discuzq/widgets/common/discuzImageCacheManagement.dart';
+import 'package:discuzq/widgets/ui/ui.dart';
 
 ///
 /// 执行
@@ -33,7 +37,7 @@ void runDiscuzApp() {
           ChangeNotifierProvider(create: (_) => CategoriesProvider()),
           ChangeNotifierProvider(create: (_) => EditorProvider()),
         ],
-        child: DiscuzQ(),
+        child: const DiscuzQ(),
       ),
     ),
   );
@@ -41,13 +45,18 @@ void runDiscuzApp() {
 
 class DiscuzQ extends StatelessWidget {
   // This widget is the root of your application.
+  const DiscuzQ({Key key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) => Consumer<AppConfigProvider>(
       builder: (BuildContext context, AppConfigProvider conf, Widget child) =>
           AppWrapper(
-            onDispose: () {},
+            onDispose: () {
+              DiscuzImageCacheManagement().dispose();
+            },
             onInit: () async {
               await BuildInfo().init();
+
               await _initApp(
                 context: context,
               );
@@ -58,13 +67,30 @@ class DiscuzQ extends StatelessWidget {
               Future.delayed(Duration.zero).then((_) async {
                 await EmojiSync().getEmojis();
               });
+
+              DiscuzImageCacheManagement().checkMemory();
             },
 
             /// 创建入口APP
             child: conf.appConf == null
                 ? const _DiscuzAppIndicator()
-                : const Upgrader(child: const Discuz()),
+                : Upgrader(
+                    child: Platform.isAndroid ? _androidTree : const Discuz()),
           ));
+
+  /// will reset android SystemUiOverlayStyle
+  Widget get _androidTree => Builder(builder: (BuildContext context) {
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle(
+            systemNavigationBarColor: DiscuzApp.themeOf(context)
+                .backgroundColor, // navigation bar color
+            statusBarIconBrightness: Brightness.dark, // status bar icons' color
+            systemNavigationBarIconBrightness:
+                Brightness.dark, //navigation bar icons' color
+          ),
+          child: const Discuz(),
+        );
+      });
 
   ///
   /// Init app and states
@@ -85,6 +111,7 @@ class DiscuzQ extends StatelessWidget {
   /// 加载本地的配置
   Future<bool> _initAppSettings() async =>
       await AppConfigurations().initAppSetting();
+  
 }
 
 ///
@@ -99,6 +126,4 @@ class _DiscuzAppIndicator extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       );
-
-      
 }
